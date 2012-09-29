@@ -24,8 +24,8 @@ class TLKCms extends Cms
 	 */
 	public function checkAccess()
 	{
-		// Bypass validation when in development mode
-		if(defined('YII_DEVEL_MODE') && YII_DEVEL_MODE === true)
+		// Development mode
+		if(defined('YII_DEVEL_MODE') && YII_DEVEL_MODE === true && !Yii::app()->user->isGuest)
 			return true;
 		
 		if(!is_numeric($this->gid))
