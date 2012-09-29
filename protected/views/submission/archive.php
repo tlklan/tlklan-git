@@ -1,6 +1,10 @@
 <?php
 
-$this->pageTitle = 'Arkiv - TLK LAN';
+$this->pageTitle = 'Arkiv';
+$this->breadcrumbs=array(
+	'Submissions'=>array('archive'),
+	'Arkiv',
+);
 
 ?>
 <h1>Submissionarkiv</h1>
