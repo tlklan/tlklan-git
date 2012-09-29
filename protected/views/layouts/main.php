@@ -86,7 +86,6 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 		<div class="footer">
 			Copyright 2010-<?php echo date("Y"); ?> &copy; <b>TLK LAN-klubben</b><br />
 			Design och kod: <b>negge</b><br />
-			<a href="https://bitbucket.org/negge/tlklan">https://bitbucket.org/negge/tlklan</a>
 		</div>
 		
 	</div>
