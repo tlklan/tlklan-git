@@ -1,0 +1,102 @@
+<?php
+
+/**
+ * This is the model class for table "tlk_lans".
+ *
+ * The followings are the available columns in table 'tlk_lans':
+ * @property integer $id
+ * @property string $name
+ * @property integer $reg_limit
+ * @property string $start_date
+ * @property string $end_date
+ * @property integer $enabled
+ *
+ * The followings are the available model relations:
+ * @property Competitions[] $competitions
+ * @property Registrations[] $registrations
+ */
+class Lan extends CActiveRecord
+{
+	/**
+	 * Returns the static model of the specified AR class.
+	 * @return Lan the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
+	{
+		return 'tlk_lans';
+	}
+
+	/**
+	 * @return array validation rules for model attributes.
+	 */
+	public function rules()
+	{
+		return array(
+			array('name, reg_limit, start_date, end_date', 'required'),
+			array('reg_limit, enabled', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>20),
+		);
+	}
+
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		return array(
+			'competitions' => array(self::HAS_MANY, 'Competitions', 'lan_id'),
+			'registrations' => array(self::HAS_MANY, 'Registration', 'lan_id'),
+		);
+	}
+
+	/**
+	 * Defines the default scope for this model
+	 * 
+	 * @return array the default scope 
+	 */
+	public function defaultScope() {
+		return array(
+			// Order newest first
+			'order'=>'id DESC',
+		);
+	}
+	
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'id' => 'ID',
+			'name' => 'Name',
+			'reg_limit' => 'Reg Limit',
+			'start_date' => 'Start Date',
+			'end_date' => 'End Date',
+			'enabled' => 'Enabled',
+		);
+	}
+	
+	/**
+	 * Returns the model for the current LAN
+	 * @return Lan the model
+	 */
+	public function getCurrent() {
+		return self::model()->find('enabled = 1');
+	}
+	
+	/**
+	 * Checks whether this LAN is full booked
+	 * @return boolean whether it's full
+	 */
+	public function isFull() {
+		return count($this->registrations) >= $this->reg_limit;
+	}
+}

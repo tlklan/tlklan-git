@@ -1,0 +1,13 @@
+\.orig$
+\.orig\..*$
+\.chg\..*$
+\.rej$
+\.conflict\~$
+syntax: glob
+protected/config/main.php
+files/cms/attachments
+css/styles.css
+files/documents
+syntax: regexp
+^assets/*
+^nbproject/*
