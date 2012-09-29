@@ -1,2 +1,3 @@
 protected/extensions/bootstrap = https://bitbucket.org/negge/yii-bootstrap
 protected/extensions/less      = https://bitbucket.org/negge/less
+protected/modules/cms          = https://bitbucket.org/negge/NordCms
