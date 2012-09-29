@@ -9,6 +9,7 @@ files/cms/attachments
 css/styles.css
 files/documents
 css/small-screen.css
+protected/runtime
 syntax: regexp
 ^assets/*
 ^nbproject/*
