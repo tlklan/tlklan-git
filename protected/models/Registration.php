@@ -125,7 +125,7 @@ class Registration extends CActiveRecord
 	 * @param int $lanId the LAN
 	 * @return array the registered people 
 	 */
-	public function findByLAN($lanId)
+	public function findByLan($lanId)
 	{
 		return $this->findAll('lan_id = :lan_id', array('lan_id'=>$lanId));
 	}

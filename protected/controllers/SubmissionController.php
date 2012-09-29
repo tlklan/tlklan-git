@@ -92,9 +92,8 @@ class SubmissionController extends Controller {
 		}
 
 		// Get a list of competitions and registrants
-
 		$competitions = Competition::model()->findByLan($currentLan->id);
-		$registrations = Registration::model()->findByLAN($currentLan->id);
+		$registrations = Registration::model()->findByLan($currentLan->id);
 
 		$this->render('create', array(
 			'model'=>$model,

@@ -57,7 +57,7 @@ $this->breadcrumbs=array(
 </div>
 <?php
 
-$registrations = Registration::model()->findByLAN($currentLan->id);
+$registrations = Registration::model()->findByLan($currentLan->id);
 
 // Render the list of registered people
 $this->widget('application.widgets.registration.RegistrationListWidget', array(
