@@ -1,9 +1,9 @@
 <?php
 
-$this->pageTitle = 'Ny submission - TLK LAN';
+$this->pageTitle = 'Ny submission';
 $this->breadcrumbs=array(
-	'Submissions'=>array('index'),
-	'Create',
+	'Submissions'=>array('archive'),
+	'Ny submission',
 );
 
 ?>

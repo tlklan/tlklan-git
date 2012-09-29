@@ -48,6 +48,7 @@ class Submission extends CActiveRecord {
 	public function rules() {
 		return array(
 			array('compo_id, submitter_id, name', 'required'),
+			array('file', 'file', 'on'=>'insert'),
 			array('compo_id, submitter_id', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>30),
 			array('comments', 'safe'),
