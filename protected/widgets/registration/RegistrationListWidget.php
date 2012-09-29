@@ -14,16 +14,6 @@ class RegistrationListWidget extends CWidget
 	public $currentLan;
 
 	/**
-	 * @var array All registrations for this LAN
-	 */
-	public $registrations;
-
-	/**
-	 * @var array All competitions for this LAN
-	 */
-	public $competitions;
-
-	/**
 	 * @var int the number of registrations for this LAN
 	 */
 	private $_registrationCount;
@@ -33,7 +23,7 @@ class RegistrationListWidget extends CWidget
 	 */
 	public function init()
 	{
-		$this->_registrationCount = count($this->registrations);
+		$this->_registrationCount = count($this->currentLan->registrations);
 	}
 
 	/**
@@ -91,7 +81,7 @@ class RegistrationListWidget extends CWidget
 				<?php
 
 				// Add one column for each competition
-				foreach($this->competitions as $competition) 
+				foreach($this->currentLan->competitions as $competition) 
 				{
 					?><th class="compo_header small-screen-hidden"><?php echo $competition->short_name; ?>:</th><?php
 				}
@@ -102,7 +92,7 @@ class RegistrationListWidget extends CWidget
 			<?php
 
 			// Print each row
-			foreach($this->registrations as $registration) 
+			foreach($this->currentLan->registrations as $registration) 
 			{
 				/* @var $registration Registration */
 				
@@ -182,7 +172,7 @@ class RegistrationListWidget extends CWidget
 					</td>
 					<?php
 
-					foreach($this->competitions as $competition) 
+					foreach($this->currentLan->competitions as $competition) 
 					{
 						?>
 						<td class="small-screen-hidden center-align">

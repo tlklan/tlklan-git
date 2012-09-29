@@ -41,8 +41,8 @@ $this->breadcrumbs=array(
 		<table class="stat_counter" cellpadding="0" cellspacing="0">
 			<?php
 
-			$competitionStats = Competition::model()->getStatisticsByLan($currentLan->id);
-			foreach($competitionStats as $competition => $competitorCount) {
+			$statistics = $currentLan->getCompetitionStatistics();
+			foreach($statistics as $competition => $competitorCount) {
 				?>
 				<tr>
 					<td><?php echo $competition; ?></td>
@@ -57,11 +57,7 @@ $this->breadcrumbs=array(
 </div>
 <?php
 
-$registrations = Registration::model()->findByLan($currentLan->id);
-
 // Render the list of registered people
 $this->widget('application.widgets.registration.RegistrationListWidget', array(
 	'currentLan'=>$currentLan,
-	'registrations'=>$registrations,
-	'competitions'=>$competitions,
 ));

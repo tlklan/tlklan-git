@@ -119,14 +119,11 @@ class RegistrationController extends Controller {
 			}
 		}
 
-		// Get the list of competitions for this LAN
-		$competitions = Competition::model()->findByLan($currentLan->id);
-
 		$this->render('create', array(
 			'model'=>$model,
 			'registration'=>$registration,
 			'currentLan'=>$currentLan,
-			'competitions'=>$competitions,
+			'competitions'=>$currentLan->competitions,
 		));
 	}
 	

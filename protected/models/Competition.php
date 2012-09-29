@@ -74,17 +74,6 @@ class Competition extends CActiveRecord {
 	}
 
 	/**
-	 * Finds all competition belonging to the specified LAN
-	 * @param int $lanId the LAN
-	 * @return array the result 
-	 */
-	public function findByLan($lanId) {
-		return self::model()->findAll('lan_id = :lan_id', array(
-			':lan_id'=>$lanId,
-		));
-	}
-	
-	/**
 	 * Getter for the competition name. This is to make it more logical as 
 	 * "full_name" goes against naming conventions
 	 */
@@ -92,21 +81,4 @@ class Competition extends CActiveRecord {
 		return $this->full_name;
 	}
 	
-	/**
-	 * Returns a list of the competitions belonging to the specified LAN, sorted
-	 * by the amount of competitors that have signed up for them.
-	 * @param int $lanId the LAN
-	 * @return array
-	 */
-	public function getStatisticsByLan($lanId) {
-		$competitions = self::model()->findByLan($lanId);
-		$stats = array();
-
-		foreach($competitions as $competition)
-			$stats[$competition->short_name] = $competition->competitorCount;
-
-		arsort($stats);
-
-		return $stats;
-	}
 }

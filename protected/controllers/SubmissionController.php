@@ -101,15 +101,11 @@ class SubmissionController extends Controller
 				$this->redirect($this->createUrl('/submission/archive'));
 			}
 		}
-
-		// Get a list of competitions and registrants
-		$competitions = Competition::model()->findByLan($currentLan->id);
-		$registrations = Registration::model()->findByLan($currentLan->id);
-
+		
 		$this->render('create', array(
 			'model'=>$model,
-			'competitions'=>$competitions,
-			'registrations'=>$registrations,
+			'competitions'=>$currentLan->competitions,
+			'registrations'=>$currentLan->registrations,
 		));
 	}
 

@@ -10,18 +10,12 @@ class ArchiveListWidget extends CWidget {
 	 * @var LAN the LAN associated with this widget
 	 */
 	public $lan;
-	
-	/**
-	 * @var array list of competitions for the current LAN 
-	 */
-	private $_competitions;
 
 	/**
 	 * Initializes the widget
 	 */
 	public function init() {
 		$this->registerScripts();
-		$this->_competitions = Competition::model()->findByLan($this->lan->id);
 	}
 
 	/**
@@ -52,7 +46,7 @@ class ArchiveListWidget extends CWidget {
 				$totalSubmissionCount = 0;
 				
 				// Start looping through each competition
-				foreach($this->_competitions as $competition) {
+				foreach($this->lan->competitions as $competition) {
 					$submissions = $competition->submissions;
 					
 					// Skip competitions with no submissions

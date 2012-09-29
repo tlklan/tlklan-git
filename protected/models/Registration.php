@@ -120,17 +120,6 @@ class Registration extends CActiveRecord
 	}
 
 	/**
-	 * Returns a list of all registered people for the specified LAN
-	 * 
-	 * @param int $lanId the LAN
-	 * @return array the registered people 
-	 */
-	public function findByLan($lanId)
-	{
-		return $this->findAll('lan_id = :lan_id', array('lan_id'=>$lanId));
-	}
-
-	/**
 	 * Returns true if the user is using a laptop
 	 * @return boolean 
 	 */

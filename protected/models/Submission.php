@@ -92,19 +92,6 @@ class Submission extends CActiveRecord {
 	}
 	
 	/**
-	 * Returns a list of submissions belonging to competition that belong to 
-	 * the specified LAN
-	 * 
-	 * @param int $lanId the LAN
-	 * @return array the sumissions
-	 */
-	public function findByLAN($lanId) {
-		return $this->with('competition')->findAll('competition.lan_id = :lan_id', array(
-			':lan_id'=>$lanId,
-		));
-	}
-	
-	/**
 	 * Returns the size of the submission
 	 * 
 	 * @param boolean $formatted whether to format the size (B, kB, MB etc.)

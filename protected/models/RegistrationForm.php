@@ -100,29 +100,27 @@ class RegistrationForm extends CFormModel implements ArrayAccess {
 		}
 	}
 
-	/** 
+	/**
 	 * Checks that the selected competitions are valid (ie. that they exist). 
 	 * If none are selected then this method does nothing.
 	 * 
 	 * @param string $attribute not used
 	 * @param string $params not used
 	 */
-	public function competitionValidator($attribute, $params) {
-		if(!empty($this->competitions)) {
-			$lanId = Lan::model()->getCurrent()->id;
-			$validCompetitions = Competition::model()->findByLan($lanId);
+	public function competitionValidator($attribute, $params)
+	{
+		if (!empty($this->competitions))
+		{
+			$validCompetitions = Lan::model()->getCurrent()->competitions;
 
 			// Make an array of the competition IDs so we can compare to $this->competitions
 			$validCompetitionIds = array();
-			foreach($validCompetitions as $validCompetition) {
+			foreach ($validCompetitions as $validCompetition)
 				$validCompetitionIds[] = $validCompetition->id;
-			}
 
-			foreach($this->competitions as $competition) {
-				if(!in_array($competition, $validCompetitionIds)) {
+			foreach ($this->competitions as $competition)
+				if (!in_array($competition, $validCompetitionIds))
 					$this->addError('competition', 'Ditt val av tävlingar är ogiltigt');
-				}
-			}
 		}
 	}
 	

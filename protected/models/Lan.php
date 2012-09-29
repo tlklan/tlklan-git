@@ -52,7 +52,7 @@ class Lan extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'competitions' => array(self::HAS_MANY, 'Competitions', 'lan_id'),
+			'competitions' => array(self::HAS_MANY, 'Competition', 'lan_id'),
 			'registrations' => array(self::HAS_MANY, 'Registration', 'lan_id'),
 		);
 	}
@@ -82,6 +82,23 @@ class Lan extends CActiveRecord
 			'end_date' => 'End Date',
 			'enabled' => 'Enabled',
 		);
+	}
+	
+	/**
+	 * Returns a list of this LANs competitions, sorted by their amount of 
+	 * registered competitors
+	 * @return array the statistics (compo=>count)
+	 */
+	public function getCompetitionStatistics()
+	{
+		$stats = array();
+
+		foreach ($this->competitions as $competition)
+			$stats[$competition->short_name] = $competition->competitorCount;
+
+		arsort($stats);
+
+		return $stats;
 	}
 	
 	/**
