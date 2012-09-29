@@ -1,1 +1,2 @@
 protected/extensions/bootstrap = https://bitbucket.org/negge/yii-bootstrap
+protected/extensions/less      = https://bitbucket.org/negge/less
