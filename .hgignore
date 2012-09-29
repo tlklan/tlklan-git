@@ -8,6 +8,7 @@ protected/config/main.php
 files/cms/attachments
 css/styles.css
 files/documents
+css/small-screen.css
 syntax: regexp
 ^assets/*
 ^nbproject/*

@@ -1,5 +1,10 @@
 <?php
 
+// Register additional styles for small-screened devices
+Yii::app()->clientScript->registerCssFile(
+		Yii::app()->baseUrl.'/css/small-screen.css', 
+		'only screen and (max-device-width: 480px)');
+
 $this->pageTitle = 'Anmälning till '.$currentLan->name;
 $this->breadcrumbs=array(
 	'Anmälning',
@@ -23,14 +28,14 @@ $this->breadcrumbs=array(
 		)); ?>
 	</div>
 	
-	<div class="registration-info span5">
+	<div class="registration-info small-screen-hidden span5">
 		<h1 style="margin-top: 0;">Information</h1>
 		<?php $this->widget('cms.widgets.CmsBlock',array('name'=>'registration_info')); ?>
 		
 		
 	</div>
 	
-	<div class="statistics">
+	<div class="statistics small-screen-hidden">
 		<h3>Tävlingsstatistik</h3>
 
 		<table class="stat_counter" cellpadding="0" cellspacing="0">

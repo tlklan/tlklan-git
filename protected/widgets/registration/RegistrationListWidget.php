@@ -87,17 +87,17 @@ class RegistrationListWidget extends CWidget
 					echo '<th>E-post:</th>';
 				
 				?>
-				<th class="thick_right_border">Laptop:</th>
+				<th class="thick_right_border small-screen-hidden">Laptop:</th>
 				<?php
 
 				// Add one column for each competition
 				foreach($this->competitions as $competition) 
 				{
-					?><th class="compo_header"><?php echo $competition->short_name; ?>:</th><?php
+					?><th class="compo_header small-screen-hidden"><?php echo $competition->short_name; ?>:</th><?php
 				}
 
 				?>
-				<th class="thick_left_border">Anmälan gjord:</th>
+				<th class="thick_left_border small-screen-hidden">Anmälan gjord:</th>
 			</tr>
 			<?php
 
@@ -177,7 +177,7 @@ class RegistrationListWidget extends CWidget
 					}
 					
 					?>
-					<td class="thick_right_border center-align">
+					<td class="thick_right_border center-align small-screen-hidden">
 						<?php echo ($registration->hasLaptop()) ? 'x' : ''; ?>
 					</td>
 					<?php
@@ -185,14 +185,14 @@ class RegistrationListWidget extends CWidget
 					foreach($this->competitions as $competition) 
 					{
 						?>
-						<td class="center-align">
+						<td class="small-screen-hidden center-align">
 							<?php echo (in_array($competition->id, $registeredCompetitions)) ? 'x' : ''; ?>
 						</td>
 						<?php
 					}
 
 					?>
-					<td class="thick_left_border" style="width: 140px;">
+					<td class="thick_left_border small-screen-hidden" style="width: 140px;">
 						<?php echo $registration->date; ?>
 					</td>
 				</tr>
