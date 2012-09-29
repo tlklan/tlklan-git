@@ -147,5 +147,19 @@ class Registration extends CActiveRecord
 	{
 		return $this->device == 'desktop';
 	}
+	
+	/**
+	 * Checks whether this is the first time this nick has been registered
+	 * @return boolean
+	 */
+	public function isFirstTimer()
+	{
+		$models = Registration::model()->findAll('nick = :nick OR name = :name', array(
+			':nick'=>$this->nick,
+			':name'=>$this->name,
+		));
+
+		return count($models) == 1;
+	}
 
 }

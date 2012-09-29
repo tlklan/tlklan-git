@@ -104,6 +104,8 @@ class RegistrationListWidget extends CWidget
 			// Print each row
 			foreach($this->registrations as $registration) 
 			{
+				/* @var $registration Registration */
+				
 				$name = CHtml::encode($registration->name);
 				$nick = CHtml::encode($registration->nick);
 				$registeredCompetitions = array();
@@ -151,7 +153,19 @@ class RegistrationListWidget extends CWidget
 					
 					?>
 					<td><?php echo $name; ?></td>
-					<td><?php echo $nick; ?></td>
+					<td class="nick">
+						<?php 
+						
+						echo $nick;
+						if ($registration->isFirstTimer())
+						{
+							echo CHtml::image(Yii::app()->baseUrl.
+									'/files/images/icons/new_icon_small.png', 
+									'Possible first timer!');
+						}
+						
+						?>
+					</td>
 					<?php
 					
 					if($user->isAdmin())
