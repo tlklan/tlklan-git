@@ -214,7 +214,14 @@ class RegistrationListWidget extends CWidget
 		ob_start();
 		
 		?>
-		<p>Antal registrerade hittills: <b><?php echo $this->_registrationCount; ?> / <?php echo $this->currentLan->reg_limit; ?></b></p>
+		<p>
+			Antal registrerade hittills: 
+			<b><?php echo $this->_registrationCount; ?> / 
+			<?php echo $this->currentLan->reg_limit; ?></b>
+			
+			<img style="margin-left: 12px;" src="<?php echo Yii::app()->baseUrl; ?>/files/images/icons/new_icon_small.png" alt="" />
+			 = har ej deltagit förut
+		</p>
 		<?php
 		
 		echo ob_get_clean();
