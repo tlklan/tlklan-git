@@ -40,9 +40,7 @@ return array(
 		),
 		'less'=>array(
 			'class'=>'ext.less.components.LessCompiler',
-			'autoCompile'=>true, // indicates whether to force compiling
-			'compress'=>false, // indicates whether to compress compiled CSS
-			'debug'=>false, // indicates whether to enable compiler debugging mode
+			'forceCompile'=>true, // indicates whether to force compiling
 			'paths'=>array(
 				'css/less/styles.less'=>'css/styles.css',
 			),
