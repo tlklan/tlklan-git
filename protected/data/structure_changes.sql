@@ -15,3 +15,10 @@ ALTER TABLE `cms_attachment`
 	ADD COLUMN `nodeId` INT(10) UNSIGNED NOT NULL AFTER `created`,
 	DROP COLUMN `contentId`,
 	DROP INDEX `contentId`;
+
+#
+# 2012-10-03
+#
+# Added a column indicating whether a competition can be voted on
+ALTER TABLE `tlk_competitions`
+	ADD COLUMN `votable` TINYINT(1) NOT NULL DEFAULT '0' AFTER `full_name`;
