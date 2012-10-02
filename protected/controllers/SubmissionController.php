@@ -58,6 +58,7 @@ class SubmissionController extends Controller
 	{
 		$currentLan = Lan::model()->getCurrent();
 
+		$isNewRecord = $model === null;
 		if ($model === null)
 			$model = new Submission();
 
@@ -68,24 +69,24 @@ class SubmissionController extends Controller
 
 			if ($model->validate())
 			{
-				// Determine the physical path where the submission should be 
-				// stored
-				$physicalPath = Yii::app()->params['submissionPath'].
-						DIRECTORY_SEPARATOR.$model->competition->short_name.
-						DIRECTORY_SEPARATOR.$currentLan->name.
-						DIRECTORY_SEPARATOR;
-
-				// Create the path if it doesn't exist. Throw exception if it 
-				// is not couldn't be created.
-				if (!is_dir($physicalPath) && !mkdir($physicalPath, 0777, true))
-					throw new CHttpException(500, 'Kunde inte spara din submission');
-
-				$physicalPath = $physicalPath.$model->file->name;
-
 				// The file field can be empty when updating an entry. If it 
 				// isn't we upload the file and store its path
 				if ($model->file !== null)
 				{
+					// Determine the physical path where the submission should be 
+					// stored
+					$physicalPath = Yii::app()->params['submissionPath'].
+							DIRECTORY_SEPARATOR.$model->competition->short_name.
+							DIRECTORY_SEPARATOR.$currentLan->name.
+							DIRECTORY_SEPARATOR;
+
+					// Create the path if it doesn't exist. Throw exception if it 
+					// is not couldn't be created.
+					if (!is_dir($physicalPath) && !mkdir($physicalPath, 0777, true))
+						throw new CHttpException(500, 'Kunde inte spara din submission');
+
+					$physicalPath = $physicalPath.$model->file->name;
+				
 					$model->file->saveAs($physicalPath);
 					$model->physical_path = $physicalPath;
 				}
@@ -93,7 +94,7 @@ class SubmissionController extends Controller
 				$model->save();
 
 				// Redirect to avoid F5 re-submission
-				if ($model->isNewRecord)
+				if ($isNewRecord)
 					Yii::app()->user->setFlash('success', 'Din submission har laddats upp');
 				else
 					Yii::app()->user->setFlash('success', 'Entryn har uppdaterats');
