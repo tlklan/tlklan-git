@@ -81,6 +81,8 @@ class ArchiveListWidget extends CWidget {
 							<td>
 								<?php 
 								
+								$submissionName = CHtml::encode($submission->name);
+								
 								// Show some buttons for logged in users
 								if(Yii::app()->user->isGuest === false) {
 									// download link
@@ -106,11 +108,10 @@ class ArchiveListWidget extends CWidget {
 										);
 									}
 									
-									echo CHtml::link($submission->name, Yii::app()->controller->createUrl('/submission/get', array('id'=>$submission->id))); 
+									echo CHtml::link($submissionName, Yii::app()->controller->createUrl('/submission/get', array('id'=>$submission->id))); 
 								}
-								else {
-									echo $submission->name;
-								}
+								else
+									echo $submissionName;
 								
 								?>
 							</td>
@@ -124,7 +125,9 @@ class ArchiveListWidget extends CWidget {
 								?>
 							</td>
 							<td><?php echo $submission->size; ?></td>
-							<td style="max-width: 200px;"><?php echo $submission->comments; ?></td>
+							<td style="max-width: 200px;">
+								<?php echo nl2br(CHtml::encode($submission->comments)); ?>
+							</td>
 						</tr>
 						<?php
 						
