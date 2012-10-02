@@ -140,3 +140,65 @@ body {
 		}
 	}
 }
+
+/* --- Archive --- */
+.archive-container {
+	margin-top: 20px;
+
+	.archive-heading {
+		position: relative;
+
+		.back-link {
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+	}
+
+	.archive-table {
+		border: 1px solid #D0D0D0;
+
+		tr {
+			th, td {
+				border: 1px solid #D0D0D0;
+				padding: 4px;
+			}
+
+			td {
+				&:first-child {
+					background: none !important;
+					border-bottom: 0 !important;
+					border-top: 0;
+				}
+
+				&.comments {
+					max-width: 200px;
+				}
+
+				img {
+					vertical-align: middle;
+					margin-right: 6px;
+				}
+			}
+
+			th {
+				background: #EAEAEA;
+				font-weight: bold;
+				text-align: left;
+			}
+
+			&.winner td {
+				background: #CCFFCC;
+			}
+
+			&.disqualified td {
+				background: #FFB3C6;
+			}
+
+			&.submission-separator td {
+				border-top: 2px solid #999 !important;
+			}
+		}
+		
+	}
+}

@@ -12,13 +12,6 @@ class ArchiveListWidget extends CWidget {
 	public $lan;
 
 	/**
-	 * Initializes the widget
-	 */
-	public function init() {
-		$this->registerScripts();
-	}
-
-	/**
 	 * Displays a table with all submissions
 	 */
 	public function run() {
@@ -28,12 +21,12 @@ class ArchiveListWidget extends CWidget {
 		<div class="archive-container">
 			<div class="archive-heading">
 				<h2><?php echo $this->lan->name; ?></h2>
-				<div class="archive-heading-back-link">
+				<div class="back-link">
 					<?php echo CHtml::link(CHtml::image(Yii::app()->baseUrl.'/files/images/icons/up_button.png'), '#'); ?>
 				</div>
 			</div>
 			
-			<table class="archive-table" border="0" cellpadding="0" cellspacing="0">
+			<table class="table table-striped archive-table" border="0" cellpadding="0" cellspacing="0">
 				<tr>
 					<th>Tävling:</th>
 					<th>Namn:</th>
@@ -60,20 +53,24 @@ class ArchiveListWidget extends CWidget {
 						$submissionVotes[] = $submission->voteCount;
 					}
 					
-					$rowClass = 'archive_th_thick';
+					$rowClass = 'submission-separator';
 					
 					// Start looping through each submission
 					foreach($submissions as $k => $submission) {
 						// Only show the competition name once
 						$competitionName = ($k == 0) ? $competition->name : '';
 						
-						// Mark the winning submission(s) row
-						if($submission->voteCount == max($submissionVotes))
-							$rowClass .= ' winning_row';
+						// Mark the winning submission(s) row, but only if there 
+						// have actually been a vote
+						if(max($submissionVotes) > 0 && $submission->voteCount 
+								== max($submissionVotes)) 
+						{
+							$rowClass .= ' winner';
+						}
 						
 						// Mark disqualified submissions
 						if($submission->disqualified == true)
-							$rowClass .= ' disqualified_row';
+							$rowClass .= ' disqualified';
 						
 						?>
 						<tr class="<?php echo $rowClass; ?>">
@@ -125,7 +122,7 @@ class ArchiveListWidget extends CWidget {
 								?>
 							</td>
 							<td><?php echo $submission->size; ?></td>
-							<td style="max-width: 200px;">
+							<td class="comments">
 								<?php echo nl2br(CHtml::encode($submission->comments)); ?>
 							</td>
 						</tr>
@@ -154,14 +151,4 @@ class ArchiveListWidget extends CWidget {
 		echo ob_get_clean();
 	}
 	
-	/**
-	 * Registers scripts (CSS and/or JS) needed by this widget
-	 */
-	private function registerScripts() {
-		$scriptUrl = Yii::app()->basePath.'/widgets/submission/assets';
-		$cs = Yii::app()->getClientScript();
-
-		$publishedUrl = Yii::app()->assetManager->publish($scriptUrl.'/css/archive.css');
-		$cs->registerCssFile($publishedUrl);
-	}
 }
