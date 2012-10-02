@@ -3,7 +3,7 @@
 // Register additional styles for small-screened devices
 Yii::app()->clientScript->registerCssFile(
 		Yii::app()->baseUrl.'/css/small-screen.css', 
-		'only screen and (max-device-width: 480px)');
+		'only screen and (max-device-width: 720px)');
 
 $this->pageTitle = 'Anmälning till '.$currentLan->name;
 $this->breadcrumbs=array(
