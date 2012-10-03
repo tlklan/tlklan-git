@@ -23,9 +23,9 @@ echo $this->renderPartial('_form', array(
 )); 
 
 ?>
-<p>
+<div class="alert in alert-block fade alert-info">
 	<b>OBS!</b> Genom att ladda upp dina filer här går du med på att de publiceras på 
-	<?php echo CHtml::link('arkivsidan', $this->createUrl('/submission/archive')); ?>. 
+	<b><?php echo CHtml::link('arkivsidan', $this->createUrl('/submission/archive')); ?></b>. 
 	Om du inte vill ha din fil tillgänglig för nedladdning bör du 
-	kontakta <?php echo CHtml::mailto('lanklubben@tlk.fi', 'lanklubben@tlk.fi'); ?>.
-</p>
+	kontakta <b><?php echo CHtml::mailto('lanklubben@tlk.fi', 'lanklubben@tlk.fi'); ?></b>.
+</div>
