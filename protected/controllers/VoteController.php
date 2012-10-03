@@ -1,13 +1,17 @@
 <?php
 
 /**
- * Description of VoteController
+ * Handles voting and displaying vote results
  *
  * @author Sam Stenvall <sam@supportersplace.com>
  */
 class VoteController extends Controller
 {
 
+	/**
+	 * Returns the filters defined for this controller
+	 * @return type
+	 */
 	public function filters()
 	{
 		return array(
@@ -15,11 +19,15 @@ class VoteController extends Controller
 		);
 	}
 
+	/**
+	 * Creates a new vote
+	 */
 	public function actionCreate()
 	{
 		$currentLan = Lan::model()->getCurrent();
 		$model = new VoteForm();
 
+		// Handle form data
 		if (isset($_POST['VoteForm']))
 		{
 			$model->attributes = $_POST['VoteForm'];
@@ -60,16 +68,20 @@ class VoteController extends Controller
 		));
 	}
 
+	/**
+	 * AJAX-triggered action for fetching the submissions for the specified
+	 * competition
+	 * @throws CHttpException if the competition ID is invalid
+	 */
 	public function actionAjaxSubmissions()
 	{
 		if (isset($_POST['VoteForm']))
 		{
-			// Sanity check
+			// Sanity checks
 			$competitionId = $_POST['VoteForm']['competition'];
 			if(empty($competitionId))
 				throw new CHttpException(400, 'Ogiltig tävling');
 			
-			// More sanity checks
 			$competition = Competition::model()->findByPk($competitionId);
 			if($competition === null)
 				throw new CHttpException(400, 'Ogiltig tävling');
@@ -96,6 +108,9 @@ class VoteController extends Controller
 		Yii::app()->end();
 	}
 	
+	/**
+	 * Displays the results page
+	 */
 	public function actionResults()
 	{
 		$model = new VoteResultForm();
@@ -112,6 +127,11 @@ class VoteController extends Controller
 		));
 	}
 	
+	/**
+	 * AJAX-triggered action which fetches the voting results for the specified 
+	 * competition
+	 * @throws CHttpException if the competition ID is invalid
+	 */
 	public function actionAjaxResults()
 	{
 		if (isset($_POST['VoteResultForm']))

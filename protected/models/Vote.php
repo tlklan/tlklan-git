@@ -46,22 +46,4 @@ class Vote extends CActiveRecord
 		);
 	}
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models 
-	 * based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		$criteria = new CDbCriteria;
-		$criteria->compare('id', $this->id);
-		$criteria->compare('voter_id', $this->voter_id);
-		$criteria->compare('submission_id', $this->submission_id);
-		$criteria->compare('compo_id', $this->compo_id);
-
-		return new CActiveDataProvider(get_class($this), array(
-					'criteria'=>$criteria,
-				));
-	}
-
 }

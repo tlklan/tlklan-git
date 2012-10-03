@@ -15,6 +15,7 @@
  * The followings are the available model relations:
  * @property Lan $lan
  * @property Competitor[] $competitors
+ * @property int $competitorCount
  * @property Result[] $results
  * @property Submission[] $submissions
  * @property Voting[] $votings
@@ -65,7 +66,8 @@ class Competition extends CActiveRecord {
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array(
 			'id'=>'ID',
 			'lan_id'=>'Lan',
@@ -81,12 +83,19 @@ class Competition extends CActiveRecord {
 	 * Getter for the competition name. This is to make it more logical as 
 	 * "full_name" goes against naming conventions
 	 */
-	public function getName() {
+	public function getName()
+	{
 		return $this->full_name;
 	}
 	
+	/**
+	 * Returns a data provider for the submissions in this competition. It is 
+	 * used on the voting results page and is order by amount of votes.
+	 * @return \CArrayDataProvider
+	 */
 	public function getSubmissionDataProvider()
 	{
+		// What we need is cumbersome to accomplish with the AR system
 		$rawData = Yii::app()->db->createCommand()
 				->select('tlk_submissions.id, tlk_submissions.name, tlk_registrations.nick, COUNT(tlk_votes.id) AS voteCount')
 				->from('tlk_submissions')
