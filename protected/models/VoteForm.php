@@ -12,6 +12,13 @@ class VoteForm extends CFormModel
 	public $competition;
 	public $submissions;
 
+	public function rules()
+	{
+		return array(
+			array('nick, competition', 'required'),
+		);
+	}
+
 	public function attributeLabels()
 	{
 		return array(

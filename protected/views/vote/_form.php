@@ -15,40 +15,26 @@ $competitionAttr = 'competition';
 $htmlOptions = array();
 CHtml::resolveNameID($model, $competitionAttr, $htmlOptions);
 
+echo $form->dropDownListRow($model, 'competition', CHtml::listData($competitions, 'id', 'name'), array(
+	'empty'=>'',
+	'ajax'=>array(
+		'type'=>'POST',
+		'url'=>Yii::app()->controller->createUrl('/vote/ajaxSubmissions'),
+		'update'=>'#submission-list',
+		'beforeSend'=>'function() {
+			$("#loading-submissions").addClass("visible");
+		}',
+		'complete'=>'function(){
+			$("#loading-submissions").removeClass("visible");
+		}',
+	),
+));
+
+$this->renderPartial('_submissionList', array(
+	'placeholder'=>'Välj tävling först',
+)); 
 
 ?>
-<div class="control-group">
-	<label class="control-label" for="<?php echo $htmlOptions['id']; ?>">
-		<?php echo $model->getAttributeLabel($competitionAttr); ?>
-	</label>
-	
-	<div class="controls">
-		<?php echo $form->dropDownList($model, 'competition', 
-				CHtml::listData($competitions, 'id', 'name'), array(
-			'empty'=>'',
-			'ajax'=>array(
-				'type'=>'POST',
-				'url'=>Yii::app()->controller->createUrl('/vote/ajaxSubmissions'),
-				'update'=>'#submission-list',
-				'beforeSend'=>'function() {
-					$("#loading-submissions").addClass("visible");
-				}',
-				'complete'=>'function(){
-					$("#loading-submissions").removeClass("visible");
-				}',
-			),
-		)); ?>
-		
-		<div id="loading-submissions" class="loading-submissions">
-			<img src="<?php echo Yii::app()->baseUrl; ?>/files/images/icons/loading_icon.gif" />
-		</div>
-	</div>
-</div>
-
-<?php $this->renderPartial('_submissionList', array(
-	'placeholder'=>'Välj tävling först',
-)); ?>
-
 <div class="form-actions">
 	<?php $this->widget('bootstrap.widgets.TbButton', array(
 		'buttonType'=>'submit',

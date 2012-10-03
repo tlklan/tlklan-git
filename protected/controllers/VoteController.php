@@ -18,8 +18,18 @@ class VoteController extends Controller
 	public function actionCreate()
 	{
 		$currentLan = Lan::model()->getCurrent();
-		$formModel = new VoteForm();
+		$model = new VoteForm();
 
+		if (isset($_POST['VoteForm']))
+		{
+			$model->attributes = $_POST['VoteForm'];
+			
+			if($model->validate()) {
+				var_dump($model);
+				exit;
+			}
+		}
+		
 		// Get list of registrations and votable competitions
 		$registrations = $currentLan->registrations;
 		$competitions = Competition::model()->findAllByAttributes(array(
@@ -30,7 +40,7 @@ class VoteController extends Controller
 		$this->render('create', array(
 			'registrations'=>$registrations,
 			'competitions'=>$competitions,
-			'formModel'=>$formModel,
+			'model'=>$model,
 		));
 	}
 

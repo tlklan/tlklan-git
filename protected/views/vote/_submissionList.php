@@ -1,5 +1,9 @@
 <div id="submission-list">
-	<p class="placeholder">
+	<div class="placeholder">
+		<div id="loading-submissions">
+			<img src="<?php echo Yii::app()->baseUrl; ?>/files/images/icons/loading_icon.gif" />
+		</div>
+	
 		<?php echo $placeholder; ?>
-	</p>
+	</div>
 </div>
