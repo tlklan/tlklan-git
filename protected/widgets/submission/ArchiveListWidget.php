@@ -58,7 +58,7 @@ class ArchiveListWidget extends CWidget {
 					// Start looping through each submission
 					foreach($submissions as $k => $submission) {
 						// Only show the competition name once
-						$competitionName = ($k == 0) ? $competition->name : '';
+						$competitionName = ($k == 0) ? $competition->full_name : '';
 						
 						// Mark the winning submission(s) row, but only if there 
 						// have actually been a vote

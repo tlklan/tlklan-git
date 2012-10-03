@@ -14,38 +14,43 @@
  *
  * The followings are the available model relations:
  * @property Competition $competition
+ * @property Registration $submitter
  * @property Vote[] $votes
  * @property VoteCount $voteCount
  * 
  */
-class Submission extends CActiveRecord {
-
+class Submission extends CActiveRecord
+{
 	// Values for the formatSize() method
+
 	const GIGA = 1073741824;
 	const MEGA = 1048576;
 	const KILO = 1024;
-	
+
 	public $file;
-	
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Submission the static model class
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className = __CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'tlk_submissions';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules() {
+	public function rules()
+	{
 		return array(
 			array('compo_id, submitter_id, name', 'required'),
 			array('file', 'file', 'on'=>'insert'),
@@ -60,7 +65,8 @@ class Submission extends CActiveRecord {
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		return array(
 			'competition'=>array(self::BELONGS_TO, 'Competition', 'compo_id'),
 			'submitter'=>array(self::BELONGS_TO, 'Registration', 'submitter_id'),
@@ -72,7 +78,8 @@ class Submission extends CActiveRecord {
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array(
 			'id'=>'ID',
 			'compo_id'=>'Tävling',
@@ -85,13 +92,17 @@ class Submission extends CActiveRecord {
 			'disqualified'=>'Diskvalificerad',
 		);
 	}
-	
-	protected function afterConstruct() {
+
+	/**
+	 * Sets some default values
+	 */
+	protected function afterConstruct()
+	{
 		$this->disqualified = false;
-		
+
 		parent::afterConstruct();
 	}
-	
+
 	/**
 	 * Returns the size of the submission
 	 * 
@@ -99,40 +110,46 @@ class Submission extends CActiveRecord {
 	 * @return mixed if $formatted is set to true, a string representation of
 	 * the size is returned, otherwise the size in bytes is returned as an integer
 	 */
-	public function getSize($formatted = true) {
+	public function getSize($formatted = true)
+	{
 		// Abort if file not found
-		if(!is_readable($this->physical_path))
+		if (!is_readable($this->physical_path))
 			return 0;
-		
+
 		$stat = stat($this->physical_path);
 		$sizeBytes = $stat[7];
-		
+
 		return ($formatted === false) ? $sizeBytes : $this->formatSize($sizeBytes);
 	}
-	
+
 	/**
 	 * Returns a string representation of the given size
 	 * 
 	 * @param integer $sizeBytes size in bytes
 	 * @return string the formatted size 
 	 */
-	private function formatSize($sizeBytes) {
+	private function formatSize($sizeBytes)
+	{
 		$size = 0;
 		$unit = "";
 
-		if($sizeBytes > self::GIGA) {
+		if ($sizeBytes > self::GIGA)
+		{
 			$size = $sizeBytes / self::GIGA;
 			$unit = "GiB";
 		}
-		elseif($sizeBytes > self::MEGA) {
+		elseif ($sizeBytes > self::MEGA)
+		{
 			$size = $sizeBytes / self::MEGA;
 			$unit = "MiB";
 		}
-		elseif($sizeBytes > self::KILO) {
+		elseif ($sizeBytes > self::KILO)
+		{
 			$size = $sizeBytes / self::KILO;
 			$unit = "kiB";
 		}
-		else {
+		else
+		{
 			$size = $sizeBytes." B";
 			$unit = "B";
 		}

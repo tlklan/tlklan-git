@@ -12,16 +12,17 @@
  * @property integer $enabled
  *
  * The followings are the available model relations:
- * @property Competitions[] $competitions
- * @property Registrations[] $registrations
+ * @property Competition[] $competitions
+ * @property Registration[] $registrations
  */
 class Lan extends CActiveRecord
 {
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Lan the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
 	}
@@ -35,25 +36,13 @@ class Lan extends CActiveRecord
 	}
 
 	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		return array(
-			array('name, reg_limit, start_date, end_date', 'required'),
-			array('reg_limit, enabled', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>20),
-		);
-	}
-
-	/**
 	 * @return array relational rules.
 	 */
 	public function relations()
 	{
 		return array(
-			'competitions' => array(self::HAS_MANY, 'Competition', 'lan_id'),
-			'registrations' => array(self::HAS_MANY, 'Registration', 'lan_id'),
+			'competitions'=>array(self::HAS_MANY, 'Competition', 'lan_id'),
+			'registrations'=>array(self::HAS_MANY, 'Registration', 'lan_id'),
 		);
 	}
 
@@ -62,28 +51,29 @@ class Lan extends CActiveRecord
 	 * 
 	 * @return array the default scope 
 	 */
-	public function defaultScope() {
+	public function defaultScope()
+	{
 		return array(
 			// Order newest first
 			'order'=>'id DESC',
 		);
 	}
-	
+
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'name' => 'Name',
-			'reg_limit' => 'Reg Limit',
-			'start_date' => 'Start Date',
-			'end_date' => 'End Date',
-			'enabled' => 'Enabled',
+			'id'=>'ID',
+			'name'=>'Name',
+			'reg_limit'=>'Reg Limit',
+			'start_date'=>'Start Date',
+			'end_date'=>'End Date',
+			'enabled'=>'Enabled',
 		);
 	}
-	
+
 	/**
 	 * Returns a list of this LANs competitions, sorted by their amount of 
 	 * registered competitors
@@ -100,20 +90,23 @@ class Lan extends CActiveRecord
 
 		return $stats;
 	}
-	
+
 	/**
 	 * Returns the model for the current LAN
 	 * @return Lan the model
 	 */
-	public function getCurrent() {
+	public function getCurrent()
+	{
 		return self::model()->find('enabled = 1');
 	}
-	
+
 	/**
 	 * Checks whether this LAN is full booked
 	 * @return boolean whether it's full
 	 */
-	public function isFull() {
+	public function isFull()
+	{
 		return count($this->registrations) >= $this->reg_limit;
 	}
+
 }

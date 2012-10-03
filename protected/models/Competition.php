@@ -13,53 +13,39 @@
  * @property string $deadline
  *
  * The followings are the available model relations:
- * @property Lan $lan
  * @property Competitor[] $competitors
  * @property int $competitorCount
- * @property Result[] $results
  * @property Submission[] $submissions
- * @property Voting[] $votings
  */
-class Competition extends CActiveRecord {
+class Competition extends CActiveRecord
+{
 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Competition the static model class
 	 */
-	public static function model($className=__CLASS__) {
+	public static function model($className = __CLASS__)
+	{
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName() {
+	public function tableName()
+	{
 		return 'tlk_competitions';
-	}
-
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules() {
-		return array(
-			array('lan_id, display_order, short_name, full_name', 'required'),
-			array('lan_id, display_order', 'numerical', 'integerOnly'=>true),
-			array('short_name', 'length', 'max'=>20),
-			array('full_name', 'length', 'max'=>50),
-		);
 	}
 
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations() {
+	public function relations()
+	{
 		return array(
-			'lan'=>array(self::BELONGS_TO, 'Lans', 'lan_id'),
 			'competitors'=>array(self::HAS_MANY, 'Competitor', 'competition_id'),
 			'competitorCount'=>array(self::STAT, 'Competitor', 'competition_id'),
-			'results'=>array(self::HAS_MANY, 'Results', 'compo_id'),
 			'submissions'=>array(self::HAS_MANY, 'Submission', 'compo_id'),
-			'votings'=>array(self::HAS_MANY, 'Votings', 'compo_id'),
 		);
 	}
 
@@ -80,15 +66,6 @@ class Competition extends CActiveRecord {
 	}
 
 	/**
-	 * Getter for the competition name. This is to make it more logical as 
-	 * "full_name" goes against naming conventions
-	 */
-	public function getName()
-	{
-		return $this->full_name;
-	}
-	
-	/**
 	 * Returns a data provider for the submissions in this competition. It is 
 	 * used on the voting results page and is order by amount of votes.
 	 * @return \CArrayDataProvider
@@ -105,8 +82,8 @@ class Competition extends CActiveRecord {
 				->group('tlk_submissions.id')
 				->order('voteCount DESC')
 				->queryAll();
-		
+
 		return new CArrayDataProvider($rawData);
 	}
-	
+
 }
