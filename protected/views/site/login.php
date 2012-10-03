@@ -11,7 +11,7 @@ $this->breadcrumbs=array(
 	Fyll i användarnamn och lösenord för att logga in. Användaruppgifterna är 
 	samma som till shellen.
 </p>
-
+<hr />
 <?php 
 
 /** @var BootActiveForm $form */
