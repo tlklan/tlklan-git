@@ -101,9 +101,9 @@ class VoteController extends Controller
 		$model = new VoteResultForm();
 		$currentLan = Lan::model()->getCurrent();
 		
-		$competitions = Competition::model()->findAllByAttributes(array(
-			'lan_id'=>$currentLan->id,
-			'votable'=>1,
+		// Don't list competitions whose deadline's haven't yet passed
+		$competitions = Competition::model()->findAll('lan_id = :lan_id AND votable = 1 AND deadline <= NOW()', array(
+			':lan_id'=>$currentLan->id,
 		));
 		
 		$this->render('results', array(
