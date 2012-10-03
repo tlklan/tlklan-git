@@ -49,11 +49,10 @@ class VoteController extends Controller
 		$criteria->params = array(':lan_id'=>$currentLan->id);
 		
 		$registrations = Registration::model()->findAll($criteria);
-		$competitions = Competition::model()->findAllByAttributes(array(
-			'lan_id'=>$currentLan->id,
-			'votable'=>1,
+		$competitions = Competition::model()->findAll('lan_id = :lan_id AND votable = 1 AND deadline >= NOW()', array(
+			':lan_id'=>$currentLan->id,
 		));
-
+		
 		$this->render('create', array(
 			'registrations'=>$registrations,
 			'competitions'=>$competitions,

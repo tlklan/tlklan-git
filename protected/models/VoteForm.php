@@ -17,6 +17,7 @@ class VoteForm extends CFormModel
 	{
 		return array(
 			array('voter, competition', 'required'),
+			array('competition', 'validateCompetition'),
 			array('voter', 'validateVoter'),
 			array('submissions', 'required', 'message'=>'Du måste rösta på minst en submission'),
 			array('submissions', 'validateSubmissions'),
@@ -30,6 +31,13 @@ class VoteForm extends CFormModel
 			'competition'=>'Tävling',
 			'submissions'=>'Submissions',
 		);
+	}
+	
+	public function validateCompetition($attribute)
+	{
+		$competition = Competition::model()->findByPk($this->competition);
+		if ($competition !== null && $competition->deadline <= date("Y-m-d H:i:s"))
+			$this->addError($attribute, 'Deadlinen för den här tävlingen har redan gått ut');
 	}
 	
 	public function validateVoter($attribute)
