@@ -30,7 +30,12 @@ class VoteController extends Controller
 		}
 		
 		// Get list of registrations and votable competitions
-		$registrations = $currentLan->registrations;
+		$criteria = new CDbCriteria();
+		$criteria->condition = 'lan_id = :lan_id';
+		$criteria->order = 'nick ASC';
+		$criteria->params = array(':lan_id'=>$currentLan->id);
+		
+		$registrations = Registration::model()->findAll($criteria);
 		$competitions = Competition::model()->findAllByAttributes(array(
 			'lan_id'=>$currentLan->id,
 			'votable'=>1,
