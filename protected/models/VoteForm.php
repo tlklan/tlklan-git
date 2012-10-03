@@ -9,14 +9,14 @@ class VoteForm extends CFormModel
 {
 	const MAX_VOTES = 3;
 
-	public $nick;
+	public $voter;
 	public $competition;
 	public $submissions;
 
 	public function rules()
 	{
 		return array(
-			array('nick, competition', 'required'),
+			array('voter, competition', 'required'),
 			array('submissions', 'required', 'message'=>'Du måste rösta på minst en submission'),
 			array('submissions', 'validateSubmissions'),
 		);
@@ -25,7 +25,7 @@ class VoteForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'nick'=>'Ditt nick',
+			'voter'=>'Ditt nick',
 			'competition'=>'Tävling',
 			'submissions'=>'Submissions',
 		);

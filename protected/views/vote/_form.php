@@ -7,7 +7,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 	'type'=>'horizontal',
 ));
 
-echo $form->dropDownListRow($model, 'nick', 
+echo $form->dropDownListRow($model, 'voter', 
 		CHtml::listData($registrations, 'id', 'nick'), array('empty'=>''));
 
 // Get the name and ID for the next form element
