@@ -8,6 +8,13 @@
 class VoteController extends Controller
 {
 
+	public function filters()
+	{
+		return array(
+			'ajaxOnly + ajaxSubmissions',
+		);
+	}
+
 	public function actionCreate()
 	{
 		$currentLan = Lan::model()->getCurrent();
@@ -29,17 +36,33 @@ class VoteController extends Controller
 
 	public function actionAjaxSubmissions()
 	{
-		if(isset($_POST['VoteForm'])) 
+		if (isset($_POST['VoteForm']))
 		{
 			// Get the submissions
 			$submissions = Submission::model()->findAll('compo_id = :compo_id', array(
 				':compo_id'=>$_POST['VoteForm']['competition'],
-			));
-			
+					));
+
 			$data = CHtml::listData($submissions, 'id', 'name');
-			
-			foreach($data as $value => $name)
-				echo CHtml::tag('option', array('value'=>$value), CHtml::encode($name), true);
+
+			// Render some checkboxes if there's anything to select
+			if (count($data) > 0)
+			{
+				$model = new VoteForm();
+				$form = $this->beginWidget('TbActiveForm', array(
+					'type'=>'horizontal',
+				));
+
+				echo $form->checkBoxListRow($model, 'submissions', array_values($data));
+
+				$this->endWidget();
+			}
+			else
+			{
+				$this->renderPartial('_submissionList', array(
+					'placeholder'=>'Inga submissions hittades för denna tävling',
+				));
+			}
 		}
 
 		Yii::app()->end();

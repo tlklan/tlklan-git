@@ -214,11 +214,22 @@ body {
 /* --- Voting --- */
 .loading-submissions {
 	padding-left: 10px;
-	color: @grayLight;
-	font-style: italic;
 	display: none;
+
+	img {
+		width: 24px;
+		height: 24px;
+	}
 
 	&.visible {
 		display: inline-block !important;
+	}
+}
+
+#submission-list {
+	.placeholder {
+		margin-left: 180px;
+		color: @gray;
+		font-style: italic;
 	}
 }

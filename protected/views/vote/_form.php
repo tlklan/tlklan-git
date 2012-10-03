@@ -40,20 +40,15 @@ CHtml::resolveNameID($model, $competitionAttr, $htmlOptions);
 		)); ?>
 		
 		<div id="loading-submissions" class="loading-submissions">
-			Laddar...
+			<img src="<?php echo Yii::app()->baseUrl; ?>/files/images/icons/loading_icon.gif" />
 		</div>
 	</div>
 </div>
 
+<?php $this->renderPartial('_submissionList', array(
+	'placeholder'=>'Välj tävling först',
+)); ?>
 
-<?php
-
-echo $form->dropDownListRow($model, 'submissions', array(), array(
-	'id'=>'submission-list',
-	'empty'=>'Välj tävling först',
-));
-
-?>
 <div class="form-actions">
 	<?php $this->widget('bootstrap.widgets.TbButton', array(
 		'buttonType'=>'submit',
