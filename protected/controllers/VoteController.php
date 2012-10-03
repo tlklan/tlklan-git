@@ -24,8 +24,21 @@ class VoteController extends Controller
 		{
 			$model->attributes = $_POST['VoteForm'];
 			
-			if($model->validate()) {
-				
+			if ($model->validate())
+			{
+				// Save each vote
+				foreach ($model->submissions as $submissionId)
+				{
+					$vote = new Vote();
+					$vote->voter_id = $model->voter;
+					$vote->submission_id = $submissionId;
+					$vote->compo_id = $model->competition;
+
+					$vote->save(false);
+				}
+
+				Yii::app()->user->setFlash('success', 'Din röst har registrerats');
+				$this->redirect('create');
 			}
 		}
 		
