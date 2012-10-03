@@ -43,9 +43,6 @@ class SiteController extends Controller {
 					Yii::app()->user->setFlash('error', 'Felaktigt användarnamn eller lösenord');
 				}
 			}
-			else {
-				Yii::app()->user->setFlash('error', 'Du måste fylla i alla fält');
-			}
 		}
 		// If this is not a POST request we store the page the user came from 
 		// so we can redirect back to it later
