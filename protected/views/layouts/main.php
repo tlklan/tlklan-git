@@ -43,6 +43,10 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 					array('label'=>'Allmänt', 'url'=>Yii::app()->cms->createUrl('home'), 'active'=>Yii::app()->cms->isActive('home')),
 					array('label'=>'Styrelsen', 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee')),
 					array('label'=>'<b>Anmälning</b>', 'url'=>array('/registration/create')),
+					array('label'=>'Röstning', 'url'=>'#', 'items'=>array(
+						array('label'=>'Rösta', 'url'=>array('/vote/create')),
+						array('label'=>'Resultat', 'url'=>array('/vote/results')),
+					)),
 					array('label'=>'Tidtabell', 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable')),
 					array('label'=>'Tävlingar', 'url'=>'#', 'items'=>array(
 						array('label'=>'Anmäl (under LAN)', 'url'=>'http://werket.tlk.fi/tlklan_old/competitions/register/'),
