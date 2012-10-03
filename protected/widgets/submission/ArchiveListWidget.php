@@ -62,7 +62,7 @@ class ArchiveListWidget extends CWidget {
 						
 						// Mark the winning submission(s) row, but only if there 
 						// have actually been a vote
-						if(max($submissionVotes) > 0 && $submission->voteCount 
+						if(count($submissions) == 1 || max($submissionVotes) > 0 && $submission->voteCount 
 								== max($submissionVotes)) 
 						{
 							$rowClass .= ' winner';
