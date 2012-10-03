@@ -76,6 +76,7 @@ class Submission extends CActiveRecord {
 		return array(
 			'id'=>'ID',
 			'compo_id'=>'Tävling',
+			'submitter'=>'Skapare',
 			'submitter_id'=>'Ditt nick',
 			'name'=>'Entrynamn',
 			'file'=>'Filnamn',

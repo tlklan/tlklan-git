@@ -11,7 +11,7 @@ class VoteController extends Controller
 	public function filters()
 	{
 		return array(
-			'ajaxOnly + ajaxSubmissions',
+			'ajaxOnly + ajaxSubmissions, ajaxResults',
 		);
 	}
 
@@ -38,7 +38,7 @@ class VoteController extends Controller
 				}
 
 				Yii::app()->user->setFlash('success', 'Din röst har registrerats');
-				$this->redirect('create');
+				$this->redirect('results');
 			}
 		}
 		
@@ -94,6 +94,41 @@ class VoteController extends Controller
 			}
 		}
 
+		Yii::app()->end();
+	}
+	
+	public function actionResults()
+	{
+		$model = new VoteResultForm();
+		$currentLan = Lan::model()->getCurrent();
+		
+		$competitions = Competition::model()->findAllByAttributes(array(
+			'lan_id'=>$currentLan->id,
+			'votable'=>1,
+		));
+		
+		$this->render('results', array(
+			'model'=>$model,
+			'competitions'=>$competitions,
+		));
+	}
+	
+	public function actionAjaxResults()
+	{
+		if (isset($_POST['VoteResultForm']))
+		{
+			// Find the competition's submissions
+			$competitionId = $_POST['VoteResultForm']['competition'];
+			
+			$competition = Competition::model()->findByPk($competitionId);
+			if($competition === null)
+				throw new CHttpException(400, 'Ogiltig tävling');
+			
+			$this->renderPartial('_resultList', array(
+				'dataProvider'=>$competition->getSubmissionDataProvider(),
+			));
+		}
+		
 		Yii::app()->end();
 	}
 
