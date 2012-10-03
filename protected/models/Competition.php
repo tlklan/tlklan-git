@@ -9,6 +9,8 @@
  * @property integer $display_order
  * @property string $short_name
  * @property string $full_name
+ * @property int $votable
+ * @property string $deadline
  *
  * The followings are the available model relations:
  * @property Lan $lan
@@ -70,6 +72,8 @@ class Competition extends CActiveRecord {
 			'display_order'=>'Display Order',
 			'short_name'=>'Short Name',
 			'full_name'=>'Full Name',
+			'votable'=>'Votable',
+			'deadline'=>'Voting deadline',
 		);
 	}
 
