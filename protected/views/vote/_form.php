@@ -30,9 +30,24 @@ echo $form->dropDownListRow($model, 'competition', CHtml::listData($competitions
 	),
 ));
 
-$this->renderPartial('_submissionList', array(
-	'placeholder'=>'Välj tävling först',
-)); 
+if ($model->competition)
+{
+	$competition = Competition::model()->findByPk($_POST['VoteForm']['competition']);
+	$submissions = $competition->submissions;
+
+	echo CHtml::openTag('div', array('id'=>'submission-list'));
+	$this->renderPartial('_submissionList', array(
+		'model'=>$model,
+		'data'=>CHtml::listData($submissions, 'id', 'name')
+	));
+	echo CHtml::closeTag('div');
+}
+else
+{
+	$this->renderPartial('_placeholder', array(
+		'placeholder'=>'Välj tävling först',
+	));
+}
 
 ?>
 <div class="form-actions">

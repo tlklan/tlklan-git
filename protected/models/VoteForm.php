@@ -7,6 +7,7 @@
  */
 class VoteForm extends CFormModel
 {
+	const MAX_VOTES = 3;
 
 	public $nick;
 	public $competition;
@@ -16,6 +17,8 @@ class VoteForm extends CFormModel
 	{
 		return array(
 			array('nick, competition', 'required'),
+			array('submissions', 'required', 'message'=>'Du måste rösta på minst en submission'),
+			array('submissions', 'validateSubmissions'),
 		);
 	}
 
@@ -26,6 +29,12 @@ class VoteForm extends CFormModel
 			'competition'=>'Tävling',
 			'submissions'=>'Submissions',
 		);
+	}
+	
+	public function validateSubmissions($attribute, $value)
+	{
+		if (count($this->submissions) > self::MAX_VOTES)
+			$this->addError($attribute, 'Du kan rösta på högst tre inlägg');
 	}
 
 }

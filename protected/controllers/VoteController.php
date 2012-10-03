@@ -25,8 +25,7 @@ class VoteController extends Controller
 			$model->attributes = $_POST['VoteForm'];
 			
 			if($model->validate()) {
-				var_dump($model);
-				exit;
+				
 			}
 		}
 		
@@ -48,28 +47,30 @@ class VoteController extends Controller
 	{
 		if (isset($_POST['VoteForm']))
 		{
-			// Get the submissions
-			$submissions = Submission::model()->findAll('compo_id = :compo_id', array(
-				':compo_id'=>$_POST['VoteForm']['competition'],
-					));
+			// Sanity check
+			$competitionId = $_POST['VoteForm']['competition'];
+			if(empty($competitionId))
+				throw new CHttpException(400, 'Ogiltig tävling');
+			
+			// More sanity checks
+			$competition = Competition::model()->findByPk($competitionId);
+			if($competition === null)
+				throw new CHttpException(400, 'Ogiltig tävling');
+			
+			$submissions = $competition->submissions;
 
-			$data = CHtml::listData($submissions, 'id', 'name');
-
-			// Render some checkboxes if there's anything to select
-			if (count($data) > 0)
+			// Render some checkboxes if there's anything to select, otherwise
+			// render just the place holder
+			if (count($submissions) > 0)
 			{
-				$model = new VoteForm();
-				$form = $this->beginWidget('TbActiveForm', array(
-					'type'=>'horizontal',
+				$this->renderPartial('_submissionList', array(
+					'model'=>new VoteForm(),
+					'data'=>CHtml::listData($submissions, 'id', 'name'),
 				));
-
-				echo $form->checkBoxListRow($model, 'submissions', array_values($data));
-
-				$this->endWidget();
 			}
 			else
 			{
-				$this->renderPartial('_submissionList', array(
+				$this->renderPartial('_placeholder', array(
 					'placeholder'=>'Inga submissions hittades för denna tävling',
 				));
 			}

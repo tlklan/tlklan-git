@@ -1,9 +1,8 @@
-<div id="submission-list">
-	<div class="placeholder">
-		<div id="loading-submissions">
-			<img src="<?php echo Yii::app()->baseUrl; ?>/files/images/icons/loading_icon.gif" />
-		</div>
-	
-		<?php echo $placeholder; ?>
-	</div>
-</div>
+<?php
+
+$form = new TbActiveForm();
+$form->type = 'horizontal';
+$form->inlineErrors = true;
+$form->errorMessageCssClass = 'help-inline error';
+
+echo $form->checkBoxListRow($model, 'submissions', array_values($data));
