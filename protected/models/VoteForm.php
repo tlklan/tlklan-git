@@ -17,7 +17,7 @@ class VoteForm extends CFormModel
 		return array(
 			'nick'=>'Ditt nick',
 			'competition'=>'Tävling',
-			'submission'=>'Submissions',
+			'submissions'=>'Submissions',
 		);
 	}
 
