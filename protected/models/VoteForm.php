@@ -17,6 +17,7 @@ class VoteForm extends CFormModel
 	{
 		return array(
 			array('voter, competition', 'required'),
+			array('voter', 'validateVoter'),
 			array('submissions', 'required', 'message'=>'Du måste rösta på minst en submission'),
 			array('submissions', 'validateSubmissions'),
 		);
@@ -31,7 +32,18 @@ class VoteForm extends CFormModel
 		);
 	}
 	
-	public function validateSubmissions($attribute, $value)
+	public function validateVoter($attribute)
+	{
+		$votes = Vote::model()->findByAttributes(array(
+			'voter_id'=>$this->voter,
+			'compo_id'=>$this->competition,
+		));
+
+		if (count($votes) > 0)
+			$this->addError($attribute, 'Du har redan röstat i den här tävlingen');
+	}
+	
+	public function validateSubmissions($attribute)
 	{
 		if (count($this->submissions) > self::MAX_VOTES)
 			$this->addError($attribute, 'Du kan rösta på högst tre inlägg');
