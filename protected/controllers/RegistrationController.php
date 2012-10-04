@@ -17,7 +17,7 @@ class RegistrationController extends Controller {
 	public function accessRules() {
 		return array(
 			array('allow',
-				'actions'=>array('create', 'update'),
+				'actions'=>array('create', 'update', 'createActual'),
 			),
 			// Only administrators can delete registrations
 			array('allow',
@@ -163,6 +163,12 @@ class RegistrationController extends Controller {
 		Yii::app()->user->setFlash('success', 'Anmälan har tagits bort');
 		
 		$this->redirect($this->createUrl('registration/create'));
+	}
+	
+	public function actionCreateActual()
+	{
+		$this->render('createActual', array(
+		));
 	}
 	
 	/**
