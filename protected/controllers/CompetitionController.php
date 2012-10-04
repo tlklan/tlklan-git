@@ -37,7 +37,10 @@ class CompetitionController extends Controller
 		$criteria->params = array(':lan_id'=>$currentLan->id);
 		$registrations = Registration::model()->findAll($criteria);
 
-		$competitions = $currentLan->competitions;
+		$competitions = Competition::model()->findAllByAttributes(array(
+			'lan_id'=>$currentLan->id,
+			'signupable'=>1,
+		));
 
 		$this->render('create', array(
 			'model'=>$model,

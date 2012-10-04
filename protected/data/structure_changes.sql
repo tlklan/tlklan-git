@@ -42,3 +42,8 @@ CREATE TABLE `tlk_actual_competitors` (
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
+
+# Added "signupable" column which indicates whether it's possible to register
+# for the competition
+ALTER TABLE `tlk_competitions`
+	ADD COLUMN `signupable` TINYINT(1) NOT NULL DEFAULT '0' AFTER `votable`;

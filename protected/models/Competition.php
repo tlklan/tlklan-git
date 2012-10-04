@@ -10,6 +10,7 @@
  * @property string $short_name
  * @property string $full_name
  * @property int $votable
+ * @property int $signupable
  * @property string $deadline
  *
  * The followings are the available model relations:
@@ -61,6 +62,7 @@ class Competition extends CActiveRecord
 			'short_name'=>'Short Name',
 			'full_name'=>'Full Name',
 			'votable'=>'Votable',
+			'signupable'=>'Can be signed up for',
 			'deadline'=>'Voting deadline',
 		);
 	}
