@@ -103,10 +103,18 @@ class SubmissionController extends Controller
 			}
 		}
 		
+		// Get an ordered list of registrations
+		$criteria = new CDbCriteria();
+		$criteria->condition = 'lan_id = :lan_id';
+		$criteria->order = 'nick ASC';
+		$criteria->params = array(':lan_id'=>$currentLan->id);
+		
+		$registrations = Registration::model()->findAll($criteria);
+		
 		$this->render('create', array(
 			'model'=>$model,
 			'competitions'=>$currentLan->competitions,
-			'registrations'=>$currentLan->registrations,
+			'registrations'=>$registrations,
 		));
 	}
 
