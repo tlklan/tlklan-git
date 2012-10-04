@@ -15,7 +15,7 @@ $competitionAttr = 'competition';
 $htmlOptions = array();
 CHtml::resolveNameID($model, $competitionAttr, $htmlOptions);
 
-echo $form->dropDownListRow($model, 'competition', CHtml::listData($competitions, 'id', 'name'), array(
+echo $form->dropDownListRow($model, 'competition', CHtml::listData($competitions, 'id', 'full_name'), array(
 	'empty'=>'',
 	'ajax'=>array(
 		'type'=>'POST',
