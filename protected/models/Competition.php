@@ -85,5 +85,15 @@ class Competition extends CActiveRecord
 
 		return new CArrayDataProvider($rawData);
 	}
+	
+	public function getActualCompetitorDataProvider()
+	{
+		return new CActiveDataProvider('ActualCompetitor', array(
+			'criteria'=>array(
+				'condition'=>'competition_id = :competition_id',
+				'params'=>array('competition_id'=>$this->id),
+			),
+		));
+	}
 
 }

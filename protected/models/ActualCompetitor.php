@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'tlk_actual_competitors':
  * @property integer $id
- * @property integer $compo_id
+ * @property integer $competition_id
  * @property integer $registration_id
  *
  * The followings are the available model relations:
@@ -39,8 +39,8 @@ class ActualCompetitor extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('compo_id, registration_id', 'required'),
-			array('compo_id, registration_id', 'numerical', 'integerOnly'=>true),
+			array('competition_id, registration_id', 'required'),
+			array('competition_id, registration_id', 'numerical', 'integerOnly'=>true),
 			array('id, compo_id, registration_id', 'safe', 'on'=>'search'),
 		);
 	}
@@ -51,7 +51,7 @@ class ActualCompetitor extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'competition'=>array(self::BELONGS_TO, 'Competition', 'compo_id'),
+			'competition'=>array(self::BELONGS_TO, 'Competition', 'competition_id'),
 			'registration'=>array(self::BELONGS_TO, 'Registration', 'registration_id'),
 		);
 	}
@@ -63,7 +63,7 @@ class ActualCompetitor extends CActiveRecord
 	{
 		return array(
 			'id'=>'ID',
-			'compo_id'=>'Tävling',
+			'competition_id'=>'Tävling',
 			'registration_id'=>'Anmälan',
 		);
 	}
@@ -78,7 +78,7 @@ class ActualCompetitor extends CActiveRecord
 		$criteria = new CDbCriteria;
 
 		$criteria->compare('id', $this->id);
-		$criteria->compare('compo_id', $this->compo_id);
+		$criteria->compare('competition_id', $this->competition_id);
 		$criteria->compare('registration_id', $this->registration_id);
 
 		return new CActiveDataProvider($this, array(

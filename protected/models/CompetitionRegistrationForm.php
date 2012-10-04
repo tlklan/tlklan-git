@@ -24,7 +24,19 @@ class CompetitionRegistrationForm extends CFormModel
 		return array(
 			array('registration, competition', 'required'),
 			array('registration, competition', 'numerical', 'integerOnly'=>true),
+			array('registration', 'validateRegistration'),
 		);
+	}
+	
+	public function validateRegistration($attribute)
+	{
+		$competitor = ActualCompetitor::model()->findByAttributes(array(
+			'registration_id'=>$this->registration,
+			'competition_id'=>$this->competition,
+		));
+
+		if ($competitor !== null)
+			$this->addError($attribute, 'Du har redan anmält dig till denna tävling');
 	}
 
 }

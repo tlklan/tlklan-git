@@ -34,12 +34,11 @@ ALTER TABLE `tlk_competitions`
 # Added a new table for registering to competitions while on the LAN
 CREATE TABLE `tlk_actual_competitors` (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
-	`compo_id` INT(10) NOT NULL,
+	`competition_id` INT(10) NOT NULL,
 	`registration_id` INT(10) NOT NULL,
 	PRIMARY KEY (`id`),
-	INDEX `compo_id` (`compo_id`),
-	CONSTRAINT `fk_compo_id` FOREIGN KEY (`compo_id`) REFERENCES `tlk_competitions` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
-	CONSTRAINT `fk_registration_id` FOREIGN KEY (`registration_id`) REFERENCES `tlk_registrations` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+	INDEX `compo_id` (`competition_id`),
+	INDEX `fk_registration_id` (`registration_id`)
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
