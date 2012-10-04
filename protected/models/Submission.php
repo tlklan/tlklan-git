@@ -21,12 +21,6 @@
  */
 class Submission extends CActiveRecord
 {
-	// Values for the formatSize() method
-
-	const GIGA = 1073741824;
-	const MEGA = 1048576;
-	const KILO = 1024;
-
 	public $file;
 
 	/**
@@ -116,45 +110,14 @@ class Submission extends CActiveRecord
 		if (!is_readable($this->physical_path))
 			return 0;
 
+		// Get the size in bytes
 		$stat = stat($this->physical_path);
 		$sizeBytes = $stat[7];
 
-		return ($formatted === false) ? $sizeBytes : $this->formatSize($sizeBytes);
-	}
-
-	/**
-	 * Returns a string representation of the given size
-	 * 
-	 * @param integer $sizeBytes size in bytes
-	 * @return string the formatted size 
-	 */
-	private function formatSize($sizeBytes)
-	{
-		$size = 0;
-		$unit = "";
-
-		if ($sizeBytes > self::GIGA)
-		{
-			$size = $sizeBytes / self::GIGA;
-			$unit = "GiB";
-		}
-		elseif ($sizeBytes > self::MEGA)
-		{
-			$size = $sizeBytes / self::MEGA;
-			$unit = "MiB";
-		}
-		elseif ($sizeBytes > self::KILO)
-		{
-			$size = $sizeBytes / self::KILO;
-			$unit = "kiB";
-		}
-		else
-		{
-			$size = $sizeBytes." B";
-			$unit = "B";
-		}
-
-		return number_format($size, 1, ".", " ")." $unit";
+		// Format it
+		$formatter = new CFormatter();
+		$formatter->sizeFormat = array('base'=>1024, 'decimals'=>1);
+		return ($formatted === false) ? $sizeBytes : $formatter->formatSize($sizeBytes);
 	}
 
 }
