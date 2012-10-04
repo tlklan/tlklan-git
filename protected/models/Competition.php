@@ -10,6 +10,7 @@
  * @property string $short_name
  * @property string $full_name
  * @property int $votable
+ * @property int $signupable
  * @property string $deadline
  *
  * The followings are the available model relations:
@@ -61,10 +62,27 @@ class Competition extends CActiveRecord
 			'short_name'=>'Short Name',
 			'full_name'=>'Full Name',
 			'votable'=>'Votable',
+			'signupable'=>'Can be signed up for',
 			'deadline'=>'Voting deadline',
 		);
 	}
 
+	/**
+	 * Returns a string containing the full name of the competition and it's 
+	 * deadline (if available)
+	 * @return string
+	 */
+	public function getNameAndDeadline()
+	{
+		if ($this->deadline !== null)
+		{
+			$deadline = date("Y-m-d H:i:s", strtotime($this->deadline));
+			return $this->full_name.' ('.$deadline.')';
+		}
+		else
+			return $this->full_name;
+	}
+	
 	/**
 	 * Returns a data provider for the submissions in this competition. It is 
 	 * used on the voting results page and is order by amount of votes.
@@ -84,6 +102,20 @@ class Competition extends CActiveRecord
 				->queryAll();
 
 		return new CArrayDataProvider($rawData);
+	}
+	
+	/**
+	 * Returns a dataprovider for listing competitors for each competition
+	 * @return \CActiveDataProvider
+	 */
+	public function getActualCompetitorDataProvider()
+	{
+		return new CActiveDataProvider('ActualCompetitor', array(
+			'criteria'=>array(
+				'condition'=>'competition_id = :competition_id',
+				'params'=>array('competition_id'=>$this->id),
+			),
+		));
 	}
 
 }

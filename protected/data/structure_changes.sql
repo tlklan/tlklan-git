@@ -27,3 +27,23 @@ ALTER TABLE `tlk_competitions`
 # it's possible to display results)
 ALTER TABLE `tlk_competitions`
 	ADD COLUMN `deadline` TIMESTAMP NULL DEFAULT NULL AFTER `votable`;
+
+#
+# 2012-10-04
+#
+# Added a new table for registering to competitions while on the LAN
+CREATE TABLE `tlk_actual_competitors` (
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`competition_id` INT(10) NOT NULL,
+	`registration_id` INT(10) NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `compo_id` (`competition_id`),
+	INDEX `fk_registration_id` (`registration_id`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB;
+
+# Added "signupable" column which indicates whether it's possible to register
+# for the competition
+ALTER TABLE `tlk_competitions`
+	ADD COLUMN `signupable` TINYINT(1) NOT NULL DEFAULT '0' AFTER `votable`;
