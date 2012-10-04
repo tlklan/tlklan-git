@@ -20,6 +20,26 @@ class CompetitionController extends Controller
 	}
 	
 	/**
+	 * Returns the access rules for this model
+	 * @return array
+	 */
+	public function accessRules()
+	{
+		return array(
+			array('allow',
+				'actions'=>array('register'),
+			),
+			// Only administrators can delete competitors
+			array('allow',
+				'actions'=>array('delete'),
+				'expression'=>'$user->isAdmin()',
+			),
+			// Default rule
+			array('deny')
+		);
+	}
+	
+	/**
 	 * Registers a new competitor
 	 */
 	public function actionRegister()

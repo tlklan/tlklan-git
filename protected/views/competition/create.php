@@ -46,17 +46,21 @@ foreach($competitions as $competition)
 	echo 'Antal anmälda: <b>'.$dataProvider->totalItemCount.'</b>';
 	echo CHtml::closeTag('p');
 	
+	// Only show the button column for logged in users
+	$columns = array('registration.nick');
+	if(!Yii::app()->user->isAdmin())
+	{
+		$columns[] = array(
+			'class'=>'bootstrap.widgets.TbButtonColumn',
+			'template'=>'{delete}',
+		);
+	}
+
 	$this->widget('bootstrap.widgets.TbGridView', array(
 		'type'=>'striped bordered condensed',
 		'dataProvider'=>$dataProvider,
 		'template'=>"{items}",
 		'emptyText'=>'Ingen har ännu anmält sig till den här tävlingen',
-		'columns'=>array(
-			'registration.nick',
-			array(
-				'class'=>'bootstrap.widgets.TbButtonColumn',
-				'template'=>'{delete}',
-			),
-		),
+		'columns'=>$columns
 	));
 }
