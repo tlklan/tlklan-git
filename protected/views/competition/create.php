@@ -39,11 +39,16 @@ echo $form->dropDownListRow($model, 'competition', CHtml::listData($competitions
 
 foreach($competitions as $competition) 
 {
+	$dataProvider = $competition->getActualCompetitorDataProvider();
+	
 	echo '<h2>'.$competition->full_name.'</h2>';
+	echo CHtml::openTag('p', array('class'=>'competitor-count'));
+	echo 'Antal anmälda: <b>'.$dataProvider->totalItemCount.'</b>';
+	echo CHtml::closeTag('p');
 	
 	$this->widget('bootstrap.widgets.TbGridView', array(
 		'type'=>'striped bordered condensed',
-		'dataProvider'=>$competition->getActualCompetitorDataProvider(),
+		'dataProvider'=>$dataProvider,
 		'template'=>"{items}",
 		'emptyText'=>'Ingen har ännu anmält sig till den här tävlingen',
 		'columns'=>array(
