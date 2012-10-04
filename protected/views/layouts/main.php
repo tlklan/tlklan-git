@@ -49,7 +49,7 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 					)),
 					array('label'=>'Tidtabell', 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable')),
 					array('label'=>'Tävlingar', 'url'=>'#', 'items'=>array(
-						array('label'=>'Anmäl (under LAN)', 'url'=>array('/competition/createActual')),
+						array('label'=>'Anmäl (under LAN)', 'url'=>array('/competition/register')),
 						array('label'=>'Regler', 'url'=>Yii::app()->cms->createUrl('rules')),
 						array('label'=>'Serverinformation', 'url'=>Yii::app()->cms->createUrl('serverinfo')),
 					), 'active'=>(Yii::app()->cms->isActive('rules') || Yii::app()->cms->isActive('serverinfo'))),

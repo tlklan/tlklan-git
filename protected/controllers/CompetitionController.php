@@ -8,7 +8,7 @@
 class CompetitionController extends Controller
 {
 
-	public function actionCreateActual()
+	public function actionRegister()
 	{
 		$model = new CompetitionRegistrationForm();
 
@@ -24,7 +24,7 @@ class CompetitionController extends Controller
 				$competitor->save(false);
 
 				Yii::app()->user->setFlash('success', 'Din anmälan har registrerats');
-				$this->redirect('createActual');
+				$this->redirect('register');
 			}
 		}
 
@@ -44,6 +44,13 @@ class CompetitionController extends Controller
 			'registrations'=>$registrations,
 			'competitions'=>$competitions,
 		));
+	}
+	
+	public function actionDelete($id)
+	{
+		$competitor = ActualCompetitor::model()->findByPk($id);
+		if ($competitor !== null)
+			$competitor->delete();
 	}
 
 }

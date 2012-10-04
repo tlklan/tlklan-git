@@ -48,6 +48,10 @@ foreach($competitions as $competition)
 		'emptyText'=>'Ingen har ännu anmält sig till den här tävlingen',
 		'columns'=>array(
 			'registration.nick',
+			array(
+				'class'=>'bootstrap.widgets.TbButtonColumn',
+				'template'=>'{delete}',
+			),
 		),
 	));
 }

@@ -17,7 +17,7 @@ class RegistrationController extends Controller {
 	public function accessRules() {
 		return array(
 			array('allow',
-				'actions'=>array('create', 'update', 'createActual'),
+				'actions'=>array('create', 'update'),
 			),
 			// Only administrators can delete registrations
 			array('allow',
