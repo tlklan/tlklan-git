@@ -8,11 +8,6 @@
 class VoteForm extends CFormModel
 {
 	/**
-	 * Maximum amount of votes a person can cast
-	 */
-	const MAX_VOTES = 3;
-
-	/**
 	 * @var int the voters ID
 	 */
 	public $voter;
@@ -38,7 +33,7 @@ class VoteForm extends CFormModel
 			array('competition', 'validateCompetition'),
 			array('voter', 'validateVoter'),
 			array('submission', 'required'),
-			array('submission', 'validateSubmission'),
+			array('submission', 'numerical', 'integerOnly'=>true),
 		);
 	}
 
@@ -82,17 +77,6 @@ class VoteForm extends CFormModel
 
 		if (count($votes) > 0)
 			$this->addError($attribute, 'Du har redan röstat i den här tävlingen');
-	}
-	
-	/**
-	 * Validates the choice of submissions. It checks that the voter isn't 
-	 * trying to cast more than @see VoteForm::MAX_VOTES votes.
-	 * @param string $attribute the attribute being validated
-	 */
-	public function validateSubmission($attribute)
-	{
-		if (count($this->submission) > self::MAX_VOTES)
-			$this->addError($attribute, 'Du kan rösta på högst tre inlägg');
 	}
 
 }
