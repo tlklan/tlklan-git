@@ -23,9 +23,9 @@ class VoteForm extends CFormModel
 	public $competition;
 	
 	/**
-	 * @var array the submission IDs
+	 * @var int the submission IDs
 	 */
-	public $submissions;
+	public $submission;
 
 	/**
 	 * Returns a list of rules for this model
@@ -37,8 +37,8 @@ class VoteForm extends CFormModel
 			array('voter, competition', 'required'),
 			array('competition', 'validateCompetition'),
 			array('voter', 'validateVoter'),
-			array('submissions', 'required', 'message'=>'Du måste rösta på minst en submission'),
-			array('submissions', 'validateSubmissions'),
+			array('submission', 'required'),
+			array('submission', 'validateSubmission'),
 		);
 	}
 
@@ -51,7 +51,7 @@ class VoteForm extends CFormModel
 		return array(
 			'voter'=>'Ditt nick',
 			'competition'=>'Tävling',
-			'submissions'=>'Submissions',
+			'submissions'=>'Submission',
 		);
 	}
 	
@@ -89,9 +89,9 @@ class VoteForm extends CFormModel
 	 * trying to cast more than @see VoteForm::MAX_VOTES votes.
 	 * @param string $attribute the attribute being validated
 	 */
-	public function validateSubmissions($attribute)
+	public function validateSubmission($attribute)
 	{
-		if (count($this->submissions) > self::MAX_VOTES)
+		if (count($this->submission) > self::MAX_VOTES)
 			$this->addError($attribute, 'Du kan rösta på högst tre inlägg');
 	}
 

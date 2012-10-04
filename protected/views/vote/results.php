@@ -21,7 +21,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 	'action'=>$this->createUrl('/vote/ajaxResults'),
 ));
 
-echo $form->dropDownListRow($model, 'competition', CHtml::listData($competitions, 'id', 'name'));
+echo $form->dropDownListRow($model, 'competition', CHtml::listData($competitions, 'id', 'full_name'));
 
 ?>
 <div class="form-actions">
