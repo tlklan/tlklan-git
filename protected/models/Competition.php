@@ -67,6 +67,11 @@ class Competition extends CActiveRecord
 		);
 	}
 
+	/**
+	 * Returns a string containing the full name of the competition and it's 
+	 * deadline (if available)
+	 * @return string
+	 */
 	public function getNameAndDeadline()
 	{
 		if ($this->deadline !== null)
@@ -99,6 +104,10 @@ class Competition extends CActiveRecord
 		return new CArrayDataProvider($rawData);
 	}
 	
+	/**
+	 * Returns a dataprovider for listing competitors for each competition
+	 * @return \CActiveDataProvider
+	 */
 	public function getActualCompetitorDataProvider()
 	{
 		return new CActiveDataProvider('ActualCompetitor', array(

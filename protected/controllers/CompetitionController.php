@@ -1,17 +1,32 @@
 <?php
 
 /**
- * Description of CompetitionController
+ * Handles registering to and deleting competitions
  *
  * @author Sam Stenvall <sam@supportersplace.com>
  */
 class CompetitionController extends Controller
 {
 
+	/**
+	 * Returns the filters defined for this controller
+	 * @return type
+	 */
+	public function filters()
+	{
+		return array(
+			'ajaxOnly + delete',
+		);
+	}
+	
+	/**
+	 * Registers a new competitor
+	 */
 	public function actionRegister()
 	{
 		$model = new CompetitionRegistrationForm();
 
+		// Handle form input
 		if (isset($_POST['CompetitionRegistrationForm']))
 		{
 			$model->attributes = $_POST['CompetitionRegistrationForm'];
@@ -28,7 +43,7 @@ class CompetitionController extends Controller
 			}
 		}
 
-		// Get list of registrations and votable competitions
+		// Get list of registrations and "signupable" competitions
 		$currentLan = Lan::model()->getCurrent();
 
 		$criteria = new CDbCriteria();
@@ -49,6 +64,10 @@ class CompetitionController extends Controller
 		));
 	}
 	
+	/**
+	 * Deletes the specified model
+	 * @param int $id the competitior ID
+	 */
 	public function actionDelete($id)
 	{
 		$competitor = ActualCompetitor::model()->findByPk($id);
