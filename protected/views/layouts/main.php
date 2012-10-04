@@ -89,8 +89,18 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 		</div>
 		
 		<div class="footer">
-			Copyright 2010-<?php echo date("Y"); ?> &copy; <b>TLK LAN-klubben</b><br />
-			Design och kod: <b>negge</b><br />
+			<p>
+				Copyright 2010-<?php echo date("Y"); ?> &copy; <b>TLK LAN-klubben</b><br />
+				Design och kod: <b>negge</b>
+			</p>
+			<p>
+				Teknologi: 
+				<a href="http://www.yiiframework.com">Yii framework</a> / 
+				<a href="http://www.cniska.net/yii-bootstrap/">Yii-Bootstrap</a> / 
+				<a href="http://www.yiiframework.com/extension/less">Yii-LESS</a> / 
+				<a href="https://bitbucket.org/NordLabs/nordcms">NordCms</a> / 
+				<a href="http://jquery.com/">jQuery</a>
+			</p>
 		</div>
 		
 	</div>
