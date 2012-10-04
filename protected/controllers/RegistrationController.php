@@ -165,12 +165,6 @@ class RegistrationController extends Controller {
 		$this->redirect($this->createUrl('registration/create'));
 	}
 	
-	public function actionCreateActual()
-	{
-		$this->render('createActual', array(
-		));
-	}
-	
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
