@@ -20,7 +20,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 ));
 
 echo $form->dropDownListRow($model, 'registration', CHtml::listData($registrations, 'id', 'nick'));
-echo $form->dropDownListRow($model, 'competition', CHtml::listData($competitions, 'id', 'full_name'));
+echo $form->dropDownListRow($model, 'competition', CHtml::listData($competitions, 'id', 'nameAndDeadline'));
 
 ?>
 <div class="form-actions">

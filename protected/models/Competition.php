@@ -65,6 +65,17 @@ class Competition extends CActiveRecord
 		);
 	}
 
+	public function getNameAndDeadline()
+	{
+		if ($this->deadline !== null)
+		{
+			$deadline = date("Y-m-d H:i:s", strtotime($this->deadline));
+			return $this->full_name.' ('.$deadline.')';
+		}
+		else
+			return $this->full_name;
+	}
+	
 	/**
 	 * Returns a data provider for the submissions in this competition. It is 
 	 * used on the voting results page and is order by amount of votes.
