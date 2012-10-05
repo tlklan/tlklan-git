@@ -74,7 +74,7 @@ class RegistrationForm extends CFormModel implements ArrayAccess
 			'email'=>'E-post',
 			'nick'=>'Nick',
 			'device'=>'Jag använder en',
-			'competitions'=>'Jag tänker delta<br />i dessa tävlingar',
+			'competitions'=>'Jag tänker delta<br />i dessa tävlingar (slutlig allmän görs under LAN <a href="'.Yii::app()->controller->createUrl('/competition/register').'">härifrån</a>)',
 			'penis_long_enough'=>'Penis längre än '.Yii::app()->params['minimumPenisLength'].'"?',
 		);
 	}
