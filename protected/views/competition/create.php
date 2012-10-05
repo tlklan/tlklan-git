@@ -48,7 +48,7 @@ foreach($competitions as $competition)
 	
 	// Only show the button column for logged in users
 	$columns = array('registration.nick');
-	if(!Yii::app()->user->isAdmin())
+	if(Yii::app()->user->isAdmin())
 	{
 		$columns[] = array(
 			'class'=>'bootstrap.widgets.TbButtonColumn',
