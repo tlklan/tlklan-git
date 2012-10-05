@@ -22,6 +22,20 @@ class VoteForm extends CFormModel
 	 */
 	public $submission;
 
+	public function init()
+	{
+		// Auto-select the correct nick for logged in users
+		if (!Yii::app()->user->isGuest)
+		{
+			$registration = Registration::model()->findByNick(Yii::app()->user->name);
+
+			if ($registration !== null)
+				$this->voter = $registration->id;
+		}
+		
+		parent::init();
+	}
+
 	/**
 	 * Returns a list of rules for this model
 	 * @return array
