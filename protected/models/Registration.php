@@ -138,6 +138,22 @@ class Registration extends CActiveRecord
 	}
 	
 	/**
+	 * Finds the registration model for the specified nick (only for the current 
+	 * LAN)
+	 * @param string $nick the nick
+	 * @return Registration the model, or null if not found
+	 */
+	public function findByNick($nick)
+	{
+		$currentLan = Lan::model()->getCurrent();
+
+		return Registration::model()->findByAttributes(array(
+			'lan_id'=>$currentLan->id,
+			'nick'=>$nick,
+		));
+	}
+	
+	/**
 	 * Checks whether this is the first time this nick has been registered
 	 * @return boolean
 	 */
