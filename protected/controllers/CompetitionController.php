@@ -63,7 +63,7 @@ class CompetitionController extends Controller
 			}
 		}
 
-		// Get list of registrations and "signupable" competitions
+		// Get list of registrations
 		$currentLan = Lan::model()->getCurrent();
 
 		$criteria = new CDbCriteria();
@@ -72,9 +72,10 @@ class CompetitionController extends Controller
 		$criteria->params = array(':lan_id'=>$currentLan->id);
 		$registrations = Registration::model()->findAll($criteria);
 
-		$competitions = Competition::model()->findAllByAttributes(array(
-			'lan_id'=>$currentLan->id,
-			'signupable'=>1,
+		// Get a list of competitions that are "signupable" and whose dead-line
+		// hasn't passed
+		$competitions = Competition::model()->findAll('lan_id = :lan_id AND signupable = 1 AND deadline >= NOW()', array(
+			':lan_id'=>$currentLan->id,
 		));
 
 		$this->render('create', array(
