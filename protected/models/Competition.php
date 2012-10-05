@@ -115,6 +115,7 @@ class Competition extends CActiveRecord
 				'condition'=>'competition_id = :competition_id',
 				'params'=>array('competition_id'=>$this->id),
 			),
+			'pagination'=>false,
 		));
 	}
 
