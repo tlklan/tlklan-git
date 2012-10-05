@@ -73,8 +73,13 @@ class CompetitionController extends Controller
 		$registrations = Registration::model()->findAll($criteria);
 
 		// Get a list of competitions that are "signupable" and whose dead-line
-		// hasn't passed
+		// hasn't passed. Also get a list all competitions regardless of 
+		// deadline (for the results)
 		$competitions = Competition::model()->findAll('lan_id = :lan_id AND signupable = 1 AND deadline >= NOW()', array(
+			':lan_id'=>$currentLan->id,
+		));
+		
+		$allCompetitions = Competition::model()->findAll('lan_id = :lan_id AND signupable = 1', array(
 			':lan_id'=>$currentLan->id,
 		));
 
@@ -82,6 +87,7 @@ class CompetitionController extends Controller
 			'model'=>$model,
 			'registrations'=>$registrations,
 			'competitions'=>$competitions,
+			'allCompetitions'=>$allCompetitions,
 		));
 	}
 	

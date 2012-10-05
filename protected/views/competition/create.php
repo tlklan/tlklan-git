@@ -37,7 +37,8 @@ echo $form->dropDownListRow($model, 'competition', CHtml::listData($competitions
 <h1>Anmälningar</h1>
 <?php
 
-foreach($competitions as $competition) 
+// Show all competitions, not just those whose deadline haven't passed
+foreach($allCompetitions as $competition) 
 {
 	$dataProvider = $competition->getActualCompetitorDataProvider();
 	
