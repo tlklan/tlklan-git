@@ -102,6 +102,16 @@ class SubmissionController extends Controller
 				$this->redirect($this->createUrl('/submission/archive'));
 			}
 		}
+		else {
+			// Auto-select the correct nick for logged in users
+			if (!Yii::app()->user->isGuest)
+			{
+				$registration = Registration::model()->findByNick(Yii::app()->user->name);
+
+				if ($registration !== null)
+					$model->submitter_id = $registration->id;
+			}
+		}
 		
 		// Get an ordered list of registrations
 		$criteria = new CDbCriteria();
