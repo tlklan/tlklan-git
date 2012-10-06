@@ -112,20 +112,23 @@ class VoteController extends Controller
 		$model = new VoteResultForm();
 		$currentLan = Lan::model()->getCurrent();
 		
-		// Only list competitions whose deadline's haven't yet passed to 
-		// administrators
+		// Get a list of votable competitions
 		$competitions = Competition::model()->findAll('lan_id = :lan_id AND votable = 1 AND deadline <= NOW()', array(
 			':lan_id'=>$currentLan->id,
 		));
 		
-		$allCompetitions = Competition::model()->findAll('lan_id = :lan_id AND votable = 1', array(
-			':lan_id'=>$currentLan->id,
-		));
+		// For administrators we replace $allCompetitions with all regardless 
+		// of deadline
+		if(Yii::app()->user->isAdmin())
+		{
+			$competitions = Competition::model()->findAll('lan_id = :lan_id AND votable = 1', array(
+				':lan_id'=>$currentLan->id,
+			));
+		}
 		
 		$this->render('results', array(
 			'model'=>$model,
 			'competitions'=>$competitions,
-			'allCompetitions'=>$allCompetitions,
 		));
 	}
 	
