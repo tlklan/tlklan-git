@@ -21,6 +21,10 @@ $form = $this->beginWidget('TbActiveForm', array(
 	'action'=>$this->createUrl('/vote/ajaxResults'),
 ));
 
+// Show all competitions to administrators (regardless of deadline)
+if(Yii::app()->user->isAdmin())
+	$competitions = $allCompetitions;
+
 echo $form->dropDownListRow($model, 'competition', CHtml::listData($competitions, 'id', 'full_name'));
 
 ?>
