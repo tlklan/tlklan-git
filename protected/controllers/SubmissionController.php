@@ -103,8 +103,9 @@ class SubmissionController extends Controller
 			}
 		}
 		else {
-			// Auto-select the correct nick for logged in users
-			if (!Yii::app()->user->isGuest)
+			// Auto-select the correct nick for logged in users when adding
+			// new submissions
+			if ($isNewRecord && !Yii::app()->user->isGuest)
 			{
 				$registration = Registration::model()->findByNick(Yii::app()->user->name);
 
