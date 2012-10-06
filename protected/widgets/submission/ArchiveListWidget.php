@@ -137,7 +137,7 @@ class ArchiveListWidget extends CWidget {
 				// Display a message if no submissions were found at all for the LAN
 				if($totalSubmissionCount == 0) {
 					?>
-					<tr>
+					<tr class="no-submissions">
 						<td colspan="5">Finns inga submissions för detta LAN</td>
 					</tr>
 					<?php
