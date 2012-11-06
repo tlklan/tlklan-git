@@ -54,8 +54,7 @@ class Lan extends CActiveRecord
 	public function defaultScope()
 	{
 		return array(
-			// Order newest first
-			'order'=>'id DESC',
+			'order'=>$this->getTableAlias(false, false).'.id DESC',
 		);
 	}
 

@@ -28,7 +28,7 @@ $this->widget('bootstrap.widgets.TbNavbar', array(
 			'class'=>'bootstrap.widgets.TbMenu',
 			'encodeLabel'=>false,
 			'items'=>array(
-				array('label'=>'Anmälningar', 'url'=>array('registration/manage')),
+				array('label'=>'Anmälningar', 'url'=>array('registration/admin')),
 //				array('label'=>'Styrelsen', 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee')),
 //				array('label'=>'<b>Anmälning</b>', 'url'=>array('/registration/create')),
 //				array('label'=>'Röstning', 'url'=>'#', 'items'=>array(
