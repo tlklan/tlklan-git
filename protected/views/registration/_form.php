@@ -52,12 +52,10 @@
 			echo ' ';
 
 			$this->widget('bootstrap.widgets.TbButton', array(
-				'buttonType'=>'submit',
+				'buttonType'=>'link',
 				'icon'=>'remove',
 				'label'=>'Avbryt',
-				'htmlOptions'=>array(
-					'name'=>'cancel',
-				)
+				'url'=>$this->createUrl('registration/create'),
 			));
 		}
 

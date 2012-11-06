@@ -57,10 +57,6 @@ class RegistrationController extends Controller {
 			$model->scenario = 'update';
 		}
 		
-		// Redirect to registration/create if the Avbryt button was pressed
-		if(isset($_POST['cancel']))
-			$this->redirect($this->createAbsoluteUrl('registration/create'));
-		
 		if(isset($_POST['RegistrationForm'])) {
 			$model->attributes = $_POST['RegistrationForm'];
 
