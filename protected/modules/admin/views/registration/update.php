@@ -20,4 +20,4 @@ $this->breadcrumbs=array(
 	'model'=>$model,
 	'registration'=>$registration,
 	'competitions'=>$competitions,
-)); ?>
+));
