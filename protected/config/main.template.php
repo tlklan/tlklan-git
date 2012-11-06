@@ -31,6 +31,7 @@ return array(
 	'modules'=>array(
 		'cms',
 		'admin'=>array(
+			'defaultController'=>'admin',
 			'layout'=>'main',
 		)
 	),
