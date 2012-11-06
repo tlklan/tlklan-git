@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Handles registrations
+ */
 class RegistrationController extends AdminController
 {
 
@@ -48,26 +51,68 @@ class RegistrationController extends AdminController
 	}
 
 	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
+	 * Updates a registration.
+	 * @param int $id the ID of the registration to be updated
 	 */
 	public function actionUpdate($id)
 	{
-		$model = $this->loadModel($id);
+		// Load the model and populate the form model with its values
+		$registration = $this->loadModel($id);	
+		$model = new AdminRegistrationForm();
+		$model->populate($registration);
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		// Get the current LAN
+		$currentLan = Lan::model()->getCurrent();
+		if ($currentLan === null)
+			throw new CHttpException(400, "Inget LAN är aktivt för tillfället");
 
-		if (isset($_POST['Registration']))
+		// Handle input
+		if (isset($_POST['AdminRegistrationForm']))
 		{
-			$model->attributes = $_POST['Registration'];
-			if ($model->save())
-				$this->redirect(array('view', 'id'=>$model->id));
+			$model->attributes = $_POST['AdminRegistrationForm'];
+			
+			if ($model->validate())
+			{
+				$registration->name = $model->name;
+				$registration->email = $model->email;
+				$registration->nick = $model->nick;
+				$registration->device = $model->device;
+
+				// Save and store the primary key for the next query
+				$registration->save();
+				$registrationId = $registration->primaryKey;
+
+				// If this is an update, remove all previous competitions so we 
+				// don't get any duplicates
+				// TODO: Remove this duplicate code (move to separate method)
+				if (!$registration->isNewRecord)
+					foreach ($registration->competitions as $competition)
+						$competition->delete();
+
+				// Register the user to the specifeid competitions if he signed 
+				// up for any
+				if (!empty($model->competitions))
+				{
+					foreach ($model->competitions as $competition)
+					{
+						$competitor = new Competitor;
+						$competitor->competition_id = $competition;
+						$competitor->registration_id = $registrationId;
+
+						$competitor->save();
+					}
+				}
+
+				Yii::app()->user->setFlash('success', 'Anmälan ifråga har uppdaterats');
+
+				$this->redirect($this->createUrl('registration/admin'));
+			}
 		}
 
 		$this->render('update', array(
 			'model'=>$model,
+			'registration'=>$registration,
+			'competitions'=>$currentLan->competitions,
 		));
 	}
 

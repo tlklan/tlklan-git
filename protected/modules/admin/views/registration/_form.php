@@ -1,72 +1,45 @@
-<?php
-/* @var $this RegistrationController */
-/* @var $model Registration */
-/* @var $form CActiveForm */
-?>
+<?php 
 
-<div class="form">
-
-<?php $form=$this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('TbActiveForm', array(
 	'id'=>'registration-form',
-	'enableAjaxValidation'=>false,
-)); ?>
+	'type'=>'horizontal',
+	'enableClientValidation'=>false,
+));
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+echo $form->errorSummary($model, '');
 
-	<?php echo $form->errorSummary($model); ?>
+echo $form->textFieldRow($model, 'name');
+echo $form->textFieldRow($model, 'email');
+echo $form->textFieldRow($model, 'nick');
+echo $form->radioButtonListRow($model, 'device', array(
+	'desktop'=>'Desktop', 
+	'laptop'=>'Laptop',
+	'ipad'=>'iPad',
+));
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'lan_id'); ?>
-		<?php echo $form->textField($model,'lan_id'); ?>
-		<?php echo $form->error($model,'lan_id'); ?>
-	</div>
+echo $form->checkBoxListRow($model, 'competitions', CHtml::listData($competitions, 'id', 'full_name'));
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'name'); ?>
-		<?php echo $form->textField($model,'name',array('size'=>50,'maxlength'=>50)); ?>
-		<?php echo $form->error($model,'name'); ?>
-	</div>
+?>
+<div class="form-actions">
+	<?php
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'email'); ?>
-		<?php echo $form->textField($model,'email',array('size'=>50,'maxlength'=>50)); ?>
-		<?php echo $form->error($model,'email'); ?>
-	</div>
+	$this->widget('bootstrap.widgets.TbButton', array(
+		'buttonType'=>'submit',
+		'type'=>'primary',
+		'icon'=>'edit white',
+		'label'=>'Uppdatera'
+	));
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'nick'); ?>
-		<?php echo $form->textField($model,'nick',array('size'=>30,'maxlength'=>30)); ?>
-		<?php echo $form->error($model,'nick'); ?>
-	</div>
+	echo ' ';
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'device'); ?>
-		<?php echo $form->textField($model,'device',array('size'=>7,'maxlength'=>7)); ?>
-		<?php echo $form->error($model,'device'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'date'); ?>
-		<?php echo $form->textField($model,'date'); ?>
-		<?php echo $form->error($model,'date'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'confirmed'); ?>
-		<?php echo $form->textField($model,'confirmed'); ?>
-		<?php echo $form->error($model,'confirmed'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'deleted'); ?>
-		<?php echo $form->textField($model,'deleted'); ?>
-		<?php echo $form->error($model,'deleted'); ?>
-	</div>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
-	</div>
+	$this->widget('bootstrap.widgets.TbButton', array(
+		'buttonType'=>'link',
+		'icon'=>'remove',
+		'label'=>'Avbryt',
+		'url'=>$this->createUrl('registration/admin'),
+	));
+	
+	?>
+</div>
 
 <?php $this->endWidget(); ?>
-
-</div><!-- form -->
