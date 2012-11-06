@@ -114,7 +114,7 @@ body {
 }
 .competitor-count { margin-bottom:0; }
 .navbar-inverse .navbar-inner {
-  background-image:linear-gradient(to bottom,#003beb,#0034d1);
-  border-color:#0034d1;
+  background-image:-moz-linear-gradient(center top,#0088cc,#0044cc);
+  border-color:#004de6;
 }
 .navbar-inverse .brand, .navbar-inverse .nav > li > a { color:#fafafa; }
