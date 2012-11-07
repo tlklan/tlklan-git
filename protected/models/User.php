@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'tlk_users':
  * @property integer $id
  * @property string $name
+ * @property string $email
  * @property string $username
  * @property string $password
  * @property integer $has_werket_login
@@ -38,11 +39,12 @@ class User extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('name, username, password, date_added', 'required'),
+			array('name, email, username, password, date_added', 'required'),
 			array('has_werket_login', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>75),
 			array('username', 'length', 'max'=>25),
-			array('id, name, username, password, has_werket_login, date_added', 'safe', 'on'=>'search'),
+			array('email', 'email'),
+			array('id, name, email, username, password, has_werket_login, date_added', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,6 +66,7 @@ class User extends CActiveRecord
 		return array(
 			'id'=>'ID',
 			'name'=>'Namn',
+			'email'=>'E-post',
 			'username'=>'Användarnamn',
 			'has_werket_login'=>'Har Werket-konto',
 			'date_added'=>'Datum skapad',
@@ -79,6 +82,7 @@ class User extends CActiveRecord
 	{
 		$criteria = new CDbCriteria;
 		$criteria->compare('id', $this->id);
+		$criteria->compare('email', $this->email, true);
 		$criteria->compare('name', $this->name, true);
 		$criteria->compare('username', $this->username, true);
 		$criteria->compare('password', $this->password, true);
