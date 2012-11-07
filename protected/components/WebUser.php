@@ -133,5 +133,16 @@ class WebUser extends CWebUser {
 		
 		return $this->_user->username;
 	}
+	
+	/**
+	 * Returns the user's ID
+	 * @return string 
+	 */
+	public function getUserId()
+	{
+		$this->loadUser();
+
+		return $this->_user->id;
+	}
 
 }
