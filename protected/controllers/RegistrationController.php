@@ -1,20 +1,35 @@
 <?php
 
-class RegistrationController extends Controller {
+class RegistrationController extends Controller 
+{
 
 	/**
-	 * @property string the default action. Overriden from CController
+	 * Initializes the controller
 	 */
-	public $defaultAction = 'create';
-	
-	public function filters() {
-		// return the filter configuration for this controller, e.g.:
+	public function init()
+	{
+		parent::init();
+
+		$this->defaultAction = 'create';
+	}
+
+	/**
+	 * Returns the filters defined for this controller
+	 * @return array
+	 */
+	public function filters()
+	{
 		return array(
 			'accessControl',
 		);
 	}
 
-	public function accessRules() {
+	/**
+	 * Returns the access rules for this controller
+	 * @return array
+	 */
+	public function accessRules()
+	{
 		return array(
 			array('allow',
 				'actions'=>array('create', 'update'),
