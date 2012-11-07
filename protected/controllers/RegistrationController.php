@@ -57,10 +57,6 @@ class RegistrationController extends Controller
 		
 		$model = new RegistrationForm;
 		
-		// Auto-fill the user's nickname if he's authenticated (only for new records)
-		if(!Yii::app()->user->isGuest)
-			$model->nick = Yii::app()->user->name;
-		
 		// Populate the form model with values from the registration model 
 		// (if one is specified) and set scenarios.
 		if($registration === null) {

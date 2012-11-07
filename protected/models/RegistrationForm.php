@@ -78,8 +78,27 @@ class RegistrationForm extends CFormModel implements ArrayAccess
 			'penis_long_enough'=>'Penis längre än '.Yii::app()->params['minimumPenisLength'].'"?',
 		);
 	}
-
+	
 	/**
+	 * Initializes the model. Default values for some attributes and 
+	 * scenario are set here.
+	 */
+	public function init()
+	{
+		parent::init();
+
+		$user = Yii::app()->user;
+		/* @var $user WebUser */
+
+		if (!$user->isGuest)
+		{
+			$this->name = $user->name;
+			$this->email = $user->email;
+			$this->nick = $user->nick;
+		}
+	}
+
+		/**
 	 * General validator. It loops through all properties of this model and 
 	 * adds an error to it if any of the properties are empty
 	 * 

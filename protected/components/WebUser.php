@@ -4,6 +4,8 @@
  * Represents persistent state for the logged in user.
  *
  * @author Sam
+ * @property string $email 
+ * @property string $nick
  */
 class WebUser extends CWebUser {
 	/**
@@ -95,16 +97,41 @@ class WebUser extends CWebUser {
 
 		// Get the user model
 		$this->_user = User::model()->find('username = :username', array(
-			':username'=>Yii::app()->user->name,
+			':username'=>Yii::app()->user->id,
 		));
 	}
 	
 	/**
-	 * For convenience and consistency
-	 * @return string the nickname 
+	 * Returns the user's full name
+	 * @return string 
 	 */
-	public function getNick() {
-		return $this->name;
+	public function getName()
+	{
+		$this->loadUser();
+
+		return $this->_user->name;
+	}
+
+	/**
+	 * Returns the user's email address
+	 * @return string 
+	 */
+	public function getEmail()
+	{
+		$this->loadUser();
+
+		return $this->_user->email;
+	}
+
+	/**
+	 * Returns the user's nickname
+	 * @return string 
+	 */
+	public function getNick()
+	{
+		$this->loadUser();
+		
+		return $this->_user->username;
 	}
 
 }
