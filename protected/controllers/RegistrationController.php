@@ -1,20 +1,35 @@
 <?php
 
-class RegistrationController extends Controller {
+class RegistrationController extends Controller 
+{
 
 	/**
-	 * @property string the default action. Overriden from CController
+	 * Initializes the controller
 	 */
-	public $defaultAction = 'create';
-	
-	public function filters() {
-		// return the filter configuration for this controller, e.g.:
+	public function init()
+	{
+		parent::init();
+
+		$this->defaultAction = 'create';
+	}
+
+	/**
+	 * Returns the filters defined for this controller
+	 * @return array
+	 */
+	public function filters()
+	{
 		return array(
 			'accessControl',
 		);
 	}
 
-	public function accessRules() {
+	/**
+	 * Returns the access rules for this controller
+	 * @return array
+	 */
+	public function accessRules()
+	{
 		return array(
 			array('allow',
 				'actions'=>array('create', 'update'),
@@ -42,10 +57,6 @@ class RegistrationController extends Controller {
 		
 		$model = new RegistrationForm;
 		
-		// Auto-fill the user's nickname if he's authenticated (only for new records)
-		if(!Yii::app()->user->isGuest)
-			$model->nick = Yii::app()->user->name;
-		
 		// Populate the form model with values from the registration model 
 		// (if one is specified) and set scenarios.
 		if($registration === null) {
@@ -67,13 +78,13 @@ class RegistrationController extends Controller {
 					// If this is a new registration we need to remember it
 					$isNewRecord = $registration->isNewRecord;
 
+					$registration->lan_id = $currentLan->id;
+					$registration->user_id = Yii::app()->user->userId;
 					$registration->name = $model->name;
 					$registration->email = $model->email;
 					$registration->nick = $model->nick;
 					$registration->device = $model->device;
-
 					$registration->date = date('Y-m-d H:i:s');
-					$registration->lan_id = $currentLan->id;
 
 					// Save and store the primary key for the next query
 					$registration->save();

@@ -24,6 +24,7 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 	}
 	else {
 		$rightItems = array(
+			array('label'=>'Din profil', 'url'=>array('/user/profile')),
 			array('label'=>'Logga ut', 'url'=>array('/site/logout')),
 		);
 	}

@@ -78,8 +78,27 @@ class RegistrationForm extends CFormModel implements ArrayAccess
 			'penis_long_enough'=>'Penis längre än '.Yii::app()->params['minimumPenisLength'].'"?',
 		);
 	}
-
+	
 	/**
+	 * Initializes the model. Default values for some attributes and 
+	 * scenario are set here.
+	 */
+	public function init()
+	{
+		parent::init();
+
+		$user = Yii::app()->user;
+		/* @var $user WebUser */
+
+		if (!$user->isGuest)
+		{
+			$this->name = $user->name;
+			$this->email = $user->email;
+			$this->nick = $user->nick;
+		}
+	}
+
+		/**
 	 * General validator. It loops through all properties of this model and 
 	 * adds an error to it if any of the properties are empty
 	 * 
@@ -108,16 +127,13 @@ class RegistrationForm extends CFormModel implements ArrayAccess
 	}
 
 	/**
-	 * Checks that the user hasn't already registered. The check is done either 
-	 * by name, e-mail or nick.
+	 * Checks that the user hasn't already registered to the current LAN
 	 * @param string $attribute the attribute being validated
 	 */
 	public function validateDuplicates($attribute)
 	{
-		$dupes = Registration::model()->currentLan()->findAll('(name = :name OR email = :email OR nick = :nick)', array(
-			':name'=>$this->name,
-			':email'=>$this->email,
-			':nick'=>$this->nick,
+		$dupes = Registration::model()->currentLan()->findAll('user_id = :id', array(
+			':id'=>Yii::app()->user->userId,
 		));
 
 		if (count($dupes) > 0)
