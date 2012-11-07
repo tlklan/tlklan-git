@@ -1,12 +1,11 @@
 <?php
 
 /**
- * Defines the registration form. It implements ArrayAccess so that we can 
- * loop through its properties when validating.
+ * Defines the registration form.
  *
  * @author Sam Stenvall <sam.stenvall@arcada.fi>
  */
-class RegistrationForm extends CFormModel implements ArrayAccess
+class RegistrationForm extends CFormModel
 {
 
 	/**
@@ -54,7 +53,7 @@ class RegistrationForm extends CFormModel implements ArrayAccess
 	public function rules()
 	{
 		return array(
-			array('name, email, nick, device', 'customValidator'),
+			array('name, email, nick, device', 'required'),
 			array('nick', 'validateDuplicates', 'on'=>'create'),
 			array('email', 'email', 'message'=>'Din e-postadress är ogiltig'),
 			array('device', 'validateDevice'),
@@ -98,34 +97,6 @@ class RegistrationForm extends CFormModel implements ArrayAccess
 		}
 	}
 
-		/**
-	 * General validator. It loops through all properties of this model and 
-	 * adds an error to it if any of the properties are empty
-	 * 
-	 * @param string $attribute not used
-	 * @param string $params not used
-	 */
-	public function customValidator()
-	{
-		// This is a hack to get all fields through the validator but still
-		// adding only one error to the model
-		// TODO: Do this in a cleaner way
-		static $errors = false;
-
-		foreach ($this as $property=> $value)
-		{
-			// Don't validate the "competitions" property, it is validated separately
-			if ($property != 'competitions' && empty($value))
-			{
-				if ($errors === false)
-				{
-					$this->addError($property, 'Du måste fylla i alla fält');
-				}
-				$errors = true;
-			}
-		}
-	}
-
 	/**
 	 * Checks that the user hasn't already registered to the current LAN
 	 * @param string $attribute the attribute being validated
@@ -157,7 +128,7 @@ class RegistrationForm extends CFormModel implements ArrayAccess
 	 */
 	public function validatePenis($attribute)
 	{
-		if ($this->penis_long_enough == 'no')
+		if ($this->penis_long_enough != 'yes')
 			$this->addError($attribute, Yii::app()->params['minimumPenisLength'].' inch penis or GTFO');
 	}
 
@@ -201,38 +172,6 @@ class RegistrationForm extends CFormModel implements ArrayAccess
 		// Loop through competitions and add their IDs
 		foreach ($model->competitions as $competition)
 			$this->competitions[] = $competition->competition_id;
-	}
-
-	/**
-	 * Implements the ArrayAccess interface
-	 */
-	public function offsetExists($offset)
-	{
-		return isset($this->$offset);
-	}
-
-	/**
-	 * Implements the ArrayAccess interface
-	 */
-	public function offsetGet($offset)
-	{
-		return $this->$offset;
-	}
-
-	/**
-	 * Implements the ArrayAccess interface (not used)
-	 */
-	public function offsetSet($offset, $value)
-	{
-		
-	}
-
-	/**
-	 * Implements the ArrayAccess interface (not used)
-	 */
-	public function offsetUnset($offset)
-	{
-		
 	}
 
 }
