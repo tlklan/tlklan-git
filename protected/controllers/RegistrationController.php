@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Handles registrations (front-end part)
+ */
 class RegistrationController extends Controller 
 {
 
@@ -21,9 +24,25 @@ class RegistrationController extends Controller
 	{
 		return array(
 			'accessControl',
+			'checkLan + create',
 		);
 	}
 
+	/**
+	 * Checks that there is a current LAN
+	 * @throws CHttpException if no LAN has been enabled
+	 * @param CFilterChain $filterChain the current filter chain
+	 */
+	public function filterCheckLan($filterChain)
+	{
+		$currentLan = Lan::model()->getCurrent();
+
+		if ($currentLan === null)
+			throw new CHttpException(400, "Det går inte att anmäla sig till TLK LAN för tillfället. Kolla tillbaka om en stund!");
+
+		$filterChain->run();
+	}
+	
 	/**
 	 * Returns the access rules for this controller
 	 * @return array
@@ -48,13 +67,9 @@ class RegistrationController extends Controller
 	 * Creates a new registration
 	 * @param Registration $registration 
 	 */
-	public function actionCreate($registration = null) {
-		// Get the model for the current LAN and abort if no LAN is currently 
-		// set as active
+	public function actionCreate($registration = null) 
+	{
 		$currentLan = Lan::model()->getCurrent();
-		if($currentLan === null)
-			throw new CHttpException(400, "Det går inte att anmäla sig till TLK LAN för tillfället. Kolla tillbaka om en stund!");
-		
 		$model = new RegistrationForm;
 		
 		// Populate the form model with values from the registration model 
@@ -71,61 +86,54 @@ class RegistrationController extends Controller
 		if(isset($_POST['RegistrationForm'])) {
 			$model->attributes = $_POST['RegistrationForm'];
 
-			// Don't do anything if the LAN is already full booked
-			// TODO: Move isFull validation to the form model
-			if(!$currentLan->isFull()) {
-				if($model->validate()) {
-					// If this is a new registration we need to remember it
-					$isNewRecord = $registration->isNewRecord;
+			if($model->validate()) {
+				// If this is a new registration we need to remember it
+				$isNewRecord = $registration->isNewRecord;
 
-					$registration->lan_id = $currentLan->id;
-					$registration->user_id = Yii::app()->user->userId;
-					$registration->name = $model->name;
-					$registration->email = $model->email;
-					$registration->nick = $model->nick;
-					$registration->device = $model->device;
-					$registration->date = date('Y-m-d H:i:s');
+				$registration->lan_id = $currentLan->id;
+				$registration->user_id = Yii::app()->user->userId;
+				$registration->name = $model->name;
+				$registration->email = $model->email;
+				$registration->nick = $model->nick;
+				$registration->device = $model->device;
+				$registration->date = date('Y-m-d H:i:s');
 
-					// Save and store the primary key for the next query
-					$registration->save();
-					$registrationId = $registration->primaryKey;
+				// Save and store the primary key for the next query
+				$registration->save();
+				$registrationId = $registration->primaryKey;
 
-					// If this is an update, remove all previous competitions so we 
-					// don't get any duplicates
-					if(!$registration->isNewRecord) {
-						foreach($registration->competitions as $competition) {
-							$competition->delete();
-						}
+				// If this is an update, remove all previous competitions so we 
+				// don't get any duplicates
+				if(!$registration->isNewRecord) {
+					foreach($registration->competitions as $competition) {
+						$competition->delete();
 					}
-
-					// Register the user to the specifeid competitions if he signed 
-					// up for any
-					if(!empty($model->competitions)) {
-						foreach($model->competitions as $competition) {
-							$competitor = new Competitor;
-							$competitor->competition_id = $competition;
-							$competitor->registration_id = $registrationId;
-
-							$competitor->save();
-						}
-					}
-
-					// Show different message depending on context
-					if($isNewRecord)
-						Yii::app()->user->setFlash('success', 'Du är nu registrerad till '.$currentLan->name.'!');
-					else
-						Yii::app()->user->setFlash('success', 'Anmälan ifråga har uppdaterats');
-
-					// Redirect to the same action to prevent an F5 from
-					// res-POSTing
-					$this->redirect($this->createUrl('/registration/create'));
 				}
-			}
-			else {
-				Yii::app()->user->setFlash('error', 'Det går inte längre att anmäla sig till det här LANet');
+
+				// Register the user to the specifeid competitions if he signed 
+				// up for any
+				if(!empty($model->competitions)) {
+					foreach($model->competitions as $competition) {
+						$competitor = new Competitor;
+						$competitor->competition_id = $competition;
+						$competitor->registration_id = $registrationId;
+
+						$competitor->save();
+					}
+				}
+
+				// Show different message depending on context
+				if($isNewRecord)
+					Yii::app()->user->setFlash('success', 'Du är nu registrerad till '.$currentLan->name.'!');
+				else
+					Yii::app()->user->setFlash('success', 'Anmälan ifråga har uppdaterats');
+
+				// Redirect to the same action to prevent an F5 from
+				// res-POSTing
+				$this->redirect($this->createUrl('/registration/create'));
 			}
 		}
-
+		
 		$this->render('create', array(
 			'model'=>$model,
 			'registration'=>$registration,

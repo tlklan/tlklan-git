@@ -96,6 +96,26 @@ class RegistrationForm extends CFormModel
 			$this->nick = $user->nick;
 		}
 	}
+	
+	/**
+	 * Pre-validation logic. Here we check that the current LAN isn't already 
+	 * full. If it is we add a general error to the model (no attribute) and 
+	 * stop validating.
+	 * @return boolean whether to continue validation
+	 */
+	protected function beforeValidate()
+	{
+		parent::beforeValidate();
+		
+		if ($this->scenario == 'create' && Lan::model()->getCurrent()->isFull())
+		{
+			$this->addError(false, "Det går inte längre att anmäla sig till det här LANet");
+
+			return false;
+		}
+
+		return true;
+	}
 
 	/**
 	 * Checks that the user hasn't already registered to the current LAN
