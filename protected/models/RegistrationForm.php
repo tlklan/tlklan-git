@@ -148,7 +148,7 @@ class RegistrationForm extends CFormModel
 	 */
 	public function validatePenis($attribute)
 	{
-		if ($this->penis_long_enough != 'yes')
+		if (!$this->hasErrors() && $this->penis_long_enough != 'yes')
 			$this->addError($attribute, Yii::app()->params['minimumPenisLength'].' inch penis or GTFO');
 	}
 
