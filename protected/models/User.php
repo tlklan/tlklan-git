@@ -39,11 +39,12 @@ class User extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('name, email, username, password, date_added', 'required'),
+			array('name, email, username', 'required'),
 			array('has_werket_login', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>75),
 			array('username', 'length', 'max'=>25),
 			array('email', 'email'),
+			array('password', 'required', 'on'=>'changePassword'),
 			array('id, name, email, username, password, has_werket_login, date_added', 'safe', 'on'=>'search'),
 		);
 	}
@@ -66,10 +67,10 @@ class User extends CActiveRecord
 		return array(
 			'id'=>'ID',
 			'name'=>'Namn',
-			'email'=>'E-post',
+			'email'=>'E-postadress',
 			'username'=>'Användarnamn',
 			'has_werket_login'=>'Har Werket-konto',
-			'date_added'=>'Datum skapad',
+			'date_added'=>'Registrerad sen',
 		);
 	}
 
