@@ -89,5 +89,14 @@ class User extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	/**
+	 * Returns true if the user has a shell account
+	 * @return boolean
+	 */
+	public function hasShellAccount()
+	{
+		return $this->has_werket_login == 1;
+	}
 
 }

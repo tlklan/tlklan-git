@@ -11,23 +11,40 @@ class UserIdentity extends CUserIdentity {
 	
 	/**
 	 * Authenticates a user.
+	 * TODO: Remove YII_DEVEL_MODE crap and use database user credentials instead
 	 * @return boolean whether authentication succeeds.
 	 */
-	public function authenticate() {
-		// Use the basic authentication mode when developing
-		if(defined('YII_DEVEL_MODE') && YII_DEVEL_MODE === true)
-			return $this->develAuthenticate();
-		
-		// Try to authenticate the user
-		$this->localUser = new LocalUser();
-		
-		if($this->localUser->authenticate($this->username, $this->password)) {
-			$this->errorCode=self::ERROR_NONE;
+	public function authenticate()
+	{
+		// Find the user model
+		$user = User::model()->find('username = :username', array(
+			'username'=>$this->username));
+
+		if ($user !== null)
+		{
+			// Bypass standard authentication when developing
+			if (defined('YII_DEVEL_MODE') && YII_DEVEL_MODE === true)
+				return $this->develAuthenticate();
+
+			// Next up we check if the user has a werket.tlk.fi account, if so 
+			// we'll log in using that mechanism
+			if ($user->hasShellAccount())
+			{
+				$this->localUser = new LocalUser();
+				
+				if ($this->localUser->authenticate($this->username, $this->password))
+					$this->errorCode = self::ERROR_NONE;
+				else
+					$this->errorCode = self::ERROR_UNKNOWN_IDENTITY;
+			}
+			else
+			{
+				// TODO: Allow logging in without a shell account
+			}
 		}
-		else {
+		else 
 			$this->errorCode = self::ERROR_UNKNOWN_IDENTITY;
-		}
-		
+
 		return !$this->errorCode;
 	}
 	

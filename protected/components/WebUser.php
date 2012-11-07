@@ -15,20 +15,13 @@ class WebUser extends CWebUser {
 	 * Cached user object
 	 * @var LocalUser 
 	 */
-	private $_model;
+	private $_localUser;
 	
 	/**
-	 * Automatically login the user if he is already logged in on the main site
+	 * @var User the user model
 	 */
-//	public function init() {
-//		$localUser = Yii::app()->session->get('user');
-//		
-//		if($this->loadUser() === null && $localUser !== null)
-//			$this->login(new UserIdentity($localUser->username, ''), 0, false);
-//		
-//		parent::init();
-//	}
-
+	private $_user;
+	
 	/**
 	 * We need to store the localUser object from the user identity so we can
 	 * do checks against it without having to authenticate the user again. We
@@ -74,7 +67,7 @@ class WebUser extends CWebUser {
 		
 		$this->loadUser();
 		
-		return $this->_model->hasGroup(Yii::app()->cms->gid);
+		return $this->_localUser->hasGroup(Yii::app()->cms->gid);
 	}
 
 	/**
@@ -86,17 +79,24 @@ class WebUser extends CWebUser {
 	public function hasGroup($gid) {
 		$this->loadUser();
 		
-		if($this->_model === null || !$this->_model->hasGroup($gid) )
+		if($this->_localUser === null || !$this->_localUser->hasGroup($gid) )
 			return false;
 		
 		return true;
 	}
 	
 	/**
-	 * Loads an stores the user model
+	 * Loads an stores the user model(s)
 	 */
-	private function loadUser() {
-		$this->_model = $this->getState('model');
+	private function loadUser()
+	{
+		// Get the LocalUser object
+		$this->_localUser = $this->getState('model');
+
+		// Get the user model
+		$this->_user = User::model()->find('username = :username', array(
+			':username'=>Yii::app()->user->name,
+		));
 	}
 	
 	/**
