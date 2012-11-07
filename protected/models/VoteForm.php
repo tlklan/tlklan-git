@@ -22,17 +22,14 @@ class VoteForm extends CFormModel
 	 */
 	public $submission;
 
+	/**
+	 * Initializes the model. We set some default attribute values here.
+	 */
 	public function init()
 	{
-		// Auto-select the correct nick for logged in users
 		if (!Yii::app()->user->isGuest)
-		{
-			$registration = Registration::model()->findByNick(Yii::app()->user->name);
+			$this->voter = Yii::app()->user->userId;
 
-			if ($registration !== null)
-				$this->voter = $registration->id;
-		}
-		
 		parent::init();
 	}
 
