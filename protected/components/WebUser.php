@@ -6,12 +6,16 @@
  * @author Sam
  * @property string $email 
  * @property string $nick
+ * @property int userId
  */
-class WebUser extends CWebUser {
+class WebUser extends CWebUser 
+{
+	
 	/**
-	 * The gid of the 'wheel' group.
+	 * @var int the gid of the UNIX group which users should be administrators 
+	 * on the site
 	 */
-	const GID_WHEEL = 99;
+	public $gid;
 	
 	/**
 	 * Cached user object
@@ -58,18 +62,19 @@ class WebUser extends CWebUser {
 	
 	/**
 	 * Returns true if the user is an administrator.
+	 * @return boolean
 	 */
-	public function isAdmin() {
-		if($this->isGuest)
+	public function isAdmin()
+	{
+		if ($this->isGuest)
 			return false;
-		
-		// Bypass validation when in development mode
-		if(defined('YII_DEVEL_MODE') && YII_DEVEL_MODE === true)
-			return true;
-		
+
 		$this->loadUser();
-		
-		return $this->_localUser->hasGroup(Yii::app()->cms->gid);
+
+		if ($this->_user->id == 1)
+			return true;
+		else
+			return $this->_localUser->hasGroup($this->gid);
 	}
 
 	/**

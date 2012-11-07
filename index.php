@@ -18,9 +18,7 @@ $config = CMap::mergeArray($template, $local);
 // remove the following lines when in production mode
 //defined('YII_DEBUG') or define('YII_DEBUG',true);
 // specify how many levels of call stack should be shown in each log message
-//defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
-// remove the following line to use the local user authentication
-//defined('YII_DEVEL_MODE') or define('YII_DEVEL_MODE',true);
+//defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);W
 
 // Enable all errors in PHP
 if(YII_DEBUG) {

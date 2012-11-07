@@ -7,7 +7,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 	'type'=>'horizontal',
 )); 
 
-echo $form->passwordFieldRow($model, 'password');
+echo $form->passwordFieldRow($model, 'currentPassword');
 echo $form->passwordFieldRow($model, 'newPassword');
 echo $form->passwordFieldRow($model, 'passwordRepeat');
 
@@ -18,9 +18,7 @@ echo $form->passwordFieldRow($model, 'passwordRepeat');
 		'type'=>'primary',
 		'icon'=>'ok white',
 		'label'=>'Ändra',
-	)); ?>
-	&nbsp;&nbsp;&nbsp;
-	<?php $this->widget('bootstrap.widgets.TbButton', array(
+	)); ?>&nbsp;&nbsp;&nbsp;<?php $this->widget('bootstrap.widgets.TbButton', array(
 		'buttonType'=>'link',
 		'icon'=>'remove',
 		'label'=>'Avbryt',

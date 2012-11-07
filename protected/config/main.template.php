@@ -49,6 +49,7 @@ return array(
 		'user'=>array(
 			'class'=>'WebUser',
 			'allowAutoLogin'=>false,
+			'gid'=>1042, // lanklubben
 		),
 		'hasher'=>array(
 			'class'=>'ext.phpass.Phpass',
@@ -72,7 +73,6 @@ return array(
 		'cms'=>array(
 			'class'=>'TLKCms',	
 			'languages'=>array('sv'=>'Svenska'),
-			'gid'=>1042, // lanklubben
 			'allowedFileTypes'=>'pdf',
 			'allowedFileSize'=>2097152,
 			'attachmentPath'=>'/files/cms/attachments/',
@@ -113,8 +113,5 @@ return array(
 		
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
-		
-		// username=>password to login to the site with when YII_DEVEL_MODE is defined
-		'devUsers'=>array(),
 	),
 );

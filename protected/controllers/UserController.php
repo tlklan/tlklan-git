@@ -69,9 +69,6 @@ class UserController extends Controller
 				}
 			}
 		}
-		// Don't autofill the password, it's pointless
-		else
-			$model->password = '';
 
 		$this->render('changePassword', array(
 			'model'=>$model,

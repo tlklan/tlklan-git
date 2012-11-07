@@ -17,21 +17,13 @@ class TLKCms extends Cms
 	public $gid;
 
 	/**
-	 * Checks whether the current user should be able to edit nodes. It does
-	 * this by checking if the user is a member of the group specified
-	 * @see $gid
+	 * Checks whether the current user should be able to edit nodes. The real 
+	 * check is done by WebUser::isAdmin()
 	 * @return boolean
 	 */
 	public function checkAccess()
 	{
-		// Development mode
-		if(defined('YII_DEVEL_MODE') && YII_DEVEL_MODE === true && !Yii::app()->user->isGuest)
-			return true;
-		
-		if(!is_numeric($this->gid))
-			throw new CException("Cms.gid must be specified");
-		
-		return Yii::app()->user->hasGroup($this->gid);
+		return Yii::app()->user->isAdmin();
 	}
 
 }

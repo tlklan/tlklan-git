@@ -16,6 +16,11 @@ class User extends CActiveRecord
 {
 
 	/**
+	 * @var string the current password (used when changing password)
+	 */
+	public $currentPassword;
+	
+	/**
 	 * @var string the new password (used when changing password)
 	 */
 	public $newPassword;
@@ -56,8 +61,8 @@ class User extends CActiveRecord
 			array('email', 'email'),
 			
 			// changePassword scenario
-			array('password, newPassword, passwordRepeat', 'required', 'on'=>'changePassword'),
-			array('password', 'validatePassword', 'on'=>'changePassword'),
+			array('currentPassword, newPassword, passwordRepeat', 'required', 'on'=>'changePassword'),
+			array('currentPassword', 'validatePassword', 'on'=>'changePassword'),
 			array('newPassword', 'compare', 'on'=>'changePassword', 'compareAttribute'=>'passwordRepeat'),
 			
 			// search scenario
@@ -74,13 +79,7 @@ class User extends CActiveRecord
 	{
 		$password = $this->{$attribute};
 
-		$model = User::model()->find('username = :username', array(
-			':username'=>Yii::app()->user->nick,
-		));
-
-		$isValid = Yii::app()->hasher->checkPassword($password, $model->password);
-
-		if (!$isValid)
+		if (!$this->checkPassword($password))
 			$this->addError($attribute, 'Felaktigt lösenord');
 	}
 	
@@ -105,6 +104,7 @@ class User extends CActiveRecord
 			'email'=>'E-postadress',
 			'username'=>'Användarnamn',
 			'password'=>'Lösenord',
+			'currentPassword'=>'Nuvarande lösenord',
 			'newPassword'=>'Nytt lösenord',
 			'passwordRepeat'=>'Nytt lösenord (igen)',
 			'has_werket_login'=>'Har Werket-konto',
@@ -130,6 +130,16 @@ class User extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	/**
+	 * Checks whether the given password matches the model's
+	 * @param string $password the password
+	 * @return boolean
+	 */
+	public function checkPassword($password)
+	{
+		return Yii::app()->hasher->checkPassword($password, $this->password);
 	}
 	
 	/**
