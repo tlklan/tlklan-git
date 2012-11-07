@@ -16,6 +16,16 @@ class User extends CActiveRecord
 {
 
 	/**
+	 * @var string the new password (used when changing password)
+	 */
+	public $newPassword;
+
+	/**
+	 * @var string the new repeated password (used when changing password)
+	 */
+	public $passwordRepeat;
+	
+	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return User the static model class
@@ -44,11 +54,36 @@ class User extends CActiveRecord
 			array('name', 'length', 'max'=>75),
 			array('username', 'length', 'max'=>25),
 			array('email', 'email'),
-			array('password', 'required', 'on'=>'changePassword'),
-			array('id, name, email, username, password, has_werket_login, date_added', 'safe', 'on'=>'search'),
+			
+			// changePassword scenario
+			array('password, newPassword, passwordRepeat', 'required', 'on'=>'changePassword'),
+			array('password', 'validatePassword', 'on'=>'changePassword'),
+			array('newPassword', 'compare', 'on'=>'changePassword', 'compareAttribute'=>'passwordRepeat'),
+			
+			// search scenario
+			array('id, name, email, username, has_werket_login, date_added', 'safe', 'on'=>'search'),
 		);
 	}
 
+	/**
+	 * Validates the password attribute. It checks that it really is the user's 
+	 * current password.
+	 * @param string $attribute the attribute being validated
+	 */
+	public function validatePassword($attribute)
+	{
+		$password = $this->{$attribute};
+
+		$model = User::model()->find('username = :username', array(
+			':username'=>Yii::app()->user->nick,
+		));
+
+		$isValid = Yii::app()->hasher->checkPassword($password, $model->password);
+
+		if (!$isValid)
+			$this->addError($attribute, 'Felaktigt lösenord');
+	}
+	
 	/**
 	 * @return array relational rules.
 	 */
@@ -69,6 +104,9 @@ class User extends CActiveRecord
 			'name'=>'Namn',
 			'email'=>'E-postadress',
 			'username'=>'Användarnamn',
+			'password'=>'Lösenord',
+			'newPassword'=>'Nytt lösenord',
+			'passwordRepeat'=>'Nytt lösenord (igen)',
 			'has_werket_login'=>'Har Werket-konto',
 			'date_added'=>'Registrerad sen',
 		);
@@ -86,7 +124,6 @@ class User extends CActiveRecord
 		$criteria->compare('email', $this->email, true);
 		$criteria->compare('name', $this->name, true);
 		$criteria->compare('username', $this->username, true);
-		$criteria->compare('password', $this->password, true);
 		$criteria->compare('has_werket_login', $this->has_werket_login);
 		$criteria->compare('date_added', $this->date_added, true);
 

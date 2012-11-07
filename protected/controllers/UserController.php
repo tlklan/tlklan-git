@@ -36,7 +36,7 @@ class UserController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('profile', 'update'),
+				'actions'=>array('profile', 'update', 'changePassword'),
 				'expression'=>'!Yii::app()->user->isGuest',
 			),
 			array('deny'),
@@ -44,12 +44,37 @@ class UserController extends Controller
 	}
 
 	/**
-	 * Displays the user's profile page
+	 * Changes the password for the current user
 	 */
-	public function actionProfile()
+	public function actionChangePassword()
 	{
-		$this->render('profile', array(
-			'model'=>$this->loadModel(),
+		$model = $this->loadModel();
+		$model->scenario = 'changePassword';
+
+		if (isset($_POST['User']))
+		{
+			$model->attributes = $_POST['User'];
+
+			if ($model->validate())
+			{
+				// Hash the password
+				$model->password = Yii::app()->hasher->hashPassword($model->newPassword);
+
+				// We have already valited so no need to do it here
+				if ($model->save(false))
+				{
+					Yii::app()->user->setFlash('success', 'Ditt lösenord har uppdaterats');
+
+					$this->redirect(array('profile'));
+				}
+			}
+		}
+		// Don't autofill the password, it's pointless
+		else
+			$model->password = '';
+
+		$this->render('changePassword', array(
+			'model'=>$model,
 		));
 	}
 
@@ -69,6 +94,16 @@ class UserController extends Controller
 
 		$this->render('create', array(
 			'model'=>$model,
+		));
+	}
+	
+	/**
+	 * Displays the user's profile page
+	 */
+	public function actionProfile()
+	{
+		$this->render('profile', array(
+			'model'=>$this->loadModel(),
 		));
 	}
 
@@ -95,7 +130,7 @@ class UserController extends Controller
 			'model'=>$model,
 		));
 	}
-
+	
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
