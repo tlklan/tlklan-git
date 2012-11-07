@@ -25,6 +25,7 @@ class RegistrationController extends Controller
 		return array(
 			'accessControl',
 			'checkLan + create',
+			'checkEditPermissions + update',
 		);
 	}
 
@@ -44,6 +45,25 @@ class RegistrationController extends Controller
 	}
 	
 	/**
+	 * Checks that the current user has the right to edit the registration. 
+	 * @param CFilterChain $filterChain the filter chain
+	 * @throws CHttpException if the registration can't be found or the user 
+	 * doesn't have permission to edit it
+	 */
+	public function filterCheckEditPermissions($filterChain)
+	{
+		$registration = $this->loadModel(Yii::app()->request->getParam('id'));
+
+		if ($registration === null)
+			throw new CHttpException(400, 'Anmälan hittades inte');
+
+		if (!Yii::app()->user->isAdmin() && strtolower($registration->user_id) != strtolower(Yii::app()->user->userId))
+			throw new CHttpException(403, 'Du kan inte ändra någon annans anmälan');
+
+		$filterChain->run();
+	}
+	
+	/**
 	 * Returns the access rules for this controller
 	 * @return array
 	 */
@@ -51,7 +71,12 @@ class RegistrationController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create', 'update'),
+				'actions'=>array('create'),
+			),
+			// Only logged in users can update registrations
+			array('allow',
+				'actions'=>array('update'),
+				'expression'=>'!Yii::app()->user->isGuest',
 			),
 			// Only administrators can delete registrations
 			array('allow',
@@ -146,20 +171,10 @@ class RegistrationController extends Controller
 	 * Updates a registration
 	 * @param int $id the registration to update
 	 */
-	public function actionUpdate($id) {
-		// Find the registration and check that it exists
-		$registration = $this->loadModel($id);
-		if($registration === null)
-			throw new CHttpException(400, 'Anmälan hittades inte');
-		
-		// If the user is not an admin we check that he's not trying to edit 
-		// someone else's registration
-		// TODO: Move this logic to the accessControl filter
-		if(!Yii::app()->user->isAdmin() && strtolower($registration->nick) != strtolower(Yii::app()->user->nick))
-			throw new CHttpException(400, 'Du kan inte ändra någon annans anmälan');
-		
+	public function actionUpdate($id)
+	{
 		// Pass on the model to the create action which handles the rest of the magic
-		$this->actionCreate($registration);
+		$this->actionCreate($this->loadModel($id));
 	}
 	
 	/**
