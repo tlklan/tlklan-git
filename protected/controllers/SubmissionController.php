@@ -58,7 +58,6 @@ class SubmissionController extends Controller
 	{
 		$currentLan = Lan::model()->getCurrent();
 
-		$isNewRecord = $model === null;
 		if ($model === null)
 			$model = new Submission();
 
@@ -90,14 +89,14 @@ class SubmissionController extends Controller
 					$model->file->saveAs($physicalPath);
 					$model->physical_path = $physicalPath;
 				}
-
-				$model->save();
-
-				// Redirect to avoid F5 re-submission
-				if ($isNewRecord)
+				
+				// We need to do this before saving for isNewRecord to work
+				if ($model->isNewRecord)
 					Yii::app()->user->setFlash('success', 'Din submission har laddats upp');
 				else
 					Yii::app()->user->setFlash('success', 'Entryn har uppdaterats');
+				
+				$model->save(false);
 
 				$this->redirect($this->createUrl('/submission/archive'));
 			}
@@ -105,13 +104,8 @@ class SubmissionController extends Controller
 		else {
 			// Auto-select the correct nick for logged in users when adding
 			// new submissions
-			if ($isNewRecord && !Yii::app()->user->isGuest)
-			{
-				$registration = Registration::model()->findByNick(Yii::app()->user->name);
-
-				if ($registration !== null)
-					$model->submitter_id = $registration->id;
-			}
+			if ($model->isNewRecord && !Yii::app()->user->isGuest)
+				$model->user_id = Yii::app()->user->userId;
 		}
 		
 		// Get an ordered list of registrations
