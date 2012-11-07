@@ -50,6 +50,11 @@ return array(
 			'class'=>'WebUser',
 			'allowAutoLogin'=>false,
 		),
+		'hasher'=>array(
+			'class'=>'ext.phpass.Phpass',
+			'hashPortable'=>false,
+			'hashCostLog2'=>10,
+		),
 		'session'=>array(
 			'autoStart'=>true,
 		),
