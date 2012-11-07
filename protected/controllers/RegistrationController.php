@@ -116,12 +116,14 @@ class RegistrationController extends Controller
 				$isNewRecord = $registration->isNewRecord;
 
 				$registration->lan_id = $currentLan->id;
-				$registration->user_id = Yii::app()->user->userId;
 				$registration->name = $model->name;
 				$registration->email = $model->email;
 				$registration->nick = $model->nick;
 				$registration->device = $model->device;
 				$registration->date = date('Y-m-d H:i:s');
+				
+				if($isNewRecord)
+					$registration->user_id = Yii::app()->user->userId;
 
 				// Save and store the primary key for the next query
 				$registration->save();
