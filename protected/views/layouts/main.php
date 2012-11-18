@@ -16,13 +16,53 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 <body>
 	<?php
 
+	// Determine left-hand side items
+	if (Yii::app()->user->isGuest)
+	{
+		$leftItems = array(
+			array('label'=>'Allmänt', 'url'=>Yii::app()->cms->createUrl('home'), 'active'=>Yii::app()->cms->isActive('home')),
+			array('label'=>'Styrelsen', 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee')),
+			array('label'=>'<b>Anmälningar</b>', 'url'=>array('/registration/create')),
+			array('label'=>'Tidtabell', 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable')),
+			array('label'=>'Tävlingar', 'url'=>'#', 'items'=>array(
+					array('label'=>'Regler', 'url'=>Yii::app()->cms->createUrl('rules')),
+				), 'active'=>Yii::app()->cms->isActive('rules')),
+			array('label'=>'Submissions', 'url'=>array('/submission/archive'),
+				'active'=>Yii::app()->controller->route == 'submission/archive'),
+		);
+	}
+	else
+	{
+		$leftItems = array(
+			array('label'=>'Allmänt', 'url'=>Yii::app()->cms->createUrl('home'), 'active'=>Yii::app()->cms->isActive('home')),
+			array('label'=>'Styrelsen', 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee')),
+			array('label'=>'<b>Anmälning</b>', 'url'=>array('/registration/create')),
+			array('label'=>'Röstning', 'url'=>'#', 'items'=>array(
+					array('label'=>'Rösta', 'url'=>array('/vote/create')),
+					array('label'=>'Resultat', 'url'=>array('/vote/results')),
+			)),
+			array('label'=>'Tidtabell', 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable')),
+			array('label'=>'Tävlingar', 'url'=>'#', 'items'=>array(
+					array('label'=>'Anmäl (under LAN)', 'url'=>array('/competition/register')),
+					array('label'=>'Regler', 'url'=>Yii::app()->cms->createUrl('rules')),
+					array('label'=>'Serverinformation', 'url'=>Yii::app()->cms->createUrl('serverinfo')),
+				), 'active'=>(Yii::app()->cms->isActive('rules') || Yii::app()->cms->isActive('serverinfo'))),
+			array('label'=>'Submissions', 'url'=>array('/submission'), 'items'=>array(
+					array('label'=>'Ny submission', 'url'=>array('/submission/create')),
+					array('label'=>'Arkiv', 'url'=>array('/submission/archive')),
+				), 'active'=>in_array(Yii::app()->controller->route, array('submission/archive', 'submission/create'))),
+		);
+	}
+
 	// Determine right-hand side items
-	if(Yii::app()->user->isGuest) {
+	if (Yii::app()->user->isGuest)
+	{
 		$rightItems = array(
 			array('label'=>'Logga in', 'url'=>array('/site/login')),
 		);
 	}
-	else {
+	else
+	{
 		$rightItems = array(
 			array('label'=>'Din profil', 'url'=>array('/user/profile')),
 			array('label'=>'Logga ut', 'url'=>array('/site/logout')),
@@ -40,25 +80,7 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 			array(
 				'class'=>'bootstrap.widgets.TbMenu',
 				'encodeLabel'=>false,
-				'items'=>array(
-					array('label'=>'Allmänt', 'url'=>Yii::app()->cms->createUrl('home'), 'active'=>Yii::app()->cms->isActive('home')),
-					array('label'=>'Styrelsen', 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee')),
-					array('label'=>'<b>Anmälning</b>', 'url'=>array('/registration/create')),
-					array('label'=>'Röstning', 'url'=>'#', 'items'=>array(
-						array('label'=>'Rösta', 'url'=>array('/vote/create')),
-						array('label'=>'Resultat', 'url'=>array('/vote/results')),
-					)),
-					array('label'=>'Tidtabell', 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable')),
-					array('label'=>'Tävlingar', 'url'=>'#', 'items'=>array(
-						array('label'=>'Anmäl (under LAN)', 'url'=>array('/competition/register')),
-						array('label'=>'Regler', 'url'=>Yii::app()->cms->createUrl('rules')),
-						array('label'=>'Serverinformation', 'url'=>Yii::app()->cms->createUrl('serverinfo')),
-					), 'active'=>(Yii::app()->cms->isActive('rules') || Yii::app()->cms->isActive('serverinfo'))),
-					array('label'=>'Submissions', 'url'=>array('/submission'), 'items'=>array(
-						array('label'=>'Ny submission', 'url'=>array('/submission/create')),
-						array('label'=>'Arkiv', 'url'=>array('/submission/archive')),
-					), 'active'=>in_array(Yii::app()->controller->route, array('submission/archive', 'submission/create'))),
-				),
+				'items'=>$leftItems,
 			),
 			array(
 				'class'=>'bootstrap.widgets.TbMenu',
