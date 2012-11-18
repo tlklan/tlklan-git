@@ -25,6 +25,7 @@ $this->breadcrumbs=array(
 				array(
 					'name'=>'has_werket_login',
 					'type'=>'raw',
+					'label'=>'Har konto på werket.tlk.fi',
 					'value'=>$model->hasShellAccount() ? '<i class="icon-ok"></i>' : '',
 				),
 				'date_added',
