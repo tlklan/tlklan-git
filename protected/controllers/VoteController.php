@@ -16,6 +16,22 @@ class VoteController extends Controller
 	{
 		return array(
 			'ajaxOnly + ajaxSubmissions, ajaxResults',
+			'accessControl',
+		);
+	}
+	
+	/**
+	 * Returns the access rules for this controller
+	 * @return array
+	 */
+	public function accessRules()
+	{
+		return array(
+			array('allow',
+				'expression'=>'!Yii::app()->user->isGuest',
+			),
+			// Default rule
+			array('deny')
 		);
 	}
 

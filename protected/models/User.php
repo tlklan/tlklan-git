@@ -60,16 +60,39 @@ class User extends CActiveRecord
 			array('username', 'length', 'max'=>25),
 			array('email', 'email'),
 			
+			// register new user (insert) scenario
+			array('newPassword, passwordRepeat, has_werket_login', 'required', 'on'=>'insert'),
+			array('email', 'validateDuplicates', 'on'=>'insert'),
+			
+			// don't require passwords if the user has a werket account
+			array('newPassword, passwordRepeat', 'safe', 'on'=>'insert-has-werket'),
+			
 			// changePassword scenario
 			array('currentPassword, newPassword, passwordRepeat', 'required', 'on'=>'changePassword'),
 			array('currentPassword', 'validatePassword', 'on'=>'changePassword'),
-			array('newPassword', 'compare', 'on'=>'changePassword', 'compareAttribute'=>'passwordRepeat'),
+			
+			// insert/changePassword scenario
+			array('newPassword', 'compare', 'on'=>'changePassword, insert', 'compareAttribute'=>'passwordRepeat'),
 			
 			// search scenario
 			array('id, name, email, username, has_werket_login, date_added', 'safe', 'on'=>'search'),
 		);
 	}
 
+	/**
+	 * Checks that both e-mail and username is unique
+	 * @param string $attribute the attribute being validated
+	 */
+	public function validateDuplicates($attribute)
+	{
+		$dupes = User::model()->findAll('email = :email OR username = :username', array(
+			':email'=>$this->{$attribute},
+			':username'=>$this->username));
+
+		if (count($dupes) > 0)
+			$this->addError('email', "Din e-postadress eller ditt nickname finns redan");
+	}
+	
 	/**
 	 * Validates the password attribute. It checks that it really is the user's 
 	 * current password.
@@ -107,7 +130,7 @@ class User extends CActiveRecord
 			'currentPassword'=>'Nuvarande lösenord',
 			'newPassword'=>'Nytt lösenord',
 			'passwordRepeat'=>'Nytt lösenord (igen)',
-			'has_werket_login'=>'Har Werket-konto',
+			'has_werket_login'=>'Jag har ett konto på werket.tlk.fi',
 			'date_added'=>'Registrerad sen',
 		);
 	}

@@ -32,19 +32,21 @@ class SubmissionController extends Controller
 	public function accessRules()
 	{
 		return array(
-			// Everyone can create and view submissions
+			// Everyone can view the list of submissions
 			array('allow',
-				'actions'=>array('create', 'archive'),
+				'actions'=>array('archive'),
 			),
-			// Only allow logged in users to download submissions
-			array('allow',
-				'actions'=>array('get'),
-				'expression'=>'Yii::app()->user->isGuest === false',
-			),
-			// Only admins can remove submission
+			// Only admins can remove and update every submissions
+			// TODO: Use filter to check which submissions can be updated/deleted
 			array('allow',
 				'actions'=>array('update', 'delete'),
 				'expression'=>'Yii::app()->user->isAdmin()',
+			),
+			// Logged in users can create, download and edit their own 
+			// submissions
+			array('allow',
+				'actions'=>array('create', 'update', 'get'),
+				'expression'=>'!Yii::app()->user->isGuest',
 			),
 			array('deny'),
 		);
