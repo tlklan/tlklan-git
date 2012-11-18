@@ -40,7 +40,7 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 			array('label'=>'Röstning', 'url'=>'#', 'items'=>array(
 					array('label'=>'Rösta', 'url'=>array('/vote/create')),
 					array('label'=>'Resultat', 'url'=>array('/vote/results')),
-			)),
+			), 'active'=>in_array(Yii::app()->controller->route, array('vote/create', 'vote/results'))),
 			array('label'=>'Tidtabell', 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable')),
 			array('label'=>'Tävlingar', 'url'=>'#', 'items'=>array(
 					array('label'=>'Anmäl (under LAN)', 'url'=>array('/competition/register')),
