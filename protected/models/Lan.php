@@ -34,6 +34,21 @@ class Lan extends CActiveRecord
 	{
 		return 'tlk_lans';
 	}
+	
+	/**
+	 * @return array validation rules for model attributes.
+	 */
+	public function rules()
+	{
+		return array(
+			array('name, reg_limit, start_date, end_date', 'required'),
+			array('reg_limit, enabled', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>20),
+			array('start_date, end_date', 'date', 'format'=>'yyyy-MM-dd'),
+			
+			array('id, name, reg_limit, start_date, end_date, enabled', 'safe', 'on'=>'search'),
+		);
+	}
 
 	/**
 	 * @return array relational rules.
@@ -65,12 +80,50 @@ class Lan extends CActiveRecord
 	{
 		return array(
 			'id'=>'ID',
-			'name'=>'Name',
-			'reg_limit'=>'Reg Limit',
-			'start_date'=>'Start Date',
-			'end_date'=>'End Date',
-			'enabled'=>'Enabled',
+			'name'=>'Namn',
+			'reg_limit'=>'Max antal deltagare',
+			'start_date'=>'Startdatum',
+			'end_date'=>'Slutdatum',
+			'enabled'=>in_array($this->scenario, array('insert', 'update')) ? 'Sätt som aktivt' : 'Aktivt',
 		);
+	}
+	
+	/**
+	 * This method is run after the model is saved. It disables all other LANs 
+	 * if the "enabled" attribute is set to true.
+	 */
+	protected function afterSave()
+	{
+		parent::afterSave();
+
+		if ($this->enabled)
+		{
+			Yii::app()->db->createCommand()->update($this->tableName(), 
+					array('enabled'=>0), 'id != :id', array(':id'=>$this->id));
+		}
+	}
+	
+	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models 
+	 * based on the search/filter conditions.
+	 */
+	public function search()
+	{
+		$criteria = new CDbCriteria;
+		$criteria->compare('id', $this->id);
+		$criteria->compare('name', $this->name, true);
+		$criteria->compare('reg_limit', $this->reg_limit);
+		$criteria->compare('start_date', $this->start_date, true);
+		$criteria->compare('end_date', $this->end_date, true);
+		$criteria->compare('enabled', $this->enabled, true);
+		
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+			'pagination'=>array(
+				'pageSize'=>20,
+			)
+		));
 	}
 
 	/**
@@ -107,5 +160,7 @@ class Lan extends CActiveRecord
 	{
 		return count($this->registrations) >= $this->reg_limit;
 	}
+	
+	
 
 }

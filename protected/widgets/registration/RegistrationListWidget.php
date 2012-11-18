@@ -63,20 +63,15 @@ class RegistrationListWidget extends CWidget
 			<tr>
 				<?php
 				
-				// Show the 'actions' column for authenticated users
-				if(!$user->isGuest) {
+				// Show the 'actions' column for authenticated users (although 
+				// not for administrators)
+				if(!$user->isGuest && !Yii::app()->user->isAdmin()) {
 					?><th>&nbsp;</th><?php
 				}
 				
 				?>
 				<th>Namn:</th>
 				<th>Nick:</th>
-				<?php
-				
-				if($user->isAdmin())
-					echo '<th>E-post:</th>';
-				
-				?>
 				<th class="thick_right_border small-screen-hidden">Laptop:</th>
 				<?php
 
@@ -110,14 +105,11 @@ class RegistrationListWidget extends CWidget
 					<?php
 					
 					// Show an edit/delete links
-					if(!$user->isGuest) {
+					if(!$user->isGuest && !Yii::app()->user->isAdmin()) {
 						echo '<td>';
 						
-						// Show edit link for the user's own registration and 
-						// for administrators
-						$isOwner = strtolower($registration->nick) === strtolower($user->nick);
-						
-						if($isOwner || $user->isAdmin()) 
+						// Show edit link for the user's own registration
+						if(strtolower($registration->nick) === strtolower($user->nick)) 
 						{
 							echo CHtml::link(
 								CHtml::image(
@@ -126,16 +118,6 @@ class RegistrationListWidget extends CWidget
 								Yii::app()->controller->createUrl('registration/update', array('id'=>$registration->id))
 							);
 							echo '&nbsp;';
-						}
-						
-						// Show delete link for administrators
-						if($user->isAdmin()) 
-						{
-							echo CHtml::link(
-								CHtml::image(Yii::app()->baseUrl.'/files/images/icons/delete_button.png'), 
-								Yii::app()->controller->createUrl('registration/delete', array('id'=>$registration->id)),
-								array('confirm'=>'Är du säker?')
-							);
 						}
 						
 						echo '</td>';
@@ -156,17 +138,6 @@ class RegistrationListWidget extends CWidget
 						
 						?>
 					</td>
-					<?php
-					
-					if($user->isAdmin())
-					{
-						echo '<td>';
-						echo CHtml::mailto(CHtml::encode($registration->email), 
-								$registration->email);
-						echo '</td>';
-					}
-					
-					?>
 					<td class="thick_right_border center-align small-screen-hidden">
 						<?php echo ($registration->hasLaptop()) ? 'x' : ''; ?>
 					</td>
