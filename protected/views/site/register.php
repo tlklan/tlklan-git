@@ -48,6 +48,12 @@ echo $form->checkboxRow($model, 'has_werket_login', array(
 		'type'=>'primary',
 		'icon'=>'ok white',
 		'label'=>'Registrera',
+	)); ?>&nbsp;&nbsp;&nbsp;
+	<?php $this->widget('bootstrap.widgets.TbButton', array(
+		'buttonType'=>'link',
+		'icon'=>'remove',
+		'label'=>'Avbryt',
+		'url'=>Yii::app()->homeUrl,
 	)); ?>
 </div>
 
