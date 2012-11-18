@@ -10,6 +10,7 @@ css/styles.css
 files/documents
 css/small-screen.css
 protected/runtime
+protected/config/console.php
 syntax: regexp
 ^assets/*
 ^nbproject/*
