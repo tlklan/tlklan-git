@@ -58,6 +58,7 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 	if (Yii::app()->user->isGuest)
 	{
 		$rightItems = array(
+			array('label'=>'Registrera dig', 'url'=>array('/site/register')),
 			array('label'=>'Logga in', 'url'=>array('/site/login')),
 		);
 	}
