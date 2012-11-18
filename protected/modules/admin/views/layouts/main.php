@@ -11,7 +11,7 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="robots" content="noindex, nofollow" />
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
-	<?php $cs->registerCssFile(Yii::app()->baseUrl.'/css/admin.css'); ?>
+	<?php $cs->registerCssFile(Yii::app()->baseUrl.'/css/styles.css'); ?>
 </head>
 <body>
 <?php
@@ -28,23 +28,10 @@ $this->widget('bootstrap.widgets.TbNavbar', array(
 			'class'=>'bootstrap.widgets.TbMenu',
 			'encodeLabel'=>false,
 			'items'=>array(
-				array('label'=>'Anmälningar', 'url'=>array('registration/admin')),
-//				array('label'=>'Styrelsen', 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee')),
-//				array('label'=>'<b>Anmälning</b>', 'url'=>array('/registration/create')),
-//				array('label'=>'Röstning', 'url'=>'#', 'items'=>array(
-//					array('label'=>'Rösta', 'url'=>array('/vote/create')),
-//					array('label'=>'Resultat', 'url'=>array('/vote/results')),
-//				)),
-//				array('label'=>'Tidtabell', 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable')),
-//				array('label'=>'Tävlingar', 'url'=>'#', 'items'=>array(
-//					array('label'=>'Anmäl (under LAN)', 'url'=>array('/competition/register')),
-//					array('label'=>'Regler', 'url'=>Yii::app()->cms->createUrl('rules')),
-//					array('label'=>'Serverinformation', 'url'=>Yii::app()->cms->createUrl('serverinfo')),
-//				), 'active'=>(Yii::app()->cms->isActive('rules') || Yii::app()->cms->isActive('serverinfo'))),
-//				array('label'=>'Submissions', 'url'=>array('/submission'), 'items'=>array(
-//					array('label'=>'Ny submission', 'url'=>array('/submission/create')),
-//					array('label'=>'Arkiv', 'url'=>array('/submission/archive')),
-//				), 'active'=>in_array(Yii::app()->controller->route, array('submission/archive', 'submission/create'))),
+				array('label'=>'Anmälningar', 'url'=>array('registration/admin'),
+					'active'=>Yii::app()->controller->route == 'admin/registration/admin'),
+				array('label'=>'Användare', 'url'=>array('user/admin'),
+					'active'=>Yii::app()->controller->route == 'admin/user/admin'),
 			),
 		),
 		array(
