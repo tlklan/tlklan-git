@@ -36,7 +36,7 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 		$leftItems = array(
 			array('label'=>'Allmänt', 'url'=>Yii::app()->cms->createUrl('home'), 'active'=>Yii::app()->cms->isActive('home')),
 			array('label'=>'Styrelsen', 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee')),
-			array('label'=>'<b>Anmälning</b>', 'url'=>array('/registration/create')),
+			array('label'=>'<b>Anmälningar</b>', 'url'=>array('/registration/create')),
 			array('label'=>'Röstning', 'url'=>'#', 'items'=>array(
 					array('label'=>'Rösta', 'url'=>array('/vote/create')),
 					array('label'=>'Resultat', 'url'=>array('/vote/results')),
