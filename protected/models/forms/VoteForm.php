@@ -23,17 +23,6 @@ class VoteForm extends CFormModel
 	public $submission;
 
 	/**
-	 * Initializes the model. We set some default attribute values here.
-	 */
-	public function init()
-	{
-		if (!Yii::app()->user->isGuest)
-			$this->voter = Yii::app()->user->userId;
-
-		parent::init();
-	}
-
-	/**
 	 * Returns a list of rules for this model
 	 * @return array
 	 */
@@ -55,7 +44,6 @@ class VoteForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'voter'=>'Ditt nick',
 			'competition'=>'Tävling',
 			'submissions'=>'Submission',
 		);
@@ -79,15 +67,17 @@ class VoteForm extends CFormModel
 	 * this competition
 	 * @param string $attribute the attribute being validated
 	 */
-	public function validateVoter($attribute)
+	public function validateVoter()
 	{
 		$votes = Vote::model()->findByAttributes(array(
 			'voter_id'=>$this->voter,
 			'compo_id'=>$this->competition,
 		));
 
+		// The voter attribute isn't shown in the form so we have to put the 
+		// error elsewhere
 		if (count($votes) > 0)
-			$this->addError($attribute, 'Du har redan röstat i den här tävlingen');
+			$this->addError('competition', 'Du har redan röstat i den här tävlingen');
 	}
 
 }
