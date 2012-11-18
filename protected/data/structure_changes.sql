@@ -114,7 +114,7 @@ ALTER TABLE `tlk_submissions`
 # Populate tlk_submissions.user_id
 UPDATE tlk_submissions
 LEFT OUTER JOIN tlk_registrations ON (tlk_registrations.id = tlk_submissions.submitter_id) 
-SET tlk_submissions.user_id = tlk_registrations.user_id
+SET tlk_submissions.user_id = tlk_registrations.user_id;
 
 # Remove user_id and its old foreign key constraints
 ALTER TABLE `tlk_submissions`
