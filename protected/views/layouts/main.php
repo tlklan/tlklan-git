@@ -65,7 +65,7 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 	else
 	{
 		$rightItems = array(
-			array('label'=>'Din profil', 'url'=>array('/user/profile')));
+			array('label'=>'Min profil', 'url'=>array('/user/profile')));
 
 		// Link to administration area
 		if (Yii::app()->user->isAdmin())
