@@ -23,7 +23,28 @@ class SubmissionController extends Controller
 	{
 		return array(
 			'accessControl',
+			'ownershipCheck + update, delete',
 		);
+	}
+	
+	/**
+	 * Checks that the submissions specified by the "id" GET parameter is 
+	 * owned by the currently logged in user, or the user is an administrator.
+	 * @param CFilterChain $filterChain the filter chain
+	 * @throws CHttpException if the user is not allowed to perform actions on 
+	 * this submission
+	 */
+	public function filterOwnershipCheck($filterChain)
+	{
+		$model = $this->loadModel(Yii::app()->request->getParam('id'));
+
+		if ($model !== null && Yii::app()->user->isAdmin() ||
+				$model->user_id == Yii::app()->user->getUserId())
+		{
+			$filterChain->run();
+		}
+		else
+			throw new CHttpException(403, "Du kan inte ändra på andras submissions");
 	}
 
 	/**
@@ -36,16 +57,10 @@ class SubmissionController extends Controller
 			array('allow',
 				'actions'=>array('archive'),
 			),
-			// Only admins can remove and update every submissions
-			// TODO: Use filter to check which submissions can be updated/deleted
+			// Logged in users can update, delete and download submissions 
+			// (actual ownership check is done in separate filter)
 			array('allow',
-				'actions'=>array('update', 'delete'),
-				'expression'=>'Yii::app()->user->isAdmin()',
-			),
-			// Logged in users can create, download and edit their own 
-			// submissions
-			array('allow',
-				'actions'=>array('create', 'update', 'get'),
+				'actions'=>array('get', 'create', 'update', 'delete'),
 				'expression'=>'!Yii::app()->user->isGuest',
 			),
 			array('deny'),
@@ -118,7 +133,8 @@ class SubmissionController extends Controller
 		
 		$registrations = Registration::model()->findAll($criteria);
 		
-		$this->render('create', array(
+		// Show different view depending on if this is a create or update
+		$this->render($model->isNewRecord ? 'create' : 'update', array(
 			'model'=>$model,
 			'competitions'=>$currentLan->competitions,
 			'registrations'=>$registrations,

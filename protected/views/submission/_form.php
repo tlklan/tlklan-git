@@ -29,15 +29,25 @@ echo $form->textAreaRow($model, 'comments');
 		'buttonType'=>'submit',
 		'type'=>'primary',
 		'icon'=>'ok white',
-		'label'=>'Lämna in'
+		'label'=>$model->isNewRecord ? 'Lämna in' : 'Uppdatera',
 	));
 	
-	echo ' ';
+	echo '&nbsp;&nbsp;&nbsp;';
 
-	$this->widget('bootstrap.widgets.TbButton', array(
-		'buttonType'=>'reset',
-		'label'=>'Töm formuläret'
-	));
+	if($model->isNewRecord) {
+		$this->widget('bootstrap.widgets.TbButton', array(
+			'buttonType'=>'reset',
+			'label'=>'Töm formuläret'
+		));
+	}
+	else {
+		$this->widget('bootstrap.widgets.TbButton', array(
+			'buttonType'=>'link',
+			'icon'=>'remove',
+			'label'=>'Avbryt',
+			'url'=>$this->createUrl('/submission/archive'),
+		));
+	}
 	
 	?>
 </div>
