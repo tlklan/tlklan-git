@@ -74,6 +74,11 @@ class User extends CActiveRecord
 			// insert/changePassword scenario
 			array('newPassword', 'compare', 'on'=>'changePassword, insert', 'compareAttribute'=>'passwordRepeat'),
 			
+			// update-admin scenario
+			array('has_werket_login', 'required', 'on'=>'update-admin'),
+			array('passwordRepeat', 'safe', 'on'=>'update-admin'),
+			array('newPassword', 'compare', 'on'=>'update-admin', 'allowEmpty'=>true, 'compareAttribute'=>'passwordRepeat'),
+			
 			// search scenario
 			array('id, name, email, username, has_werket_login, date_added', 'safe', 'on'=>'search'),
 		);
@@ -130,7 +135,7 @@ class User extends CActiveRecord
 			'currentPassword'=>'Nuvarande lösenord',
 			'newPassword'=>'Nytt lösenord',
 			'passwordRepeat'=>'Nytt lösenord (igen)',
-			'has_werket_login'=>'Jag har ett konto på werket.tlk.fi',
+			'has_werket_login'=>$this->scenario == 'update-admin' ? 'Har werket.tlk.fi konto' : 'Jag har ett konto på werket.tlk.fi',
 			'date_added'=>'Registrerad sen',
 		);
 	}
@@ -152,6 +157,9 @@ class User extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+			'pagination'=>array(
+				'pageSize'=>20,
+			)
 		));
 	}
 	
