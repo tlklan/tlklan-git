@@ -1,7 +1,6 @@
 <?php
 
-// uncomment the following to define a path alias
-// Yii::setPathOfAlias('local','path/to/local-folder');
+$version = '2.1.0';
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
@@ -46,7 +45,7 @@ return array(
 			'class'=>'ext.less.components.LessCompiler',
 			'forceCompile'=>true, // indicates whether to force compiling
 			'paths'=>array(
-				'css/less/styles.less'=>'css/styles.css',
+				'css/less/styles.less'=>'css/styles_'.$version.'.css',
 				'css/less/small-screen.less'=>'css/small-screen.css',
 			),
 		),
@@ -109,6 +108,8 @@ return array(
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
+		'version'=>$version,
+		
 		// Minimum penis size required to register
 		'minimumPenisLength'=>9,
 		
