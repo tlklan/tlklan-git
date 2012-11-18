@@ -31,23 +31,6 @@ class CompetitionRegistrationForm extends CFormModel
 	}
 	
 	/**
-	 * Initializes the model
-	 */
-	public function init()
-	{
-		// Auto-select the correct nick for logged in users
-		if (!Yii::app()->user->isGuest)
-		{
-			$registration = Registration::model()->findByNick(Yii::app()->user->name);
-
-			if ($registration !== null)
-				$this->registration = $registration->id;
-		}
-
-		parent::init();
-	}
-
-		/**
 	 * Returns the validation rules for this model
 	 * @return array
 	 */
