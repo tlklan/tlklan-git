@@ -29,7 +29,11 @@ class UserIdentity extends CUserIdentity
 			if ($user->hasShellAccount())
 			{
 				$this->localUser = new LocalUser();
-				$valid = $this->localUser->authenticate($this->username, $this->password);
+				
+				// Convert username to lowercase
+				$username = strtolower($this->username);
+				
+				$valid = $this->localUser->authenticate($username, $this->password);
 			}
 			// Standard login
 			else
