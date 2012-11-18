@@ -48,6 +48,17 @@ class CompetitionController extends Controller
 	{
 		$model = new CompetitionRegistrationForm();
 
+		// Find the registration ID for the user
+		$registration = Registration::model()->currentLan()->find('user_id = :user_id', array(
+			':user_id'=>Yii::app()->user->getUserId(),
+		));
+		
+		// Don't allow registration if the user is not on the LAN
+		if($registration === null)
+			throw new CHttpException(403, "Du måste vara anmäld till LANet för att kunna anmäla dig till tävlingar");
+		else
+			$model->registration = $registration->id;
+		
 		// Handle form input
 		if (isset($_POST['CompetitionRegistrationForm']))
 		{
@@ -65,14 +76,7 @@ class CompetitionController extends Controller
 			}
 		}
 
-		// Get list of registrations
 		$currentLan = Lan::model()->getCurrent();
-
-		$criteria = new CDbCriteria();
-		$criteria->condition = 'lan_id = :lan_id';
-		$criteria->order = 'nick ASC';
-		$criteria->params = array(':lan_id'=>$currentLan->id);
-		$registrations = Registration::model()->findAll($criteria);
 
 		// Get a list of competitions that are "signupable" and whose dead-line
 		// hasn't passed. Also get a list all competitions regardless of 
@@ -87,7 +91,6 @@ class CompetitionController extends Controller
 
 		$this->render('create', array(
 			'model'=>$model,
-			'registrations'=>$registrations,
 			'competitions'=>$competitions,
 			'allCompetitions'=>$allCompetitions,
 		));

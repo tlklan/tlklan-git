@@ -81,7 +81,7 @@ class CompetitionRegistrationForm extends CFormModel
 	 * already registered to the specified competition
 	 * @param string $attribute the attribute being validated
 	 */
-	public function validateRegistration($attribute)
+	public function validateRegistration()
 	{
 		$competitor = ActualCompetitor::model()->findByAttributes(array(
 			'registration_id'=>$this->registration,
@@ -89,7 +89,7 @@ class CompetitionRegistrationForm extends CFormModel
 		));
 
 		if ($competitor !== null)
-			$this->addError($attribute, 'Du har redan anmält dig till denna tävling');
+			$this->addError('competition', 'Du har redan anmält dig till denna tävling');
 	}
 
 }
