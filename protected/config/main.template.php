@@ -30,7 +30,10 @@ return array(
 	),
 
 	'modules'=>array(
-		'cms', 
+		'cms',
+		'admin'=>array(
+			'layout'=>'main',
+		)
 	),
 
 	// application components
@@ -44,6 +47,7 @@ return array(
 			'forceCompile'=>true, // indicates whether to force compiling
 			'paths'=>array(
 				'css/less/styles.less'=>'css/styles.css',
+				'css/less/admin.less'=>'css/admin.css',
 				'css/less/small-screen.less'=>'css/small-screen.css',
 			),
 		),

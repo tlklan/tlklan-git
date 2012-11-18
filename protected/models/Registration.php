@@ -17,13 +17,19 @@
  *
  * The followings are the available model relations:
  * @property Competitions[] $competitions
- * @property Lans $lan
+ * @property Lan $lan
  * @property Results[] $results
  * @property Vote[] $votes
  */
 class Registration extends CActiveRecord
 {
-
+	
+	/**
+	 * Used for sorting grids when data is fetched throughn search()
+	 * @var string
+	 */
+	private $_lanName;
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Registration the static model class
@@ -50,6 +56,7 @@ class Registration extends CActiveRecord
 			array('lan_id, name, email, nick, device, date', 'required'),
 			array('lan_id', 'numerical', 'integerOnly'=>true),
 			array('user_id', 'safe'),
+			array('lanName', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -97,7 +104,7 @@ class Registration extends CActiveRecord
 	{
 		return array(
 			'competitions'=>array(self::HAS_MANY, 'Competitor', 'registration_id'),
-			'lan'=>array(self::BELONGS_TO, 'Lans', 'lan_id'),
+			'lan'=>array(self::BELONGS_TO, 'Lan', 'lan_id'),
 			'results'=>array(self::HAS_MANY, 'Results', 'reg_id'),
 			'votes'=>array(self::HAS_MANY, 'Vote', 'voter_id'),
 		);
@@ -110,15 +117,16 @@ class Registration extends CActiveRecord
 	{
 		return array(
 			'id'=>'ID',
-			'lan_id'=>'Lan',
+			'lan_id'=>'LAN',
 			'user_id'=>'Användar-ID',
-			'name'=>'Name',
-			'email'=>'Email',
+			'lanName'=>'LAN',
+			'name'=>'Namn',
+			'email'=>'E-post',
 			'nick'=>'Nick',
-			'device'=>'Device',
-			'date'=>'Date',
-			'confirmed'=>'Confirmed',
-			'deleted'=>'Deleted',
+			'device'=>'Datortyp',
+			'date'=>'Anmälningsdatum',
+			'confirmed'=>'Bekräftat',
+			'deleted'=>'Borttagen',
 		);
 	}
 
@@ -168,6 +176,54 @@ class Registration extends CActiveRecord
 		));
 
 		return count($models) == 1;
+	}
+	
+	/**
+	 * Getter for the lanName property. It should only be used for sorting and 
+	 * filtering.
+	 * @return string the name of the LAN for this registration
+	 */
+	public function getLanName()
+	{
+		if (!isset($this->_lanName) && $this->lan !== null)
+			$this->_lanName = $this->lan->name;
+
+		return $this->_lanName;
+	}
+
+	/**
+	 * Setter for the lanName property. It should only be used for sorting and 
+	 * filtering.
+	 * @param string $name the LAN name
+	 */
+	public function setLanName($name)
+	{
+		$this->_lanName = $name;
+	}
+	
+	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models 
+	 * based on the search/filter conditions.
+	 */
+	public function search()
+	{
+		$criteria = new CDbCriteria;
+		$criteria->with = 'lan'; // we need this to filter by LAN
+
+		$criteria->compare($this->getTableAlias().'id', $this->id);
+		$criteria->compare('lan.name', $this->getLanName(), true);
+		$criteria->compare('t.name', $this->name, true);
+		$criteria->compare('email', $this->email, true);
+		$criteria->compare('nick', $this->nick, true);
+		$criteria->compare('device', $this->device, true);
+		$criteria->compare('date', $this->date, true);
+		$criteria->compare('confirmed', $this->confirmed);
+		$criteria->compare('deleted', $this->deleted);
+
+		return new CActiveDataProvider('Registration', array(
+			'criteria'=>$criteria,
+		));
 	}
 
 }

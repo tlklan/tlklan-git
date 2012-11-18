@@ -65,9 +65,13 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 	else
 	{
 		$rightItems = array(
-			array('label'=>'Din profil', 'url'=>array('/user/profile')),
-			array('label'=>'Logga ut', 'url'=>array('/site/logout')),
-		);
+			array('label'=>'Din profil', 'url'=>array('/user/profile')));
+
+		// Link to administration area
+		if (Yii::app()->user->isAdmin())
+			$rightItems[] = array('label'=>'Administration', 'url'=>array('//admin/'));
+
+		$rightItems[] = array('label'=>'Logga ut', 'url'=>array('/site/logout'));
 	}
 	
 	$this->widget('bootstrap.widgets.TbNavbar', array(
