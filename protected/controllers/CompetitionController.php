@@ -16,6 +16,7 @@ class CompetitionController extends Controller
 	{
 		return array(
 			'ajaxOnly + delete',
+			'accessControl',
 		);
 	}
 	
@@ -28,6 +29,7 @@ class CompetitionController extends Controller
 		return array(
 			array('allow',
 				'actions'=>array('register'),
+				'expression'=>'!Yii::app()->user->isGuest',
 			),
 			// Only administrators can delete competitors
 			array('allow',
