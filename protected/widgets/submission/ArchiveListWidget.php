@@ -87,8 +87,10 @@ class ArchiveListWidget extends CWidget {
 										CHtml::image(Yii::app()->baseUrl.'/files/images/icons/save_icon_small.png'), 
 										$this->controller->createUrl('/submission/get', array('id'=>$submission->id))
 									);
-										
-									if(Yii::app()->user->isAdmin() === true) {
+									
+									// Administrators can update/delete all submissions, 
+									// others can only delete their own
+									if(Yii::app()->user->isAdmin() || $submission->user_id == Yii::app()->user->getUserId()) {
 										// update link
 										echo CHtml::link(
 											CHtml::image(Yii::app()->baseUrl.'/files/images/icons/edit_button.png'), 
@@ -117,7 +119,7 @@ class ArchiveListWidget extends CWidget {
 
 								// Some older submissions doesn't have a submitter
 								if($submission->submitter !== null)
-									echo $submission->submitter->nick; 
+									echo $submission->submitter->username; 
 
 								?>
 							</td>

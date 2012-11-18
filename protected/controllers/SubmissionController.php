@@ -23,7 +23,28 @@ class SubmissionController extends Controller
 	{
 		return array(
 			'accessControl',
+			'ownershipCheck + update, delete',
 		);
+	}
+	
+	/**
+	 * Checks that the submissions specified by the "id" GET parameter is 
+	 * owned by the currently logged in user, or the user is an administrator.
+	 * @param CFilterChain $filterChain the filter chain
+	 * @throws CHttpException if the user is not allowed to perform actions on 
+	 * this submission
+	 */
+	public function filterOwnershipCheck($filterChain)
+	{
+		$model = $this->loadModel(Yii::app()->request->getParam('id'));
+
+		if ($model !== null && Yii::app()->user->isAdmin() ||
+				$model->user_id == Yii::app()->user->getUserId())
+		{
+			$filterChain->run();
+		}
+		else
+			throw new CHttpException(403, "Du kan inte ändra på andras submissions");
 	}
 
 	/**
@@ -32,19 +53,15 @@ class SubmissionController extends Controller
 	public function accessRules()
 	{
 		return array(
-			// Everyone can create and view submissions
+			// Everyone can view the list of submissions
 			array('allow',
-				'actions'=>array('create', 'archive'),
+				'actions'=>array('archive'),
 			),
-			// Only allow logged in users to download submissions
+			// Logged in users can update, delete and download submissions 
+			// (actual ownership check is done in separate filter)
 			array('allow',
-				'actions'=>array('get'),
-				'expression'=>'Yii::app()->user->isGuest === false',
-			),
-			// Only admins can remove submission
-			array('allow',
-				'actions'=>array('update', 'delete'),
-				'expression'=>'Yii::app()->user->isAdmin()',
+				'actions'=>array('get', 'create', 'update', 'delete'),
+				'expression'=>'!Yii::app()->user->isGuest',
 			),
 			array('deny'),
 		);
@@ -58,7 +75,6 @@ class SubmissionController extends Controller
 	{
 		$currentLan = Lan::model()->getCurrent();
 
-		$isNewRecord = $model === null;
 		if ($model === null)
 			$model = new Submission();
 
@@ -90,14 +106,14 @@ class SubmissionController extends Controller
 					$model->file->saveAs($physicalPath);
 					$model->physical_path = $physicalPath;
 				}
-
-				$model->save();
-
-				// Redirect to avoid F5 re-submission
-				if ($isNewRecord)
+				
+				// We need to do this before saving for isNewRecord to work
+				if ($model->isNewRecord)
 					Yii::app()->user->setFlash('success', 'Din submission har laddats upp');
 				else
 					Yii::app()->user->setFlash('success', 'Entryn har uppdaterats');
+				
+				$model->save(false);
 
 				$this->redirect($this->createUrl('/submission/archive'));
 			}
@@ -105,13 +121,8 @@ class SubmissionController extends Controller
 		else {
 			// Auto-select the correct nick for logged in users when adding
 			// new submissions
-			if ($isNewRecord && !Yii::app()->user->isGuest)
-			{
-				$registration = Registration::model()->findByNick(Yii::app()->user->name);
-
-				if ($registration !== null)
-					$model->submitter_id = $registration->id;
-			}
+			if ($model->isNewRecord && !Yii::app()->user->isGuest)
+				$model->user_id = Yii::app()->user->userId;
 		}
 		
 		// Get an ordered list of registrations
@@ -122,7 +133,8 @@ class SubmissionController extends Controller
 		
 		$registrations = Registration::model()->findAll($criteria);
 		
-		$this->render('create', array(
+		// Show different view depending on if this is a create or update
+		$this->render($model->isNewRecord ? 'create' : 'update', array(
 			'model'=>$model,
 			'competitions'=>$currentLan->competitions,
 			'registrations'=>$registrations,

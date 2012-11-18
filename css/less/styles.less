@@ -54,8 +54,22 @@ body {
 	text-align: center;
 }
 
+// override some navbar defaults
 .navbar-inner {
 	border-radius: 0 0 4px 4px;
+}
+
+.navbar-inverse .navbar-inner {
+	#gradient > .vertical(#0088CC, #0044CC);
+	border-color: #004DE6;
+}
+
+.navbar-inverse .brand, .navbar-inverse .nav > li > a {
+	color: #FAFAFA;
+}
+
+.nav > li.active > a, li.dropdown > a {
+	background: none !important;
 }
 
 /* ----------------------------------------------------------------------------
@@ -240,4 +254,14 @@ body {
 /* --- Competition registration --- */
 .competitor-count {
 	margin-bottom: 0;
+}
+
+/* --- User profile --- */
+.user-profile {
+	// remove the top border from the detail view
+	.detail-view tr:first-child {
+		& td, & th {
+			border-top: 0 !important;
+		}
+	}
 }

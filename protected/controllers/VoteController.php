@@ -16,6 +16,22 @@ class VoteController extends Controller
 	{
 		return array(
 			'ajaxOnly + ajaxSubmissions, ajaxResults',
+			'accessControl',
+		);
+	}
+	
+	/**
+	 * Returns the access rules for this controller
+	 * @return array
+	 */
+	public function accessRules()
+	{
+		return array(
+			array('allow',
+				'expression'=>'!Yii::app()->user->isGuest',
+			),
+			// Default rule
+			array('deny')
 		);
 	}
 
@@ -27,6 +43,9 @@ class VoteController extends Controller
 		$currentLan = Lan::model()->getCurrent();
 		$model = new VoteForm();
 
+		// Automatically set voter ID
+		$model->voter = Yii::app()->user->getUserId();
+		
 		// Handle form data
 		if (isset($_POST['VoteForm']))
 		{
@@ -46,19 +65,17 @@ class VoteController extends Controller
 			}
 		}
 		
-		// Get list of registrations and votable competitions
+		// Get list of votable competitions
 		$criteria = new CDbCriteria();
 		$criteria->condition = 'lan_id = :lan_id';
 		$criteria->order = 'nick ASC';
 		$criteria->params = array(':lan_id'=>$currentLan->id);
 		
-		$registrations = Registration::model()->findAll($criteria);
 		$competitions = Competition::model()->findAll('lan_id = :lan_id AND votable = 1 AND deadline >= NOW()', array(
 			':lan_id'=>$currentLan->id,
 		));
 		
 		$this->render('create', array(
-			'registrations'=>$registrations,
 			'competitions'=>$competitions,
 			'model'=>$model,
 		));

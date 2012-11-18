@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'tlk_registrations':
  * @property integer $id
  * @property integer $lan_id
+ * @property integer $user_id
  * @property string $name
  * @property string $email
  * @property string $nick
@@ -54,6 +55,7 @@ class Registration extends CActiveRecord
 		return array(
 			array('lan_id, name, email, nick, device, date', 'required'),
 			array('lan_id', 'numerical', 'integerOnly'=>true),
+			array('user_id', 'safe'),
 			array('lanName', 'safe', 'on'=>'search'),
 		);
 	}
@@ -116,6 +118,7 @@ class Registration extends CActiveRecord
 		return array(
 			'id'=>'ID',
 			'lan_id'=>'LAN',
+			'user_id'=>'Användar-ID',
 			'lanName'=>'LAN',
 			'name'=>'Namn',
 			'email'=>'E-post',
@@ -143,22 +146,6 @@ class Registration extends CActiveRecord
 	public function hasDesktop()
 	{
 		return $this->device == 'desktop';
-	}
-	
-	/**
-	 * Finds the registration model for the specified nick (only for the current 
-	 * LAN)
-	 * @param string $nick the nick
-	 * @return Registration the model, or null if not found
-	 */
-	public function findByNick($nick)
-	{
-		$currentLan = Lan::model()->getCurrent();
-
-		return Registration::model()->findByAttributes(array(
-			'lan_id'=>$currentLan->id,
-			'nick'=>$nick,
-		));
 	}
 	
 	/**

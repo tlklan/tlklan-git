@@ -2,7 +2,7 @@
 
 // Create a list of competitions
 $competitionList = CHtml::listData($competitions, 'id', 'full_name');
-$registrationList = CHtml::listData($registrations, 'id', 'nick');
+$registrationList = CHtml::listData($registrations, 'user_id', 'nick');
 	
 // Render the form
 echo '<hr />';
@@ -16,7 +16,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 /* @var $form TbActiveForm */
 echo $form->dropDownListRow($model, 'compo_id', $competitionList, array('prompt'=>''));
-echo $form->dropDownListRow($model, 'submitter_id', $registrationList, array('prompt'=>''));
+echo $form->dropDownListRow($model, 'user_id', $registrationList, array('prompt'=>''));
 echo $form->textFieldRow($model, 'name');
 echo $form->fileFieldRow($model, 'file');
 echo $form->textAreaRow($model, 'comments');
@@ -29,15 +29,25 @@ echo $form->textAreaRow($model, 'comments');
 		'buttonType'=>'submit',
 		'type'=>'primary',
 		'icon'=>'ok white',
-		'label'=>'Lämna in'
+		'label'=>$model->isNewRecord ? 'Lämna in' : 'Uppdatera',
 	));
 	
-	echo ' ';
+	echo '&nbsp;&nbsp;&nbsp;';
 
-	$this->widget('bootstrap.widgets.TbButton', array(
-		'buttonType'=>'reset',
-		'label'=>'Töm formuläret'
-	));
+	if($model->isNewRecord) {
+		$this->widget('bootstrap.widgets.TbButton', array(
+			'buttonType'=>'reset',
+			'label'=>'Töm formuläret'
+		));
+	}
+	else {
+		$this->widget('bootstrap.widgets.TbButton', array(
+			'buttonType'=>'link',
+			'icon'=>'remove',
+			'label'=>'Avbryt',
+			'url'=>$this->createUrl('/submission/archive'),
+		));
+	}
 	
 	?>
 </div>

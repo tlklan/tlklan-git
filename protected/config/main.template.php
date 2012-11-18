@@ -1,7 +1,6 @@
 <?php
 
-// uncomment the following to define a path alias
-// Yii::setPathOfAlias('local','path/to/local-folder');
+$version = '2.1.1';
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
@@ -19,6 +18,7 @@ return array(
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
+		'application.models.forms.*',
 		'application.components.*',
 		'application.widgets.*',
 		'application.widgets.registration.*',
@@ -45,14 +45,19 @@ return array(
 			'class'=>'ext.less.components.LessCompiler',
 			'forceCompile'=>true, // indicates whether to force compiling
 			'paths'=>array(
-				'css/less/styles.less'=>'css/styles.css',
-				'css/less/admin.less'=>'css/admin.css',
+				'css/less/styles.less'=>'css/styles_'.$version.'.css',
 				'css/less/small-screen.less'=>'css/small-screen.css',
 			),
 		),
 		'user'=>array(
 			'class'=>'WebUser',
 			'allowAutoLogin'=>false,
+			'gid'=>1042, // lanklubben
+		),
+		'hasher'=>array(
+			'class'=>'ext.phpass.Phpass',
+			'hashPortable'=>false,
+			'hashCostLog2'=>10,
 		),
 		'session'=>array(
 			'autoStart'=>true,
@@ -71,7 +76,6 @@ return array(
 		'cms'=>array(
 			'class'=>'TLKCms',	
 			'languages'=>array('sv'=>'Svenska'),
-			'gid'=>1042, // lanklubben
 			'allowedFileTypes'=>'pdf',
 			'allowedFileSize'=>2097152,
 			'attachmentPath'=>'/files/cms/attachments/',
@@ -104,6 +108,8 @@ return array(
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
+		'version'=>$version,
+		
 		// Minimum penis size required to register
 		'minimumPenisLength'=>9,
 		
@@ -112,8 +118,5 @@ return array(
 		
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
-		
-		// username=>password to login to the site with when YII_DEVEL_MODE is defined
-		'devUsers'=>array(),
 	),
 );

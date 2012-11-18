@@ -6,10 +6,10 @@
 syntax: glob
 protected/config/main.php
 files/cms/attachments
-css/styles.css
 files/documents
-css/small-screen.css
 protected/runtime
+protected/config/console.php
+css/*.css
 syntax: regexp
 ^assets/*
 ^nbproject/*

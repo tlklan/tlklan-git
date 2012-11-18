@@ -21,39 +21,47 @@ $this->breadcrumbs=array(
 			)); ?>
 		</div>
 		
-		<?php $this->renderPartial('_form', array(
-			'model'=>$model,
-			'registration'=>$registration,
-			'competitions'=>$competitions,
-		)); ?>
+		<?php 
+		
+		// Show the registration form to logged in users only
+		if (Yii::app()->user->isGuest) 
+		{
+			?>
+			<div class="alert alert-error alert-block">
+				Du måste vara inloggad för att registrera dig. Har du inte ett 
+				konto är det bara att registrera sig!
+			</div>
+			<?php
+		}
+		else 
+		{
+			$this->renderPartial('_form', array(
+				'model'=>$model,
+				'registration'=>$registration,
+				'competitions'=>$competitions,
+			)); 
+		}
+		
+		?>
 	</div>
 	
 	<div class="registration-info small-screen-hidden span5">
 		<h1 style="margin-top: 0;">Information</h1>
 		<?php $this->widget('cms.widgets.CmsBlock',array('name'=>'registration_info')); ?>
-		
-		
 	</div>
 	
-	<div class="statistics small-screen-hidden">
-		<h3>Tävlingsstatistik</h3>
-
-		<table class="stat_counter" cellpadding="0" cellspacing="0">
-			<?php
-
-			$statistics = $currentLan->getCompetitionStatistics();
-			foreach($statistics as $competition => $competitorCount) {
-				?>
-				<tr>
-					<td><?php echo $competition; ?></td>
-					<td><b><?php echo $competitorCount; ?></b></td>
-				</tr>
-				<?php
-			}
-
-			?>
-		</table>
-	</div>
+	<?php
+	
+	// Don't show the statistics to guests (there's not enough vertical space
+	// for it)
+	if (!Yii::app()->user->isGuest)
+	{
+		$this->renderPartial('_statistics', array(
+			'currentLan'=>$currentLan,
+		));
+	}
+	
+	?>
 </div>
 <?php
 
