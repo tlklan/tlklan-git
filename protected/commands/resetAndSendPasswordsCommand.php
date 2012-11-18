@@ -14,10 +14,8 @@ class resetAndSendPasswordsCommand extends CConsoleCommand
 	 */
 	public function actionIndex()
 	{
-		// TODO: Find all users when all functionality has been tested
 		// Skip users that have a werket account
-		$users = User::model()->findAll('email = :email AND has_werket_login = 0', array(
-			':email'=>'neggelandia@gmail.com'));
+		$users = User::model()->findAll();
 
 		// Password generation parameters
 		$length = 8;
