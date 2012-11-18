@@ -1,28 +1,30 @@
-<?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
+<?php 
+
+$form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 	'id'=>'lan-form',
-	'enableAjaxValidation'=>false,
-)); ?>
+	'type'=>'horizontal',
+	'enableAjaxValidation'=>false));
 
-	<p class="help-block">Fields with <span class="required">*</span> are required.</p>
+echo $form->textFieldRow($model, 'name', array('maxlength'=>20));
+echo $form->textFieldRow($model, 'reg_limit', array('class'=>'span1'));
+echo $form->textFieldRow($model, 'start_date', array('hint'=>'Format: YYYY-MM-DD'));
+echo $form->textFieldRow($model, 'end_date', array('hint'=>'Format: YYYY-MM-DD'));
+echo $form->checkboxRow($model, 'enabled');
 
-	<?php echo $form->errorSummary($model); ?>
+?>
+<div class="form-actions">
+	<?php $this->widget('bootstrap.widgets.TbButton', array(
+		'buttonType'=>'submit',
+		'icon'=>'ok white',
+		'type'=>'primary',
+		'label'=>$model->isNewRecord ? 'Skapa' : 'Uppdatera',
+	)); ?>&nbsp;&nbsp;&nbsp;
+	<?php $this->widget('bootstrap.widgets.TbButton', array(
+		'buttonType'=>'link',
+		'icon'=>'remove',
+		'label'=>'Avbryt',
+		'url'=>$this->createUrl('admin'),
+	)); ?>
+</div>
 
-	<?php echo $form->textFieldRow($model,'name',array('class'=>'span5','maxlength'=>20)); ?>
-
-	<?php echo $form->textFieldRow($model,'reg_limit',array('class'=>'span5')); ?>
-
-	<?php echo $form->textFieldRow($model,'start_date',array('class'=>'span5')); ?>
-
-	<?php echo $form->textFieldRow($model,'end_date',array('class'=>'span5')); ?>
-
-	<?php echo $form->textFieldRow($model,'enabled',array('class'=>'span5')); ?>
-
-	<div class="form-actions">
-		<?php $this->widget('bootstrap.widgets.TbButton', array(
-			'buttonType'=>'submit',
-			'type'=>'primary',
-			'label'=>$model->isNewRecord ? 'Create' : 'Save',
-		)); ?>
-	</div>
-
-<?php $this->endWidget(); ?>
+<?php $this->endWidget();

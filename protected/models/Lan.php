@@ -44,6 +44,7 @@ class Lan extends CActiveRecord
 			array('name, reg_limit, start_date, end_date', 'required'),
 			array('reg_limit, enabled', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>20),
+			array('start_date, end_date', 'date', 'format'=>'yyyy-MM-dd'),
 			
 			array('id, name, reg_limit, start_date, end_date, enabled', 'safe', 'on'=>'search'),
 		);
@@ -83,8 +84,23 @@ class Lan extends CActiveRecord
 			'reg_limit'=>'Max antal deltagare',
 			'start_date'=>'Startdatum',
 			'end_date'=>'Slutdatum',
-			'enabled'=>'Aktivt',
+			'enabled'=>in_array($this->scenario, array('insert', 'update')) ? 'Sätt som aktivt' : 'Aktivt',
 		);
+	}
+	
+	/**
+	 * This method is run after the model is saved. It disables all other LANs 
+	 * if the "enabled" attribute is set to true.
+	 */
+	protected function afterSave()
+	{
+		parent::afterSave();
+
+		if ($this->enabled)
+		{
+			Yii::app()->db->createCommand()->update($this->tableName(), 
+					array('enabled'=>0), 'id != :id', array(':id'=>$this->id));
+		}
 	}
 	
 	/**
