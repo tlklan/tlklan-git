@@ -54,8 +54,24 @@ body {
 	text-align: center;
 }
 
+// override some navbar defaults
 .navbar-inner {
 	border-radius: 0 0 4px 4px;
+}
+
+.navbar-inverse .navbar-inner {
+	background-image: -moz-linear-gradient(center top , #0088CC, #0044CC);
+	border-color: #004DE6;
+}
+
+.navbar-inverse .brand, .navbar-inverse .nav > li > a {
+	color: #FAFAFA;
+}
+
+.nav {
+	li.active a, a:focus {
+		background: none !important;
+	}
 }
 
 /* ----------------------------------------------------------------------------
