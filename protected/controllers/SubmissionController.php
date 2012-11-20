@@ -23,8 +23,27 @@ class SubmissionController extends Controller
 	{
 		return array(
 			'accessControl',
+			'checkRegistration + create',
 			'ownershipCheck + update, delete',
 		);
+	}
+	
+	/**
+	 * Checks that the user has registered to the current LAN. This is a 
+	 * pre-requisite for some stuff that happens in actionCreate
+	 * @param CFilterChain $filterChain the filter chain
+	 * @throws CHttpException if the user is not registered to the current LAN
+	 */
+	public function filterCheckRegistration($filterChain)
+	{
+		$registration = Registration::model()->currentLan()
+				->find('user_id = :user_id', array(':user_id'=>
+			Yii::app()->user->getUserId()));
+
+		if ($registration === null)
+			throw new CHttpException(403, "Du måste vara registrerad till LANet för att kunna submitta entries");
+
+		$filterChain->run();
 	}
 	
 	/**
@@ -111,9 +130,32 @@ class SubmissionController extends Controller
 					$model->size = $model->file->getSize();
 				}
 				
-				// We need to do this before saving for isNewRecord to work
 				if ($model->isNewRecord)
+				{
+					// Ensure the user is registered to the competition to 
+					// which he is submitting (some badges depend on it)
+					$userId = Yii::app()->user->getUserId();
+					$user = User::model()->findByPk($userId);
+
+					$hasCompoRegistration = false;
+
+					foreach ($user->competitions as $competition)
+						if ($competition->id == $model->compo_id)
+							$hasCompoRegistration = true;
+
+					if (!$hasCompoRegistration)
+					{
+						$registration = Registration::model()->currentLan()
+								->find('user_id = :user_id', array(':user_id'=>$userId));
+
+						$competitor = new Competitor();
+						$competitor->registration_id = $registration->id;
+						$competitor->competition_id = $model->compo_id;
+						$competitor->save(false);
+					}
+
 					Yii::app()->user->setFlash('success', 'Din submission har laddats upp');
+				}
 				else
 					Yii::app()->user->setFlash('success', 'Entryn har uppdaterats');
 				
