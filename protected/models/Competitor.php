@@ -39,5 +39,16 @@ class Competitor extends CActiveRecord
 			'competition_id'=>'Competition',
 		);
 	}
+	
+	/**
+	 * Returns the relations for this model
+	 * @return array
+	 */
+	public function relations()
+	{
+		return array(
+			'registration'=>array(self::BELONGS_TO, 'Registration', 'registration_id'),
+		);
+	}
 
 }
