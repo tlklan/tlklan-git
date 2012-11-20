@@ -151,7 +151,10 @@ class SubmissionController extends Controller
 	 */
 	public function actionArchive()
 	{
-		$lans = Lan::model()->findAll();
+		// Use eager-loading because we'll be needing all this stuff anyway
+		$lans = Lan::model()->with('competitions', 'competitions.submissions', 
+				'competitions.submissions.voteCount', 
+				'competitions.submissions.submitter')->findAll();
 
 		$this->render('archive', array(
 			'lans'=>$lans,

@@ -38,6 +38,16 @@ class ArchiveListWidget extends CWidget {
 				
 				$totalSubmissionCount = 0;
 				
+				// Store some variables so we don't have to fetch them inside 
+				// the loop
+				$isGuest = Yii::app()->user->isGuest;
+				$isAdmin = Yii::app()->user->isAdmin();
+
+				if (!$isGuest)
+					$userId = Yii::app()->user->getUserId();
+
+				$baseUrl = Yii::app()->baseUrl;
+				
 				// Start looping through each competition
 				foreach($this->lan->competitions as $competition) {
 					$submissions = $competition->submissions;
@@ -81,25 +91,25 @@ class ArchiveListWidget extends CWidget {
 								$submissionName = CHtml::encode($submission->name);
 								
 								// Show some buttons for logged in users
-								if(Yii::app()->user->isGuest === false) {
+								if(!$isGuest) {
 									// download link
 									echo CHtml::link(
-										CHtml::image(Yii::app()->baseUrl.'/files/images/icons/save_icon_small.png'), 
+										CHtml::image($baseUrl.'/files/images/icons/save_icon_small.png'), 
 										$this->controller->createUrl('/submission/get', array('id'=>$submission->id))
 									);
 									
 									// Administrators can update/delete all submissions, 
 									// others can only delete their own
-									if(Yii::app()->user->isAdmin() || $submission->user_id == Yii::app()->user->getUserId()) {
+									if($isAdmin || $submission->user_id == $userId) {
 										// update link
 										echo CHtml::link(
-											CHtml::image(Yii::app()->baseUrl.'/files/images/icons/edit_button.png'), 
+											CHtml::image($baseUrl.'/files/images/icons/edit_button.png'), 
 											$this->controller->createUrl('/submission/update', array('id'=>$submission->id))
 										);
 										
 										// delete link
 										echo CHtml::link(
-											CHtml::image(Yii::app()->baseUrl.'/files/images/icons/delete_button.png'), 
+											CHtml::image($baseUrl.'/files/images/icons/delete_button.png'), 
 											$this->controller->createUrl('/submission/delete', array('id'=>$submission->id)), 
 											array(
 												'confirm'=>"Är du säker?\n\nEntryn kommer endast att ta bort från databasen, inte får hårdskivan."
@@ -107,7 +117,7 @@ class ArchiveListWidget extends CWidget {
 										);
 									}
 									
-									echo CHtml::link($submissionName, Yii::app()->controller->createUrl('/submission/get', array('id'=>$submission->id))); 
+									echo CHtml::link($submissionName, $this->controller->createUrl('/submission/get', array('id'=>$submission->id))); 
 								}
 								else
 									echo $submissionName;
