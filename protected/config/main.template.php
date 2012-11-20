@@ -1,6 +1,6 @@
 <?php
 
-$version = '2.1.1';
+$version = '2.1.2';
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
