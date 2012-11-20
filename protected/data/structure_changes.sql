@@ -203,3 +203,7 @@ ALTER TABLE `tlk_votes`
 # Add size column to tlk_submissions
 ALTER TABLE `tlk_submissions`
 	ADD COLUMN `size` BIGINT UNSIGNED NOT NULL DEFAULT '0' AFTER `physical_path`;
+
+# Change collation on tlk_submissions
+ALTER TABLE `tlk_submissions`
+	COLLATE='utf8_general_ci';
