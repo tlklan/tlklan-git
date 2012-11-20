@@ -33,8 +33,6 @@ $this->breadcrumbs=array(
 		)); ?>
 	</fieldset>
 
-	<hr />
-	
 	<fieldset>
 		<legend>Dina utmärkelser</legend>
 		
