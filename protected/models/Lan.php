@@ -46,12 +46,12 @@ class Lan extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('name, reg_limit, start_date, end_date', 'required'),
+			array('name, reg_limit, start_date, end_date, location', 'required'),
 			array('reg_limit, enabled', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>20),
 			array('start_date, end_date', 'date', 'format'=>'yyyy-MM-dd'),
 			// TODO: Add location rule
-			array('id, name, reg_limit, start_date, end_date, enabled', 'safe', 'on'=>'search'),
+			array('id, name, reg_limit, start_date, end_date, location, enabled', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -157,6 +157,42 @@ class Lan extends CActiveRecord
 	public function getCurrent()
 	{
 		return self::model()->find('enabled = 1');
+	}
+	
+	/**
+	 * Returns a list of valid LAN locations (can be used for grid view filters 
+	 * or drop down lists)
+	 * @return array
+	 */
+	public function getLocationList()
+	{
+		return array(
+			Lan::LOCATION_CORNER=>'Cornern',
+			Lan::LOCATION_WERKET=>'Werket',
+			Lan::LOCATION_HARTWALL=>'Hartwall Arena'
+		);
+	}
+
+	/**
+	 * Returns the friendly name of the LAN location
+	 * @return string
+	 */
+	public function getFriendlyLocation()
+	{
+		switch ($this->location)
+		{
+			case self::LOCATION_CORNER:
+				return 'Cornern';
+				break;
+			case self::LOCATION_WERKET:
+				return 'Werket';
+				break;
+			case self::LOCATION_HARTWALL:
+				return 'Hartwall Arena';
+				break;
+			default:
+				return '';
+		}
 	}
 
 	/**
