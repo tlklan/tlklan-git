@@ -76,7 +76,10 @@ class SubmissionController extends Controller
 		$currentLan = Lan::model()->getCurrent();
 
 		if ($model === null)
+		{
 			$model = new Submission();
+			$model->user_id = Yii::app()->user->getUserId();
+		}
 
 		if (isset($_POST['Submission']))
 		{
@@ -125,19 +128,10 @@ class SubmissionController extends Controller
 				$model->user_id = Yii::app()->user->userId;
 		}
 		
-		// Get an ordered list of registrations
-		$criteria = new CDbCriteria();
-		$criteria->condition = 'lan_id = :lan_id';
-		$criteria->order = 'nick ASC';
-		$criteria->params = array(':lan_id'=>$currentLan->id);
-		
-		$registrations = Registration::model()->findAll($criteria);
-		
 		// Show different view depending on if this is a create or update
 		$this->render($model->isNewRecord ? 'create' : 'update', array(
 			'model'=>$model,
 			'competitions'=>$currentLan->competitions,
-			'registrations'=>$registrations,
 		));
 	}
 

@@ -2,7 +2,6 @@
 
 // Create a list of competitions
 $competitionList = CHtml::listData($competitions, 'id', 'full_name');
-$registrationList = CHtml::listData($registrations, 'user_id', 'nick');
 	
 // Render the form
 echo '<hr />';
@@ -16,7 +15,6 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 /* @var $form TbActiveForm */
 echo $form->dropDownListRow($model, 'compo_id', $competitionList, array('prompt'=>''));
-echo $form->dropDownListRow($model, 'user_id', $registrationList, array('prompt'=>''));
 echo $form->textFieldRow($model, 'name');
 echo $form->fileFieldRow($model, 'file');
 echo $form->textAreaRow($model, 'comments');
