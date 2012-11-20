@@ -211,3 +211,7 @@ ALTER TABLE `tlk_submissions`
 # Add location column to tlk_lans
 ALTER TABLE `tlk_lans`
 	ADD COLUMN `location` VARCHAR(50) NOT NULL AFTER `end_date`;
+
+# Add is_founder column to tlk_users
+ALTER TABLE `tlk_users`
+	ADD COLUMN `is_founder` TINYINT(1) NOT NULL DEFAULT '0' AFTER `has_werket_login`;

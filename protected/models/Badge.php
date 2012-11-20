@@ -14,6 +14,7 @@ class Badge extends CModel
 	const BADGE_HAS_WINNING_SUBMISSION	= 2;
 	const BADGE_ALL_LANS				= 4;
 	const BADGE_ALL_CORNER_LANS			= 8;
+	const BADGE_IS_FOUNDING_FATHER		= 16;
 
 	/**
 	 * @var int the type of the badge
@@ -51,6 +52,9 @@ class Badge extends CModel
 			case self::BADGE_ALL_LANS:
 				return 'alllans.png';
 				break;
+			case self::BADGE_IS_FOUNDING_FATHER:
+				return 'founding_father.png';
+				break;
 			default:
 				return 'default.png';
 		}
@@ -78,6 +82,9 @@ class Badge extends CModel
 				break;
 			case self::BADGE_ALL_CORNER_LANS:
 				return 'Har varit på samtliga Corner-LAN';
+				break;
+			case self::BADGE_IS_FOUNDING_FATHER:
+				return 'Har varit med och grundat LAN-klubben';
 				break;
 			default:
 				return '';
