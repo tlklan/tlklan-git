@@ -24,6 +24,12 @@ $this->breadcrumbs=array(
 		'start_date',
 		'end_date',
 		array(
+			'name'=>'location',
+            'filter'=>$model->getLocationList(),
+			'type'=>'raw',
+            'value'=>'$data->getFriendlyLocation()',
+		),
+		array(
 			'name'=>'enabled',
             'filter'=>array('1'=>'Ja','0'=>'Nej'),
 			'type'=>'raw',

@@ -9,6 +9,7 @@
  * @property integer $reg_limit
  * @property string $start_date
  * @property string $end_date
+ * @property string $location
  * @property integer $enabled
  *
  * The followings are the available model relations:
@@ -18,6 +19,10 @@
 class Lan extends CActiveRecord
 {
 
+	// Defined locations
+	const LOCATION_CORNER		= 'corner';
+	const LOCATION_WERKET		= 'werket';
+	const LOCATION_HARTWALL		= 'hartwall';
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Lan the static model class
@@ -41,12 +46,12 @@ class Lan extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('name, reg_limit, start_date, end_date', 'required'),
+			array('name, reg_limit, start_date, end_date, location', 'required'),
 			array('reg_limit, enabled', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>20),
 			array('start_date, end_date', 'date', 'format'=>'yyyy-MM-dd'),
-			
-			array('id, name, reg_limit, start_date, end_date, enabled', 'safe', 'on'=>'search'),
+			// TODO: Add location rule
+			array('id, name, reg_limit, start_date, end_date, location, enabled', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -84,6 +89,7 @@ class Lan extends CActiveRecord
 			'reg_limit'=>'Max antal deltagare',
 			'start_date'=>'Startdatum',
 			'end_date'=>'Slutdatum',
+			'location'=>'Plats',
 			'enabled'=>in_array($this->scenario, array('insert', 'update')) ? 'Sätt som aktivt' : 'Aktivt',
 		);
 	}
@@ -116,6 +122,7 @@ class Lan extends CActiveRecord
 		$criteria->compare('reg_limit', $this->reg_limit);
 		$criteria->compare('start_date', $this->start_date, true);
 		$criteria->compare('end_date', $this->end_date, true);
+		$criteria->compare('location', $this->location, true);
 		$criteria->compare('enabled', $this->enabled, true);
 		
 		return new CActiveDataProvider($this, array(
@@ -150,6 +157,42 @@ class Lan extends CActiveRecord
 	public function getCurrent()
 	{
 		return self::model()->find('enabled = 1');
+	}
+	
+	/**
+	 * Returns a list of valid LAN locations (can be used for grid view filters 
+	 * or drop down lists)
+	 * @return array
+	 */
+	public function getLocationList()
+	{
+		return array(
+			Lan::LOCATION_CORNER=>'Cornern',
+			Lan::LOCATION_WERKET=>'Werket',
+			Lan::LOCATION_HARTWALL=>'Hartwall Arena'
+		);
+	}
+
+	/**
+	 * Returns the friendly name of the LAN location
+	 * @return string
+	 */
+	public function getFriendlyLocation()
+	{
+		switch ($this->location)
+		{
+			case self::LOCATION_CORNER:
+				return 'Cornern';
+				break;
+			case self::LOCATION_WERKET:
+				return 'Werket';
+				break;
+			case self::LOCATION_HARTWALL:
+				return 'Hartwall Arena';
+				break;
+			default:
+				return '';
+		}
 	}
 
 	/**

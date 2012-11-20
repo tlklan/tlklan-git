@@ -9,6 +9,7 @@ echo $form->textFieldRow($model, 'name', array('maxlength'=>20));
 echo $form->textFieldRow($model, 'reg_limit', array('class'=>'span1'));
 echo $form->textFieldRow($model, 'start_date', array('hint'=>'Format: YYYY-MM-DD'));
 echo $form->textFieldRow($model, 'end_date', array('hint'=>'Format: YYYY-MM-DD'));
+echo $form->dropdownListRow($model, 'location', $model->getLocationList());
 echo $form->checkboxRow($model, 'enabled');
 
 ?>

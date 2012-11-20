@@ -207,3 +207,7 @@ ALTER TABLE `tlk_submissions`
 # Change collation on tlk_submissions
 ALTER TABLE `tlk_submissions`
 	COLLATE='utf8_general_ci';
+
+# Add location column to tlk_lans
+ALTER TABLE `tlk_lans`
+	ADD COLUMN `location` VARCHAR(50) NOT NULL AFTER `end_date`;
