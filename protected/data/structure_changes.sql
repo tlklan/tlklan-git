@@ -215,3 +215,19 @@ ALTER TABLE `tlk_lans`
 # Add is_founder column to tlk_users
 ALTER TABLE `tlk_users`
 	ADD COLUMN `is_founder` TINYINT(1) NOT NULL DEFAULT '0' AFTER `has_werket_login`;
+
+# Add committee table
+CREATE TABLE `tlk_committee` (
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`user_id` INT(10) NOT NULL,
+	`year` SMALLINT NOT NULL,
+	`position` VARCHAR(50) NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `user_id` (`user_id`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB;
+
+# Add a foreign key constraints (needs proper data first)
+ALTER TABLE `tlk_committee`
+	ADD CONSTRAINT `committee_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `tlk_users` (`id`) ON UPDATE CASCADE ON DELETE NO ACTION;
