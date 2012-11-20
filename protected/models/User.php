@@ -10,6 +10,7 @@
  * @property string $username
  * @property string $password
  * @property integer $has_werket_login
+ * @property int $is_founder
  * @property string $date_added
  * 
  * @property int $lanCount
@@ -270,6 +271,10 @@ class User extends CActiveRecord
 
 		if ($allCornerLans)
 			$badges[] = new Badge(Badge::BADGE_ALL_CORNER_LANS);
+		
+		// Is founding father?
+		if ($this->is_founder)
+			$badges[] = new Badge(Badge::BADGE_IS_FOUNDING_FATHER);
 
 		return $badges;
 	}
