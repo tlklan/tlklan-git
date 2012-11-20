@@ -11,6 +11,12 @@
  * @property string $password
  * @property integer $has_werket_login
  * @property string $date_added
+ * 
+ * @property int $lanCount
+ * @property Submission[] $submissions
+ * @property int $submissionCount
+ * @property Registration[] $registrations
+ * @property Competition[] $competitions
  */
 class User extends CActiveRecord
 {
@@ -117,7 +123,14 @@ class User extends CActiveRecord
 	public function relations()
 	{
 		return array(
-		
+			'lanCount'=>array(self::STAT, 'Lan', 'tlk_registrations(lan_id, user_id)'),
+			'submissions'=>array(self::HAS_MANY, 'Submission', 'user_id'),
+			'submissionCount'=>array(self::STAT, 'Submission', 'user_id'),
+			'registrations'=>array(self::HAS_MANY, 'Registration', 'user_id'),
+			// the following relation is only used as an intermediate to get the 
+			// competitions relation
+			'competitors'=>array(self::HAS_MANY, 'Competitor', array('id'=>'registration_id'), 'through'=>'registrations'),
+			'competitions'=>array(self::HAS_MANY, 'Competition', array('competition_id'=>'id'), 'through'=>'competitors'),
 		);
 	}
 
@@ -174,12 +187,59 @@ class User extends CActiveRecord
 	}
 	
 	/**
+	 * Returns the amount of winning submissions this user has.
+	 * @return int
+	 */
+	public function getWinningSubmissionCount()
+	{
+		$winningCount = 0;
+
+		// TODO: Try to do this with relations
+		// Get all competitions the user has participated in and get their 
+		// voting result data provider
+		foreach ($this->competitions as $competition)
+		{
+			$dataProvider = $competition->getSubmissionDataProvider();
+			$data = $dataProvider->getData();
+
+			// Compare the winning submission's user_id
+			if (count($data) > 0 && $data[0]['user_id'] == $this->id)
+				$winningCount++;
+		}
+
+		return $winningCount;
+	}
+	
+	/**
 	 * Returns true if the user has a shell account
 	 * @return boolean
 	 */
 	public function hasShellAccount()
 	{
 		return $this->has_werket_login == 1;
+	}
+	
+	/**
+	 * Returns an array of badges that the user has earned
+	 * @return Badge[] the user's badges
+	 */
+	public function getBadges()
+	{
+		$badges = array();
+
+		// User has been on more than five LANs
+		if ($this->lanCount >= 5)
+			$badges[] = new Badge(Badge::BADGE_MANY_LANS);
+
+		// User has at least one submission
+		if ($this->submissionCount != 0)
+			$badges[] = new Badge(Badge::BADGE_HAS_SUBMISSION);
+
+		// User has at least one winning submission
+		if ($this->getWinningSubmissionCount() > 0)
+			$badges[] = new Badge(Badge::BADGE_HAS_WINNING_SUBMISSION);
+
+		return $badges;
 	}
 
 }

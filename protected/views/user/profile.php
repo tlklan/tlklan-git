@@ -34,6 +34,30 @@ $this->breadcrumbs=array(
 	</fieldset>
 
 	<hr />
+	
+	<fieldset>
+		<legend>Dina utmärkelser</legend>
+		
+		<?php
+		
+		 $badges = $model->getBadges();
+		$iconBaseUrl = Yii::app()->baseUrl.'/files/images/icons/badges/';
+
+		if (count($badges) > 0)
+		{
+			foreach ($badges as $badge)
+			{
+				echo CHtml::openTag('div', array('class'=>'user-badge clearfix'));
+				echo CHtml::image($iconBaseUrl.$badge->getIcon(), 'Badge');
+				echo '<p>'.$badge->getDescription().'</p>';
+				echo CHtml::closeTag('div');
+			}
+		}
+		else
+			echo '<p>Du har inga utmärkelser för tillfället</p>';
+		
+		?>
+	</fieldset>
 
 	<div class="form-actions">
 		<?php
