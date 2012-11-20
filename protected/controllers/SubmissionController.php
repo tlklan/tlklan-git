@@ -173,11 +173,14 @@ class SubmissionController extends Controller
 		$physicalPath = $submission->physical_path;
 
 		// Get the MIME type and basename of the file
-		$mime = mime_content_type($physicalPath);
+		$finfo = new finfo(FILEINFO_MIME_TYPE);
+		$mime = $finfo->file($physicalPath);
 		$basename = basename($physicalPath);
 
 		// Serve the file to the browser
-		header("Content-type: $mime");
+		if ($mime !== false)
+			header("Content-type: $mime");
+		
 		header('Content-Disposition: attachment; filename="'.$basename.'"');
 		header('Content-Length: '.$submission->getSize(false));
 
