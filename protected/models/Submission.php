@@ -108,28 +108,10 @@ class Submission extends CActiveRecord
 	 */
 	public function getSize($formatted = true)
 	{
-		$sizeBytes = $this->size;
-
-		// Use the size stored in the database if available, otherwise read 
-		// it from the file and store it
-		if ($sizeBytes == 0)
-		{
-			// Abort if file not found
-			if (!is_readable($this->physical_path))
-				return 0;
-
-			// Get the size in bytes
-			$stat = stat($this->physical_path);
-			$sizeBytes = $stat[7];
-			
-			$this->size = $sizeBytes;
-			$this->save(false);
-		}
-			
 		// Format it
 		$formatter = new CFormatter();
 		$formatter->sizeFormat = array('base'=>1024, 'decimals'=>1);
-		return ($formatted === false) ? $sizeBytes : $formatter->formatSize($sizeBytes);
+		return ($formatted === false) ? $this->size : $formatter->formatSize($this->size);
 	}
 
 }
