@@ -9,6 +9,7 @@
  * @property integer $reg_limit
  * @property string $start_date
  * @property string $end_date
+ * @property string $location
  * @property integer $enabled
  *
  * The followings are the available model relations:
@@ -18,6 +19,10 @@
 class Lan extends CActiveRecord
 {
 
+	// Defined locations
+	const LOCATION_CORNER		= 'corner';
+	const LOCATION_WERKET		= 'werket';
+	const LOCATION_HARTWALL		= 'hartwall';
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Lan the static model class
@@ -45,7 +50,7 @@ class Lan extends CActiveRecord
 			array('reg_limit, enabled', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>20),
 			array('start_date, end_date', 'date', 'format'=>'yyyy-MM-dd'),
-			
+			// TODO: Add location rule
 			array('id, name, reg_limit, start_date, end_date, enabled', 'safe', 'on'=>'search'),
 		);
 	}
@@ -84,6 +89,7 @@ class Lan extends CActiveRecord
 			'reg_limit'=>'Max antal deltagare',
 			'start_date'=>'Startdatum',
 			'end_date'=>'Slutdatum',
+			'location'=>'Plats',
 			'enabled'=>in_array($this->scenario, array('insert', 'update')) ? 'Sätt som aktivt' : 'Aktivt',
 		);
 	}
@@ -116,6 +122,7 @@ class Lan extends CActiveRecord
 		$criteria->compare('reg_limit', $this->reg_limit);
 		$criteria->compare('start_date', $this->start_date, true);
 		$criteria->compare('end_date', $this->end_date, true);
+		$criteria->compare('location', $this->location, true);
 		$criteria->compare('enabled', $this->enabled, true);
 		
 		return new CActiveDataProvider($this, array(
