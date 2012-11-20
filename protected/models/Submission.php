@@ -111,7 +111,7 @@ class Submission extends CActiveRecord
 		$sizeBytes = $this->size;
 
 		// Use the size stored in the database if available, otherwise read 
-		// it from the file
+		// it from the file and store it
 		if ($sizeBytes == 0)
 		{
 			// Abort if file not found
@@ -121,6 +121,9 @@ class Submission extends CActiveRecord
 			// Get the size in bytes
 			$stat = stat($this->physical_path);
 			$sizeBytes = $stat[7];
+			
+			$this->size = $sizeBytes;
+			$this->save(false);
 		}
 			
 		// Format it
