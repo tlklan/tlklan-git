@@ -40,7 +40,7 @@ $this->breadcrumbs=array(
 		
 		<?php
 		
-		 $badges = $model->getBadges();
+		$badges = $model->getBadges();
 		$iconBaseUrl = Yii::app()->baseUrl.'/files/images/icons/badges/';
 
 		if (count($badges) > 0)

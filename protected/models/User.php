@@ -205,7 +205,7 @@ class User extends CActiveRecord
 			$data = $dataProvider->getData();
 
 			// Compare the winning submission's user_id
-			if (count($data) > 0 && $data[0]['user_id'] == $this->id)
+			if (count($data) > 0 && $data[0]['voteCount'] > 0 && $data[0]['user_id'] == $this->id)
 				$winningCount++;
 		}
 
