@@ -13,7 +13,7 @@ $this->breadcrumbs=array(
 <div class="user-profile">
 	
 	<fieldset>
-		<legend>Dina användaruppgifter</legend>
+		<legend>Användaruppgifter</legend>
 
 		<?php $this->widget('TbDetailView', array(
 			'type'=>'striped',
@@ -34,7 +34,7 @@ $this->breadcrumbs=array(
 	</fieldset>
 
 	<fieldset>
-		<legend>Dina utmärkelser</legend>
+		<legend>Utmärkelser</legend>
 		
 		<?php
 		
@@ -56,7 +56,7 @@ $this->breadcrumbs=array(
 		
 		?>
 	</fieldset>
-
+	
 	<div class="form-actions">
 		<?php
 
