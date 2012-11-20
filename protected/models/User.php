@@ -15,6 +15,7 @@
  * @property int $lanCount
  * @property Submission[] $submissions
  * @property int $submissionCount
+ * @property Lan[] $lans
  * @property Registration[] $registrations
  * @property Competition[] $competitions
  */
@@ -127,6 +128,7 @@ class User extends CActiveRecord
 			'submissions'=>array(self::HAS_MANY, 'Submission', 'user_id'),
 			'submissionCount'=>array(self::STAT, 'Submission', 'user_id'),
 			'registrations'=>array(self::HAS_MANY, 'Registration', 'user_id'),
+			'lans'=>array(self::HAS_MANY, 'Lan', array('lan_id'=>'id'), 'through'=>'registrations'),
 			// the following relation is only used as an intermediate to get the 
 			// competitions relation
 			'competitors'=>array(self::HAS_MANY, 'Competitor', array('id'=>'registration_id'), 'through'=>'registrations'),
@@ -238,6 +240,36 @@ class User extends CActiveRecord
 		// User has at least one winning submission
 		if ($this->getWinningSubmissionCount() > 0)
 			$badges[] = new Badge(Badge::BADGE_HAS_WINNING_SUBMISSION);
+
+		$allCornerLans = true; // User has attended all Cornern LANs
+		$allLans = true; // User has attended all LANs
+
+		$attendedLans = $this->lans;
+
+		// Determine allCornerLans and allLans
+		foreach (Lan::model()->findAll() as $lan)
+		{
+			// Skip LANs that have not yet ended
+			if (time() < strtotime($lan->end_date))
+				continue;
+
+			// Skip Assembly, it doesn't count
+			if ($lan->location == Lan::LOCATION_HARTWALL)
+				continue;
+
+			if ($allLans && !in_array($lan, $attendedLans))
+				$allLans = false;
+
+			if ($lan->location == Lan::LOCATION_CORNER)
+				if ($allCornerLans && !in_array($lan, $attendedLans))
+					$allCornerLans = false;
+		}
+
+		if ($allLans)
+			$badges[] = new Badge(Badge::BADGE_ALL_LANS);
+
+		if ($allCornerLans)
+			$badges[] = new Badge(Badge::BADGE_ALL_CORNER_LANS);
 
 		return $badges;
 	}

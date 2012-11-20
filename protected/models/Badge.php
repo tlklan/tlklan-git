@@ -9,9 +9,11 @@ class Badge extends CModel
 {
 	// Define badge types
 
-	const BADGE_MANY_LANS = 0;
-	const BADGE_HAS_SUBMISSION = 1;
-	const BADGE_HAS_WINNING_SUBMISSION = 2;
+	const BADGE_MANY_LANS				= 0;
+	const BADGE_HAS_SUBMISSION			= 1;
+	const BADGE_HAS_WINNING_SUBMISSION	= 2;
+	const BADGE_ALL_LANS				= 4;
+	const BADGE_ALL_CORNER_LANS			= 8;
 
 	/**
 	 * @var int the type of the badge
@@ -41,8 +43,17 @@ class Badge extends CModel
 	 */
 	public function getIcon()
 	{
-		// TODO: Use different icons
-		return 'default.png';
+		switch ($this->_type)
+		{
+			case self::BADGE_HAS_WINNING_SUBMISSION:
+				return 'winning_submission.png';
+				break;
+			case self::BADGE_ALL_LANS:
+				return 'alllans.png';
+				break;
+			default:
+				return 'default.png';
+		}
 	}
 
 	/**
@@ -61,6 +72,12 @@ class Badge extends CModel
 				break;
 			case self::BADGE_HAS_WINNING_SUBMISSION:
 				return 'Har submittad minst en vinnande entry';
+				break;
+			case self::BADGE_ALL_LANS:
+				return 'Har varit på varenda LAN';
+				break;
+			case self::BADGE_ALL_CORNER_LANS:
+				return 'Har varit på samtliga Corner-LAN';
 				break;
 			default:
 				return '';
