@@ -8,13 +8,14 @@
 class Badge extends CModel
 {
 	// Define badge types
-
 	const BADGE_MANY_LANS				= 0;
 	const BADGE_HAS_SUBMISSION			= 1;
 	const BADGE_HAS_WINNING_SUBMISSION	= 2;
 	const BADGE_ALL_LANS				= 4;
 	const BADGE_ALL_CORNER_LANS			= 8;
 	const BADGE_IS_FOUNDING_FATHER		= 16;
+	const BADGE_IS_CURRENT_COM_MEMBER	= 32;
+	const BADGE_FORMER_COM_MEMBER		= 64;
 
 	/**
 	 * @var int the type of the badge
@@ -46,6 +47,9 @@ class Badge extends CModel
 	{
 		switch ($this->_type)
 		{
+			case self::BADGE_HAS_SUBMISSION:
+				return 'has_submission.png';
+				break;
 			case self::BADGE_HAS_WINNING_SUBMISSION:
 				return 'winning_submission.png';
 				break;
@@ -54,6 +58,10 @@ class Badge extends CModel
 				break;
 			case self::BADGE_IS_FOUNDING_FATHER:
 				return 'founding_father.png';
+				break;
+			case self::BADGE_IS_CURRENT_COM_MEMBER:
+			case self::BADGE_FORMER_COM_MEMBER:
+				return 'committee_member.png';
 				break;
 			default:
 				return 'default.png';
@@ -85,6 +93,12 @@ class Badge extends CModel
 				break;
 			case self::BADGE_IS_FOUNDING_FATHER:
 				return 'Har varit med och grundat LAN-klubben';
+				break;
+			case self::BADGE_IS_CURRENT_COM_MEMBER:
+				return 'Sitter för tillfället i LAN-klubbens styrelse';
+				break;
+			case self::BADGE_FORMER_COM_MEMBER:
+				return 'Har tidigare suttit i LAN-klubbens styrelse';
 				break;
 			default:
 				return '';

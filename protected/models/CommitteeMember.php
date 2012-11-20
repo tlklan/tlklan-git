@@ -55,5 +55,16 @@ class CommitteeMember extends CActiveRecord
 			'position'=>'Position',
 		);
 	}
+	
+	/**
+	 * Returns the current committee's members
+	 * @return CommitteeMember[]
+	 */
+	public function getCurrentCommitteeMembers()
+	{
+		$maxYear = Yii::app()->db->createCommand('SELECT MAX(`year`) FROM tlk_committee')->queryScalar();
+
+		return self::model()->findAll('year = :year', array(':year'=>$maxYear));
+	}
 
 }

@@ -230,6 +230,24 @@ class User extends CActiveRecord
 	{
 		$badges = array();
 
+		// User is a current committee member
+		$currentMembers = CommitteeMember::model()->getCurrentCommitteeMembers();
+		foreach ($currentMembers as $member)
+		{
+			if ($member->user_id == $this->id)
+			{
+				$badges[] = new Badge(Badge::BADGE_IS_CURRENT_COM_MEMBER);
+
+				break;
+			}
+		}
+
+		// User has been a committee member
+		$committeeMember = CommitteeMember::model()->find('user_id = :id', array(':id'=>$this->id));
+
+		if ($committeeMember !== null)
+			$badges[] = new Badge(Badge::BADGE_FORMER_COM_MEMBER);
+		
 		// User has been on more than five LANs
 		if ($this->lanCount >= 5)
 			$badges[] = new Badge(Badge::BADGE_MANY_LANS);
