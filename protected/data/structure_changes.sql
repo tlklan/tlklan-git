@@ -196,3 +196,10 @@ ALTER TABLE `tlk_lans`
 	ADD INDEX `enabled` (`enabled`);
 ALTER TABLE `tlk_votes`
 	ADD INDEX `voter_id_compo_id` (`voter_id`, `compo_id`);
+
+#
+# 2012-11-20
+#
+# Add size column to tlk_submissions
+ALTER TABLE `tlk_submissions`
+	ADD COLUMN `size` BIGINT UNSIGNED NOT NULL DEFAULT '0' AFTER `physical_path`;

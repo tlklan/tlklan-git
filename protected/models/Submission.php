@@ -9,6 +9,7 @@
  * @property integer $user_id
  * @property string $name
  * @property string $physical_path
+ * @property int $size
  * @property string $comments
  * @property integer $disqualified
  *
@@ -50,7 +51,7 @@ class Submission extends CActiveRecord
 			array('file', 'file', 'on'=>'insert'),
 			array('compo_id, user_id', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>30),
-			array('comments', 'safe'),
+			array('size, comments', 'safe'),
 			// the file doesn't have to be resubmitted when updating
 			array('file', 'file', 'allowEmpty'=>true, 'on'=>'update'),
 		);
@@ -82,6 +83,7 @@ class Submission extends CActiveRecord
 			'name'=>'Entrynamn',
 			'file'=>'Filnamn',
 			'physical_path'=>'Sökväg', // mostly internal
+			'size'=>'Storlek',
 			'comments'=>'Kommentarer',
 			'disqualified'=>'Diskvalificerad',
 		);
@@ -106,14 +108,21 @@ class Submission extends CActiveRecord
 	 */
 	public function getSize($formatted = true)
 	{
-		// Abort if file not found
-		if (!is_readable($this->physical_path))
-			return 0;
+		$sizeBytes = $this->size;
 
-		// Get the size in bytes
-		$stat = stat($this->physical_path);
-		$sizeBytes = $stat[7];
+		// Use the size stored in the database if available, otherwise read 
+		// it from the file
+		if ($sizeBytes == 0)
+		{
+			// Abort if file not found
+			if (!is_readable($this->physical_path))
+				return 0;
 
+			// Get the size in bytes
+			$stat = stat($this->physical_path);
+			$sizeBytes = $stat[7];
+		}
+			
 		// Format it
 		$formatter = new CFormatter();
 		$formatter->sizeFormat = array('base'=>1024, 'decimals'=>1);

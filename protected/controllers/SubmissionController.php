@@ -108,6 +108,7 @@ class SubmissionController extends Controller
 				
 					$model->file->saveAs($physicalPath);
 					$model->physical_path = $physicalPath;
+					$model->size = $model->file->getSize();
 				}
 				
 				// We need to do this before saving for isNewRecord to work
@@ -134,7 +135,7 @@ class SubmissionController extends Controller
 			'competitions'=>$currentLan->competitions,
 		));
 	}
-
+	
 	/**
 	 * Updates an existing entry. The main logic is in the create action.
 	 * @param int $id the submission to update

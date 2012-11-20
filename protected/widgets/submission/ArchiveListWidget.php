@@ -123,7 +123,7 @@ class ArchiveListWidget extends CWidget {
 
 								?>
 							</td>
-							<td><?php echo $submission->size; ?></td>
+							<td><?php echo $submission->getSize(); ?></td>
 							<td class="comments">
 								<?php echo nl2br(CHtml::encode($submission->comments)); ?>
 							</td>
