@@ -117,7 +117,7 @@ class ArchiveListWidget extends CWidget {
 										);
 									}
 									
-									echo CHtml::link($submissionName, $this->controller->createUrl('/submission/get', array('id'=>$submission->id))); 
+									echo CHtml::link($submissionName, $this->controller->createUrl('/submission/get', array('id'=>$submission->id)), array('name'=>$submission->id)); 
 								}
 								else
 									echo $submissionName;
