@@ -252,17 +252,13 @@ class User extends CActiveRecord
 		if ($committeeMember !== null)
 			$badges[] = new Badge(Badge::BADGE_FORMER_COM_MEMBER);
 		
+		// Is founding father?
+		if ($this->is_founder)
+			$badges[] = new Badge(Badge::BADGE_IS_FOUNDING_FATHER);
+		
 		// User has been on more than five LANs
 		if ($this->lanCount >= 5)
 			$badges[] = new Badge(Badge::BADGE_MANY_LANS);
-
-		// User has at least one submission
-		if ($this->submissionCount != 0)
-			$badges[] = new Badge(Badge::BADGE_HAS_SUBMISSION);
-
-		// User has at least one winning submission
-		if ($this->getWinningSubmissionCount() > 0)
-			$badges[] = new Badge(Badge::BADGE_HAS_WINNING_SUBMISSION);
 
 		$allCornerLans = true; // User has attended all Cornern LANs
 		$allLans = true; // User has attended all LANs
@@ -294,9 +290,13 @@ class User extends CActiveRecord
 		if ($allCornerLans)
 			$badges[] = new Badge(Badge::BADGE_ALL_CORNER_LANS);
 		
-		// Is founding father?
-		if ($this->is_founder)
-			$badges[] = new Badge(Badge::BADGE_IS_FOUNDING_FATHER);
+		// User has at least one submission
+		if ($this->submissionCount != 0)
+			$badges[] = new Badge(Badge::BADGE_HAS_SUBMISSION);
+
+		// User has at least one winning submission
+		if ($this->getWinningSubmissionCount() > 0)
+			$badges[] = new Badge(Badge::BADGE_HAS_WINNING_SUBMISSION);
 
 		return $badges;
 	}
