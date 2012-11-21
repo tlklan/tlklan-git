@@ -243,7 +243,11 @@ class User extends CActiveRecord
 		}
 
 		// User has been a committee member
-		$committeeMember = CommitteeMember::model()->find('user_id = :id', array(':id'=>$this->id));
+		$maxYear = Yii::app()->db->createCommand('SELECT MAX(`year`) FROM tlk_committee')->queryScalar();
+		
+		$committeeMember = CommitteeMember::model()
+				->find('user_id = :id AND `year` < :maxYear', 
+						array(':id'=>$this->id, ':maxYear'=>$maxYear));
 
 		if ($committeeMember !== null)
 			$badges[] = new Badge(Badge::BADGE_FORMER_COM_MEMBER);

@@ -13,7 +13,7 @@ $this->breadcrumbs=array(
 <div class="user-profile">
 	
 	<fieldset>
-		<legend>Dina användaruppgifter</legend>
+		<legend>Användaruppgifter</legend>
 
 		<?php $this->widget('TbDetailView', array(
 			'type'=>'striped',
@@ -33,32 +33,55 @@ $this->breadcrumbs=array(
 		)); ?>
 	</fieldset>
 
-	<hr />
+	<div class="row">
+		<div class="span6">
+			<fieldset>
+				<legend>Utmärkelser</legend>
+
+				<?php
+
+				$badges = $model->getBadges();
+				$iconBaseUrl = Yii::app()->baseUrl.'/files/images/icons/badges/';
+
+				if (count($badges) > 0)
+				{
+					foreach ($badges as $badge)
+					{
+						echo CHtml::openTag('div', array('class'=>'user-badge clearfix'));
+						echo CHtml::image($iconBaseUrl.$badge->getIcon(), 'Badge');
+						echo '<p>'.$badge->getDescription().'</p>';
+						echo CHtml::closeTag('div');
+					}
+				}
+				else
+					echo '<p>Du har inga utmärkelser för tillfället</p>';
+
+				?>
+			</fieldset>
+		</div>
+		
+		<div class="span6">
+			<fieldset>
+				<legend>Submissions</legend>
+
+				<?php
+
+				$submissions = $model->submissions;
+
+				if (count($submissions) > 0)
+				{
+					$this->renderPartial('_submissionList', array(
+						'submissions'=>$submissions,
+					));
+				}
+				else
+					echo '<p>Användaren har tills vidare inte submittat något</p>';
+
+				?>
+			</fieldset>
+		</div>
+	</div>
 	
-	<fieldset>
-		<legend>Dina utmärkelser</legend>
-		
-		<?php
-		
-		$badges = $model->getBadges();
-		$iconBaseUrl = Yii::app()->baseUrl.'/files/images/icons/badges/';
-
-		if (count($badges) > 0)
-		{
-			foreach ($badges as $badge)
-			{
-				echo CHtml::openTag('div', array('class'=>'user-badge clearfix'));
-				echo CHtml::image($iconBaseUrl.$badge->getIcon(), 'Badge');
-				echo '<p>'.$badge->getDescription().'</p>';
-				echo CHtml::closeTag('div');
-			}
-		}
-		else
-			echo '<p>Du har inga utmärkelser för tillfället</p>';
-		
-		?>
-	</fieldset>
-
 	<div class="form-actions">
 		<?php
 
