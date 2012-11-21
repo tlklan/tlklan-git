@@ -56,6 +56,9 @@ class Badge extends CModel
 			case self::BADGE_ALL_LANS:
 				return 'alllans.png';
 				break;
+			case self::BADGE_ALL_CORNER_LANS:
+				return 'all_corner_lans.png';
+				break;
 			case self::BADGE_IS_FOUNDING_FATHER:
 				return 'founding_father.png';
 				break;
