@@ -71,7 +71,7 @@ class Lan extends CActiveRecord
 	{
 		return array(
 			'season'=>array(self::BELONGS_TO, 'Season', 'season_id'),
-			'competitions'=>array(self::HAS_MANY, 'Competition', 'lan_id'),
+			'competitions'=>array(self::HAS_MANY, 'Competition', 'lan_id', 'order'=>'display_order'),
 			'registrations'=>array(self::HAS_MANY, 'Registration', 'lan_id'),
 		);
 	}
