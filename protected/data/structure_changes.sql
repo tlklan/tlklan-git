@@ -296,3 +296,7 @@ ALTER TABLE `tlk_payments`
 	ALTER `payment_type` DROP DEFAULT;
 ALTER TABLE `tlk_payments`
 	CHANGE COLUMN `payment_type` `type` ENUM('single','season') NOT NULL AFTER `season_id`;
+
+# Added index on tlk_users.name
+ALTER TABLE `tlk_users`
+	ADD INDEX `name` (`name`);

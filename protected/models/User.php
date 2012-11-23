@@ -300,5 +300,21 @@ class User extends CActiveRecord
 
 		return $badges;
 	}
+	
+	/**
+	 * Returns an array of all users' names which can be used e.g. as source 
+	 * for a typeahead field
+	 * @return array
+	 */
+	public function getTypeaheadData()
+	{
+		$models = self::model()->findAll();
+		$data = array();
+
+		foreach ($models as $model)
+			$data[] = $model->name;
+
+		return $data;
+	}
 
 }
