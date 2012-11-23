@@ -94,7 +94,9 @@ class RegistrationController extends Controller
 	 */
 	public function actionCreate($registration = null) 
 	{
-		$currentLan = Lan::model()->getCurrent();
+		$currentLan = Lan::model()->with('registrations', 'competitions', 
+				'registrations.user')->getCurrent();
+		
 		$model = new RegistrationForm;
 		
 		// Populate the form model with values from the registration model 
