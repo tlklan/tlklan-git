@@ -92,7 +92,7 @@ class Competition extends CActiveRecord
 	{
 		// What we need is cumbersome to accomplish with the AR system
 		$rawData = Yii::app()->db->createCommand()
-				->select('tlk_submissions.id, tlk_submissions.user_id, tlk_submissions.name, tlk_users.username, COUNT(tlk_votes.id) AS voteCount')
+				->select('tlk_submissions.id, tlk_submissions.user_id, tlk_submissions.name, tlk_users.nick, COUNT(tlk_votes.id) AS voteCount')
 				->from('tlk_submissions')
 				->join('tlk_users', 'tlk_users.id = tlk_submissions.user_id')
 				->leftJoin('tlk_votes', 'tlk_votes.submission_id = tlk_submissions.id')

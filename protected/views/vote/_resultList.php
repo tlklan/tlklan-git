@@ -15,7 +15,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 		array(
 			'name'=>'nick',
 			'header'=>'Skapare',
-			'value'=>'$data["username"]',
+			'value'=>'$data["nick"]',
 		),
 		array(
 			'name'=>'voteCOunt',

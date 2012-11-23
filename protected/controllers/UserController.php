@@ -175,9 +175,9 @@ class UserController extends Controller
 	 */
 	public function loadModel()
 	{
+		// TODO: Use ID instead
 		$model = User::model()->find('username = :username', array(
-			':username'=>Yii::app()->user->nick,
-				));
+			':username'=>Yii::app()->user->username));
 
 		if ($model === null)
 			throw new CHttpException(404, 'The requested page does not exist.');
