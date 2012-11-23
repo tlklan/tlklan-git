@@ -231,3 +231,35 @@ ENGINE=InnoDB;
 # Add a foreign key constraints (needs proper data first)
 ALTER TABLE `tlk_committee`
 	ADD CONSTRAINT `committee_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `tlk_users` (`id`) ON UPDATE CASCADE ON DELETE NO ACTION;
+
+#
+# 2012-11-23
+#
+# Created seasons table and populate it
+CREATE TABLE `tlk_seasons` (
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(20) NOT NULL,
+	PRIMARY KEY (`id`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB;
+
+INSERT INTO `tlk_seasons` (`id`, `name`) VALUES (1, '2009-2010');
+INSERT INTO `tlk_seasons` (`id`, `name`) VALUES (2, '2010-2011');
+INSERT INTO `tlk_seasons` (`id`, `name`) VALUES (3, '2011-2012');
+INSERT INTO `tlk_seasons` (`id`, `name`) VALUES (4, '2012-2013');
+
+# Created payments table
+CREATE TABLE `tlk_payments` (
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`user_id` INT(10) NOT NULL,
+	`lan_id` INT(10) NOT NULL,
+	`season_id` INT(10) NULL DEFAULT NULL,
+	`payment_type` ENUM('single','season') NOT NULL,
+	PRIMARY KEY (`id`),
+	CONSTRAINT `payments_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `tlk_users` (`id`) ON UPDATE CASCADE ON DELETE NO ACTION,
+	CONSTRAINT `payments_lan_id_fk` FOREIGN KEY (`lan_id`) REFERENCES `tlk_lans` (`id`) ON UPDATE CASCADE ON DELETE NO ACTION,
+	CONSTRAINT `payments_season_id_fk` FOREIGN KEY (`season_id`) REFERENCES `tlk_seasons` (`id`) ON UPDATE CASCADE ON DELETE NO ACTION
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB;
