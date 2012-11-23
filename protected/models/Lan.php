@@ -4,13 +4,14 @@
  * This is the model class for table "tlk_lans".
  *
  * The followings are the available columns in table 'tlk_lans':
- * @property integer $id
+ * @property int $id
+ * @property int $season_id
  * @property string $name
- * @property integer $reg_limit
+ * @property int $reg_limit
  * @property string $start_date
  * @property string $end_date
  * @property string $location
- * @property integer $enabled
+ * @property int $enabled
  *
  * The followings are the available model relations:
  * @property Season $season
