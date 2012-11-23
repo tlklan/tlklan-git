@@ -26,7 +26,12 @@ $this->widget('TbGridView', array(
 	'filter'=>$model,
 	'columns'=>array(
 		'lanName',
-		'name',
+		array(
+			'name'=>'name',
+			'type'=>'raw',
+			// show "has not payed" icon
+			'value'=>'$data->name." ".(!$data->user->hasValidPayment() ? CHtml::image(Yii::app()->baseUrl."/files/images/icons/no_can_has_pay.png") : "")',
+		),
 		'email',
 		'nick',
 		'device',
