@@ -263,3 +263,30 @@ CREATE TABLE `tlk_payments` (
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
+
+# Added season_id column to the tlk_lans table
+ALTER TABLE `tlk_lans`
+	ADD COLUMN `season_id` INT NOT NULL AFTER `id`;
+
+# Populated tlk_lans.season_id
+UPDATE `tlk_lans` SET `season_id`=1 WHERE  `id`=1;
+UPDATE `tlk_lans` SET `season_id`=1 WHERE  `id`=2;
+UPDATE `tlk_lans` SET `season_id`=1 WHERE  `id`=3;
+UPDATE `tlk_lans` SET `season_id`=2 WHERE  `id`=4;
+UPDATE `tlk_lans` SET `season_id`=2 WHERE  `id`=5;
+UPDATE `tlk_lans` SET `season_id`=2 WHERE  `id`=6;
+UPDATE `tlk_lans` SET `season_id`=2 WHERE  `id`=7;
+UPDATE `tlk_lans` SET `season_id`=3 WHERE  `id`=8;
+UPDATE `tlk_lans` SET `season_id`=3 WHERE  `id`=9;
+UPDATE `tlk_lans` SET `season_id`=3 WHERE  `id`=10;
+UPDATE `tlk_lans` SET `season_id`=3 WHERE  `id`=11;
+UPDATE `tlk_lans` SET `season_id`=4 WHERE  `id`=13;
+UPDATE `tlk_lans` SET `season_id`=4 WHERE  `id`=14;
+# fix
+UPDATE `tlk_lans` SET `season_id`=NULL WHERE  `id`=12;
+
+# Allow NULL values for season_id (needed for Assembly 2012 and for foreign key 
+# delete constraint)
+ALTER TABLE `tlk_lans`
+	CHANGE COLUMN `season_id` `season_id` INT NULL AFTER `id`,
+	ADD CONSTRAINT `lans_season_id_fk` FOREIGN KEY (`season_id`) REFERENCES `tlk_seasons` (`id`) ON UPDATE CASCADE ON DELETE SET NULL;

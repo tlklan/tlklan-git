@@ -16,10 +16,16 @@ $this->breadcrumbs=array(
 
 <?php $this->widget('bootstrap.widgets.TbGridView',array(
 	'id'=>'lan-grid',
-	'dataProvider'=>$model->search(),
+	'dataProvider'=>$dataProvider,
 	'filter'=>$model,
 	'columns'=>array(
 		'name',
+		array(
+			'name'=>'seasonId',
+            'filter'=>$seasons,
+			'type'=>'raw',
+            'value'=>'($data->season !== null) ? $data->season->name : ""',
+		),
 		'reg_limit',
 		'start_date',
 		'end_date',

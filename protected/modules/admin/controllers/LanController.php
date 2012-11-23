@@ -92,8 +92,33 @@ class LanController extends AdminController
 		if (isset($_GET['Lan']))
 			$model->attributes = $_GET['Lan'];
 
+		// Configure a data provider for the view
+		$sort = new CSort();
+		$sort->attributes = array(
+			'name',
+			'reg_limit',
+			'start_date',
+			'end_date',
+			'location',
+			'enabled',
+			// enable sorting by season
+			'seasonId'=>array(
+				'asc'=>'season.id',
+				'desc'=>'season.id DESC',
+			)
+		);
+
+		$dataProvider = $model->search();
+		$dataProvider->sort = $sort;
+		$dataProvider->pagination = false; // no pagination
+		
+		// Get filter data for the seasonId attribute
+		$seasons = Season::model()->getDropdownListOptions();
+
 		$this->render('admin', array(
 			'model'=>$model,
+			'dataProvider'=>$dataProvider,
+			'seasons'=>$seasons,
 		));
 	}
 

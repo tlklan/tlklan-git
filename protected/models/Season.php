@@ -78,5 +78,14 @@ class Season extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 					'criteria'=>$criteria));
 	}
+	
+	/**
+	 * Returns dropdown list options
+	 * @return array
+	 */
+	public function getDropdownListOptions()
+	{
+		return CHtml::listData(self::model()->findAll(), 'id', 'name');
+	}
 
 }
