@@ -290,3 +290,9 @@ UPDATE `tlk_lans` SET `season_id`=NULL WHERE  `id`=12;
 ALTER TABLE `tlk_lans`
 	CHANGE COLUMN `season_id` `season_id` INT NULL AFTER `id`,
 	ADD CONSTRAINT `lans_season_id_fk` FOREIGN KEY (`season_id`) REFERENCES `tlk_seasons` (`id`) ON UPDATE CASCADE ON DELETE SET NULL;
+
+# Renamed payment_type to type
+ALTER TABLE `tlk_payments`
+	ALTER `payment_type` DROP DEFAULT;
+ALTER TABLE `tlk_payments`
+	CHANGE COLUMN `payment_type` `type` ENUM('single','season') NOT NULL AFTER `season_id`;

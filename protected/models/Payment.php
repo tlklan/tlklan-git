@@ -8,7 +8,7 @@
  * @property integer $user_id
  * @property integer $lan_id
  * @property integer $season_id
- * @property string $payment_type
+ * @property string $type
  *
  * The followings are the available model relations:
  * @property User $user
@@ -18,6 +18,16 @@
 class Payment extends CActiveRecord
 {
 
+	/**
+	 * Database identifier for payments for a single LAN only
+	 */
+	const TYPE_SINGLE = 'single';
+
+	/**
+	 * Database identifier for payments for a whole season
+	 */
+	const TYPE_SEASON = 'season';
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -42,10 +52,10 @@ class Payment extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('user_id, lan_id, payment_type', 'required'),
+			array('user_id, lan_id, type', 'required'),
 			array('user_id, lan_id, season_id', 'numerical', 'integerOnly'=>true),
-			array('payment_type', 'length', 'max'=>6),
-			array('id, user_id, lan_id, season_id, payment_type', 'safe', 'on'=>'search'),
+			array('type', 'length', 'max'=>6),
+			array('id, user_id, lan_id, season_id, type', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -71,7 +81,7 @@ class Payment extends CActiveRecord
 			'user_id'=>'Användare',
 			'lan_id'=>'Lan',
 			'season_id'=>'Säsong',
-			'payment_type'=>'Betalningstyp',
+			'type'=>'Betalningstyp',
 		);
 	}
 
@@ -87,7 +97,7 @@ class Payment extends CActiveRecord
 		$criteria->compare('user_id', $this->user_id);
 		$criteria->compare('lan_id', $this->lan_id);
 		$criteria->compare('season_id', $this->season_id);
-		$criteria->compare('payment_type', $this->payment_type, true);
+		$criteria->compare('type', $this->type, true);
 
 		return new CActiveDataProvider($this, array(
 					'criteria'=>$criteria));
