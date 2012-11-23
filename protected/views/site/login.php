@@ -19,7 +19,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'id'=>'verticalForm',
 )); 
 
-echo $form->textFieldRow($model, 'username', array('class'=>'span3 text-field-auto-focus'));
+echo $form->textFieldRow($model, 'username', array('class'=>'span3', 'autofocus'=>'autofocus'));
 echo $form->passwordFieldRow($model, 'password', array('class'=>'span3'));
 
 ?>
