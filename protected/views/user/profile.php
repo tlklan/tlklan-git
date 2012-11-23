@@ -22,6 +22,7 @@ $this->breadcrumbs=array(
 				'name',
 				'email',
 				'username',
+				'nick',
 				array(
 					'name'=>'has_werket_login',
 					'type'=>'raw',

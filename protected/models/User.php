@@ -8,6 +8,7 @@
  * @property string $name
  * @property string $email
  * @property string $username
+ * @property string $nick
  * @property string $password
  * @property integer $has_werket_login
  * @property int $is_founder
@@ -62,14 +63,14 @@ class User extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('name, email, username', 'required'),
+			array('name, email, nick', 'required'),
 			array('has_werket_login', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>75),
-			array('username', 'length', 'max'=>25),
+			array('username, nick', 'length', 'max'=>25),
 			array('email', 'email'),
 			
 			// register new user (insert) scenario
-			array('newPassword, passwordRepeat, has_werket_login', 'required', 'on'=>'insert'),
+			array('username, newPassword, passwordRepeat, has_werket_login', 'required', 'on'=>'insert'),
 			array('email', 'validateDuplicates', 'on'=>'insert'),
 			
 			// don't require passwords if the user has a werket account
@@ -147,6 +148,7 @@ class User extends CActiveRecord
 			'name'=>'Namn',
 			'email'=>'E-postadress',
 			'username'=>'Användarnamn',
+			'nick'=>'Nick',
 			'password'=>'Lösenord',
 			'currentPassword'=>'Nuvarande lösenord',
 			'newPassword'=>'Nytt lösenord',
