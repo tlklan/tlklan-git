@@ -223,6 +223,22 @@ class User extends CActiveRecord
 	}
 	
 	/**
+	 * Returns true if the user is currently on the committee
+	 * @return boolean
+	 */
+	private function isCurrentCommitteeMember()
+	{
+		// Find all committee members and check one by one
+		$currentMembers = CommitteeMember::model()->getCurrentCommitteeMembers();
+
+		foreach ($currentMembers as $member)
+			if ($member->user_id == $this->id)
+				return true;
+
+		return false;
+	}
+	
+	/**
 	 * Returns an array of badges that the user has earned
 	 * @return Badge[] the user's badges
 	 */
@@ -231,16 +247,8 @@ class User extends CActiveRecord
 		$badges = array();
 
 		// User is a current committee member
-		$currentMembers = CommitteeMember::model()->getCurrentCommitteeMembers();
-		foreach ($currentMembers as $member)
-		{
-			if ($member->user_id == $this->id)
-			{
-				$badges[] = new Badge(Badge::BADGE_IS_CURRENT_COM_MEMBER);
-
-				break;
-			}
-		}
+		if ($this->isCurrentCommitteeMember())
+			$badges[] = new Badge(Badge::BADGE_IS_CURRENT_COM_MEMBER);
 
 		// User has been a committee member
 		$maxYear = Yii::app()->db->createCommand('SELECT MAX(`year`) FROM tlk_committee')->queryScalar();
@@ -315,6 +323,28 @@ class User extends CActiveRecord
 			$data[] = $model->name;
 
 		return $data;
+	}
+	
+	/**
+	 * Checks if the user has a valid payment for the current LAN
+	 * @return boolean
+	 */
+	public function hasValidPayment()
+	{
+		// Committee members don't have to pay
+		if ($this->isCurrentCommitteeMember())
+			return true;
+
+		// Check for valid payments
+		$lan = Lan::model()->getCurrent();
+
+		$payment = Payment::model()->find('user_id = :user_id AND (season_id = :season_id OR lan_id = :lan_id)', array(
+			':user_id'=>$this->id,
+			':season_id'=>$lan->season_id,
+			':lan_id'=>$lan->id,
+				));
+
+		return $payment !== null;
 	}
 
 }
