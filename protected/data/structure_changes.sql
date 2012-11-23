@@ -282,13 +282,16 @@ UPDATE `tlk_lans` SET `season_id`=3 WHERE  `id`=10;
 UPDATE `tlk_lans` SET `season_id`=3 WHERE  `id`=11;
 UPDATE `tlk_lans` SET `season_id`=4 WHERE  `id`=13;
 UPDATE `tlk_lans` SET `season_id`=4 WHERE  `id`=14;
-# fix
+
+# Allow NULL values for season_id
+ALTER TABLE `tlk_lans`
+	CHANGE COLUMN `season_id` `season_id` INT NULL AFTER `id`;
+
+# Remove season_id from the Assembly LAN
 UPDATE `tlk_lans` SET `season_id`=NULL WHERE  `id`=12;
 
-# Allow NULL values for season_id (needed for Assembly 2012 and for foreign key 
-# delete constraint)
+# Add foreign key constraint
 ALTER TABLE `tlk_lans`
-	CHANGE COLUMN `season_id` `season_id` INT NULL AFTER `id`,
 	ADD CONSTRAINT `lans_season_id_fk` FOREIGN KEY (`season_id`) REFERENCES `tlk_seasons` (`id`) ON UPDATE CASCADE ON DELETE SET NULL;
 
 # Renamed payment_type to type
