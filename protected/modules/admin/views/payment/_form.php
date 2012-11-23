@@ -21,7 +21,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 					return ~item.toLowerCase().indexOf(this.query.toLowerCase());
 				}",
 			),
-			'htmlOptions'=>array('autocomplete'=>'off'),
+			'htmlOptions'=>array('autocomplete'=>'off', 'autofocus'=>$model->isNewRecord ? 'autofocus' : null),
 		)); 
 		
 		if ($model->hasErrors('user_id'))

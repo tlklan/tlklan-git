@@ -1,10 +1,5 @@
 $(document).ready(function() {
         /**
-         * Automatically sets focus to the first field of this class
-         */
-        $('.text-field-auto-focus:first').focus();
-        
-        /**
          * Clears the field value when gaining focus if the field value is the 
          * same as the default value
          */
