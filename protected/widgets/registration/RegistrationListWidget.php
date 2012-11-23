@@ -109,7 +109,7 @@ class RegistrationListWidget extends CWidget
 						echo '<td>';
 						
 						// Show edit link for the user's own registration
-						if(strtolower($registration->nick) === strtolower($user->nick)) 
+						if(strtolower($registration->user_id) === strtolower($user->getUserId())) 
 						{
 							echo CHtml::link(
 								CHtml::image(

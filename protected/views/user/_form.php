@@ -9,7 +9,8 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 echo $form->textFieldRow($model, 'name');
 echo $form->textFieldRow($model, 'email');
-echo $form->textFieldRow($model, 'username');
+echo $form->uneditableRow($model, 'username');
+echo $form->textFieldRow($model, 'nick');
 
 ?>
 <div class="form-actions">

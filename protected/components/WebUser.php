@@ -136,6 +136,17 @@ class WebUser extends CWebUser
 	{
 		$this->loadUser();
 		
+		return $this->_user->nick;
+	}
+	
+	/**
+	 * Returns the user's username
+	 * @return string 
+	 */
+	public function getUsername()
+	{
+		$this->loadUser();
+
 		return $this->_user->username;
 	}
 	

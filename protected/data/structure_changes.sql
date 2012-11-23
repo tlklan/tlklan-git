@@ -303,3 +303,9 @@ ALTER TABLE `tlk_payments`
 # Added index on tlk_users.name
 ALTER TABLE `tlk_users`
 	ADD INDEX `name` (`name`);
+
+# Added nickname column to tlk_users and populate it
+ALTER TABLE `tlk_users`
+	ADD COLUMN `nick` VARCHAR(25) NOT NULL AFTER `username`;
+
+UPDATE tlk_users SET nick = username;

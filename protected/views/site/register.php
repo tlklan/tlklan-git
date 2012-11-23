@@ -24,11 +24,13 @@ $form = $this->beginWidget('TbActiveForm', array('type'=>'horizontal'));
 
 echo $form->textFieldRow($model, 'name');
 echo $form->textFieldRow($model, 'email');
-echo $form->textFieldRow($model, 'username');
+echo $form->textFieldRow($model, 'username', array('hint'=>'Används då du loggar in på sidan. Går inte att ändra i efterhand.'));
+echo $form->textFieldRow($model, 'nick', array('hint'=>'Nicket är det som syns på sidan och går att ändra i efterhand.'));
 echo $form->checkboxRow($model, 'has_werket_login', array(
 	'hint'=>'<div style="display: table;" class="alert-block alert alert-info"><b>OBS!</b> Kryssa inte i denna ruta om du inte har ett konto (annars kommer <br />
 			 du inte att kunna logga in). Om du kryssar i det här måste du använda <br />
-			 samma användarnamn här som ditt användarnamn till shellen!</div>',
+			 samma användarnamn här som ditt användarnamn till shellen (du kan <br />
+			 dock byta nick)!</div>',
 	'id'=>'has-werket-login',
 ));
 

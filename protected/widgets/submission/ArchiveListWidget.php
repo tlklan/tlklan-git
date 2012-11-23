@@ -129,7 +129,7 @@ class ArchiveListWidget extends CWidget {
 
 								// Some older submissions doesn't have a submitter
 								if($submission->submitter !== null)
-									echo $submission->submitter->username; 
+									echo $submission->submitter->nick; 
 
 								?>
 							</td>
