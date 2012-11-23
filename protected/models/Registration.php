@@ -16,6 +16,7 @@
  * @property integer $deleted
  *
  * The followings are the available model relations:
+ * @property User $user
  * @property Competitions[] $competitions
  * @property Lan $lan
  * @property Results[] $results
@@ -103,6 +104,7 @@ class Registration extends CActiveRecord
 	public function relations()
 	{
 		return array(
+			'user'=>array(self::BELONGS_TO, 'User', 'user_id'),
 			'competitions'=>array(self::HAS_MANY, 'Competitor', 'registration_id'),
 			'lan'=>array(self::BELONGS_TO, 'Lan', 'lan_id'),
 			'results'=>array(self::HAS_MANY, 'Results', 'reg_id'),

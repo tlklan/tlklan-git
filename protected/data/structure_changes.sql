@@ -231,3 +231,72 @@ ENGINE=InnoDB;
 # Add a foreign key constraints (needs proper data first)
 ALTER TABLE `tlk_committee`
 	ADD CONSTRAINT `committee_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `tlk_users` (`id`) ON UPDATE CASCADE ON DELETE NO ACTION;
+
+#
+# 2012-11-23
+#
+# Created seasons table and populate it
+CREATE TABLE `tlk_seasons` (
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(20) NOT NULL,
+	PRIMARY KEY (`id`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB;
+
+INSERT INTO `tlk_seasons` (`id`, `name`) VALUES (1, '2009-2010');
+INSERT INTO `tlk_seasons` (`id`, `name`) VALUES (2, '2010-2011');
+INSERT INTO `tlk_seasons` (`id`, `name`) VALUES (3, '2011-2012');
+INSERT INTO `tlk_seasons` (`id`, `name`) VALUES (4, '2012-2013');
+
+# Created payments table
+CREATE TABLE `tlk_payments` (
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`user_id` INT(10) NOT NULL,
+	`lan_id` INT(10) NOT NULL,
+	`season_id` INT(10) NULL DEFAULT NULL,
+	`payment_type` ENUM('single','season') NOT NULL,
+	PRIMARY KEY (`id`),
+	CONSTRAINT `payments_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `tlk_users` (`id`) ON UPDATE CASCADE ON DELETE NO ACTION,
+	CONSTRAINT `payments_lan_id_fk` FOREIGN KEY (`lan_id`) REFERENCES `tlk_lans` (`id`) ON UPDATE CASCADE ON DELETE NO ACTION,
+	CONSTRAINT `payments_season_id_fk` FOREIGN KEY (`season_id`) REFERENCES `tlk_seasons` (`id`) ON UPDATE CASCADE ON DELETE NO ACTION
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB;
+
+# Added season_id column to the tlk_lans table
+ALTER TABLE `tlk_lans`
+	ADD COLUMN `season_id` INT NOT NULL AFTER `id`;
+
+# Populated tlk_lans.season_id
+UPDATE `tlk_lans` SET `season_id`=1 WHERE  `id`=1;
+UPDATE `tlk_lans` SET `season_id`=1 WHERE  `id`=2;
+UPDATE `tlk_lans` SET `season_id`=1 WHERE  `id`=3;
+UPDATE `tlk_lans` SET `season_id`=2 WHERE  `id`=4;
+UPDATE `tlk_lans` SET `season_id`=2 WHERE  `id`=5;
+UPDATE `tlk_lans` SET `season_id`=2 WHERE  `id`=6;
+UPDATE `tlk_lans` SET `season_id`=2 WHERE  `id`=7;
+UPDATE `tlk_lans` SET `season_id`=3 WHERE  `id`=8;
+UPDATE `tlk_lans` SET `season_id`=3 WHERE  `id`=9;
+UPDATE `tlk_lans` SET `season_id`=3 WHERE  `id`=10;
+UPDATE `tlk_lans` SET `season_id`=3 WHERE  `id`=11;
+UPDATE `tlk_lans` SET `season_id`=4 WHERE  `id`=13;
+UPDATE `tlk_lans` SET `season_id`=4 WHERE  `id`=14;
+# fix
+UPDATE `tlk_lans` SET `season_id`=NULL WHERE  `id`=12;
+
+# Allow NULL values for season_id (needed for Assembly 2012 and for foreign key 
+# delete constraint)
+ALTER TABLE `tlk_lans`
+	CHANGE COLUMN `season_id` `season_id` INT NULL AFTER `id`,
+	ADD CONSTRAINT `lans_season_id_fk` FOREIGN KEY (`season_id`) REFERENCES `tlk_seasons` (`id`) ON UPDATE CASCADE ON DELETE SET NULL;
+
+# Renamed payment_type to type
+ALTER TABLE `tlk_payments`
+	ALTER `payment_type` DROP DEFAULT;
+ALTER TABLE `tlk_payments`
+	CHANGE COLUMN `payment_type` `type` ENUM('single','season') NOT NULL AFTER `season_id`;
+
+# Added index on tlk_users.name
+ALTER TABLE `tlk_users`
+	ADD INDEX `name` (`name`);

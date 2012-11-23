@@ -4,15 +4,17 @@
  * This is the model class for table "tlk_lans".
  *
  * The followings are the available columns in table 'tlk_lans':
- * @property integer $id
+ * @property int $id
+ * @property int $season_id
  * @property string $name
- * @property integer $reg_limit
+ * @property int $reg_limit
  * @property string $start_date
  * @property string $end_date
  * @property string $location
- * @property integer $enabled
+ * @property int $enabled
  *
  * The followings are the available model relations:
+ * @property Season $season
  * @property Competition[] $competitions
  * @property Registration[] $registrations
  */
@@ -23,6 +25,13 @@ class Lan extends CActiveRecord
 	const LOCATION_CORNER		= 'corner';
 	const LOCATION_WERKET		= 'werket';
 	const LOCATION_HARTWALL		= 'hartwall';
+	
+	/**
+	 * @var int the season ID. This property is used for sorting/filtering grid 
+	 * views
+	 */
+	private $_seasonId;
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Lan the static model class
@@ -51,7 +60,7 @@ class Lan extends CActiveRecord
 			array('name', 'length', 'max'=>20),
 			array('start_date, end_date', 'date', 'format'=>'yyyy-MM-dd'),
 			// TODO: Add location rule
-			array('id, name, reg_limit, start_date, end_date, location, enabled', 'safe', 'on'=>'search'),
+			array('id, name, seasonId, reg_limit, start_date, end_date, location, enabled', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,6 +70,7 @@ class Lan extends CActiveRecord
 	public function relations()
 	{
 		return array(
+			'season'=>array(self::BELONGS_TO, 'Season', 'season_id'),
 			'competitions'=>array(self::HAS_MANY, 'Competition', 'lan_id'),
 			'registrations'=>array(self::HAS_MANY, 'Registration', 'lan_id'),
 		);
@@ -86,6 +96,7 @@ class Lan extends CActiveRecord
 		return array(
 			'id'=>'ID',
 			'name'=>'Namn',
+			'seasonId'=>'Säsong',
 			'reg_limit'=>'Max antal deltagare',
 			'start_date'=>'Startdatum',
 			'end_date'=>'Slutdatum',
@@ -117,8 +128,11 @@ class Lan extends CActiveRecord
 	public function search()
 	{
 		$criteria = new CDbCriteria;
+		$criteria->with = 'season';
+		
 		$criteria->compare('id', $this->id);
 		$criteria->compare('name', $this->name, true);
+		$criteria->compare('season.id', $this->getSeasonId(), true);
 		$criteria->compare('reg_limit', $this->reg_limit);
 		$criteria->compare('start_date', $this->start_date, true);
 		$criteria->compare('end_date', $this->end_date, true);
@@ -194,7 +208,30 @@ class Lan extends CActiveRecord
 				return '';
 		}
 	}
+	
+	/**
+	 * Getter for _seasonId. This method is used when sorting/filtering grid 
+	 * views
+	 * @return int the season ID
+	 */
+	public function getSeasonId()
+	{
+		if (!isset($this->_seasonId) && $this->season !== null)
+			$this->_seasonId = $this->season->id;
 
+		return $this->_seasonId;
+	}
+
+	/**
+	 * Setter for _seasonId. This method is used when sorting/filtering grid 
+	 * views
+	 * @param int $id
+	 */
+	public function setSeasonId($id)
+	{
+		$this->_seasonId = $id;
+	}
+	
 	/**
 	 * Checks whether this LAN is full booked
 	 * @return boolean whether it's full

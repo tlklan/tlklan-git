@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Handles creating/updating/deleting LANs
+ * Handles payments
  */
-class LanController extends AdminController
+class PaymentController extends AdminController
 {
-	
+
 	/**
 	 * Returns the filters defined for this controller
 	 * @return array the filters
@@ -16,60 +16,71 @@ class LanController extends AdminController
 			'postOnly + delete',
 		));
 	}
-
+	
 	/**
-	 * Creates a new LAN.
+	 * Adds a new payment
 	 */
 	public function actionCreate()
 	{
-		$model = new Lan;
+		$model = new Payment;
 
-		if (isset($_POST['Lan']))
+		if (isset($_POST['Payment']))
 		{
-			$model->attributes = $_POST['Lan'];
+			$model->attributes = $_POST['Payment'];
 
 			if ($model->save())
 			{
-				Yii::app()->user->setFlash('success', $model->name.' har skapats');
+
+				Yii::app()->user->setFlash('success', 'Betalningen har registrerats');
 
 				$this->redirect(array('admin'));
 			}
 		}
 
+		$lanListData = CHtml::listData(Lan::model()->findAll(), 'id', 'name');
+
 		$this->render('create', array(
 			'model'=>$model,
+			'lanListData'=>$lanListData,
 		));
 	}
 
 	/**
-	 * Updates the specified LAN.
-	 * @param int $id the ID of the LAN
+	 * Updates a payment
+	 * @param int $id the payment ID
 	 */
 	public function actionUpdate($id)
 	{
 		$model = $this->loadModel($id);
 
+		// Pre-fill username
+		$user = User::model()->findByPk($model->user_id);
+		$model->name = $user->name;
 
-		if (isset($_POST['Lan']))
+		if (isset($_POST['Payment']))
 		{
-			$model->attributes = $_POST['Lan'];
+			$model->attributes = $_POST['Payment'];
 
 			if ($model->save())
 			{
-				Yii::app()->user->setFlash('success', $model->name.' har uppdaterats');
+
+				Yii::app()->user->setFlash('success', 'Betalningen har registrerats');
 
 				$this->redirect(array('admin'));
 			}
 		}
 
+		$lanListData = CHtml::listData(Lan::model()->findAll(), 'id', 'name');
+
 		$this->render('update', array(
 			'model'=>$model,
+			'lanListData'=>$lanListData,
 		));
 	}
 
 	/**
-	 * Deletes the specified LAN.
-	 * @param int $id the LAN ID
+	 * Deletes a payment
+	 * @param int $id the payment ID
 	 */
 	public function actionDelete($id)
 	{
@@ -82,57 +93,56 @@ class LanController extends AdminController
 	}
 
 	/**
-	 * Manages all models.
+	 * Shows a list of all payments and allows the user to sort/filter/update 
+	 * them.
 	 */
 	public function actionAdmin()
 	{
-		$model = new Lan('search');
-		$model->unsetAttributes(); // clear any default values
+		$model = new Payment('search');
+		$model->unsetAttributes();  // clear any default values
 
-		if (isset($_GET['Lan']))
-			$model->attributes = $_GET['Lan'];
+		if (isset($_GET['Payment']))
+			$model->attributes = $_GET['Payment'];
 
 		// Configure a data provider for the view
 		$sort = new CSort();
 		$sort->attributes = array(
-			'name',
-			'reg_limit',
-			'start_date',
-			'end_date',
-			'location',
-			'enabled',
-			// enable sorting by season
-			'seasonId'=>array(
-				'asc'=>'season.id',
-				'desc'=>'season.id DESC',
-			)
+			'userName'=>array(
+				'asc'=>'user.name',
+				'desc'=>'user.name DESC',
+			),
+			'lanName'=>array(
+				'asc'=>'lan.name',
+				'desc'=>'lan.name DESC',
+			),
+			'seasonName'=>array(
+				'asc'=>'season.name',
+				'desc'=>'season.name DESC',
+			),
+			'type',
 		);
 
 		$dataProvider = $model->search();
 		$dataProvider->sort = $sort;
-		$dataProvider->pagination = false; // no pagination
-		
-		// Get filter data for the seasonId attribute
-		$seasons = Season::model()->getDropdownListOptions();
+		$dataProvider->pagination = array('pageSize'=>50);
 
 		$this->render('admin', array(
 			'model'=>$model,
 			'dataProvider'=>$dataProvider,
-			'seasons'=>$seasons,
 		));
 	}
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param int the ID of the model to be loaded
+	 * @param integer the ID of the model to be loaded
 	 */
 	public function loadModel($id)
 	{
-		$model = Lan::model()->findByPk($id);
+		$model = Payment::model()->findByPk($id);
 		if ($model === null)
 			throw new CHttpException(404, 'The requested page does not exist.');
 		return $model;
 	}
-	
+
 }
