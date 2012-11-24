@@ -12,8 +12,6 @@
  * @property string $nick
  * @property string $device
  * @property string $date
- * @property integer $confirmed
- * @property integer $deleted
  *
  * The followings are the available model relations:
  * @property User $user
@@ -76,17 +74,6 @@ class Registration extends CActiveRecord
 	}
 
 	/**
-	 * Sets some default values for new objects
-	 */
-	protected function afterConstruct()
-	{
-		$this->confirmed = false;
-		$this->deleted = false;
-
-		parent::afterConstruct();
-	}
-
-	/**
 	 * Defines the default scope for this model
 	 * 
 	 * @return array the default scope 
@@ -141,8 +128,6 @@ class Registration extends CActiveRecord
 			'nick'=>'Nick',
 			'device'=>'Datortyp',
 			'date'=>'Anmälningsdatum',
-			'confirmed'=>'Bekräftat',
-			'deleted'=>'Borttagen',
 		);
 	}
 
@@ -279,8 +264,6 @@ class Registration extends CActiveRecord
 		$criteria->compare('user.nick', $this->nick, true);
 		$criteria->compare('device', $this->device, true);
 		$criteria->compare('date', $this->date, true);
-		$criteria->compare('confirmed', $this->confirmed);
-		$criteria->compare('deleted', $this->deleted);
 
 		return new CActiveDataProvider('Registration', array(
 			'criteria'=>$criteria,

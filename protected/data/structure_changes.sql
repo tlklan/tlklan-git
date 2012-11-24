@@ -315,3 +315,8 @@ ALTER TABLE `tlk_registrations`
 	DROP COLUMN `name`,
 	DROP COLUMN `email`,
 	DROP COLUMN `nick`;
+
+# Drop "confirmed" and "deleted" columns as they're nto used
+ALTER TABLE `tlk_registrations`
+	DROP COLUMN `confirmed`,
+	DROP COLUMN `deleted`;

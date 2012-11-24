@@ -38,20 +38,7 @@ $this->widget('TbGridView', array(
 		'date',
 		array(
 			'class'=>'TbButtonColumn',
-			'buttons'=>array(
-				// confirm button
-				'confirm'=>array(
-					'label'=>'Bekräfta',
-					'icon'=>'ok',
-					'url'=>"Yii::app()->controller->createUrl('registration/confirm', array('id'=>\$data->id))",
-					// only show it if the registration is unconfirmed
-					'visible'=>'$data->confirmed == 0',
-				),
-			),
-			'template'=>'{confirm} {update} {delete}',
-			'htmlOptions'=>array(
-				'style'=>'min-width: 50px;',
-			),
+			'template'=>'{update} {delete}',
 		),
 	),
 ));
