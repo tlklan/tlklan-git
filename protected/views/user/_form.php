@@ -19,8 +19,7 @@ echo $form->textFieldRow($model, 'nick');
 		'type'=>'primary',
 		'icon'=>'ok white',
 		'label'=>'Ändra',
-	)); ?>
-	&nbsp;&nbsp;&nbsp;
+	)); ?>&nbsp;&nbsp;
 	<?php $this->widget('bootstrap.widgets.TbButton', array(
 		'buttonType'=>'link',
 		'icon'=>'remove',
