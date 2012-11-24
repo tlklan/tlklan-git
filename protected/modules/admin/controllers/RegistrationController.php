@@ -39,9 +39,6 @@ class RegistrationController extends AdminController
 			
 			if ($model->validate())
 			{
-				$registration->name = $model->name;
-				$registration->email = $model->email;
-				$registration->nick = $model->nick;
 				$registration->device = $model->device;
 
 				// Save and store the primary key for the next query
@@ -110,16 +107,24 @@ class RegistrationController extends AdminController
 		// Configure a data provider for the view
 		$sort = new CSort();
 		$sort->attributes = array(
-			'name',
-			'email',
-			'nick',
 			'device',
 			'date',
-			// enable sorting by LAN
 			'lanName'=>array(
 				'asc'=>'lan.id',
 				'desc'=>'lan.id DESC',
-			)
+			),
+			'name'=>array(
+				'asc'=>'user.name',
+				'desc'=>'user.name DESC',
+			),
+			'email'=>array(
+				'asc'=>'user.email',
+				'desc'=>'user.email DESC',
+			),
+			'nick'=>array(
+				'asc'=>'user.nick',
+				'desc'=>'user.nick DESC',
+			),
 		);
 		
 		$sort->defaultOrder = 'lan.id DESC';

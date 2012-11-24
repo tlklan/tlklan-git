@@ -113,20 +113,17 @@ class RegistrationController extends Controller
 		if(isset($_POST['RegistrationForm'])) {
 			$model->attributes = $_POST['RegistrationForm'];
 
+			if ($registration->isNewRecord)
+				$registration->user_id = Yii::app()->user->userId;
+			
 			if($model->validate()) {
 				// If this is a new registration we need to remember it
 				$isNewRecord = $registration->isNewRecord;
 
 				$registration->lan_id = $currentLan->id;
-				$registration->name = $model->name;
-				$registration->email = $model->email;
-				$registration->nick = $model->nick;
 				$registration->device = $model->device;
 				$registration->date = date('Y-m-d H:i:s');
 				
-				if($isNewRecord)
-					$registration->user_id = Yii::app()->user->userId;
-
 				// Save and store the primary key for the next query
 				$registration->save();
 				$registrationId = $registration->primaryKey;

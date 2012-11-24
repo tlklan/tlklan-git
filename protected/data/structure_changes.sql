@@ -309,3 +309,9 @@ ALTER TABLE `tlk_users`
 	ADD COLUMN `nick` VARCHAR(25) NOT NULL AFTER `username`;
 
 UPDATE tlk_users SET nick = username;
+
+# Drop name, nick and email from registrations (they're useless these days)
+ALTER TABLE `tlk_registrations`
+	DROP COLUMN `name`,
+	DROP COLUMN `email`,
+	DROP COLUMN `nick`;

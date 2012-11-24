@@ -32,6 +32,21 @@ class Registration extends CActiveRecord
 	private $_lanName;
 	
 	/**
+	 * @var string the user's name (provided for backward compatibility)
+	 */
+	private $_name;
+	
+	/**
+	 * @var string the user's email (provided for backward compatibility)
+	 */
+	private $_email;
+	
+	/**
+	 * @var string the user's nick (provided for backward compatibility)
+	 */
+	private $_nick;
+	
+	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Registration the static model class
 	 */
@@ -54,10 +69,9 @@ class Registration extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('lan_id, name, email, nick, device, date', 'required'),
-			array('lan_id', 'numerical', 'integerOnly'=>true),
-			array('user_id', 'safe'),
-			array('lanName', 'safe', 'on'=>'search'),
+			array('lan_id, user_id, device, date', 'required'),
+			array('lan_id, user_id', 'numerical', 'integerOnly'=>true),
+			array('lanName, user, email, nick', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -151,17 +165,51 @@ class Registration extends CActiveRecord
 	}
 	
 	/**
-	 * Checks whether this is the first time this nick has been registered
+	 * Checks whether this is the first time the user has been registered
 	 * @return boolean
 	 */
 	public function isFirstTimer()
 	{
-		$models = Registration::model()->findAll('nick = :nick OR name = :name', array(
-			':nick'=>$this->nick,
-			':name'=>$this->name,
-		));
+		$models = Registration::model()->findAll('user_id = :user_id', array(
+			':user_id'=>$this->user_id));
 
 		return count($models) == 1;
+	}
+	
+	/**
+	 * Getter for _name. Provided for backward compatibility + sorting/filtering
+	 * @return string
+	 */
+	public function getName()
+	{
+		if (!isset($this->_name) && $this->user !== null)
+			$this->_name = $this->user->name;
+
+		return $this->_name;
+	}
+
+	/**
+	 * Getter for _email. Provided for backward compatibility + sorting/filtering
+	 * @return string
+	 */
+	public function getEmail()
+	{
+		if (!isset($this->_email) && $this->user !== null)
+			$this->_email = $this->user->email;
+
+		return $this->_email;
+	}
+
+	/**
+	 * Getter for _nick. Provided for backward compatibility + sorting/filtering
+	 * @return string
+	 */
+	public function getNick()
+	{
+		if (!isset($this->_nick) && $this->user !== null)
+			$this->_nick = $this->user->nick;
+
+		return $this->_nick;
 	}
 	
 	/**
@@ -176,7 +224,34 @@ class Registration extends CActiveRecord
 
 		return $this->_lanName;
 	}
+	
+	/**
+	 * Setter for _name. Provided for backward compatibility + sorting/filtering
+	 * @param string $name
+	 */
+	public function setName($name)
+	{
+		$this->_name = $name;
+	}
 
+	/**
+	 * Setter for _email. Provided for backward compatibility + sorting/filtering
+	 * @param string $email
+	 */
+	public function setEmail($email)
+	{
+		$this->_email = $email;
+	}
+
+	/**
+	 * Setter for _nick. Provided for backward compatibility + sorting/filtering
+	 * @param string $nick
+	 */
+	public function setNick($nick)
+	{
+		$this->_nick = $nick;
+	}
+	
 	/**
 	 * Setter for the lanName property. It should only be used for sorting and 
 	 * filtering.
@@ -195,13 +270,13 @@ class Registration extends CActiveRecord
 	public function search()
 	{
 		$criteria = new CDbCriteria;
-		$criteria->with = 'lan'; // we need this to filter by LAN
+		$criteria->with = array('lan', 'user');
 
 		$criteria->compare($this->getTableAlias().'id', $this->id);
 		$criteria->compare('lan.name', $this->getLanName(), true);
-		$criteria->compare('t.name', $this->name, true);
-		$criteria->compare('email', $this->email, true);
-		$criteria->compare('nick', $this->nick, true);
+		$criteria->compare('user.name', $this->name, true);
+		$criteria->compare('user.email', $this->email, true);
+		$criteria->compare('user.nick', $this->nick, true);
 		$criteria->compare('device', $this->device, true);
 		$criteria->compare('date', $this->date, true);
 		$criteria->compare('confirmed', $this->confirmed);

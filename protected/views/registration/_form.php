@@ -10,9 +10,9 @@
 
 	echo $form->errorSummary($model, '');
 
-	echo $form->textFieldRow($model, 'name');
-	echo $form->textFieldRow($model, 'email');
-	echo $form->textFieldRow($model, 'nick');
+	echo $form->uneditableRow($model, 'name');
+	echo $form->uneditableRow($model, 'email');
+	echo $form->uneditableRow($model, 'nick');
 	echo $form->radioButtonListRow($model, 'device', array(
 		'desktop'=>'Desktop', 
 		'laptop'=>'Laptop',
