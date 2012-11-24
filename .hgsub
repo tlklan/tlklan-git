@@ -1,4 +1,4 @@
 protected/extensions/bootstrap = https://bitbucket.org/negge/yii-bootstrap
 protected/extensions/less      = https://bitbucket.org/negge/yii-less
 protected/modules/cms          = https://bitbucket.org/negge/tlklancms
-protected/modules/img		   = https://bitbucket.org/negge/yii-img
+protected/modules/image		   = https://bitbucket.org/negge/yii-img
