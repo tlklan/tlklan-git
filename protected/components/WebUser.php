@@ -116,6 +116,21 @@ class WebUser extends CWebUser
 
 		return $this->_user->name;
 	}
+	
+	/**
+	 * Returns the URL the user should be returned to after successful login. 
+	 * We override it so that the default URL is the user's profile, not the 
+	 * site's homeUrl
+	 * @param string $defaultUrl
+	 * @return string
+	 */
+	public function getReturnUrl($defaultUrl = null)
+	{
+		if ($defaultUrl === null)
+			$defaultUrl = Yii::app()->createUrl('user/profile');
+
+		return parent::getReturnUrl($defaultUrl);
+	}
 
 	/**
 	 * Returns the user's email address

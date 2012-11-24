@@ -8,7 +8,6 @@ class LoginForm extends CFormModel {
 
 	public $username;
 	public $password;
-	public $returnUrl;
 	
 	private $_identity;
 

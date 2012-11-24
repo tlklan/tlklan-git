@@ -44,11 +44,6 @@ class SiteController extends Controller {
 				}
 			}
 		}
-		// If this is not a POST request we store the page the user came from 
-		// so we can redirect back to it later
-		else {
-			$model->returnUrl = Yii::app()->request->urlReferrer;
-		}
 		
 		$this->render('login', array('model'=>$model));
 	}
