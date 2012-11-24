@@ -25,7 +25,7 @@ class RegistrationController extends Controller
 		return array(
 			'accessControl',
 			'checkLan + create',
-			'checkEditPermissions + update',
+			'checkEditPermissions + update, delete',
 		);
 	}
 
@@ -58,7 +58,7 @@ class RegistrationController extends Controller
 			throw new CHttpException(400, 'Anmälan hittades inte');
 
 		if (!Yii::app()->user->isAdmin() && strtolower($registration->user_id) != strtolower(Yii::app()->user->userId))
-			throw new CHttpException(403, 'Du kan inte ändra någon annans anmälan');
+			throw new CHttpException(403, 'Du kan inte ändra/ta bort någon annans anmälan');
 
 		$filterChain->run();
 	}
@@ -75,13 +75,8 @@ class RegistrationController extends Controller
 			),
 			// Only logged in users can update registrations
 			array('allow',
-				'actions'=>array('update'),
+				'actions'=>array('update', 'delete'),
 				'expression'=>'!Yii::app()->user->isGuest',
-			),
-			// Only administrators can delete registrations
-			array('allow',
-				'actions'=>array('delete'),
-				'expression'=>'$user->isAdmin()',
 			),
 			// Default rule
 			array('deny')

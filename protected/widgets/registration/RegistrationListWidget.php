@@ -58,6 +58,12 @@ class RegistrationListWidget extends CWidget
 		// Get the user object
 		$user = Yii::app()->user;
 		
+		// Check if the user has a registration. We need to know this so we 
+		// know which columns to show
+		$hasRegistration = (Registration::model()->currentLan()
+				->find('user_id = :user_id', 
+				array(':user_id'=>$user->getUserId())) !== null);
+		
 		?>
 		<table class="table table-striped table-bordered table-condensed" border="0" cellpadding="0" cellspacing="0">
 			<tr>
@@ -65,7 +71,7 @@ class RegistrationListWidget extends CWidget
 				
 				// Show the 'actions' column for authenticated users (although 
 				// not for administrators)
-				if(!$user->isGuest && !Yii::app()->user->isAdmin()) {
+				if(!$user->isGuest && $hasRegistration) {
 					?><th>&nbsp;</th><?php
 				}
 				
@@ -105,19 +111,23 @@ class RegistrationListWidget extends CWidget
 					<?php
 					
 					// Show an edit/delete links
-					if(!$user->isGuest && !Yii::app()->user->isAdmin()) {
+					if(!$user->isGuest && $hasRegistration) {
 						echo '<td>';
 						
-						// Show edit link for the user's own registration
 						if(strtolower($registration->user_id) === strtolower($user->getUserId())) 
 						{
 							echo CHtml::link(
-								CHtml::image(
-									Yii::app()->baseUrl.'/files/images/icons/edit_button.png'
-								), 
+								'<i class="icon icon-pencil"></i>',
 								Yii::app()->controller->createUrl('registration/update', array('id'=>$registration->id))
 							);
+							
 							echo '&nbsp;';
+							
+							echo CHtml::link(
+								'<i class="icon icon-trash"></i>',
+								Yii::app()->controller->createUrl('registration/delete', array('id'=>$registration->id)),
+								array('confirm'=>'Är du säker?')
+							);
 						}
 						
 						echo '</td>';
