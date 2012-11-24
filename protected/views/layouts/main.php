@@ -20,37 +20,37 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 	if (Yii::app()->user->isGuest)
 	{
 		$leftItems = array(
-			array('label'=>'Allmänt', 'url'=>Yii::app()->cms->createUrl('home'), 'active'=>Yii::app()->cms->isActive('home')),
-			array('label'=>'Styrelsen', 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee')),
-			array('label'=>'<b>Anmälningar</b>', 'url'=>array('/registration/create')),
-			array('label'=>'Tidtabell', 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable')),
-			array('label'=>'Tävlingar', 'url'=>'#', 'items'=>array(
+			array('label'=>'Allmänt', 'url'=>Yii::app()->cms->createUrl('home'), 'active'=>Yii::app()->cms->isActive('home'), 'icon'=>'white home'),
+			array('label'=>'Styrelsen', 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee'), 'icon'=>'white globe'),
+			array('label'=>'<b>Anmälningar</b>', 'url'=>array('/registration/create'), 'icon'=>'white pencil'),
+			array('label'=>'Tidtabell', 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable'), 'icon'=>'white time'),
+			array('label'=>'Tävlingar', 'url'=>'#', 'icon'=>'white screenshot', 'items'=>array(
 					array('label'=>'Regler', 'url'=>Yii::app()->cms->createUrl('rules')),
 				), 'active'=>Yii::app()->cms->isActive('rules')),
 			array('label'=>'Submissions', 'url'=>array('/submission/archive'),
-				'active'=>Yii::app()->controller->route == 'submission/archive'),
+				'active'=>Yii::app()->controller->route == 'submission/archive', 'icon'=>'white list-alt'),
 		);
 	}
 	else
 	{
 		$leftItems = array(
-			array('label'=>'Allmänt', 'url'=>Yii::app()->cms->createUrl('home'), 'active'=>Yii::app()->cms->isActive('home')),
-			array('label'=>'Styrelsen', 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee')),
-			array('label'=>'<b>Anmälningar</b>', 'url'=>array('/registration/create')),
+			array('label'=>'Allmänt', 'url'=>Yii::app()->cms->createUrl('home'), 'active'=>Yii::app()->cms->isActive('home'), 'icon'=>'white home'),
+			array('label'=>'Styrelsen', 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee'), 'icon'=>'white globe'),
+			array('label'=>'<b>Anmälningar</b>', 'url'=>array('/registration/create'), 'icon'=>'white pencil'),
 			array('label'=>'Röstning', 'url'=>'#', 'items'=>array(
 					array('label'=>'Rösta', 'url'=>array('/vote/create')),
 					array('label'=>'Resultat', 'url'=>array('/vote/results')),
-			), 'active'=>in_array(Yii::app()->controller->route, array('vote/create', 'vote/results'))),
-			array('label'=>'Tidtabell', 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable')),
+			), 'active'=>in_array(Yii::app()->controller->route, array('vote/create', 'vote/results')), 'icon'=>'white thumbs-up'),
+			array('label'=>'Tidtabell', 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable'), 'icon'=>'white time'),
 			array('label'=>'Tävlingar', 'url'=>'#', 'items'=>array(
 					array('label'=>'Anmäl (under LAN)', 'url'=>array('/competition/register')),
 					array('label'=>'Regler', 'url'=>Yii::app()->cms->createUrl('rules')),
 					array('label'=>'Serverinformation', 'url'=>Yii::app()->cms->createUrl('serverinfo')),
-				), 'active'=>(Yii::app()->cms->isActive('rules') || Yii::app()->cms->isActive('serverinfo'))),
+				), 'active'=>(Yii::app()->cms->isActive('rules') || Yii::app()->cms->isActive('serverinfo')), 'icon'=>'white screenshot'),
 			array('label'=>'Submissions', 'url'=>array('/submission'), 'items'=>array(
 					array('label'=>'Ny submission', 'url'=>array('/submission/create')),
 					array('label'=>'Arkiv', 'url'=>array('/submission/archive')),
-				), 'active'=>in_array(Yii::app()->controller->route, array('submission/archive', 'submission/create'))),
+				), 'active'=>in_array(Yii::app()->controller->route, array('submission/archive', 'submission/create')), 'icon'=>'white list-alt'),
 		);
 	}
 
@@ -58,20 +58,20 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 	if (Yii::app()->user->isGuest)
 	{
 		$rightItems = array(
-			array('label'=>'Registrera dig', 'url'=>array('/site/register')),
-			array('label'=>'Logga in', 'url'=>array('/site/login')),
+			array('label'=>'Registrera dig', 'url'=>array('/site/register'), 'icon'=>'white pencil'),
+			array('label'=>'Logga in', 'url'=>array('/site/login'), 'icon'=>'white lock'),
 		);
 	}
 	else
 	{
 		$rightItems = array(
-			array('label'=>'Min profil', 'url'=>array('/user/profile')));
+			array('label'=>'Min profil', 'url'=>array('/user/profile'), 'icon'=>'white info-sign'));
 
 		// Link to administration area
 		if (Yii::app()->user->isAdmin())
-			$rightItems[] = array('label'=>'Administration', 'url'=>array('//admin/'));
+			$rightItems[] = array('label'=>'Administration', 'url'=>array('//admin/'), 'icon'=>'white th');
 
-		$rightItems[] = array('label'=>'Logga ut', 'url'=>array('/site/logout'));
+		$rightItems[] = array('label'=>'Logga ut', 'url'=>array('/site/logout'), 'icon'=>'white off');
 	}
 	
 	$this->widget('bootstrap.widgets.TbNavbar', array(
