@@ -115,6 +115,7 @@ class UserController extends Controller
 		{
 			$model->attributes = $_POST['User'];
 			$model->profileImage = CUploadedFile::getInstance($model, 'profileImage');
+			$model->removeProfileImage = $_POST['User']['removeProfileImage'];
 
 			if ($model->validate())
 			{
@@ -129,7 +130,20 @@ class UserController extends Controller
 
 					$model->image_id = $image->id;
 				}
+				
+				// Remove the profile image if the user checked the box
+				if ($model->removeProfileImage)
+				{
+					if ($model->image !== null)
+					{
+						$model->image->delete();
 
+						// This is necessary because Yii remembers the image_id 
+						// which is not valid after the image was deleted
+						$model->image_id = null;
+					}
+				}
+				
 				$model->save(false);
 
 				Yii::app()->user->setFlash('success', 'Dina användaruppgifter har uppdaterats');

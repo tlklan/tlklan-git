@@ -13,6 +13,7 @@ echo $form->textFieldRow($model, 'email');
 echo $form->uneditableRow($model, 'username');
 echo $form->textFieldRow($model, 'nick');
 echo $form->fileFieldRow($model, 'profileImage');
+echo $form->checkboxRow($model, 'removeProfileImage');
 
 ?>
 <div class="form-actions">

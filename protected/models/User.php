@@ -14,6 +14,7 @@
  * @property integer $has_werket_login
  * @property int $is_founder
  * @property string $date_added
+ * @property boolean $removeProfileImage
  * 
  * @property int $lanCount
  * @property Submission[] $submissions
@@ -47,6 +48,11 @@ class User extends CActiveRecord
 	public $profileImage;
 	
 	/**
+	 * @var boolean whether to remove the currently stored profile image
+	 */
+	public $removeProfileImage = false;
+	
+	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return User the static model class
@@ -77,6 +83,9 @@ class User extends CActiveRecord
 			array('email', 'email'),
 			array('profileImage', 'file', 'allowEmpty'=>true, 'types'=>array('gif', 'jpeg', 'jpg', 'png')),
 			
+			// update scenario
+			array('removeProfileImage', 'required', 'on'=>'update'),
+			
 			// register new user (insert) scenario
 			array('username, newPassword, passwordRepeat, has_werket_login', 'required', 'on'=>'insert'),
 			array('email', 'validateDuplicates', 'on'=>'insert'),
@@ -100,7 +109,7 @@ class User extends CActiveRecord
 			array('id, name, email, username, has_werket_login, date_added', 'safe', 'on'=>'search'),
 		);
 	}
-
+	
 	/**
 	 * Checks that both e-mail and username is unique
 	 * @param string $attribute the attribute being validated
@@ -165,6 +174,7 @@ class User extends CActiveRecord
 			'passwordRepeat'=>'Nytt lösenord (igen)',
 			'has_werket_login'=>$this->scenario == 'update-admin' ? 'Har werket.tlk.fi konto' : 'Jag har ett konto på werket.tlk.fi',
 			'date_added'=>'Registrerad sen',
+			'removeProfileImage'=>'Ta bort min nuvarande profilbild',
 		);
 	}
 
