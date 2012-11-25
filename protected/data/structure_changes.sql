@@ -320,3 +320,17 @@ ALTER TABLE `tlk_registrations`
 ALTER TABLE `tlk_registrations`
 	DROP COLUMN `confirmed`,
 	DROP COLUMN `deleted`;
+
+#
+# 2012-12-25
+#
+# Added image_id column to tlk_users
+ALTER TABLE `tlk_users`
+	ADD COLUMN `image_id` INT NOT NULL AFTER `password`;
+ALTER TABLE `tlk_users`
+	CHANGE COLUMN `image_id` `image_id` INT(11) NULL DEFAULT NULL AFTER `password`;
+UPDATE tlk_users SET image_id = NULL
+
+# Add foreign key constraint
+ALTER TABLE `tlk_users`
+	ADD CONSTRAINT `users_image_id_fk` FOREIGN KEY (`image_id`) REFERENCES `image` (`id`) ON UPDATE CASCADE ON DELETE SET NULL;

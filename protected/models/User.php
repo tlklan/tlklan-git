@@ -10,9 +10,11 @@
  * @property string $username
  * @property string $nick
  * @property string $password
+ * @property int $image_id
  * @property integer $has_werket_login
  * @property int $is_founder
  * @property string $date_added
+ * @property boolean $removeProfileImage
  * 
  * @property int $lanCount
  * @property Submission[] $submissions
@@ -20,6 +22,7 @@
  * @property Lan[] $lans
  * @property Registration[] $registrations
  * @property Competition[] $competitions
+ * @property Image $image
  */
 class User extends CActiveRecord
 {
@@ -38,6 +41,16 @@ class User extends CActiveRecord
 	 * @var string the new repeated password (used when changing password)
 	 */
 	public $passwordRepeat;
+	
+	/**
+	 * @var CUploadedFile eventual uploaded profile pictures
+	 */
+	public $profileImage;
+	
+	/**
+	 * @var boolean whether to remove the currently stored profile image
+	 */
+	public $removeProfileImage = false;
 	
 	/**
 	 * Returns the static model of the specified AR class.
@@ -64,10 +77,14 @@ class User extends CActiveRecord
 	{
 		return array(
 			array('name, email, nick', 'required'),
-			array('has_werket_login', 'numerical', 'integerOnly'=>true),
+			array('has_werket_login, image_id', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>75),
 			array('username, nick', 'length', 'max'=>25),
 			array('email', 'email'),
+			array('profileImage', 'file', 'allowEmpty'=>true, 'types'=>array('gif', 'jpeg', 'jpg', 'png')),
+			
+			// update scenario
+			array('removeProfileImage', 'required', 'on'=>'update'),
 			
 			// register new user (insert) scenario
 			array('username, newPassword, passwordRepeat, has_werket_login', 'required', 'on'=>'insert'),
@@ -92,7 +109,7 @@ class User extends CActiveRecord
 			array('id, name, email, username, has_werket_login, date_added', 'safe', 'on'=>'search'),
 		);
 	}
-
+	
 	/**
 	 * Checks that both e-mail and username is unique
 	 * @param string $attribute the attribute being validated
@@ -135,6 +152,7 @@ class User extends CActiveRecord
 			// competitions relation
 			'competitors'=>array(self::HAS_MANY, 'Competitor', array('id'=>'registration_id'), 'through'=>'registrations'),
 			'competitions'=>array(self::HAS_MANY, 'Competition', array('competition_id'=>'id'), 'through'=>'competitors'),
+			'image'=>array(self::HAS_ONE, 'Image', array('id'=>'image_id')),
 		);
 	}
 
@@ -149,12 +167,14 @@ class User extends CActiveRecord
 			'email'=>'E-postadress',
 			'username'=>'Användarnamn',
 			'nick'=>'Nick',
+			'profileImage'=>'Profilbild',
 			'password'=>'Lösenord',
 			'currentPassword'=>'Nuvarande lösenord',
 			'newPassword'=>'Nytt lösenord',
 			'passwordRepeat'=>'Nytt lösenord (igen)',
 			'has_werket_login'=>$this->scenario == 'update-admin' ? 'Har werket.tlk.fi konto' : 'Jag har ett konto på werket.tlk.fi',
 			'date_added'=>'Registrerad sen',
+			'removeProfileImage'=>'Ta bort min nuvarande profilbild',
 		);
 	}
 
@@ -309,6 +329,19 @@ class User extends CActiveRecord
 			$badges[] = new Badge(Badge::BADGE_HAS_WINNING_SUBMISSION);
 
 		return $badges;
+	}
+	
+	/**
+	 * Returns the URL to the user's profile picture (or a placeholder if one 
+	 * doesn't exist)
+	 * @return string the URL
+	 */
+	public function getProfileImageUrl()
+	{
+		if ($this->image !== null)
+			return Yii::app()->image->getURL($this->image->id, 'small');
+		else
+			return Yii::app()->baseUrl.'/files/images/icons/missing-profile-picture.png';
 	}
 	
 	/**

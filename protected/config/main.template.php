@@ -26,13 +26,18 @@ return array(
 		'ext.localuser.*',
 		'ext.bootstrap.widgets.*',
 		'application.modules.cms.CmsModule',
+		'application.modules.image.components.*',
+        'application.modules.image.models.Image',
 	),
 
 	'modules'=>array(
 		'cms',
 		'admin'=>array(
 			'layout'=>'main',
-		)
+		),
+		'image'=>array(
+			'createOnDemand'=>true,
+        ),
 	),
 
 	// application components
@@ -58,6 +63,12 @@ return array(
 			'class'=>'ext.phpass.Phpass',
 			'hashPortable'=>false,
 			'hashCostLog2'=>10,
+		),
+		'image'=>array(
+			'class'=>'ImgManager',
+			'versions'=>array(
+				'small'=>array('width'=>170, 'height'=>240),
+			),
 		),
 		'session'=>array(
 			'autoStart'=>true,
