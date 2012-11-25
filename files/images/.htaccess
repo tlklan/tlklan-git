@@ -3,7 +3,7 @@ Options -Indexes
 <IfModule mod_rewrite.c>
 
 RewriteEngine on
-RewriteBase /tlklan/
+RewriteBase /
 
 # If the requested file or directory does not exist...
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -12,4 +12,11 @@ RewriteCond %{REQUEST_FILENAME} !-d
 # ...and if the source URL points to an image, we redirect to the create image URL.
 RewriteRule ^versions/([^/]+)/[^\-]*\-?(\d+)\.(gif|jpg|png)$ image/default/create?id=$2&version=$1 [L,R,QSA]
 
+</IfModule>
+
+<IfModule mod_expires.c>
+        ExpiresActive On
+        ExpiresByType image/gif "access plus 90 days"
+        ExpiresByType image/jpeg "access plus 90 days"
+        ExpiresByType image/png "access plus 90 days"
 </IfModule>
