@@ -10,6 +10,8 @@ files/documents
 protected/runtime
 protected/config/console.php
 css/*.css
+files/images/originals/
+files/images/versions/
 syntax: regexp
 ^assets/*
 ^nbproject/*

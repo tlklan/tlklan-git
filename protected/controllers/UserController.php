@@ -114,9 +114,24 @@ class UserController extends Controller
 		if (isset($_POST['User']))
 		{
 			$model->attributes = $_POST['User'];
+			$model->profileImage = CUploadedFile::getInstance($model, 'profileImage');
 
-			if ($model->save())
+			if ($model->validate())
 			{
+				// Save eventual images
+				if ($model->profileImage !== null)
+				{
+					// There can only be one...
+					if ($model->image !== null)
+						$model->image->delete();
+
+					$image = Yii::app()->image->save($model->profileImage, $model->username);
+
+					$model->image_id = $image->id;
+				}
+
+				$model->save(false);
+
 				Yii::app()->user->setFlash('success', 'Dina användaruppgifter har uppdaterats');
 
 				$this->redirect(array('profile'));

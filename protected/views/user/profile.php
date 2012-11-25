@@ -15,25 +15,35 @@ $this->breadcrumbs=array(
 	<fieldset>
 		<legend>Användaruppgifter</legend>
 
-		<?php $this->widget('TbDetailView', array(
-			'type'=>'striped',
-			'data'=>$model,
-			'attributes'=>array(
-				'name',
-				'email',
-				'username',
-				'nick',
-				array(
-					'name'=>'has_werket_login',
-					'type'=>'raw',
-					'label'=>'Har konto på werket.tlk.fi',
-					'value'=>$model->hasShellAccount() ? '<i class="icon-ok"></i>' : '',
-				),
-				'date_added',
-			),
-		)); ?>
-	</fieldset>
+		<div class="row">
+			<div class="span2">
+				<div class="picture">
+					<?php echo CHtml::image($model->getProfileImageUrl()); ?>
+				</div>
+			</div>
 
+			<div class="span10">
+				<?php $this->widget('TbDetailView', array(
+					'type'=>'striped',
+					'data'=>$model,
+					'attributes'=>array(
+						'name',
+						'email',
+						'username',
+						'nick',
+						array(
+							'name'=>'has_werket_login',
+							'type'=>'raw',
+							'label'=>'Har konto på werket.tlk.fi',
+							'value'=>$model->hasShellAccount() ? '<i class="icon-ok"></i>' : '',
+						),
+						'date_added',
+					),
+				)); ?>
+			</div>
+		</div>
+	</fieldset>
+	
 	<div class="row">
 		<div class="span6">
 			<fieldset>
