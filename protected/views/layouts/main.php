@@ -127,14 +127,6 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 				Design och kod: <b>negge</b><br />
 				<a href="https://bitbucket.org/negge/tlklan2">https://bitbucket.org/negge/tlklan2</a>
 			</p>
-			<p>
-				Teknologi: 
-				<a href="http://www.yiiframework.com">Yii framework</a> / 
-				<a href="http://www.cniska.net/yii-bootstrap/">Yii-Bootstrap</a> / 
-				<a href="http://www.yiiframework.com/extension/less">Yii-LESS</a> / 
-				<a href="https://bitbucket.org/NordLabs/nordcms">NordCms</a> / 
-				<a href="http://jquery.com/">jQuery</a>
-			</p>
 		</div>
 		
 	</div>
