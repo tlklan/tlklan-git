@@ -20,8 +20,11 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 	if (Yii::app()->user->isGuest)
 	{
 		$leftItems = array(
-			array('label'=>'Allmänt', 'url'=>Yii::app()->cms->createUrl('home'), 'active'=>Yii::app()->cms->isActive('home'), 'icon'=>'white home'),
-			array('label'=>'Styrelsen', 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee'), 'icon'=>'white globe'),
+			array('label'=>'Information', 'url'=>'#', 'icon'=>'white info-sign', 'items'=>array(
+				array('label'=>'Allmänt', 'url'=>Yii::app()->cms->createUrl('home'), 'active'=>Yii::app()->cms->isActive('home'), 'icon'=>'home'),
+				array('label'=>'Styrelsen', 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee'), 'icon'=>'globe'),
+			), 'active'=>(Yii::app()->cms->isActive('home') || Yii::app()->cms->isActive('committee'))),
+			
 			array('label'=>'<b>Anmälningar</b>', 'url'=>array('/registration/create'), 'icon'=>'white pencil'),
 			array('label'=>'Tidtabell', 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable'), 'icon'=>'white time'),
 			array('label'=>'Tävlingar', 'url'=>'#', 'icon'=>'white screenshot', 'items'=>array(
@@ -34,8 +37,10 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 	else
 	{
 		$leftItems = array(
-			array('label'=>'Allmänt', 'url'=>Yii::app()->cms->createUrl('home'), 'active'=>Yii::app()->cms->isActive('home'), 'icon'=>'white home'),
-			array('label'=>'Styrelsen', 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee'), 'icon'=>'white globe'),
+			array('label'=>'Information', 'url'=>'#', 'icon'=>'white info-sign', 'items'=>array(
+				array('label'=>'Allmänt', 'url'=>Yii::app()->cms->createUrl('home'), 'active'=>Yii::app()->cms->isActive('home'), 'icon'=>'home'),
+				array('label'=>'Styrelsen', 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee'), 'icon'=>'globe'),
+			), 'active'=>(Yii::app()->cms->isActive('home') || Yii::app()->cms->isActive('committee'))),
 			array('label'=>'<b>Anmälningar</b>', 'url'=>array('/registration/create'), 'icon'=>'white pencil'),
 			array('label'=>'Röstning', 'url'=>'#', 'items'=>array(
 					array('label'=>'Rösta', 'url'=>array('/vote/create')),
