@@ -128,8 +128,13 @@ class ArchiveListWidget extends CWidget {
 								<?php 
 
 								// Some older submissions doesn't have a submitter
-								if($submission->submitter !== null)
-									echo $submission->submitter->nick; 
+								if ($submission->submitter !== null) 
+								{
+									echo CHtml::link($submission->submitter->nick, 
+										$this->controller
+											->createUrl('user/profile', 
+										array('id'=>$submission->user_id)));
+								}
 
 								?>
 							</td>

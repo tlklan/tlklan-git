@@ -138,7 +138,10 @@ class RegistrationListWidget extends CWidget
 					<td class="nick">
 						<?php 
 						
-						echo $nick;
+						// Show link to user profile
+						echo CHtml::link($nick, Yii::app()->controller
+								->createUrl('user/profile', 
+								array('id'=>$registration->user_id)));
 						
 						// Show badge for first timers
 						if ($registration->isFirstTimer())
