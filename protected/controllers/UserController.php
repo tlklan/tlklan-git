@@ -95,12 +95,15 @@ class UserController extends Controller
 	}
 	
 	/**
-	 * Displays the user's profile page
+	 * Displays a user profile. If no ID parameter is passed, the currently 
+	 * logged in user's profile is shown.
 	 */
-	public function actionProfile()
+	public function actionProfile($id = null)
 	{
+		$id = $id === null ? Yii::app()->user->getUserId() : $id;
+		
 		$this->render('profile', array(
-			'model'=>$this->loadModel(),
+			'model'=>$this->loadModel($id),
 		));
 	}
 
@@ -162,9 +165,9 @@ class UserController extends Controller
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer the ID of the model to be loaded
 	 */
-	public function loadModel()
+	public function loadModel($id)
 	{
-		$model = User::model()->findbyPk(Yii::app()->user->getUserId());
+		$model = User::model()->findbyPk($id);
 
 		if ($model === null)
 			throw new CHttpException(404, 'The requested page does not exist.');
