@@ -93,30 +93,40 @@ $this->breadcrumbs=array(
 		</div>
 	</div>
 	
-	<div class="form-actions">
-		<?php
-
-		$this->widget('bootstrap.widgets.TbButton', array(
-			'type'=>'primary',
-			'buttonType'=>'link',
-			'icon'=>'edit white',
-			'label'=>'Ändra uppgifter',
-			'url'=>$this->createUrl('user/update'),
-		));
-
-		echo '&nbsp;&nbsp;&nbsp;';
-
-		// Shell users must change their password from the shell
-		if (!$model->hasShellAccount())
-		{
-			$this->widget('bootstrap.widgets.TbButton', array(
-				'buttonType'=>'link',
-				'icon'=>'edit',
-				'label'=>'Byt lösenord',
-				'url'=>$this->createUrl('user/changePassword'),
-			));
-		}
-
+	<?php
+	
+	// Don't show action buttons unless the user "owns" the profile
+	if($model->id == Yii::app()->user->getUserId()) 
+	{
 		?>
-	</div>
+		<div class="form-actions">
+			<?php
+
+			$this->widget('bootstrap.widgets.TbButton', array(
+				'type'=>'primary',
+				'buttonType'=>'link',
+				'icon'=>'edit white',
+				'label'=>'Ändra uppgifter',
+				'url'=>$this->createUrl('user/update'),
+			));
+
+			echo '&nbsp;&nbsp;&nbsp;';
+
+			// Shell users must change their password from the shell
+			if (!$model->hasShellAccount())
+			{
+				$this->widget('bootstrap.widgets.TbButton', array(
+					'buttonType'=>'link',
+					'icon'=>'edit',
+					'label'=>'Byt lösenord',
+					'url'=>$this->createUrl('user/changePassword'),
+				));
+			}
+
+			?>
+		</div>
+		<?php 
+	} 
+	
+	?>
 </div>
