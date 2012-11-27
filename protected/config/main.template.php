@@ -59,6 +59,11 @@ return array(
 			'allowAutoLogin'=>false,
 			'gid'=>1042, // lanklubben
 		),
+		'localUser'=>array(
+			'class'=>'ext.localuser.LocalUser',
+			'hostname'=>'werket.tlk.fi',
+			'port'=>22,
+		),
 		'hasher'=>array(
 			'class'=>'ext.phpass.Phpass',
 			'hashPortable'=>false,

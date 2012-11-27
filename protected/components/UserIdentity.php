@@ -28,7 +28,8 @@ class UserIdentity extends CUserIdentity
 			// Shell login
 			if ($user->hasShellAccount())
 			{
-				$this->localUser = new LocalUser();
+				$this->localUser = Yii::app()->localUser;
+				$this->localUser->connect();
 				
 				// Convert username to lowercase
 				$username = strtolower($this->username);
