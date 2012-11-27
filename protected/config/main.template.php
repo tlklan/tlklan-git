@@ -56,7 +56,7 @@ return array(
 		),
 		'user'=>array(
 			'class'=>'WebUser',
-			'allowAutoLogin'=>false,
+			'allowAutoLogin'=>true,
 			'gid'=>1042, // lanklubben
 		),
 		'localUser'=>array(

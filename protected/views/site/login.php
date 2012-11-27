@@ -21,6 +21,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 echo $form->textFieldRow($model, 'username', array('class'=>'span3', 'autofocus'=>'autofocus'));
 echo $form->passwordFieldRow($model, 'password', array('class'=>'span3'));
+echo $form->checkboxRow($model, 'rememberMe');
 
 ?>
 <div class="form-actions">
