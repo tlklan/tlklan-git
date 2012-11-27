@@ -12,11 +12,6 @@ class TLKCms extends Cms
 {
 	
 	/**
-	 * @var int the group ID that has administrative capabilities
-	 */
-	public $gid;
-
-	/**
 	 * Checks whether the current user should be able to edit nodes. The real 
 	 * check is done by WebUser::isAdmin()
 	 * @return boolean
