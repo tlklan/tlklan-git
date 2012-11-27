@@ -8,8 +8,6 @@
 class UserIdentity extends CUserIdentity
 {
 
-	public $localUser;
-
 	/**
 	 * Authenticates a user.
 	 * @return boolean whether authentication succeeds.
@@ -28,13 +26,12 @@ class UserIdentity extends CUserIdentity
 			// Shell login
 			if ($user->hasShellAccount())
 			{
-				$this->localUser = Yii::app()->localUser;
-				$this->localUser->connect();
+				Yii::app()->localUser->connect();
 				
 				// Convert username to lowercase
 				$username = strtolower($this->username);
 				
-				$valid = $this->localUser->authenticate($username, $this->password);
+				$valid = Yii::app()->localUser->authenticate($username, $this->password);
 			}
 			// Standard login
 			else

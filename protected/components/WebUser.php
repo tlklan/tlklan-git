@@ -29,36 +29,33 @@ class WebUser extends CWebUser
 	private $_user;
 	
 	/**
-	 * We need to store the localUser object from the user identity so we can
-	 * do checks against it without having to authenticate the user again. We
-	 * also store the LocalUser object in a separate session variable for 
-	 * compatibility with the main site
-	 * 
+	 * Performs the login. We override the parent implementation in order to 
+	 * store Yii::app()->localUser in state.
 	 * @param UserIdentity $identity
 	 * @param int $duration duration of the login
-	 * @param boolean $includeMainLogin whether to also login on the main site
 	 */
-	public function login($identity, $duration = 0, $includeMainLogin = true) {
-		$this->setState('model', $identity->localUser);
-		
-		if($includeMainLogin)
-			Yii::app()->session->add('user', $identity->localUser);
-		
+	public function login($identity, $duration = 0)
+	{
+		// We need to store the localUser object from the user identity so we 
+		// can do checks against it without having to authenticate the user 
+		// again.
+		$this->setState('model', Yii::app()->localUser);
+
 		parent::login($identity, $duration);
 	}
-	
+
 	/**
-	 * Overriden from parent to be able to also log out at the main site
-	 * 
-	 * @see CWebUser::logout()
+	 * Performs the logout. We override the parent implementation in order to 
+	 * remove state data that we stored during login.
+	 * @see WebUser::login()
 	 * @param boolean $destroySession 
 	 */
-	public function logout($destroySession = true) {
-		Yii::app()->session->remove('user');
-		
+	public function logout($destroySession = true)
+	{
+		$this->setState('model', null);
+
 		parent::logout($destroySession);
 	}
-
 	
 	/**
 	 * Returns true if the user is an administrator.
