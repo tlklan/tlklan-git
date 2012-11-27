@@ -6,120 +6,137 @@
  *
  * @author Sam
  */
+class LocalUser extends CApplicationComponent
+{
 
-class LocalUser {
-	// Host parameters
-	const HOSTNAME = "localhost";
-	const PORT = 22;
-	
-	public $username;
-	
-	private $_conn;
+	/**
+	 * @var string the hostname to connect to. Defaults to "localhost"
+	 */
+	public $hostname = "localhost";
+
+	/**
+	 * @var int the port used for connecting. Defaults to 22.
+	 */
+	public $port = 22;
+
+	/**
+	 *
+	 * @var Net_SSH2 the SSH connection handle
+	 */
+	private $_ssh;
+
+	/**
+	 * @var int the user's UID
+	 */
 	private $_uid;
+
+	/**
+	 * @var int the user's GID
+	 */
 	private $_gid;
+
+	/**
+	 * @var int[] the IDs of the UNIX groups the user is a member of
+	 */
 	private $_groups = array();
 
 	/**
-	 * Try to establish a connection - fail if it doesn't work
+	 * Initializes the component
 	 */
-	public function __construct() {
-		if(!function_exists("ssh2_connect"))
-			throw new Exception("SSH2-stöd saknas, kontakta serveradministratören");
-		
-		$this->connect(self::HOSTNAME, self::PORT);
+	public function init()
+	{
+		// Include phpseclib
+		Yii::import('application.vendors.phpseclib.*');
+
+		// This is needed because the library uses class_exists everywhere and 
+		// Yii will try to auto-load, which will fail with an exception
+		Yii::$enableIncludePath = false;
+		require('Net/SSH2.php');
+
+		parent::init();
+	}
+
+	/**
+	 * Opens and stores a connection handle to the specified host
+	 */
+	public function connect()
+	{
+		$this->_ssh = new Net_SSH2($this->hostname, $this->port);
 	}
 
 	/**
 	 * Performs an SSH login with the passed credentials and sets user
-	 * information. Throws Exception on failure
-	 * 
-	 * @param string $user local username
-	 * @param string $pass local password
+	 * information.
+	 * @param string $username
+	 * @param string $password
 	 * @return boolean
 	 */
-	public function authenticate($user, $pass) {
-		if(@ssh2_auth_password($this->_conn, $user, $pass)) {
-			$this->username = $user;
+	public function authenticate($username, $password)
+	{
+		if ($this->_ssh->login($username, $password))
+		{
 			$this->setUserData();
 
 			return true;
 		}
-		else {
-			return false;
-		}
-	}
-	
-	/**
-	 * Opens and stores a connection handle to the specified host
-	 * 
-	 * @param string $host
-	 * @param int $port
-	 */
-	public function connect($host, $port = 22) {
-		if(false === $this->_conn = @ssh2_connect($host, $port))
-			throw new Exception("Kunde inte ansluta till servern");
+
+		return false;
 	}
 
 	/**
 	 * Sets the $_uid, $_gid and $_groups member variables
 	 */
-	private function setUserData() {
-		// Get the whole identity string from the server
-		$stream = ssh2_exec($this->_conn, "/usr/bin/id");
-		$user_data = "";
+	private function setUserData()
+	{
+		$userData = $this->_ssh->exec('/usr/bin/id');
 
-		// Parse it to a string
-		while(!feof($stream)) {
-			$user_data .= fgets($stream);
-		}
-		
-		// Split the stream and set the values
-		$parts = explode(" ", $user_data);
-		
+		// Parse the returned string
+		$parts = explode(" ", $userData);
 		$this->_uid = $this->parseId($parts[0]);
 		$this->_gid = $this->parseId($parts[1]);
 		$this->_groups = $this->parseGroups($parts[2]);
 	}
 
-	/***********
+	/*	 * *********
 	 * Parser functions. Takes partial output of the "id" command as input
 	 * and returns various parsed values from it
-	 ***********/
+	 * ********* */
 
 	/**
 	 *
-	 * @param array $user_data partial output from /usr/bin/id
+	 * @param array $userData partial output from /usr/bin/id
 	 * @return array
 	 */
-	private function parseId($user_data) {
+	private function parseId($userData)
+	{
 		$arr = array();
-		preg_match("/\d+/", $user_data, $arr);
+		preg_match("/\d+/", $userData, $arr);
 
 		return $arr[0];
 	}
 
 	/**
 	 *
-	 * @param array $user_data partial output from /usr/bin/id
+	 * @param array $userData partial output from /usr/bin/id
 	 * @return array
 	 */
-	private function parseGroups($user_data) {
+	private function parseGroups($userData)
+	{
 		$arr = array();
-		preg_match_all("/\d+/", $user_data, $arr);
+		preg_match_all("/\d+/", $userData, $arr);
 
 		return $arr[0];
 	}
 
 	/**
 	 * Checks if a user is a member of a specific group
-	 * 
 	 * @param type $gid the group ID
 	 * @return type boolean true if the user is a member of group $gid, 
 	 * false otherwise
 	 */
-	public function hasGroup($gid) {
+	public function hasGroup($gid)
+	{
 		return in_array($gid, $this->_groups);
 	}
-}
 
-?>
+}
