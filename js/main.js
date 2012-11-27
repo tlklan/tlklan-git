@@ -8,4 +8,11 @@ $(document).ready(function() {
                         $(this).val('');
                 }
         });
+		
+		/**
+		 * Automatically fade away success flash messages
+		 */
+		$('.alert-success').each(function() {
+			$(this).delay(2000).fadeOut(500);
+		});
 });
