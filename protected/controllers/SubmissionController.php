@@ -100,6 +100,11 @@ class SubmissionController extends Controller
 			$model->user_id = Yii::app()->user->getUserId();
 		}
 
+		// If the submission is to a LAN that is not the current one we need 
+		// to change scenario
+		if ($model->competition->lan_id != $currentLan->id)
+			$model->scenario = 'update-old';
+
 		if (isset($_POST['Submission']))
 		{
 			$model->attributes = $_POST['Submission'];

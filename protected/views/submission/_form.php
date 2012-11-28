@@ -14,7 +14,17 @@ $form = $this->beginWidget('TbActiveForm', array(
 )); 
 
 /* @var $form TbActiveForm */
-echo $form->dropDownListRow($model, 'compo_id', $competitionList, array('prompt'=>''));
+
+// Only allow competition to be changed if the submission is for the current 
+// LAN, otherwise show an uneditable field
+if ($model->scenario == 'update-old')
+{
+	echo $form->uneditableRow($model, 'competitionName');
+	echo $form->hiddenField($model, 'compo_id'); // we still need this
+}
+else
+	echo $form->dropDownListRow($model, 'compo_id', $competitionList, array('prompt'=>''));
+
 echo $form->textFieldRow($model, 'name');
 echo $form->fileFieldRow($model, 'file');
 echo $form->textAreaRow($model, 'comments');

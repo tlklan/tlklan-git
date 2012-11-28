@@ -78,6 +78,7 @@ class Submission extends CActiveRecord
 		return array(
 			'id'=>'ID',
 			'compo_id'=>'Tävling',
+			'competitionName'=>'Tävling',
 			'submitter'=>'Skapare',
 			'user_id'=>'Ditt nick',
 			'name'=>'Entrynamn',
@@ -99,6 +100,16 @@ class Submission extends CActiveRecord
 		parent::afterConstruct();
 	}
 
+	/**
+	 * Returns the name of the competition this submission belongs to. This 
+	 * method is used when updating older models.
+	 * @return string
+	 */
+	public function getCompetitionName()
+	{
+		return $this->competition->full_name;
+	}
+	
 	/**
 	 * Returns the size of the submission
 	 * 
