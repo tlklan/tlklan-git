@@ -1,7 +1,5 @@
 <?php
 
-$version = '2.1.3';
-
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
@@ -46,11 +44,18 @@ return array(
 			'class'=>'ext.bootstrap.components.Bootstrap',
 			'responsiveCss'=>true,
 		),
+		'clientScript'=>array(
+			'class'=>'ext.minify.EClientScript',
+			'combineScriptFiles'=>true,
+			'combineCssFiles'=>true,
+			'optimizeScriptFiles'=>true,
+			'optimizeCssFiles'=>false, // breaks things apparently
+		),
 		'less'=>array(
 			'class'=>'ext.less.components.LessCompiler',
 			'forceCompile'=>true, // indicates whether to force compiling
 			'paths'=>array(
-				'css/less/styles.less'=>'css/styles_'.$version.'.css',
+				'css/less/styles.less'=>'css/styles.css',
 				'css/less/small-screen.less'=>'css/small-screen.css',
 			),
 		),
@@ -124,8 +129,6 @@ return array(
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
-		'version'=>$version,
-		
 		// Minimum penis size required to register
 		'minimumPenisLength'=>9,
 		
