@@ -16,19 +16,27 @@ class Badge extends CModel
 	const BADGE_IS_FOUNDING_FATHER		= 16;
 	const BADGE_IS_CURRENT_COM_MEMBER	= 32;
 	const BADGE_FORMER_COM_MEMBER		= 64;
+	const BADGE_NEVER_SHOWED			= 128;
 
 	/**
 	 * @var int the type of the badge
 	 */
 	private $_type;
+	
+	/**
+	 * @var array list of key->value pairs that can be used to add dynamic 
+	 * content to the badge descriptions.
+	 */
+	private $_dynamicValues;
 
 	/**
 	 * Class constructor. It sets the badge type
 	 * @param type $type
 	 */
-	public function __construct($type)
+	public function __construct($type, $dynamicValues = array())
 	{
 		$this->_type = $type;
+		$this->_dynamicValues = $dynamicValues;
 	}
 
 	/**
@@ -66,6 +74,9 @@ class Badge extends CModel
 			case self::BADGE_FORMER_COM_MEMBER:
 				return 'committee_member.png';
 				break;
+			case self::BADGE_NEVER_SHOWED:
+				return 'never_showed.png';
+				break;
 			default:
 				return 'default.png';
 		}
@@ -102,6 +113,9 @@ class Badge extends CModel
 				break;
 			case self::BADGE_FORMER_COM_MEMBER:
 				return 'Har tidigare suttit i LAN-klubbens styrelse';
+				break;
+			case self::BADGE_NEVER_SHOWED:
+				return 'Har anmält sig till ett fullt LAN men inte dykt upp ('.$this->_dynamicValues['lan'].')';
 				break;
 			default:
 				return '';
