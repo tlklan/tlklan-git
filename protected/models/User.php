@@ -212,27 +212,31 @@ class User extends CActiveRecord
 	}
 	
 	/**
-	 * Returns the amount of winning submissions this user has.
-	 * @return int
+	 * Returns the submissions that the user has won by vote
+	 * @param boolean $withDeadlines don't include competitions which deadlines 
+	 * haven't passed
+	 * @return Competititon[]
 	 */
-	public function getWinningSubmissionCount()
+	public function getWinningSubmissions($withDeadlines = true)
 	{
-		$winningCount = 0;
+		$winningSubmissions = array();
 
-		// TODO: Try to do this with relations
 		// Get all competitions the user has participated in and get their 
 		// voting result data provider
 		foreach ($this->competitions as $competition)
 		{
+			if ($withDeadlines && strtotime($competition->deadline) > time())
+				continue;
+
 			$dataProvider = $competition->getSubmissionDataProvider();
 			$data = $dataProvider->getData();
 
 			// Compare the winning submission's user_id
 			if (count($data) > 0 && $data[0]['voteCount'] > 0 && $data[0]['user_id'] == $this->id)
-				$winningCount++;
+				$winningSubmissions[] = $competition;
 		}
 
-		return $winningCount;
+		return $winningSubmissions;
 	}
 	
 	/**
@@ -336,8 +340,9 @@ class User extends CActiveRecord
 		if ($this->submissionCount != 0)
 			$badges[] = new Badge(Badge::BADGE_HAS_SUBMISSION);
 
-		// User has at least one winning submission
-		if ($this->getWinningSubmissionCount() > 0)
+		// User has at least one winning submission. The badge will not be 
+		// shown if the competitions deadline isn't due.
+		if (count($this->getWinningSubmissions()) > 0)
 			$badges[] = new Badge(Badge::BADGE_HAS_WINNING_SUBMISSION);
 
 		return $badges;
