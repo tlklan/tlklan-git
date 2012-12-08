@@ -39,7 +39,9 @@ class RegistrationController extends AdminController
 			
 			if ($model->validate())
 			{
+				// Copy some values to the registration model
 				$registration->device = $model->device;
+				$registration->never_showed = $model->never_showed;
 
 				// Save and store the primary key for the next query
 				$registration->save();
