@@ -320,6 +320,18 @@ class User extends CActiveRecord
 		if ($allCornerLans)
 			$badges[] = new Badge(Badge::BADGE_ALL_CORNER_LANS);
 		
+		// Never showed badge
+		foreach ($this->registrations as $registration)
+		{
+			if ($registration->never_showed)
+			{
+				$badges[] = new Badge(Badge::BADGE_NEVER_SHOWED,
+								array('lan'=>$registration->lan->name));
+
+				break;
+			}
+		}
+		
 		// User has at least one submission
 		if ($this->submissionCount != 0)
 			$badges[] = new Badge(Badge::BADGE_HAS_SUBMISSION);

@@ -334,3 +334,10 @@ UPDATE tlk_users SET image_id = NULL
 # Add foreign key constraint
 ALTER TABLE `tlk_users`
 	ADD CONSTRAINT `users_image_id_fk` FOREIGN KEY (`image_id`) REFERENCES `image` (`id`) ON UPDATE CASCADE ON DELETE SET NULL;
+
+#
+# 2012-08-12
+#
+# Added "never showed" column
+ALTER TABLE `tlk_registrations`
+	ADD COLUMN `never_showed` TINYINT(1) NOT NULL DEFAULT '0' AFTER `date`;

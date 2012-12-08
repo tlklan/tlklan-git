@@ -18,6 +18,7 @@ echo $form->radioButtonListRow($model, 'device', array(
 ));
 
 echo $form->checkBoxListRow($model, 'competitions', CHtml::listData($competitions, 'id', 'full_name'));
+echo $form->checkBoxRow($model, 'never_showed');
 
 ?>
 <div class="form-actions">
