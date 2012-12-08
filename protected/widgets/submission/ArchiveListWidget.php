@@ -71,13 +71,18 @@ class ArchiveListWidget extends CWidget {
 						$competitionName = ($k == 0) ? $competition->full_name : '';
 						
 						// Mark the winning submission(s) row, but only if there 
-						// have actually been a vote
-						if(count($submissions) == 1 || max($submissionVotes) > 0 && $submission->voteCount 
-								== max($submissionVotes)) 
+						// have actually been a vote. We also don't want to 
+						// show the winner until the competitions deadline is 
+						// over
+						if (strtotime($competition->deadline) < time())
 						{
-							$rowClass .= ' winner';
+							if (count($submissions) == 1 || max($submissionVotes) > 0 && $submission->voteCount
+									== max($submissionVotes))
+							{
+								$rowClass .= ' winner';
+							}
 						}
-						
+							
 						// Mark disqualified submissions
 						if($submission->disqualified == true)
 							$rowClass .= ' disqualified';
