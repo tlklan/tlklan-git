@@ -12,6 +12,7 @@
  * @property string $nick
  * @property string $device
  * @property string $date
+ * @property int $never_showed
  *
  * The followings are the available model relations:
  * @property User $user
@@ -68,7 +69,7 @@ class Registration extends CActiveRecord
 	{
 		return array(
 			array('lan_id, user_id, device, date', 'required'),
-			array('lan_id, user_id', 'numerical', 'integerOnly'=>true),
+			array('lan_id, user_id, never_showed', 'numerical', 'integerOnly'=>true),
 			array('lanName, user, email, nick', 'safe', 'on'=>'search'),
 		);
 	}
@@ -128,6 +129,7 @@ class Registration extends CActiveRecord
 			'nick'=>'Nick',
 			'device'=>'Datortyp',
 			'date'=>'Anmälningsdatum',
+			'never_showed'=>'Dök aldrig upp',
 		);
 	}
 
