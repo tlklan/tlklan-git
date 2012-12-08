@@ -3,7 +3,6 @@
 /* @var $this UserController */
 /* @var $model User */
 
-$this->pageTitle = 'Din profil';
 $this->breadcrumbs=array(
 	$model->name,
 );
