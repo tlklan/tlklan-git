@@ -108,5 +108,16 @@ class Submission extends CActiveRecord
 		$formatter->sizeFormat = array('base'=>1024, 'decimals'=>1);
 		return !$formatted ? $this->size : $formatter->formatSize($this->size);
 	}
+	
+	/**
+	 * Returns true if the submission was the winning one in its competition
+	 * @return boolean
+	 */
+	public function isWinner()
+	{
+		$winningSubmission = SubmissionVote::model()->getWinningSubmission($this->competition->id);
+
+		return $winningSubmission->user_id == $this->user_id;
+	}
 
 }

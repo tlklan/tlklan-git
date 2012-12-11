@@ -7,6 +7,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 	'template'=>"{items}",
 	'emptyText'=>'Det finns inga submissions för den här tävlingen',
 	'enableSorting'=>false,
+	'rowCssClassExpression'=>'$data->submission->isWinner() ? "winning-submission" : ""',
 	'columns'=>array(
 		array(
 			'class'=>'CLinkColumn',

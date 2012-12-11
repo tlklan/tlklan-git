@@ -10,13 +10,8 @@
 		$competition = $submission->competition;
 
 		// Mark the row if the user won with this particular submission
-		$trClass = '';
+		$trClass = $submission->isWinner() ? 'winning-submission' : '';
 
-		$winningSubmission = SubmissionVote::model()->getWinningSubmission($competition->id);
-
-		if ($winningSubmission->user_id == $submission->user_id)
-			$trClass = 'winner';
-		
 		// Competition display name
 		$competitionName = $competition->full_name
 			.' <span class="lan-name">('.$competition->lan->name.')</span>';
