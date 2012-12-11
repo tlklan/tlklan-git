@@ -76,25 +76,6 @@ class UserController extends Controller
 	}
 
 	/**
-	 * Creates a new user
-	 */
-	public function actionCreate()
-	{
-		$model = new User;
-
-		if (isset($_POST['User']))
-		{
-			$model->attributes = $_POST['User'];
-			if ($model->save())
-				$this->redirect(array('view', 'id'=>$model->id));
-		}
-
-		$this->render('create', array(
-			'model'=>$model,
-		));
-	}
-	
-	/**
 	 * Displays a user profile. If no ID parameter is passed, the currently 
 	 * logged in user's profile is shown.
 	 */
@@ -143,16 +124,13 @@ class UserController extends Controller
 				}
 				
 				// Remove the profile image if the user checked the box
-				if ($model->removeProfileImage)
+				if ($model->removeProfileImage && $model->image !== null)
 				{
-					if ($model->image !== null)
-					{
-						$model->image->delete();
+					$model->image->delete();
 
-						// This is necessary because Yii remembers the image_id 
-						// which is not valid after the image was deleted
-						$model->image_id = null;
-					}
+					// This is necessary because Yii remembers the image_id 
+					// which is not valid after the image was deleted
+					$model->image_id = null;
 				}
 				
 				$model->save(false);
