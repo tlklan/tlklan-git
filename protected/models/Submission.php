@@ -102,16 +102,6 @@ class Submission extends CActiveRecord
 	}
 
 	/**
-	 * Returns the name of the competition this submission belongs to. This 
-	 * method is used when updating older models.
-	 * @return string
-	 */
-	public function getCompetitionName()
-	{
-		return $this->competition->full_name;
-	}
-	
-	/**
 	 * Returns the size of the submission
 	 * 
 	 * @param boolean $formatted whether to format the size (B, kB, MB etc.)
