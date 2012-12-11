@@ -6,21 +6,16 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 	'dataProvider'=>$dataProvider,
 	'template'=>"{items}",
 	'emptyText'=>'Det finns inga submissions för den här tävlingen',
+	'enableSorting'=>false,
 	'columns'=>array(
 		array(
-			'name'=>'name',
-			'header'=>'Namn',
-			'value'=>'$data["name"]',
+			'name'=>'submission.name',
+			'header'=>'Namn', // TODO: Link to the submission
 		),
 		array(
-			'name'=>'nick',
-			'header'=>'Skapare',
-			'value'=>'$data["nick"]',
+			'name'=>'user.nick',
+			'header'=>'Skapare', // TODO: Link to the submitter
 		),
-		array(
-			'name'=>'voteCOunt',
-			'header'=>'Antal röster',
-			'value'=>'$data["voteCount"]',
-		),
+		'vote_count',
 	),
 ));
