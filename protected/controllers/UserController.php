@@ -82,7 +82,11 @@ class UserController extends Controller
 	public function actionProfile($id = null)
 	{
 		$userId = $id === null ? Yii::app()->user->getUserId() : $id;
-		$model = $this->loadModel($userId);
+		
+		// Do some eager loading, it will be needed when determining the user's
+		// badges
+		$model = User::model()->with('submissions', 'submissionCount', 'lans', 
+				'lanCount', 'registrations')->findByPk($userId);
 
 		$this->render('profile', array(
 			'model'=>$model,

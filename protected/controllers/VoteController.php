@@ -95,7 +95,7 @@ class VoteController extends Controller
 			if(empty($competitionId))
 				throw new CHttpException(400, 'Ogiltig tävling');
 			
-			$competition = Competition::model()->findByPk($competitionId);
+			$competition = Competition::model()->with('submissions')->findByPk($competitionId);
 			if($competition === null)
 				throw new CHttpException(400, 'Ogiltig tävling');
 			

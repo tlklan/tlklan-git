@@ -29,7 +29,7 @@ echo $form->dropDownListRow($model, 'competition', CHtml::listData($competitions
 
 if ($model->competition)
 {
-	$competition = Competition::model()->findByPk($_POST['VoteForm']['competition']);
+	$competition = Competition::model()->with('submissions')->findByPk($_POST['VoteForm']['competition']);
 	$submissions = $competition->submissions;
 
 	echo CHtml::openTag('div', array('id'=>'submission-list'));

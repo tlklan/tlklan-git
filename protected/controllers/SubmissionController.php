@@ -110,7 +110,7 @@ class SubmissionController extends Controller
 				// Ensure the user is registered to the competition to 
 				// which he is submitting (some badges depend on it)
 				$userId = Yii::app()->user->getUserId();
-				$user = User::model()->findByPk($userId);
+				$user = User::model()->with('competitions')->findByPk($userId);
 
 				$hasCompoRegistration = false;
 
