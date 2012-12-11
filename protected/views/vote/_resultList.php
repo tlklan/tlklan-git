@@ -9,12 +9,16 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 	'enableSorting'=>false,
 	'columns'=>array(
 		array(
-			'name'=>'submission.name',
-			'header'=>'Namn', // TODO: Link to the submission
+			'class'=>'CLinkColumn',
+			'header'=>'Namn',
+			'labelExpression'=>'$data->submission->name',
+			'urlExpression'=>'Yii::app()->controller->createUrl("/submission/archive")."#".$data->submission_id',
 		),
 		array(
-			'name'=>'user.nick',
-			'header'=>'Skapare', // TODO: Link to the submitter
+			'class'=>'CLinkColumn',
+			'header'=>'Skapare',
+			'labelExpression'=>'$data->user->nick',
+			'urlExpression'=>'Yii::app()->controller->createUrl("/user/profile", array("id"=>$data->user->id))',
 		),
 		'vote_count',
 	),
