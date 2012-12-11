@@ -144,7 +144,7 @@ class User extends CActiveRecord
 	{
 		return array(
 			'lanCount'=>array(self::STAT, 'Lan', 'tlk_registrations(lan_id, user_id)'),
-			'submissions'=>array(self::HAS_MANY, 'Submission', 'user_id'),
+			'submissions'=>array(self::HAS_MANY, 'Submission', 'user_id', 'order'=>'id DESC'),
 			'submissionCount'=>array(self::STAT, 'Submission', 'user_id'),
 			'registrations'=>array(self::HAS_MANY, 'Registration', 'user_id'),
 			'lans'=>array(self::HAS_MANY, 'Lan', array('lan_id'=>'id'), 'through'=>'registrations'),
