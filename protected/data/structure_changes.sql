@@ -341,3 +341,17 @@ ALTER TABLE `tlk_users`
 # Added "never showed" column
 ALTER TABLE `tlk_registrations`
 	ADD COLUMN `never_showed` TINYINT(1) NOT NULL DEFAULT '0' AFTER `date`;
+
+#
+# 2012-11-12
+#
+# Created a new view for easy access to voting results per submission, per user
+# or per competition
+CREATE ALGORITHM = UNDEFINED VIEW `tlk_submission_votes` AS 
+SELECT tlk_competitions.id AS competition_id, tlk_submissions.user_id AS user_id, tlk_submissions.id 
+AS submission_id, COUNT(tlk_votes.id) AS vote_count
+FROM tlk_submissions
+INNER JOIN tlk_competitions ON tlk_submissions.compo_id = tlk_competitions.id
+LEFT OUTER
+JOIN tlk_votes ON tlk_votes.submission_id = tlk_submissions.id
+GROUP BY tlk_submissions.id ;
