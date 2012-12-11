@@ -1,4 +1,4 @@
-<table class="table table-striped table-bordered">
+<table class="submission-list table table-striped table-bordered">
 	<tr>
 		<th>Tävling:</th>
 		<th>Namn:</th>
@@ -7,9 +7,19 @@
 
 	foreach ($submissions as $submission)
 	{
+		$competition = $submission->competition;
+
+		// Mark the row if the user won with this particular submission
+		$trClass = '';
+
+		$winningSubmission = SubmissionVote::model()->getWinningSubmission($competition->id);
+
+		if ($winningSubmission->user_id == $submission->user_id)
+			$trClass = 'winner';
+		
 		?>
-		<tr>
-			<td><?php echo $submission->competition->full_name; ?></td>
+		<tr class="<?php echo $trClass; ?>">
+			<td><?php echo $competition->full_name; ?></td>
 			<td>
 				<?php 
 
