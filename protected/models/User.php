@@ -226,13 +226,13 @@ class User extends CActiveRecord
 		{
 			$winner = SubmissionVote::model()->getWinningSubmission($competition->id);
 
-			if ($winner !== null && $winner->vote_count > 0 && $winner->user_id == $this->id)
+			if ($winner !== null && $winner->user_id == $this->id)
 			{
 				$competition = $winner->competition;
 
 				if ($withDeadlines && strtotime($competition->deadline) > time())
 					continue;
-
+				
 				$wonCompetitions[] = $competition;
 			}
 		}

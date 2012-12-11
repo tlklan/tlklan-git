@@ -97,10 +97,16 @@ class SubmissionVote extends CActiveRecord
 					'criteria'=>$criteria));
 	}
 	
+	/**
+	 * Returns the submission model that won the specified competition, or null 
+	 * if not found.
+	 * @param int $competitionId
+	 * @return Submission
+	 */
 	public function getWinningSubmission($competitionId)
 	{
 		$criteria = new CDbCriteria();
-		$criteria->condition = 'competition_id = :id';
+		$criteria->condition = 'competition_id = :id AND vote_count > 0';
 		$criteria->order = 'vote_count DESC';
 		$criteria->limit = 1;
 		$criteria->params = array(':id'=>$competitionId);

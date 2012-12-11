@@ -117,7 +117,10 @@ class Submission extends CActiveRecord
 	{
 		$winningSubmission = SubmissionVote::model()->getWinningSubmission($this->competition->id);
 
-		return $winningSubmission->user_id == $this->user_id;
+		if ($winningSubmission !== null)
+			return $winningSubmission->user_id == $this->user_id;
+
+		return false;
 	}
 
 }
