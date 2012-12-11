@@ -55,7 +55,9 @@ class RegistrationController extends Controller
 		if ($registration === null)
 			throw new CHttpException(400, 'Anmälan hittades inte');
 
-		if (!Yii::app()->user->isAdmin() && strtolower($registration->user_id) != strtolower(Yii::app()->user->userId))
+		// Administrators should edit registrations from the backend so we only 
+		// allow the owner to do it here
+		if ($registration->user_id != Yii::app()->user->getUserId())
 			throw new CHttpException(403, 'Du kan inte ändra/ta bort någon annans anmälan');
 
 		$filterChain->run();
