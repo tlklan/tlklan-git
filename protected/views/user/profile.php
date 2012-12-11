@@ -3,6 +3,7 @@
 /* @var $this UserController */
 /* @var $model User */
 
+$this->pageTitle = $model->name;
 $this->breadcrumbs=array(
 	$model->name,
 );

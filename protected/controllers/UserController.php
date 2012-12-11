@@ -84,12 +84,6 @@ class UserController extends Controller
 		$userId = $id === null ? Yii::app()->user->getUserId() : $id;
 		$model = $this->loadModel($userId);
 
-		// Use different page titles when viewing others' profiles
-		if ($id === null)
-			$this->pageTitle = 'Din profil';
-		else
-			$this->pageTitle = $model->name.'s profil';
-
 		$this->render('profile', array(
 			'model'=>$model,
 		));
