@@ -17,6 +17,7 @@
  * @property Competitor[] $competitors
  * @property int $competitorCount
  * @property Submission[] $submissions
+ * @property Lan $lan
  */
 class Competition extends CActiveRecord
 {
@@ -47,6 +48,7 @@ class Competition extends CActiveRecord
 			'competitors'=>array(self::HAS_MANY, 'Competitor', 'competition_id'),
 			'competitorCount'=>array(self::STAT, 'Competitor', 'competition_id'),
 			'submissions'=>array(self::HAS_MANY, 'Submission', 'compo_id'),
+			'lan'=>array(self::BELONGS_TO, 'Lan', 'lan_id'),
 		);
 	}
 
