@@ -22,6 +22,9 @@
  */
 class Submission extends CActiveRecord
 {
+	/**
+	 * @var CUploadedFile the submission file
+	 */
 	public $file;
 
 	/**
@@ -92,16 +95,6 @@ class Submission extends CActiveRecord
 	}
 
 	/**
-	 * Sets some default values
-	 */
-	protected function afterConstruct()
-	{
-		$this->disqualified = false;
-
-		parent::afterConstruct();
-	}
-
-	/**
 	 * Returns the size of the submission
 	 * 
 	 * @param boolean $formatted whether to format the size (B, kB, MB etc.)
@@ -113,7 +106,7 @@ class Submission extends CActiveRecord
 		// Format it
 		$formatter = new CFormatter();
 		$formatter->sizeFormat = array('base'=>1024, 'decimals'=>1);
-		return ($formatted === false) ? $this->size : $formatter->formatSize($this->size);
+		return !$formatted ? $this->size : $formatter->formatSize($this->size);
 	}
 
 }
