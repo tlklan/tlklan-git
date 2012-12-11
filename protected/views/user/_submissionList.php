@@ -10,7 +10,9 @@
 		$competition = $submission->competition;
 
 		// Mark the row if the user won with this particular submission
-		$trClass = $submission->isWinner() ? 'winning-submission' : '';
+		$trClass = '';
+		if (strtotime($competition->deadline) < time())
+			$trClass = $submission->isWinner() ? 'winning-submission' : '';
 
 		// Competition display name
 		$competitionName = $competition->full_name
