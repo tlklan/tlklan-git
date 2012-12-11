@@ -87,24 +87,15 @@ class SubmissionController extends Controller
 	}
 
 	/**
-	 * Creates a new submission or updates an existing one if $model is provided
-	 * @param Submission $model model to update, null to create new
+	 * Creates a new submission
 	 */
-	public function actionCreate($model = null)
+	public function actionCreate()
 	{
 		$currentLan = Lan::model()->getCurrent();
 
-		if ($model === null)
-		{
-			$model = new Submission();
-			$model->user_id = Yii::app()->user->getUserId();
-		}
-		else {
-			// If the submission is to a LAN that is not the current one we need 
-			// to change scenario
-			if ($model->competition->lan_id != $currentLan->id)
-				$model->scenario = 'update-old';
-		}
+		// Set the user ID automatically
+		$model = new Submission();
+		$model->user_id = Yii::app()->user->getUserId();
 
 		if (isset($_POST['Submission']))
 		{
@@ -113,85 +104,80 @@ class SubmissionController extends Controller
 
 			if ($model->validate())
 			{
-				// The file field can be empty when updating an entry. If it 
-				// isn't we upload the file and store its path
-				if ($model->file !== null)
+				// Save the submission to the hard drive
+				$this->saveSubmission($model, $currentLan);
+
+				// Ensure the user is registered to the competition to 
+				// which he is submitting (some badges depend on it)
+				$userId = Yii::app()->user->getUserId();
+				$user = User::model()->findByPk($userId);
+
+				$hasCompoRegistration = false;
+
+				foreach ($user->competitions as $competition)
+					if ($competition->id == $model->compo_id)
+						$hasCompoRegistration = true;
+
+				if (!$hasCompoRegistration)
 				{
-					// Determine the physical path where the submission should be 
-					// stored
-					$physicalPath = Yii::app()->params['submissionPath'].
-							DIRECTORY_SEPARATOR.$model->competition->short_name.
-							DIRECTORY_SEPARATOR.$currentLan->name.
-							DIRECTORY_SEPARATOR;
+					$registration = Registration::model()->currentLan()
+							->find('user_id = :user_id', array(':user_id'=>$userId));
 
-					// Create the path if it doesn't exist. Throw exception if it 
-					// is not couldn't be created.
-					if (!is_dir($physicalPath) && !mkdir($physicalPath, 0777, true))
-						throw new CHttpException(500, 'Kunde inte spara din submission');
-
-					$physicalPath = $physicalPath.$model->file->name;
-				
-					$model->file->saveAs($physicalPath);
-					$model->physical_path = $physicalPath;
-					$model->size = $model->file->getSize();
+					$competitor = new Competitor();
+					$competitor->registration_id = $registration->id;
+					$competitor->competition_id = $model->compo_id;
+					$competitor->save(false);
 				}
-				
-				if ($model->isNewRecord)
-				{
-					// Ensure the user is registered to the competition to 
-					// which he is submitting (some badges depend on it)
-					$userId = Yii::app()->user->getUserId();
-					$user = User::model()->findByPk($userId);
 
-					$hasCompoRegistration = false;
+				Yii::app()->user->setFlash('success', 'Din submission har laddats upp');
 
-					foreach ($user->competitions as $competition)
-						if ($competition->id == $model->compo_id)
-							$hasCompoRegistration = true;
-
-					if (!$hasCompoRegistration)
-					{
-						$registration = Registration::model()->currentLan()
-								->find('user_id = :user_id', array(':user_id'=>$userId));
-
-						$competitor = new Competitor();
-						$competitor->registration_id = $registration->id;
-						$competitor->competition_id = $model->compo_id;
-						$competitor->save(false);
-					}
-
-					Yii::app()->user->setFlash('success', 'Din submission har laddats upp');
-				}
-				else
-					Yii::app()->user->setFlash('success', 'Entryn har uppdaterats');
-				
 				$model->save(false);
 
 				$this->redirect($this->createUrl('/submission/archive'));
 			}
 		}
-		else {
-			// Auto-select the correct nick for logged in users when adding
-			// new submissions
-			if ($model->isNewRecord && !Yii::app()->user->isGuest)
-				$model->user_id = Yii::app()->user->userId;
-		}
-		
+
 		// Show different view depending on if this is a create or update
-		$this->render($model->isNewRecord ? 'create' : 'update', array(
+		$this->render('create', array(
 			'model'=>$model,
 			'competitions'=>$currentLan->competitions,
 		));
 	}
 	
 	/**
-	 * Updates an existing entry. The main logic is in the create action.
+	 * Updates an existing entry.
 	 * @param int $id the submission to update
-	 * @throws CHttpException if the model can't be found
 	 */
 	public function actionUpdate($id)
 	{
-		$this->actionCreate($this->loadModel($id));
+		// Get the submission and its associated LAN model
+		$model = $this->loadModel($id);
+		$lan = $model->competition->lan;
+
+		if (isset($_POST['Submission']))
+		{
+			$model->attributes = $_POST['Submission'];
+			$model->file = CUploadedFile::getInstance($model, 'file');
+
+			if ($model->validate())
+			{
+				// Only overwrite the file if the user has uploaded a new one
+				if ($model->file !== null)
+					$this->saveSubmission($model, $lan);
+
+				$model->save(false);
+
+				Yii::app()->user->setFlash('success', 'Entryn har uppdaterats');
+
+				$this->redirect($this->createUrl('/submission/archive'));
+			}
+		}
+
+		// Show different view depending on if this is a create or update
+		$this->render('update', array(
+			'model'=>$model,
+			'competitions'=>$lan->competitions,
+		));
 	}
 
 	/**
@@ -216,10 +202,10 @@ class SubmissionController extends Controller
 	 */
 	public function actionGet($id)
 	{
-		$submission = Submission::model()->findByPk($id);
+		$submission = $this->loadModel($id);
 
-		// Check that the submission exists and that the file is readable
-		if ($submission === null || !is_readable($submission->physical_path))
+		// Check that the file is readable
+		if (!is_readable($submission->physical_path))
 			throw new CHttpException(404, 'Filen hittades inte');
 
 		$physicalPath = $submission->physical_path;
@@ -275,4 +261,24 @@ class SubmissionController extends Controller
 		return $model;
 	}
 
+	private function saveSubmission(&$model, $lan)
+	{
+		// Determine the physical path where the submission should be 
+		// stored
+		$physicalPath = Yii::app()->params['submissionPath'].
+				DIRECTORY_SEPARATOR.$model->competition->short_name.
+				DIRECTORY_SEPARATOR.$lan->name.
+				DIRECTORY_SEPARATOR;
+
+		// Create the path if it doesn't exist. Throw exception if it 
+		// is not couldn't be created.
+		if (!is_dir($physicalPath) && !mkdir($physicalPath, 0777, true))
+			throw new CHttpException(500, 'Kunde inte spara din submission');
+
+		$physicalPath = $physicalPath.$model->file->name;
+
+		$model->file->saveAs($physicalPath);
+		$model->physical_path = $physicalPath;
+		$model->size = $model->file->getSize();
+	}
 }

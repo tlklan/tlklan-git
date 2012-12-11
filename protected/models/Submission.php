@@ -48,6 +48,7 @@ class Submission extends CActiveRecord
 	{
 		return array(
 			array('compo_id, user_id, name', 'required'),
+			array('file', 'required', 'on'=>'insert'),
 			array('file', 'file', 'on'=>'insert'),
 			array('compo_id, user_id', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>30),
