@@ -17,9 +17,13 @@
 		if ($winningSubmission->user_id == $submission->user_id)
 			$trClass = 'winner';
 		
+		// Competition display name
+		$competitionName = $competition->full_name
+			.' <span class="lan-name">('.$competition->lan->name.')</span>';
+		
 		?>
 		<tr class="<?php echo $trClass; ?>">
-			<td><?php echo $competition->full_name; ?></td>
+			<td><?php echo $competitionName; ?></td>
 			<td>
 				<?php 
 
