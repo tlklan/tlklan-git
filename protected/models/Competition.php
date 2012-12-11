@@ -86,27 +86,6 @@ class Competition extends CActiveRecord
 	}
 	
 	/**
-	 * Returns a data provider for the submissions in this competition. It is 
-	 * used on the voting results page and is order by amount of votes.
-	 * @return \CArrayDataProvider
-	 */
-	public function getSubmissionDataProvider()
-	{
-		// What we need is cumbersome to accomplish with the AR system
-		$rawData = Yii::app()->db->createCommand()
-				->select('tlk_submissions.id, tlk_submissions.user_id, tlk_submissions.name, tlk_users.nick, COUNT(tlk_votes.id) AS voteCount')
-				->from('tlk_submissions')
-				->join('tlk_users', 'tlk_users.id = tlk_submissions.user_id')
-				->leftJoin('tlk_votes', 'tlk_votes.submission_id = tlk_submissions.id')
-				->where('tlk_submissions.compo_id = :id', array(':id'=>$this->id))
-				->group('tlk_submissions.id')
-				->order('voteCount DESC')
-				->queryAll();
-
-		return new CArrayDataProvider($rawData);
-	}
-	
-	/**
 	 * Returns a dataprovider for listing competitors for each competition
 	 * @return \CActiveDataProvider
 	 */

@@ -165,8 +165,17 @@ class VoteController extends Controller
 			if($competition === null)
 				throw new CHttpException(400, 'Ogiltig tävling');
 			
+			// Get a data provider
+			$dataProvider = new CActiveDataProvider('SubmissionVote', array(
+				'criteria'=>array(
+					'condition'=>'competition_id = :id',
+					'params'=>array(':id'=>$competitionId),
+				),
+				'pagination'=>false,
+			));
+			
 			$this->renderPartial('_resultList', array(
-				'dataProvider'=>$competition->getSubmissionDataProvider(),
+				'dataProvider'=>$dataProvider,
 			));
 		}
 		
