@@ -36,9 +36,7 @@ class RegistrationController extends Controller
 	 */
 	public function filterCheckLan($filterChain)
 	{
-		$currentLan = Lan::model()->getCurrent();
-
-		if ($currentLan === null)
+		if (Lan::model()->getCurrent() === null)
 			throw new CHttpException(400, "Det går inte att anmäla sig till TLK LAN för tillfället. Kolla tillbaka om en stund!");
 
 		$filterChain->run();
