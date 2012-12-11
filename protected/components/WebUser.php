@@ -170,7 +170,7 @@ class WebUser extends CWebUser
 	{
 		$this->loadUser();
 
-		return $this->_user->id;
+		return $this->_user === null ? null : $this->_user->id;
 	}
 
 }
