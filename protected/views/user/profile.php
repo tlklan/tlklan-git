@@ -37,7 +37,11 @@ $this->breadcrumbs=array(
 							'label'=>'Har konto på werket.tlk.fi',
 							'value'=>$model->hasShellAccount() ? '<i class="icon-ok"></i>' : '',
 						),
-						'date_added',
+						array(
+							'name'=>'date_added',
+							'value'=>$model->date_added.' <span class="lan-name">('.$model->getFirstRegistration()->lan->name.')</span>',
+							'type'=>'raw',
+						),
 					),
 				)); ?>
 			</div>

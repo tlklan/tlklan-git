@@ -115,7 +115,8 @@ class Badge extends CModel
 				return 'Har tidigare suttit i LAN-klubbens styrelse';
 				break;
 			case self::BADGE_NEVER_SHOWED:
-				return 'Har anmält sig till ett fullt LAN men inte dykt upp ('.$this->_dynamicValues['lan'].')';
+				return 'Har anmält sig till ett fullt LAN men inte dykt upp 
+					<span class="lan-name">('.$this->_dynamicValues['lan'].')</span>';
 				break;
 			default:
 				return '';
