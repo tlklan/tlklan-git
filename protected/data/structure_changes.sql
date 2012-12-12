@@ -384,3 +384,19 @@ ALTER TABLE `tlk_votes`
 	ALTER `compo_id` DROP DEFAULT;
 ALTER TABLE `tlk_votes`
 	CHANGE COLUMN `compo_id` `competition_id` INT(11) NOT NULL AFTER `submission_id`;
+
+# Rename column to competition_id for consistency
+ALTER TABLE `tlk_submissions`
+	DROP FOREIGN KEY `submissions_compo_id_fk`;
+ALTER TABLE `tlk_submissions`
+	CHANGE COLUMN `compo_id` `competition_id` INT(11) NULL DEFAULT NULL AFTER `id`,
+	ADD CONSTRAINT `submissions_compo_id_fk` FOREIGN KEY (`competition_id`) REFERENCES `tlk_competitions` (`id`) ON UPDATE CASCADE ON DELETE SET NULL;
+
+# The tlk_submission_votes view must be updated due to the above change
+ALTER DEFINER=`root`@`localhost` VIEW `tlk_submission_votes` AS SELECT tlk_competitions.id AS competition_id, tlk_submissions.user_id AS user_id, tlk_submissions.id 
+AS submission_id, COUNT(tlk_votes.id) AS vote_count
+FROM tlk_submissions
+INNER JOIN tlk_competitions ON tlk_submissions.competition_id = tlk_competitions.id
+LEFT OUTER
+JOIN tlk_votes ON tlk_votes.submission_id = tlk_submissions.id
+GROUP BY tlk_submissions.id  ;

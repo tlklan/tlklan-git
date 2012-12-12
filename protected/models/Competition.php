@@ -47,7 +47,7 @@ class Competition extends CActiveRecord
 		return array(
 			'competitors'=>array(self::HAS_MANY, 'Competitor', 'competition_id'),
 			'competitorCount'=>array(self::STAT, 'Competitor', 'competition_id'),
-			'submissions'=>array(self::HAS_MANY, 'Submission', 'compo_id'),
+			'submissions'=>array(self::HAS_MANY, 'Submission', 'competition_id'),
 			'lan'=>array(self::BELONGS_TO, 'Lan', 'lan_id'),
 		);
 	}

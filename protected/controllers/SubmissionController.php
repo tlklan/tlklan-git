@@ -115,7 +115,7 @@ class SubmissionController extends Controller
 				$hasCompoRegistration = false;
 
 				foreach ($user->competitions as $competition)
-					if ($competition->id == $model->compo_id)
+					if ($competition->id == $model->competition_id)
 						$hasCompoRegistration = true;
 
 				if (!$hasCompoRegistration)
@@ -125,7 +125,7 @@ class SubmissionController extends Controller
 
 					$competitor = new Competitor();
 					$competitor->registration_id = $registration->id;
-					$competitor->competition_id = $model->compo_id;
+					$competitor->competition_id = $model->competition_id;
 					$competitor->save(false);
 				}
 

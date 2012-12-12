@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'tlk_submissions':
  * @property integer $id
- * @property integer $compo_id
+ * @property integer $competition_id
  * @property integer $user_id
  * @property string $name
  * @property string $physical_path
@@ -50,10 +50,10 @@ class Submission extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('compo_id, user_id, name', 'required'),
+			array('competition_id, user_id, name', 'required'),
 			array('file', 'required', 'on'=>'insert'),
 			array('file', 'file', 'on'=>'insert'),
-			array('compo_id, user_id', 'numerical', 'integerOnly'=>true),
+			array('competition_id, user_id', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>30),
 			array('size, comments', 'safe'),
 			// the file doesn't have to be resubmitted when updating
@@ -67,7 +67,7 @@ class Submission extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'competition'=>array(self::BELONGS_TO, 'Competition', 'compo_id'),
+			'competition'=>array(self::BELONGS_TO, 'Competition', 'competition_id'),
 			'submitter'=>array(self::BELONGS_TO, 'User', 'user_id'),
 			'vote'=>array(self::HAS_MANY, 'Vote', 'submission_id'),
 			'voteCount'=>array(self::STAT, 'Vote', 'submission_id'),
@@ -81,7 +81,7 @@ class Submission extends CActiveRecord
 	{
 		return array(
 			'id'=>'ID',
-			'compo_id'=>'Tävling',
+			'competition_id'=>'Tävling',
 			'competitionName'=>'Tävling',
 			'submitter'=>'Skapare',
 			'user_id'=>'Ditt nick',

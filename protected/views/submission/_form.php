@@ -15,7 +15,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 
 /* @var $form TbActiveForm */
 
-echo $form->dropDownListRow($model, 'compo_id', $competitionList, array('prompt'=>''));
+echo $form->dropDownListRow($model, 'competition_id', $competitionList, array('prompt'=>''));
 echo $form->textFieldRow($model, 'name');
 echo $form->fileFieldRow($model, 'file');
 echo $form->textAreaRow($model, 'comments');
