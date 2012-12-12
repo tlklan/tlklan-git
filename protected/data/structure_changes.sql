@@ -415,3 +415,7 @@ ALTER TABLE `tlk_committee`
 # Add a foreign key constraint
 ALTER TABLE `tlk_committee`
 	ADD CONSTRAINT `committee_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `tlk_users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE;
+
+# Added another foreign key constraint
+ALTER TABLE `tlk_votes`
+	ADD CONSTRAINT `votes_competition_id_fk` FOREIGN KEY (`competition_id`) REFERENCES `tlk_competitions` (`id`) ON UPDATE CASCADE ON DELETE CASCADE;
