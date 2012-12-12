@@ -12,7 +12,6 @@
  * @property string $password
  * @property int $image_id
  * @property integer $has_werket_login
- * @property int $is_founder
  * @property string $date_added
  * @property boolean $removeProfileImage
  * 

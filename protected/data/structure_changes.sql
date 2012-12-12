@@ -355,3 +355,10 @@ INNER JOIN tlk_competitions ON tlk_submissions.compo_id = tlk_competitions.id
 LEFT OUTER
 JOIN tlk_votes ON tlk_votes.submission_id = tlk_submissions.id
 GROUP BY tlk_submissions.id ;
+
+#
+# 2012-12-12
+#
+# Remove the is_founder column - it is not needed anymore
+ALTER TABLE `tlk_users`
+	DROP COLUMN `is_founder`;
