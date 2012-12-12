@@ -419,3 +419,13 @@ ALTER TABLE `tlk_committee`
 # Added another foreign key constraint
 ALTER TABLE `tlk_votes`
 	ADD CONSTRAINT `votes_competition_id_fk` FOREIGN KEY (`competition_id`) REFERENCES `tlk_competitions` (`id`) ON UPDATE CASCADE ON DELETE CASCADE;
+
+# Remove table comments
+ALTER TABLE `tlk_competitions`
+	COMMENT='';
+ALTER TABLE `tlk_competitors`
+	COMMENT='';
+ALTER TABLE `tlk_lans`
+	COMMENT='';
+ALTER TABLE `tlk_submissions`
+	COMMENT='';
