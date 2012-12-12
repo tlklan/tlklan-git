@@ -400,3 +400,18 @@ INNER JOIN tlk_competitions ON tlk_submissions.competition_id = tlk_competitions
 LEFT OUTER
 JOIN tlk_votes ON tlk_votes.submission_id = tlk_submissions.id
 GROUP BY tlk_submissions.id  ;
+
+# Set column width to 11 (for consistency and ability to add foreign keys)
+ALTER TABLE `tlk_committee`
+	ALTER `user_id` DROP DEFAULT;
+ALTER TABLE `tlk_committee`
+	CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT FIRST,
+	CHANGE COLUMN `user_id` `user_id` INT(11) NOT NULL AFTER `id`;
+
+# Remove the index on user_id
+ALTER TABLE `tlk_committee`
+	DROP INDEX `user_id`;
+
+# Add a foreign key constraint
+ALTER TABLE `tlk_committee`
+	ADD CONSTRAINT `committee_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `tlk_users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE;
