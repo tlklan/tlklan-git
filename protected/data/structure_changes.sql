@@ -355,3 +355,98 @@ INNER JOIN tlk_competitions ON tlk_submissions.compo_id = tlk_competitions.id
 LEFT OUTER
 JOIN tlk_votes ON tlk_votes.submission_id = tlk_submissions.id
 GROUP BY tlk_submissions.id ;
+
+#
+# 2012-12-12
+#
+# Remove the is_founder column - it is not needed anymore
+ALTER TABLE `tlk_users`
+	DROP COLUMN `is_founder`;
+
+# Change column data type for consistency with other 0/1 columns
+ALTER TABLE `tlk_submissions`
+	CHANGE COLUMN `disqualified` `disqualified` TINYINT(1) NOT NULL DEFAULT '0' AFTER `comments`;
+
+# Move the competition_id column so it matches the schema for tlk_competitors
+ALTER TABLE `tlk_actual_competitors`
+	ALTER `registration_id` DROP DEFAULT;
+ALTER TABLE `tlk_actual_competitors`
+	CHANGE COLUMN `registration_id` `registration_id` INT(10) NOT NULL AFTER `id`;
+
+# Change to smaller data type
+ALTER TABLE `tlk_competitions`
+	ALTER `display_order` DROP DEFAULT;
+ALTER TABLE `tlk_competitions`
+	CHANGE COLUMN `display_order` `display_order` TINYINT NOT NULL AFTER `lan_id`;
+
+# Rename column to competition_id for consistency
+ALTER TABLE `tlk_votes`
+	ALTER `compo_id` DROP DEFAULT;
+ALTER TABLE `tlk_votes`
+	CHANGE COLUMN `compo_id` `competition_id` INT(11) NOT NULL AFTER `submission_id`;
+
+# Rename column to competition_id for consistency
+ALTER TABLE `tlk_submissions`
+	DROP FOREIGN KEY `submissions_compo_id_fk`;
+ALTER TABLE `tlk_submissions`
+	CHANGE COLUMN `compo_id` `competition_id` INT(11) NULL DEFAULT NULL AFTER `id`,
+	ADD CONSTRAINT `submissions_compo_id_fk` FOREIGN KEY (`competition_id`) REFERENCES `tlk_competitions` (`id`) ON UPDATE CASCADE ON DELETE SET NULL;
+
+# The tlk_submission_votes view must be updated due to the above change
+ALTER DEFINER=`root`@`localhost` VIEW `tlk_submission_votes` AS SELECT tlk_competitions.id AS competition_id, tlk_submissions.user_id AS user_id, tlk_submissions.id 
+AS submission_id, COUNT(tlk_votes.id) AS vote_count
+FROM tlk_submissions
+INNER JOIN tlk_competitions ON tlk_submissions.competition_id = tlk_competitions.id
+LEFT OUTER
+JOIN tlk_votes ON tlk_votes.submission_id = tlk_submissions.id
+GROUP BY tlk_submissions.id  ;
+
+# Set column width to 11 (for consistency and ability to add foreign keys)
+ALTER TABLE `tlk_committee`
+	ALTER `user_id` DROP DEFAULT;
+ALTER TABLE `tlk_committee`
+	CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT FIRST,
+	CHANGE COLUMN `user_id` `user_id` INT(11) NOT NULL AFTER `id`;
+
+# Remove the index on user_id
+ALTER TABLE `tlk_committee`
+	DROP INDEX `user_id`;
+
+# Add a foreign key constraint
+ALTER TABLE `tlk_committee`
+	ADD CONSTRAINT `committee_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `tlk_users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE;
+
+# Added another foreign key constraint
+ALTER TABLE `tlk_votes`
+	ADD CONSTRAINT `votes_competition_id_fk` FOREIGN KEY (`competition_id`) REFERENCES `tlk_competitions` (`id`) ON UPDATE CASCADE ON DELETE CASCADE;
+
+# Remove table comments
+ALTER TABLE `tlk_competitions`
+	COMMENT='';
+ALTER TABLE `tlk_competitors`
+	COMMENT='';
+ALTER TABLE `tlk_lans`
+	COMMENT='';
+ALTER TABLE `tlk_submissions`
+	COMMENT='';
+
+# Use utf8_general_ci everywhere
+ALTER TABLE `tlk_competitions`
+	COLLATE='utf8_general_ci',
+	CONVERT TO CHARSET utf8;
+ALTER TABLE `tlk_competitors`
+	COLLATE='utf8_general_ci',
+	CONVERT TO CHARSET utf8;
+ALTER TABLE `tlk_lans`
+	COLLATE='utf8_general_ci',
+	CONVERT TO CHARSET utf8;
+ALTER TABLE `tlk_votes`
+	COLLATE='utf8_general_ci',
+	CONVERT TO CHARSET utf8;
+ALTER TABLE `tlk_submissions`
+	ALTER `name` DROP DEFAULT;
+ALTER TABLE `tlk_submissions`
+	CHANGE COLUMN `name` `name` VARCHAR(30) NOT NULL AFTER `user_id`,
+	CHANGE COLUMN `physical_path` `physical_path` TINYTEXT NULL AFTER `name`,
+	CHANGE COLUMN `size` `size` BIGINT(20) UNSIGNED NOT NULL DEFAULT '0' AFTER `physical_path`,
+	CHANGE COLUMN `comments` `comments` TINYTEXT NOT NULL AFTER `size`;

@@ -41,7 +41,7 @@ class ActualCompetitor extends CActiveRecord
 		return array(
 			array('competition_id, registration_id', 'required'),
 			array('competition_id, registration_id', 'numerical', 'integerOnly'=>true),
-			array('id, compo_id, registration_id', 'safe', 'on'=>'search'),
+			array('id, competition_id, registration_id', 'safe', 'on'=>'search'),
 		);
 	}
 
