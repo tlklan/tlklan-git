@@ -429,3 +429,24 @@ ALTER TABLE `tlk_lans`
 	COMMENT='';
 ALTER TABLE `tlk_submissions`
 	COMMENT='';
+
+# Use utf8_general_ci everywhere
+ALTER TABLE `tlk_competitions`
+	COLLATE='utf8_general_ci',
+	CONVERT TO CHARSET utf8;
+ALTER TABLE `tlk_competitors`
+	COLLATE='utf8_general_ci',
+	CONVERT TO CHARSET utf8;
+ALTER TABLE `tlk_lans`
+	COLLATE='utf8_general_ci',
+	CONVERT TO CHARSET utf8;
+ALTER TABLE `tlk_votes`
+	COLLATE='utf8_general_ci',
+	CONVERT TO CHARSET utf8;
+ALTER TABLE `tlk_submissions`
+	ALTER `name` DROP DEFAULT;
+ALTER TABLE `tlk_submissions`
+	CHANGE COLUMN `name` `name` VARCHAR(30) NOT NULL AFTER `user_id`,
+	CHANGE COLUMN `physical_path` `physical_path` TINYTEXT NULL AFTER `name`,
+	CHANGE COLUMN `size` `size` BIGINT(20) UNSIGNED NOT NULL DEFAULT '0' AFTER `physical_path`,
+	CHANGE COLUMN `comments` `comments` TINYTEXT NOT NULL AFTER `size`;
