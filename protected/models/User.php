@@ -288,7 +288,7 @@ class User extends CActiveRecord
 			$badges[] = new Badge(Badge::BADGE_FORMER_COM_MEMBER);
 		
 		// Is founding father?
-		if ($this->is_founder)
+		if (CommitteeMember::model()->isFounder($this->id))
 			$badges[] = new Badge(Badge::BADGE_IS_FOUNDING_FATHER);
 		
 		// User has been on more than five LANs

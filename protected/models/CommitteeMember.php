@@ -66,5 +66,23 @@ class CommitteeMember extends CActiveRecord
 
 		return self::model()->findAll('year = :year', array(':year'=>$maxYear));
 	}
+	
+	/**
+	 * Checks if the specified user is a founder of LAN-klubben. A founder is 
+	 * someone who has been on the committee during the first your of the clubs 
+	 * existence.
+	 * @param int $userId the user ID
+	 * @return boolean
+	 */
+	public function isFounder($userId)
+	{
+		$minYear = Yii::app()->db->createCommand('SELECT MIN(`year`) FROM tlk_committee')->queryScalar();
+
+		$model = self::model()->find('year = :year AND user_id = :user_id', array(
+			':year'=>$minYear,
+			':user_id'=>$userId));
+
+		return $model !== null;
+	}
 
 }
