@@ -362,3 +362,19 @@ GROUP BY tlk_submissions.id ;
 # Remove the is_founder column - it is not needed anymore
 ALTER TABLE `tlk_users`
 	DROP COLUMN `is_founder`;
+
+# Change column data type for consistency with other 0/1 columns
+ALTER TABLE `tlk_submissions`
+	CHANGE COLUMN `disqualified` `disqualified` TINYINT(1) NOT NULL DEFAULT '0' AFTER `comments`;
+
+# Move the competition_id column so it matches the schema for tlk_competitors
+ALTER TABLE `tlk_actual_competitors`
+	ALTER `registration_id` DROP DEFAULT;
+ALTER TABLE `tlk_actual_competitors`
+	CHANGE COLUMN `registration_id` `registration_id` INT(10) NOT NULL AFTER `id`;
+
+# Change to smaller data type
+ALTER TABLE `tlk_competitions`
+	ALTER `display_order` DROP DEFAULT;
+ALTER TABLE `tlk_competitions`
+	CHANGE COLUMN `display_order` `display_order` TINYINT NOT NULL AFTER `lan_id`;
