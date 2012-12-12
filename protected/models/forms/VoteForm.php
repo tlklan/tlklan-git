@@ -71,7 +71,7 @@ class VoteForm extends CFormModel
 	{
 		$votes = Vote::model()->findByAttributes(array(
 			'voter_id'=>$this->voter,
-			'compo_id'=>$this->competition,
+			'competition_id'=>$this->competition,
 		));
 
 		// The voter attribute isn't shown in the form so we have to put the 

@@ -7,7 +7,7 @@
  * @property integer $id
  * @property integer $voter_id
  * @property integer $submission_id
- * @property integer $compo_id
+ * @property integer $competition_id
  *
  * The followings are the available model relations:
  * @property Submission $submission
@@ -42,7 +42,7 @@ class Vote extends CActiveRecord
 			'id'=>'ID',
 			'voter_id'=>'Voter',
 			'submission_id'=>'Submission',
-			'compo_id'=>'Competition',
+			'competition_id'=>'Competition',
 		);
 	}
 

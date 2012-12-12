@@ -57,7 +57,7 @@ class VoteController extends Controller
 				$vote = new Vote();
 				$vote->voter_id = $model->voter;
 				$vote->submission_id = $model->submission;
-				$vote->compo_id = $model->competition;
+				$vote->competition_id = $model->competition;
 				$vote->save(false);
 				
 				Yii::app()->user->setFlash('success', 'Din röst har registrerats');

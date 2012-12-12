@@ -378,3 +378,9 @@ ALTER TABLE `tlk_competitions`
 	ALTER `display_order` DROP DEFAULT;
 ALTER TABLE `tlk_competitions`
 	CHANGE COLUMN `display_order` `display_order` TINYINT NOT NULL AFTER `lan_id`;
+
+# Rename column to competition_id for consistency
+ALTER TABLE `tlk_votes`
+	ALTER `compo_id` DROP DEFAULT;
+ALTER TABLE `tlk_votes`
+	CHANGE COLUMN `compo_id` `competition_id` INT(11) NOT NULL AFTER `submission_id`;
