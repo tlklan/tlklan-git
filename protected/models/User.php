@@ -368,13 +368,10 @@ class User extends CActiveRecord
 		// Check for valid payments
 		$lan = Lan::model()->getCurrent();
 
-		$payment = Payment::model()->find('user_id = :user_id AND (season_id = :season_id OR lan_id = :lan_id)', array(
+		return Payment::model()->find('user_id = :user_id AND (season_id = :season_id OR lan_id = :lan_id)', array(
 			':user_id'=>$this->id,
 			':season_id'=>$lan->season_id,
-			':lan_id'=>$lan->id,
-				));
-
-		return $payment !== null;
+			':lan_id'=>$lan->id)) !== null;
 	}
 
 }
