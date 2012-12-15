@@ -249,22 +249,6 @@ class User extends CActiveRecord
 	}
 	
 	/**
-	 * Returns true if the user is currently on the committee
-	 * @return boolean
-	 */
-	private function isCurrentCommitteeMember()
-	{
-		// Find all committee members and check one by one
-		$currentMembers = CommitteeMember::model()->getCurrentCommitteeMembers();
-
-		foreach ($currentMembers as $member)
-			if ($member->user_id == $this->id)
-				return true;
-
-		return false;
-	}
-	
-	/**
 	 * Returns an array of badges that the user has earned
 	 * @return Badge[] the user's badges
 	 */
@@ -273,17 +257,11 @@ class User extends CActiveRecord
 		$badges = array();
 
 		// User is a current committee member
-		if ($this->isCurrentCommitteeMember())
+		if (CommitteeMember::model()->isCurrent($this->id))
 			$badges[] = new Badge(Badge::BADGE_IS_CURRENT_COM_MEMBER);
 
-		// User has been a committee member
-		$maxYear = Yii::app()->db->createCommand('SELECT MAX(`year`) FROM tlk_committee')->queryScalar();
-		
-		$committeeMember = CommitteeMember::model()
-				->find('user_id = :id AND `year` < :maxYear', 
-						array(':id'=>$this->id, ':maxYear'=>$maxYear));
-
-		if ($committeeMember !== null)
+		// User is a former committee member
+		if (CommitteeMember::model()->isFormer($this->id))
 			$badges[] = new Badge(Badge::BADGE_FORMER_COM_MEMBER);
 		
 		// Is founding father?
@@ -399,7 +377,7 @@ class User extends CActiveRecord
 	public function hasValidPayment()
 	{
 		// Committee members don't have to pay
-		if ($this->isCurrentCommitteeMember())
+		if (CommitteeMember::model()->isCurrent($this->id))
 			return true;
 
 		// Check for valid payments

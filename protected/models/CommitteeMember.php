@@ -1,7 +1,8 @@
 <?php
 
 /**
- * This is the model class for table "tlk_committee".
+ * This is the model class for table "tlk_committee". It provides methods for 
+ * quering committee membership status for users.
  *
  * The followings are the available columns in table 'tlk_committee':
  * @property integer $id
@@ -39,7 +40,7 @@ class CommitteeMember extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'user'=>array(self::BELONGS_TO, 'TlkUsers', 'user_id'),
+			'user'=>array(self::BELONGS_TO, 'User', 'user_id'),
 		);
 	}
 
@@ -55,18 +56,33 @@ class CommitteeMember extends CActiveRecord
 			'position'=>'Position',
 		);
 	}
-	
-	/**
-	 * Returns the current committee's members
-	 * @return CommitteeMember[]
-	 */
-	public function getCurrentCommitteeMembers()
-	{
-		$maxYear = Yii::app()->db->createCommand('SELECT MAX(`year`) FROM tlk_committee')->queryScalar();
 
-		return self::model()->findAll('year = :year', array(':year'=>$maxYear));
+	/**
+	 * Checks whether the specified user is currently on the committee
+	 * @param int $userId
+	 * @return boolean
+	 */
+	public function isCurrent($userId)
+	{
+		return self::model()->findByAttributes(array(
+					'year'=>$this->getMaxYear(),
+					'user_id'=>$userId)) !== null;
 	}
-	
+
+	/**
+	 * Checks if the specified user has previously been on the committee
+	 * @param int $userId
+	 * @return boolean
+	 */
+	public function isFormer($userId)
+	{
+		$attributes = array('user_id'=>$userId);
+		$params = array(':maxYear'=>$this->getMaxYear());
+
+		return self::model()->findByAttributes(
+						$attributes, 'year < :maxYear', $params) !== null;
+	}
+
 	/**
 	 * Checks if the specified user is a founder of LAN-klubben. A founder is 
 	 * someone who has been on the committee during the first your of the clubs 
@@ -76,13 +92,29 @@ class CommitteeMember extends CActiveRecord
 	 */
 	public function isFounder($userId)
 	{
-		$minYear = Yii::app()->db->createCommand('SELECT MIN(`year`) FROM tlk_committee')->queryScalar();
+		return self::model()->find('year = :year AND user_id = :user_id', array(
+					':year'=>$this->getMinYear(),
+					':user_id'=>$userId)) !== null;
+	}
 
-		$model = self::model()->find('year = :year AND user_id = :user_id', array(
-			':year'=>$minYear,
-			':user_id'=>$userId));
+	/**
+	 * Returns the earliest committee year
+	 * @return int
+	 */
+	private function getMinYear()
+	{
+		return Yii::app()->db->createCommand('SELECT MIN(`year`) FROM 
+			tlk_committee')->queryScalar();
+	}
 
-		return $model !== null;
+	/**
+	 * Returns the latest committee year
+	 * @return int
+	 */
+	private function getMaxYear()
+	{
+		return Yii::app()->db->createCommand('SELECT MAX(`year`) FROM 
+			tlk_committee')->queryScalar();
 	}
 
 }
