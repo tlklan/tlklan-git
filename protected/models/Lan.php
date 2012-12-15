@@ -59,7 +59,7 @@ class Lan extends CActiveRecord
 			array('reg_limit, enabled', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>20),
 			array('start_date, end_date', 'date', 'format'=>'yyyy-MM-dd'),
-			// TODO: Add location rule
+			array('location', 'validateLocation'),
 			array('id, name, seasonId, reg_limit, start_date, end_date, location, enabled', 'safe', 'on'=>'search'),
 		);
 	}
@@ -103,6 +103,16 @@ class Lan extends CActiveRecord
 			'location'=>'Plats',
 			'enabled'=>in_array($this->scenario, array('insert', 'update')) ? 'Sätt som aktivt' : 'Aktivt',
 		);
+	}
+	
+	/**
+	 * Checks that the selected location is valid
+	 * @param string $attribute the attribute being validated
+	 */
+	public function validateLocation($attribute)
+	{
+		if (!array_key_exists($this->{$attribute}, $this->getLocationList()))
+			$this->addError($attribute, 'Ogiltig plats');
 	}
 	
 	/**
@@ -241,6 +251,4 @@ class Lan extends CActiveRecord
 		return count($this->registrations) >= $this->reg_limit;
 	}
 	
-	
-
 }
