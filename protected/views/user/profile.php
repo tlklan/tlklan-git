@@ -23,7 +23,13 @@ $this->breadcrumbs=array(
 			</div>
 
 			<div class="span10">
-				<?php $this->widget('TbDetailView', array(
+				<?php 
+				
+				// Get the name of the first LAN the user registered to
+				$registration = Registration::model()->getFirstRegistration($model->id);
+				$lanName = $registration->lan->name;
+				
+				$this->widget('TbDetailView', array(
 					'type'=>'striped',
 					'data'=>$model,
 					'attributes'=>array(
@@ -39,7 +45,7 @@ $this->breadcrumbs=array(
 						),
 						array(
 							'name'=>'date_added',
-							'value'=>$model->date_added.' <span class="lan-name">('.$model->getFirstRegistration()->lan->name.')</span>',
+							'value'=>$model->date_added.' <span class="lan-name">('.$lanName.')</span>',
 							'type'=>'raw',
 						),
 					),

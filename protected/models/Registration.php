@@ -164,6 +164,21 @@ class Registration extends CActiveRecord
 	}
 	
 	/**
+	 * Returns the first registration the specified user ever made
+	 * @return Registration
+	 */
+	public function getFirstRegistration($userId)
+	{
+		$criteria = new CDbCriteria();
+		$criteria->condition = 'user_id = :user_id';
+		$criteria->order = 'lan_id ASC';
+		$criteria->limit = 1;
+		$criteria->params = array(':user_id'=>$userId);
+
+		return self::model()->find($criteria);
+	}
+	
+	/**
 	 * Getter for _name. Provided for backward compatibility + sorting/filtering
 	 * @return string
 	 */
