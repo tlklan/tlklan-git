@@ -27,7 +27,10 @@ $this->breadcrumbs=array(
 				
 				// Get the name of the first LAN the user registered to
 				$registration = Registration::model()->getFirstRegistration($model->id);
-				$lanName = $registration->lan->name;
+				
+				// Newly registered users will not have a first LAN
+				if ($registration !== null)
+					$lanName = $registration->lan->name;
 				
 				$this->widget('TbDetailView', array(
 					'type'=>'striped',
@@ -45,7 +48,7 @@ $this->breadcrumbs=array(
 						),
 						array(
 							'name'=>'date_added',
-							'value'=>$model->date_added.' <span class="lan-name">('.$lanName.')</span>',
+							'value'=>isset($lanName) ? $model->date_added.' <span class="lan-name">('.$lanName.')</span>' : $model->date_added,
 							'type'=>'raw',
 						),
 					),
