@@ -51,7 +51,8 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 					array('label'=>'Anmäl (under LAN)', 'url'=>array('/competition/register')),
 					array('label'=>'Regler', 'url'=>Yii::app()->cms->createUrl('rules')),
 					array('label'=>'Serverinformation', 'url'=>Yii::app()->cms->createUrl('serverinfo')),
-				), 'active'=>(Yii::app()->cms->isActive('rules') || Yii::app()->cms->isActive('serverinfo')), 'icon'=>'white screenshot'),
+					array('label'=>'Föreslå en tävling', 'url'=>array('/suggestion/create')),
+				), 'active'=>(Yii::app()->cms->isActive('rules') || Yii::app()->cms->isActive('serverinfo') || Yii::app()->controller->route == 'suggestion/create'), 'icon'=>'white screenshot'),
 			array('label'=>'Submissions', 'url'=>array('/submission'), 'items'=>array(
 					array('label'=>'Ny submission', 'url'=>array('/submission/create')),
 					array('label'=>'Arkiv', 'url'=>array('/submission/archive')),

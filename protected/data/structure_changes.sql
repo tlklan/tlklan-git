@@ -450,3 +450,44 @@ ALTER TABLE `tlk_submissions`
 	CHANGE COLUMN `physical_path` `physical_path` TINYTEXT NULL AFTER `name`,
 	CHANGE COLUMN `size` `size` BIGINT(20) UNSIGNED NOT NULL DEFAULT '0' AFTER `physical_path`,
 	CHANGE COLUMN `comments` `comments` TINYTEXT NOT NULL AFTER `size`;
+
+#
+# 2013-01-09
+#
+# Added a table for competition suggestions
+CREATE TABLE `tlk_suggestions` (
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
+	`created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`name` VARCHAR(50) NOT NULL,
+	`description` MEDIUMTEXT NOT NULL,
+	PRIMARY KEY (`id`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB;
+
+# Create a suggestion votes table
+CREATE TABLE `tlk_suggestion_votes` (
+	`suggestion_id` INT(10) NOT NULL,
+	`user_id` INT(10) NOT NULL,
+	PRIMARY KEY (`suggestion_id`, `user_id`),
+	CONSTRAINT `suggestion_votes_fk_suggestion_id` FOREIGN KEY (`suggestion_id`) REFERENCES `tlk_suggestions` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT `suggestion_votes_fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `tlk_users` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB;
+
+# Add an index for searching only by suggestion_id
+ALTER TABLE `tlk_suggestion_votes`
+	ADD INDEX `suggestion_id` (`suggestion_id`);
+
+# Add user_id column to the suggestions table
+ALTER TABLE `tlk_suggestions`
+	ADD COLUMN `user_id` INT NOT NULL AFTER `id`;
+
+# Make it nullable so we can create the foreign key constraint
+ALTER TABLE `tlk_suggestions`
+	CHANGE COLUMN `user_id` `user_id` INT(11) NULL DEFAULT NULL AFTER `id`;
+
+# Add foreign key constraint
+ALTER TABLE `tlk_suggestions`
+	ADD CONSTRAINT `suggestion_fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `tlk_users` (`id`) ON UPDATE CASCADE ON DELETE SET NULL;
