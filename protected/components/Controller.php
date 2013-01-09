@@ -6,6 +6,14 @@
  */
 class Controller extends CController
 {
+	
+	/**
+	 * @var array the valid languages for this site
+	 */
+	public static $validLanguages = array(
+		'sv'=>'Svenska',
+		'en'=>'English',
+	);
 
 	protected $_pageTitle;
 

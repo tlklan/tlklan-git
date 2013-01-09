@@ -12,12 +12,13 @@ return array(
 		'bootstrap',
 		'less',
 	),
-
+	
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
 		'application.models.forms.*',
 		'application.components.*',
+		'application.components.behaviors.*',
 		'application.widgets.*',
 		'application.widgets.registration.*',
 		'application.widgets.ArchiveListWidget.*',
@@ -36,6 +37,11 @@ return array(
 		'image'=>array(
 			'createOnDemand'=>true,
         ),
+	),
+	
+	// behaviors
+	'behaviors'=>array(
+		'ApplicationLanguageBehavior',
 	),
 
 	// application components
