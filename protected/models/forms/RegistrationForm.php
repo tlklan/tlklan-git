@@ -68,13 +68,16 @@ class RegistrationForm extends CFormModel
 	 */
 	public function attributeLabels()
 	{
+		$compoRegistrationUrl = Yii::app()->controller->createUrl('/competition/register');
+		$registrationLink = '<a href="'.$compoRegistrationUrl.'">'.Yii::t('registration', 'härifrån').'</a>';
+		
 		return array(
-			'name'=>'Namn',
-			'email'=>'E-post',
-			'nick'=>'Nick',
-			'device'=>'Jag använder en',
-			'competitions'=>'Jag tänker delta<br />i dessa tävlingar (slutlig allmän görs under LAN <a href="'.Yii::app()->controller->createUrl('/competition/register').'">härifrån</a>)',
-			'penis_long_enough'=>'Penis längre än '.Yii::app()->params['minimumPenisLength'].'"?',
+			'name'=>Yii::t('registration', 'Namn'),
+			'email'=>Yii::t('registration', 'E-post'),
+			'nick'=>Yii::t('registration', 'Nick'),
+			'device'=>Yii::t('registration', 'Jag använder en'),
+			'competitions'=>Yii::t('registration', 'Jag tänker delta<br />i dessa tävlingar (slutlig allmän görs under LAN {link})', array('{link}'=>$registrationLink)),
+			'penis_long_enough'=>Yii::t('registration', 'Penis längre än {length}"?', array('{length}'=>Yii::app()->params['minimumPenisLength'])),
 		);
 	}
 	

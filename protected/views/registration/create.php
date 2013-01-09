@@ -5,15 +5,17 @@ Yii::app()->clientScript->registerCssFile(
 		Yii::app()->baseUrl.'/css/small-screen.css', 
 		'only screen and (max-device-width: 720px)');
 
-$this->pageTitle = 'Anmälning till '.$currentLan->name;
-$this->breadcrumbs=array(
-	'Anmälning',
+$this->pageTitle = Yii::t('registration', 'Anmälning till {lanName}', array('{lanName}'=>$currentLan->name));
+$this->breadcrumbs = array(
+	Yii::t('registration', 'Anmälning'),
 );
 
 ?>
 <div class="registration-container row clearfix">
 	<div class="registration-form span7">
-		<h1>Anmälningar till <?php echo $currentLan->name; ?></h1>
+		<h1>
+			<?php echo Yii::t('registration', 'Anmälningar till {lanName}', array('{lanName}'=>$currentLan->name)); ?>
+		</h1>
 
 		<div class="disclaimer">
 			<?php $this->widget('cms.widgets.CmsBlock', array(
@@ -28,8 +30,7 @@ $this->breadcrumbs=array(
 		{
 			?>
 			<div class="alert alert-error alert-block">
-				Du måste vara inloggad för att registrera dig. Har du inte ett 
-				konto är det bara att registrera sig!
+				<?php echo Yii::t('registration', 'Du måste vara inloggad för att registrera dig. Har du inte ett konto är det bara att registrera sig!'); ?>
 			</div>
 			<?php
 		}
@@ -46,7 +47,7 @@ $this->breadcrumbs=array(
 	</div>
 	
 	<div class="registration-info small-screen-hidden span5">
-		<h1 style="margin-top: 0;">Information</h1>
+		<h1 style="margin-top: 0;"><?php echo Yii::t('Information', 'Information'); ?></h1>
 		<?php $this->widget('cms.widgets.CmsBlock',array('name'=>'registration_info')); ?>
 	</div>
 	
