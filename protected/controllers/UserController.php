@@ -67,6 +67,9 @@ class UserController extends Controller
 				$model->password = Yii::app()->hasher->hashPassword($model->newPassword);
 				$model->save(false);
 
+				// Inform the committee that someone has registered
+				$this->sendRegistrationNotification($model);
+				
 				Yii::app()->user->setFlash('success', 'Du är nu registrerad och kan logga in genom att klicka på <i>Logga in</i> i menyn');
 
 				$this->redirect(Yii::app()->homeUrl);
@@ -192,6 +195,43 @@ class UserController extends Controller
 			throw new CHttpException(404, 'The requested page does not exist.');
 
 		return $model;
+	}
+	
+	/**
+	 * Sends a notification e-mail to the committee informing them that someone 
+	 * has made an account on the site.
+	 * @param User $user the model for the new user
+	 */
+	private function sendRegistrationNotification($user)
+	{
+		// Import Zend_Mail
+		Yii::import('application.vendors.*');
+
+		require_once('Zend/Mail.php');
+		require_once('Zend/Mail/Exception.php');
+
+		// Construct the email
+		$mail = new Zend_Mail('UTF-8');
+		$mail->setFrom(Yii::app()->params['mail']['noreply']);
+		$mail->addTo(Yii::app()->params['mail']['committee']);
+		$mail->setSubject($user->email.' har registrerat sig på lan.tlk.fi');
+
+		// The e-mail body is in a separate file for easier editing
+		$body = $this->renderPartial('_registrationNotification', array(
+			'user'=>$user), true);
+
+		$mail->setBodyText($body);
+
+		// Send the e-mail
+		try
+		{
+			$mail->send();
+		}
+		catch (Zend_Mail_Exception $e)
+		{
+			// There's not much we can do at this point except log the error
+			Yii::log('Failed to send notification e-mail: '.$e->getMessage(), CLogger::LEVEL_ERROR);
+		}
 	}
 
 }

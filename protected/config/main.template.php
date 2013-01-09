@@ -135,7 +135,10 @@ return array(
 		// Location for uploaded submissions
 		'submissionPath'=>'/media/Storage/submissions',
 		
-		// this is used in contact page
-		'adminEmail'=>'webmaster@example.com',
+		// e-mail settings
+		'mail'=>array(
+			'noreply'=>'noreply-lanklubben@tlk.fi',
+			'committee'=>'lanklubben@tlk.fi',
+		)
 	),
 );
