@@ -36,11 +36,46 @@ class UserController extends Controller
 	{
 		return array(
 			array('allow',
+				'actions'=>array('register'),
+			),
+			array('allow',
 				'actions'=>array('profile', 'update', 'changePassword'),
 				'expression'=>'!Yii::app()->user->isGuest',
 			),
 			array('deny'),
 		);
+	}
+	
+	/**
+	 * Registers a new user on the site (not the same as registering to a LAN)
+	 */
+	public function actionRegister()
+	{
+		$model = new User();
+
+		if (isset($_POST['User']))
+		{
+			$model->attributes = $_POST['User'];
+
+			// Change scenario if "has werket" was checked
+			if ($model->has_werket_login)
+				$model->scenario = 'insert-has-werket';
+
+			if ($model->validate())
+			{
+				// Hash the password
+				$model->password = Yii::app()->hasher->hashPassword($model->newPassword);
+				$model->save(false);
+
+				Yii::app()->user->setFlash('success', 'Du är nu registrerad och kan logga in genom att klicka på <i>Logga in</i> i menyn');
+
+				$this->redirect(Yii::app()->homeUrl);
+			}
+		}
+
+		$this->render('register', array(
+			'model'=>$model,
+		));
 	}
 
 	/**
