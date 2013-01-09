@@ -2,11 +2,29 @@
 
 /**
  * Handles login/logout and some other things such as error pages and 
- * registering users
+ * changing the application language
  */
 class SiteController extends Controller
 {
 
+	/**
+	 * @return array action filters
+	 */
+	public function filters()
+	{
+		return array(
+			'postOnly + changeLanguage',
+		);
+	}
+	
+	/**
+	 * Changes the target language of the site
+	 */
+	public function actionChangeLanguage()
+	{
+		// TODO: Implement
+	}
+	
 	/**
 	 * Default action. It redirects to the CMS page
 	 */
