@@ -5,9 +5,7 @@ $form = $this->createWidget('TbActiveForm', array(
 	'type'=>'horizontal',
 ));
 
-echo $form->textFieldRow($model, 'name', array(
-	'class'=>'span4',
-	'hint'=>'<i>Namn på tävlingen, inte ditt eget (eller din mors) namn</i>'));
+echo $form->textFieldRow($model, 'name', array('class'=>'span4'));
 
 echo $form->textAreaRow($model, 'description', array(
 	'class'=>'span4', 

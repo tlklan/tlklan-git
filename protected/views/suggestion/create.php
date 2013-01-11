@@ -38,7 +38,10 @@ $this->widget('TbGridView', array(
 	'template'=>'{items}',
 	'columns'=>array(
 		'name',
-		'creator.nick',
+		array(
+			'name'=>'creator.nick',
+			'header'=>'Inlagd av',
+		),
 		array(
 			'name'=>'mangledDescription',
 			'type'=>'raw',

@@ -79,10 +79,8 @@ class Suggestion extends CActiveRecord
 	{
 		return array(
 			'id'=>'ID',
-			'user_id'=>'Inlagd av',
-			'creator'=>'Inlagd av',
-			'created'=>'Skapad',
-			'name'=>'Namn',
+			'created'=>'Inlagd',
+			'name'=>'Tävling',
 			'description'=>'Beskrivning',
 			'mangledDescription'=>'Beskrivning',
 			'voteCount'=>'Röster',
