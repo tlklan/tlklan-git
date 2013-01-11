@@ -14,16 +14,27 @@ echo $form->textAreaRow($model, 'description', array(
 
 ?>
 <div class="form-actions">
-	<?php $this->widget('TbButton', array(
+	<?php 
+	
+	$this->widget('TbButton', array(
 		'buttonType'=>'submit',
 		'type'=>'primary',
 		'icon'=>'ok white',
 		'label'=>$model->isNewRecord ? 'Lämna in förslaget' : 'Uppdatera',
-	)); ?>&nbsp;&nbsp;
-	<?php $this->widget('bootstrap.widgets.TbButton', array(
-		'buttonType'=>'link',
-		'icon'=>'remove',
-		'label'=>'Avbryt',
-		'url'=>$this->createUrl('/suggestion/create'),
-	)); ?>
+	)); 
+	
+	// show cancel button when updating models
+	if (!$model->isNewRecord)
+	{
+		echo '&nbsp;&nbsp;&nbsp;';
+
+		$this->widget('bootstrap.widgets.TbButton', array(
+			'buttonType'=>'link',
+			'icon'=>'remove',
+			'label'=>'Avbryt',
+			'url'=>$this->createUrl('/suggestion/create'),
+		));
+	}
+	
+	?>
 </div>
