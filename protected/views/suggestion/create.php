@@ -29,7 +29,7 @@ $this->breadcrumbs = array(
 if (Yii::app()->user->isAdmin())
 	$template = '{update} {delete} {upVote}';
 else
-	$template = '{upVote}';
+	$template = '{update} {upVote}';
 
 $this->widget('TbGridView', array(
 	'type'=>'striped bordered',
@@ -54,7 +54,12 @@ $this->widget('TbGridView', array(
 					'icon'=>'thumbs-up',
 					'url'=>'Yii::app()->controller->createUrl("up
 						voteSuggestion", array("id"=>$data->id))',
-				)
+				),
+				'update'=>array(
+					// only displayed the update button if the user is allowed 
+					// to edit the suggestion
+					'visible'=>'$data->isOwner(Yii::app()->user->getUserId())',
+				),
 			),
 			'template'=>$template,
 		)
