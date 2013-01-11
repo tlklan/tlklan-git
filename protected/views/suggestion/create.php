@@ -42,6 +42,7 @@ $this->widget('TbGridView', array(
 		array(
 			'name'=>'mangledDescription',
 			'type'=>'raw',
+			'htmlOptions'=>array('style'=>'max-width: 500px;'),
 		),
 		'created',
 		'voteCount',
