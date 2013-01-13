@@ -56,6 +56,12 @@ return array(
 			'combineCssFiles'=>true,
 			'optimizeScriptFiles'=>true,
 			'optimizeCssFiles'=>false, // breaks things apparently
+			'packages'=>array(
+				// use minified version in production mode
+				'bbq'=>array(
+					'js'=>array(YII_DEBUG ? 'jquery.ba-bqq.js' : 'jquery.ba-bqq.min.js'),
+				),
+			),
 		),
 		'less'=>array(
 			'class'=>'ext.less.components.LessCompiler',
