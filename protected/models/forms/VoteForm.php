@@ -44,8 +44,8 @@ class VoteForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'competition'=>'Tävling',
-			'submissions'=>'Submission',
+			'competition'=>Yii::t('vote', 'Tävling'),
+			'submissions'=>Yii::t('vote', 'Submission'),
 		);
 	}
 	
@@ -59,7 +59,7 @@ class VoteForm extends CFormModel
 	{
 		$competition = Competition::model()->findByPk($this->competition);
 		if ($competition !== null && $competition->deadline <= date("Y-m-d H:i:s"))
-			$this->addError($attribute, 'Deadlinen för den här tävlingen har redan gått ut');
+			$this->addError($attribute, Yii::t('vote', 'Deadlinen för den här tävlingen har redan gått ut'));
 	}
 
 	/**
@@ -77,7 +77,7 @@ class VoteForm extends CFormModel
 		// The voter attribute isn't shown in the form so we have to put the 
 		// error elsewhere
 		if (count($votes) > 0)
-			$this->addError('competition', 'Du har redan röstat i den här tävlingen');
+			$this->addError('competition', Yii::t('vote', 'Du har redan röstat i den här tävlingen'));
 	}
 
 }

@@ -42,7 +42,7 @@ if ($model->competition)
 else
 {
 	$this->renderPartial('_placeholder', array(
-		'placeholder'=>'Välj tävling först',
+		'placeholder'=>Yii::t('vote', 'Välj tävling först'),
 	));
 }
 
@@ -52,7 +52,7 @@ else
 		'buttonType'=>'submit',
 		'type'=>'primary',
 		'icon'=>'thumbs-up white',
-		'label'=>'Rösta'
+		'label'=>Yii::t('vote', 'Rösta')
 	)); ?>
 </div>
 <?php

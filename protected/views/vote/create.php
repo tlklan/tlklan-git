@@ -1,12 +1,12 @@
 <?php
 
-$this->pageTitle = 'Rösta';
+$this->pageTitle = Yii::t('vote', 'Rösta');
 $this->breadcrumbs = array(
-	'Rösta',
+	Yii::t('vote', 'Rösta'),
 );
 
 ?>
-<h1>Rösta</h1>
+<h1><?php echo Yii::t('vote', 'Rösta'); ?></h1>
 
 <?php $this->widget('cms.widgets.CmsBlock', array('name'=>'vote-info')); ?>
 
