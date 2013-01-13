@@ -9,7 +9,7 @@ return array(
 	'messagePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'messages',
 	'languages'=>array('en'),
 	'fileTypes'=>array('php'),
-	'overwrite'=>true,
+	'overwrite'=>false,
 	'exclude'=>array(
 		'.svn',
 		'.gitignore',
