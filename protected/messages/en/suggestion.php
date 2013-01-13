@@ -19,13 +19,5 @@
  * @version $Id: $
  */
 return array (
-  'Sidan du sökte finns ej' => 'The requested page does not exist',
-  'Avbryt' => 'Cancel',
-  'Byt språk' => 'Change language',
-  'Design och kod' => 'Design and code',
-  'Ja' => 'Yes',
-  'Nej' => 'No',
-  'Töm formuläret' => 'Empty the form',
-  'Uppdatera' => 'Update',
-  'Är du säker?' => 'Are you sure?',
+  'Du kan inte ändra någon annans förslag' => 'You cannot edit someone else\'s suggestion',
 );

@@ -47,7 +47,7 @@ $this->breadcrumbs = array(
 	</div>
 	
 	<div class="registration-info small-screen-hidden span5">
-		<h1 style="margin-top: 0;"><?php echo Yii::t('Information', 'Information'); ?></h1>
+		<h1 style="margin-top: 0;"><?php echo Yii::t('registration', 'Information'); ?></h1>
 		<?php $this->widget('cms.widgets.CmsBlock',array('name'=>'registration_info')); ?>
 	</div>
 	
