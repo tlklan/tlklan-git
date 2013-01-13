@@ -72,7 +72,7 @@ class SuggestionController extends Controller
 		
 		// Check whether the user has permission to edit the suggestion
 		if (!$model->isOwner(Yii::app()->user->getUserId()))
-			throw new CHttpException(403, Yii::t('yii', 'You are not authorized to perform this action.'));
+			throw new CHttpException(403, Yii::t('suggestion', 'Du kan inte ändra någon annans förslag'));
 
 		if (isset($_POST['Suggestion']))
 		{
