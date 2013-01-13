@@ -25,7 +25,7 @@ class SuggestionController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('create', 'upvoteSuggestion'),
+				'actions'=>array('create', 'update', 'upvoteSuggestion'),
 				'expression'=>'!Yii::app()->user->isGuest',
 			),
 			array('allow',
@@ -69,6 +69,10 @@ class SuggestionController extends Controller
 	public function actionUpdate($id)
 	{
 		$model = $this->loadModel($id);
+		
+		// Check whether the user has permission to edit the suggestion
+		if (!$model->isOwner(Yii::app()->user->getUserId()))
+			throw new CHttpException(403, Yii::t('yii', 'You are not authorized to perform this action.'));
 
 		if (isset($_POST['Suggestion']))
 		{

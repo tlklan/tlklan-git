@@ -79,10 +79,8 @@ class Suggestion extends CActiveRecord
 	{
 		return array(
 			'id'=>'ID',
-			'user_id'=>'Inlagd av',
-			'creator'=>'Inlagd av',
-			'created'=>'Skapad',
-			'name'=>'Namn',
+			'created'=>'Inlagd',
+			'name'=>'Tävling',
 			'description'=>'Beskrivning',
 			'mangledDescription'=>'Beskrivning',
 			'voteCount'=>'Röster',
@@ -123,6 +121,17 @@ class Suggestion extends CActiveRecord
 					'criteria'=>$criteria,
 					'pagination'=>false,
 					'sort'=>$sort));
+	}
+	
+	/**
+	 * Checks whether the specified user can edit the suggestion. Administrators 
+	 * can edit all irregardless of ownership.
+	 * @param int $userId the user ID to check for
+	 * @return boolean
+	 */
+	public function isOwner($userId)
+	{
+		return Yii::app()->user->isAdmin() || $this->user_id == $userId;
 	}
 
 }

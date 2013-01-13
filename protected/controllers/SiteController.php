@@ -92,38 +92,6 @@ class SiteController extends Controller
 	}
 
 	/**
-	 * Handles user registration (not the same as registering to a LAN)
-	 */
-	public function actionRegister()
-	{
-		$model = new User();
-
-		if (isset($_POST['User']))
-		{
-			$model->attributes = $_POST['User'];
-
-			// Change scenario if "has werket" was checked
-			if ($model->has_werket_login)
-				$model->scenario = 'insert-has-werket';
-
-			if ($model->validate())
-			{
-				// Hash the password
-				$model->password = Yii::app()->hasher->hashPassword($model->newPassword);
-				$model->save(false);
-
-				Yii::app()->user->setFlash('success', 'Du är nu registrerad och kan logga in genom att klicka på <i>Logga in</i> i menyn');
-
-				$this->redirect(Yii::app()->homeUrl);
-			}
-		}
-
-		$this->render('register', array(
-			'model'=>$model,
-		));
-	}
-
-	/**
 	 * Logs out the current user and redirects him to homepage.
 	 */
 	public function actionLogout()
