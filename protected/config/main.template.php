@@ -133,6 +133,11 @@ return array(
 				),
 			),
 		),
+		'messages'=>array(
+			'class'=>'CDbMessageSource',
+			'sourceMessageTable'=>'tlk_source_messages',
+			'translatedMessageTable'=>'tlk_translated_messages',
+		),
 	),
 
 	// Site language
