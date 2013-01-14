@@ -22,20 +22,28 @@ class SiteController extends Controller
 	 */
 	public function actionChangeLanguage()
 	{
-		// Don't do anything if the user tried to trick us somehow
+		$previousLanguage = Yii::app()->language;
+		
+		// Use source language if the chosen language is invalid
 		if (isset($_POST['language']))
 		{
 			$language = $_POST['language'];
 
-			if (array_key_exists($language, Controller::$validLanguages))
-				$_SESSION['targetLanguage'] = $_POST['language'];
+			if (!array_key_exists($language, Controller::$validLanguages))
+				$language = Yii::app()->sourceLanguage;
 		}
 
 		// Return the user to the place he came from
 		$returnUrl = Yii::app()->request->getUrlReferrer();
+		
 		if ($returnUrl === null)
 			$returnUrl = Yii::app()->homeUrl;
-
+		else 
+		{
+			// Replace the language URL parameter
+			$returnUrl = str_replace(Yii::app()->baseUrl.'/'.$previousLanguage, Yii::app()->baseUrl.'/'.$language, $returnUrl);
+		}
+		
 		$this->redirect($returnUrl);
 	}
 	
