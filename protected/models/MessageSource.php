@@ -65,6 +65,26 @@ class MessageSource extends CActiveRecord
 	}
 	
 	/**
+	 * Scope for including only the messages belonging to the specified 
+	 * category. If the category parameter is left to false (default) the 
+	 * filter is not applied (thus it can be used even when not wanting to 
+	 * actually filter)
+	 * @param string $category the category
+	 * @return MessageSource this
+	 */
+	public function filterCategory($category = false)
+	{
+		if ($category !== false)
+		{
+			$this->getDbCriteria()->mergeWith(array(
+				'condition'=>"category = '$category'",
+			));
+		}
+
+		return $this;
+	}
+	
+	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
 	public function attributeLabels()
