@@ -83,7 +83,7 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 	$this->widget('bootstrap.widgets.TbNavbar', array(
 		'type'=>'inverse',
 		'brand'=>Yii::app()->name,
-		'brandUrl'=>Yii::app()->homeUrl,
+		'brandUrl'=>Yii::app()->homeUrl.Yii::app()->language,
 		'collapse'=>true,
 		'fixed'=>false,
 		'fluid'=>true,
