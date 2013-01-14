@@ -35,7 +35,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 	'type'=>'horizontal',
 ));
 
-echo $form->dropDownListRow($model, 'targetLanguage', Controller::$validLanguages);
+echo $form->dropDownListRow($model, 'targetLanguage', Controller::getValidTargetLanguages());
 echo $form->dropDownListRow($model, 'category', $model->getCategoryList());
 
 ?>

@@ -140,8 +140,8 @@ return array(
 		),
 	),
 
-	// Site language
-	'language'=>'sv',
+	// Source language (the language the application is written in)
+	'sourceLanguage'=>'sv',
 	
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
