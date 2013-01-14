@@ -28,6 +28,21 @@ class Controller extends CController
 	 */
 	public $breadcrumbs = array();
 
+	/**
+	 * Returns a list of languages that can be translated to. This is all valid 
+	 * languages except the source language
+	 * @return type
+	 */
+	public static function getValidTargetLanguages()
+	{
+		$validLanguages = self::$validLanguages;
+
+		if (isset($validLanguages[Yii::app()->sourceLanguage]))
+			unset($validLanguages[Yii::app()->sourceLanguage]);
+		
+		return $validLanguages;
+	}
+	
 	public function setPageTitle($value)
 	{
 		$this->_pageTitle = $value;

@@ -40,6 +40,8 @@ $this->widget('bootstrap.widgets.TbNavbar', array(
 					array('label'=>'Hantera', 'url'=>array('payment/admin')),
 					array('label'=>'Ny betalning', 'url'=>array('payment/create')),
 				), 'active'=>(strpos(Yii::app()->controller->route, 'admin/payment') !== false)),
+				array('label'=>'Översättningar', 'url'=>array('translation/translate'), 
+					'active'=>(Yii::app()->controller->route == 'translation/translate')),
 			),
 		),
 		array(

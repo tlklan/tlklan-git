@@ -133,10 +133,15 @@ return array(
 				),
 			),
 		),
+		'messages'=>array(
+			'class'=>'CDbMessageSource',
+			'sourceMessageTable'=>'tlk_source_messages',
+			'translatedMessageTable'=>'tlk_translated_messages',
+		),
 	),
 
-	// Site language
-	'language'=>'sv',
+	// Source language (the language the application is written in)
+	'sourceLanguage'=>'sv',
 	
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
