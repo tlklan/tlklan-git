@@ -17,16 +17,21 @@ class TranslationController extends AdminController
 		$model = new TranslationFilterForm();
 		$model->targetLanguage = 'en';
 		
+		// Update the filter
 		if (isset($_POST['TranslationFilterForm']))
 		{
 			$model->attributes = $_POST['TranslationFilterForm'];
 			
-			if($model->validate()) 
-				Yii::app()->user->setFlash('success', 'Du håller nu på att översätta till <i><b>'.Controller::$validLanguages[$model->targetLanguage].'</b></i>');
+			// Reset attributes if something is wrong
+			if (!$model->validate())
+			{
+				$model->targetLanguage = 'en';
+				$model->category = false;
+			}
 		}
 		
-		// Collect user input data.
-		if (isset($_POST['messageSourceId']) == true)
+		// Update the translations
+		if (isset($_POST['messageSourceId']))
 		{
 			$targetLanguage = $_POST['targetLanguage'];
 			
@@ -59,7 +64,7 @@ class TranslationController extends AdminController
 			}
 
 			// Show a flash message to the user.
-			Yii::app()->user->setFlash('success', 'The translation has been updated.');
+			Yii::app()->user->setFlash('success', 'Dina ändringar har sparats');
 		}
 
 		// Get the list of translatable messages based on the filter
