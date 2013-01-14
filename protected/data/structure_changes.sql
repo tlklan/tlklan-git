@@ -491,3 +491,27 @@ ALTER TABLE `tlk_suggestions`
 # Add foreign key constraint
 ALTER TABLE `tlk_suggestions`
 	ADD CONSTRAINT `suggestion_fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `tlk_users` (`id`) ON UPDATE CASCADE ON DELETE SET NULL;
+
+#
+# 2013-01-13
+#
+# Added message tables (for translations)
+CREATE TABLE `tlk_source_messages` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`category` VARCHAR(32) NULL DEFAULT NULL,
+	`message` TEXT NULL,
+	`used` TINYINT(1) NOT NULL DEFAULT '1',
+	PRIMARY KEY (`id`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB;
+
+CREATE TABLE `tlk_translated_messages` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`language` VARCHAR(16) NOT NULL DEFAULT '',
+	`translation` TEXT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `language` (`language`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB;

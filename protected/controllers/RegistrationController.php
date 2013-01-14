@@ -199,7 +199,7 @@ class RegistrationController extends Controller
 	public function loadModel($id) {
 		$model = Registration::model()->findByPk((int) $id);
 		if($model === null)
-			throw new CHttpException(404, Yii::t('General', 'The requested page does not exist.'));
+			throw new CHttpException(404, Yii::t('general', 'Sidan du sökte finns ej'));
 		return $model;
 	}
 }

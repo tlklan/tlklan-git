@@ -76,8 +76,8 @@ class RegistrationListWidget extends CWidget
 				}
 				
 				?>
-				<th>Namn:</th>
-				<th>Nick:</th>
+				<th><?php echo Yii::t('registration', 'Namn'); ?>:</th>
+				<th><?php echo Yii::t('registration', 'Nick'); ?>:</th>
 				<th class="thick_right_border small-screen-hidden">Laptop:</th>
 				<?php
 
@@ -88,7 +88,9 @@ class RegistrationListWidget extends CWidget
 				}
 
 				?>
-				<th class="thick_left_border small-screen-hidden">Anmälan gjord:</th>
+				<th class="thick_left_border small-screen-hidden">
+					<?php echo Yii::t('registration', 'Anmälan gjord'); ?>
+				</th>
 			</tr>
 			<?php
 
@@ -126,7 +128,7 @@ class RegistrationListWidget extends CWidget
 							echo CHtml::link(
 								'<i class="icon icon-trash"></i>',
 								Yii::app()->controller->createUrl('registration/delete', array('id'=>$registration->id)),
-								array('confirm'=>'Är du säker?')
+								array('confirm'=>Yii::t('general', 'Är du säker?'))
 							);
 						}
 						
@@ -199,14 +201,14 @@ class RegistrationListWidget extends CWidget
 		
 		?>
 		<p>
-			Antal registrerade hittills: 
+			<?php echo Yii::t('registration', 'Antal registrerade hittills'); ?>: 
 			<b><?php echo $this->_registrationCount; ?> / 
 			<?php echo $this->currentLan->reg_limit; ?></b>
 			
 			<img style="margin-left: 12px;" src="<?php echo Yii::app()->baseUrl; ?>/files/images/icons/new_icon_small.png" alt="Har ej deltagit förr" />
-			 = har ej deltagit förut, 
+			 = <?php echo Yii::t('registration', 'har ej deltagit förut'); ?>, 
 			 <img style="margin-left: 12px;" src="<?php echo Yii::app()->baseUrl; ?>/files/images/icons/no_can_has_pay.png" alt="Har ej betalt" />
-			 = har ej giltig betalning
+			 = <?php echo Yii::t('registration', 'har ej giltig betalning'); ?>
 		</p>
 		<?php
 		

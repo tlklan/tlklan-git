@@ -1,12 +1,12 @@
 <?php
 
-$this->pageTitle = 'Resultat';
+$this->pageTitle = Yii::t('vote', 'Resultat');
 $this->breadcrumbs = array(
-	'Röstningsresultat',
+	Yii::t('vote', 'Röstningsresultat'),
 );
 
 ?>
-<h1>Resultat</h1>
+<h1><?php Yii::t('vote', 'Resultat'); ?></h1>
 
 <?php $this->widget('cms.widgets.CmsBlock', array('name'=>'vote-result-info')); ?>
 
@@ -29,18 +29,18 @@ echo $form->dropDownListRow($model, 'competition', CHtml::listData($competitions
 		'buttonType'=>'ajaxSubmit',
 		'type'=>'primary',
 		'icon'=>'ok white',
-		'label'=>'Visa resultat',
+		'label'=>Yii::t('vote', 'Visa resultat'),
 		// AJAX options
 		'url'=>Yii::app()->controller->createUrl('/vote/ajaxResults'),
-		'loadingText'=>'Laddar...',
+		'loadingText'=>Yii::t('vote', 'Laddar...'),
 		'htmlOptions'=>array('id'=>'stateful-button'),
 		'ajaxOptions'=>array(
 			'update'=>'#result-list',
 			'beforeSend'=>'function() {
-				$("#stateful-button").html("Laddar ...");
+				$("#stateful-button").html("'.Yii::t('vote', 'Laddar...').'");
 			}',
 			'complete'=>'function(){
-				$("#stateful-button").html("<i class=\"icon-ok icon-white\"></i> Visa resultat");
+				$("#stateful-button").html("<i class=\"icon-ok icon-white\"></i> '.Yii::t('vote', 'Visa resultat').'");
 			}',
 		),
 		

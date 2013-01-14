@@ -12,12 +12,13 @@ return array(
 		'bootstrap',
 		'less',
 	),
-
+	
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
 		'application.models.forms.*',
 		'application.components.*',
+		'application.components.behaviors.*',
 		'application.widgets.*',
 		'application.widgets.registration.*',
 		'application.widgets.ArchiveListWidget.*',
@@ -36,6 +37,11 @@ return array(
 		'image'=>array(
 			'createOnDemand'=>true,
         ),
+	),
+	
+	// behaviors
+	'behaviors'=>array(
+		'ApplicationLanguageBehavior',
 	),
 
 	// application components
@@ -127,10 +133,15 @@ return array(
 				),
 			),
 		),
+		'messages'=>array(
+			'class'=>'CDbMessageSource',
+			'sourceMessageTable'=>'tlk_source_messages',
+			'translatedMessageTable'=>'tlk_translated_messages',
+		),
 	),
 
-	// Site language
-	'language'=>'sv',
+	// Source language (the language the application is written in)
+	'sourceLanguage'=>'sv',
 	
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']

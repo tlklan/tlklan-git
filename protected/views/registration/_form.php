@@ -1,5 +1,5 @@
 <fieldset> 
-    <legend>Anmäl dig</legend>
+    <legend><?php echo Yii::t('registration', 'Anmäl dig'); ?></legend>
 	<?php 
 
 	$form = $this->beginWidget('TbActiveForm', array(
@@ -20,7 +20,8 @@
 	));
 
 	echo $form->checkBoxListRow($model, 'competitions', CHtml::listData($competitions, 'id', 'full_name'));
-	echo $form->radioButtonListRow($model, 'penis_long_enough', array('yes'=>'Ja', 'no'=>'Nej'));
+	echo $form->radioButtonListRow($model, 'penis_long_enough', 
+			array('yes'=>Yii::t('general', 'Ja'), 'no'=>Yii::t('general', 'Nej')));
 
 	?>
 	<div class="form-actions">
@@ -31,14 +32,14 @@
 				'buttonType'=>'submit',
 				'type'=>'primary',
 				'icon'=>'ok white',
-				'label'=>'Anmäl dig'
+				'label'=>Yii::t('registration', 'Anmäl dig')
 			));
 
 			echo ' ';
 
 			$this->widget('bootstrap.widgets.TbButton', array(
 				'buttonType'=>'reset',
-				'label'=>'Töm formuläret'
+				'label'=>Yii::t('general', 'Töm formuläret')
 			));
 		}
 		else {
@@ -46,7 +47,7 @@
 				'buttonType'=>'submit',
 				'type'=>'primary',
 				'icon'=>'edit white',
-				'label'=>'Uppdatera'
+				'label'=>Yii::t('general', 'Uppdatera')
 			));
 
 			echo ' ';
@@ -54,7 +55,7 @@
 			$this->widget('bootstrap.widgets.TbButton', array(
 				'buttonType'=>'link',
 				'icon'=>'remove',
-				'label'=>'Avbryt',
+				'label'=>Yii::t('general', 'Avbryt'),
 				'url'=>$this->createUrl('registration/create'),
 			));
 		}

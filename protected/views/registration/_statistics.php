@@ -1,5 +1,5 @@
 <div class="statistics small-screen-hidden">
-	<h3>Tävlingsstatistik</h3>
+	<h3><?php echo Yii::t('competition', 'Tävlingsstatistik'); ?></h3>
 
 	<table class="stat_counter" cellpadding="0" cellspacing="0">
 		<?php

@@ -50,10 +50,26 @@ tr.winning-submission td {
 }
 
 .footer {
+	position: relative;
 	padding: 20px 0;
 	border-top: 1px solid @grayLighter;
 	font-size: 0.8em;
 	text-align: center;
+
+	.language-picker {
+		position: absolute;
+		top: 20px;
+		right: 0;
+
+		label {
+			display: inline-block;
+			margin-right: 10px;
+		}
+
+		select {
+			width: 100px;
+		}
+	}
 }
 
 // override some navbar defaults
