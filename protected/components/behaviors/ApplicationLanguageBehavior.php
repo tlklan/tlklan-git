@@ -24,14 +24,19 @@ class ApplicationLanguageBehavior extends CBehavior
 	}
 
 	/**
-	 * Sets the application language to the value stored in the session
+	 * Changes the application language to whatever is specified in the URL
 	 */
 	public function setTargetLanguage()
 	{
-		// Use Swedish if no target language has been set
-		$targetLanguage = Yii::app()->session->get('targetLanguage', 'sv');
+		// Parse the language parameter from the URL. $_GET is not available yet 
+		// so we have to do it the hard way
+		$language = substr(Yii::app()->getRequest()->getUrl(), strlen(Yii::app()->baseUrl) + 1, 2);
 
-		Yii::app()->setLanguage($targetLanguage);
+		// Use source language if the language parameter is invalid
+		if ($language === false || !array_key_exists($language, Controller::$validLanguages))
+			$language = Yii::app()->sourceLanguage;
+
+		Yii::app()->setLanguage($language);
 	}
 
 }

@@ -95,11 +95,18 @@ return array(
 		'session'=>array(
 			'autoStart'=>true,
 		),
-		// uncomment the following to enable URLs in path-format
 		'urlManager'=>array(
+			'class'=>'UrlManager',
 			'urlFormat'=>'path',
 			'showScriptName'=>false,
 			'rules'=>array(
+				// Handle the language parameter
+				'<language:(en|sv)>/' => 'site/index',
+				'<language:(en|sv)>/<controller:\w+>/<id:\d+>'=>'<controller>/view',
+				'<language:(en|sv)>/<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
+				'<language:(en|sv)>/<controller:\w+>/<action:\w+>/*'=>'<controller>/<action>',
+				'<language:(en|sv)>/page/<name>-<id:\d+>.html'=>'cms/node/page',
+				
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
@@ -108,7 +115,7 @@ return array(
 		),
 		'cms'=>array(
 			'class'=>'TLKCms',	
-			'languages'=>array('sv'=>'Svenska'),
+			'languages'=>array('sv'=>'Svenska', 'en'=>'English'),
 			'allowedFileTypes'=>'pdf',
 			'allowedFileSize'=>2097152,
 			'attachmentPath'=>'/files/cms/attachments/',
