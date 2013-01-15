@@ -41,7 +41,7 @@ class SubmissionController extends Controller
 			Yii::app()->user->getUserId()));
 
 		if ($registration === null)
-			throw new CHttpException(403, "Du måste vara registrerad till LANet för att kunna submitta entries");
+			throw new CHttpException(403, Yii::t('submission', 'Du måste vara registrerad till LANet för att kunna submitta entries'));
 
 		$filterChain->run();
 	}
@@ -57,13 +57,13 @@ class SubmissionController extends Controller
 	{
 		$model = $this->loadModel(Yii::app()->request->getParam('id'));
 
-		if ($model !== null && Yii::app()->user->isAdmin() ||
+		if (Yii::app()->user->isAdmin() || 
 				$model->user_id == Yii::app()->user->getUserId())
 		{
 			$filterChain->run();
 		}
 		else
-			throw new CHttpException(403, "Du kan inte ändra på andras submissions");
+			throw new CHttpException(403, Yii::t('submission', 'Du kan inte ändra på andras submissions'));
 	}
 
 	/**
@@ -129,7 +129,7 @@ class SubmissionController extends Controller
 					$competitor->save(false);
 				}
 
-				Yii::app()->user->setFlash('success', 'Din submission har laddats upp');
+				Yii::app()->user->setFlash('success', Yii::t('submission', 'Din submission har tagits emot'));
 
 				$model->save(false);
 
@@ -167,7 +167,7 @@ class SubmissionController extends Controller
 
 				$model->save(false);
 
-				Yii::app()->user->setFlash('success', 'Entryn har uppdaterats');
+				Yii::app()->user->setFlash('success', Yii::t('submission', 'Entryn har uppdaterats'));
 
 				$this->redirect($this->createUrl('/submission/archive'));
 			}
@@ -206,7 +206,7 @@ class SubmissionController extends Controller
 
 		// Check that the file is readable
 		if (!is_readable($submission->physical_path))
-			throw new CHttpException(404, 'Filen hittades inte');
+			throw new CHttpException(404, Yii::t('submission', 'Filen hittades inte'));
 
 		$physicalPath = $submission->physical_path;
 
@@ -239,12 +239,12 @@ class SubmissionController extends Controller
 		$physicalPath = $model->physical_path;
 		if ($model->delete())
 		{
-			Yii::app()->user->setFlash('success', 'Entryn har tagits bort. Den finns dock kvar på servern i <strong>'.$physicalPath.'</strong>');
+			Yii::app()->user->setFlash('success', Yii::t('submission', 'Entryn har tagits bort. Den finns dock kvar på servern i <strong>{path}</strong>', array('{path}'=>$physicalPath)));
 
 			$this->redirect($this->createUrl('/submission/archive'));
 		}
 		else
-			throw new CHttpException(500, "Kunde inte ta bort entryn.");
+			throw new CHttpException(500, Yii::t('submission', 'Kunde inte ta bort entryn'));
 	}
 
 	/**
@@ -256,11 +256,18 @@ class SubmissionController extends Controller
 	{
 		$model = Submission::model()->findByPk((int) $id);
 		if ($model === null)
-			throw new CHttpException(404, 'The requested page does not exist.');
+			throw new CHttpException(404, Yii::t('general', 'Sidan du sökte finns ej'));
 
 		return $model;
 	}
 
+	/**
+	 * Saves the uploaded file and store its details in the passed model.
+	 * @param Submission $model the submission
+	 * @param Lan $lan
+	 * @throws CHttpException if the file cannot be saved
+	 * TODO: Get LAN from $model->competition->lan or currentLan depending on isNewRecord
+	 */
 	private function saveSubmission(&$model, $lan)
 	{
 		// Determine the physical path where the submission should be 

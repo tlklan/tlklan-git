@@ -37,7 +37,7 @@ class RegistrationController extends Controller
 	public function filterCheckLan($filterChain)
 	{
 		if (Lan::model()->getCurrent() === null)
-			throw new CHttpException(400, "Det går inte att anmäla sig till TLK LAN för tillfället. Kolla tillbaka om en stund!");
+			throw new CHttpException(400, Yii::t('registration', 'Det går inte att anmäla sig till TLK LAN för tillfället. Kolla tillbaka om en stund!'));
 
 		$filterChain->run();
 	}
@@ -52,13 +52,10 @@ class RegistrationController extends Controller
 	{
 		$registration = $this->loadModel(Yii::app()->request->getParam('id'));
 
-		if ($registration === null)
-			throw new CHttpException(400, 'Anmälan hittades inte');
-
 		// Administrators should edit registrations from the backend so we only 
 		// allow the owner to do it here
 		if ($registration->user_id != Yii::app()->user->getUserId())
-			throw new CHttpException(403, 'Du kan inte ändra/ta bort någon annans anmälan');
+			throw new CHttpException(403, Yii::t('registration', 'Du kan inte ändra/ta bort någon annans anmälan'));
 
 		$filterChain->run();
 	}
@@ -145,9 +142,9 @@ class RegistrationController extends Controller
 
 				// Show different message depending on context
 				if($isNewRecord)
-					Yii::app()->user->setFlash('success', 'Du är nu registrerad till '.$currentLan->name.'!');
+					Yii::app()->user->setFlash('success', Yii::t('registration', 'Du är nu registrerad till {lanName}!', array('{lanName}'=>$currentLan->name)));
 				else
-					Yii::app()->user->setFlash('success', 'Anmälan ifråga har uppdaterats');
+					Yii::app()->user->setFlash('success', Yii::t('registration', 'Anmälan ifråga har uppdaterats'));
 
 				// Redirect to the same action to prevent an F5 from
 				// res-POSTing
@@ -180,8 +177,6 @@ class RegistrationController extends Controller
 	public function actionDelete($id) {
 		// Find the registration and check that it exists
 		$registration = $this->loadModel($id);
-		if($registration === null)
-			throw new CHttpException(400, 'Anmälan hittades inte');
 		
 		// Note: the database should handle deleting related competition signups
 		$registration->delete();
@@ -199,7 +194,7 @@ class RegistrationController extends Controller
 	public function loadModel($id) {
 		$model = Registration::model()->findByPk((int) $id);
 		if($model === null)
-			throw new CHttpException(404, Yii::t('general', 'Sidan du sökte finns ej'));
+			throw new CHttpException(400, Yii::t('registration', 'Anmälan hittades inte'));
 		return $model;
 	}
 }
