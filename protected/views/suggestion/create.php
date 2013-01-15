@@ -2,14 +2,14 @@
 
 /* @var $this SuggestionController */
 /* @var $model Suggestion */
-$this->pageTitle = 'Föreslå en tävling';
+$this->pageTitle = Yii::t('suggest-competiton', 'Föreslå en tävling');
 $this->breadcrumbs = array(
-	'Tävlingar'=>'#',
-	'Föreslå en tävling',
+	Yii::t('suggest-competiton', 'Tävlingar')=>'#',
+	Yii::t('suggest-competiton', 'Föreslå en tävling'),
 );
 
 ?>
-<h1>Föreslå en tävling</h1>
+<h1><?php echo Yii::t('suggest-competiton', 'Föreslå en tävling'); ?></h1>
 
 <?php $this->widget('cms.widgets.CmsBlock',array('name'=>'suggest-info')); ?>
 
@@ -21,7 +21,7 @@ $this->breadcrumbs = array(
 
 <hr />
 
-<h2>Förslag</h2>
+<h2><?php echo Yii::t('suggest-competiton', 'Förslag'); ?></h2>
 
 <?php 
 
@@ -38,10 +38,7 @@ $this->widget('TbGridView', array(
 	'template'=>'{items}',
 	'columns'=>array(
 		'name',
-		array(
-			'name'=>'creator.nick',
-			'header'=>'Inlagd av',
-		),
+		'creator.nick',
 		array(
 			'name'=>'mangledDescription',
 			'type'=>'raw',
@@ -53,7 +50,7 @@ $this->widget('TbGridView', array(
 			'class'=>'TbButtonColumn',
 			'buttons'=>array(
 				'upVote'=>array(
-					'label'=>'Rösta',
+					'label'=>Yii::t('suggest-competiton', 'Rösta'),
 					'icon'=>'thumbs-up',
 					'url'=>'Yii::app()->controller->createUrl("up
 						voteSuggestion", array("id"=>$data->id))',
