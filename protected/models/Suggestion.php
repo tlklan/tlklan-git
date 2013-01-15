@@ -69,7 +69,7 @@ class Suggestion extends CActiveRecord
 			':name'=>$this->{$attribute}));
 
 		if (count($dupes) > 0)
-			$this->addError($attribute, "Det finns redan ett identiskt förslag");
+			$this->addError($attribute, Yii::t('suggest-competiton', 'Det finns redan ett identiskt förslag'));
 	}
 
 	/**
@@ -78,24 +78,21 @@ class Suggestion extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id'=>'ID',
-			'created'=>'Inlagd',
-			'name'=>'Tävling',
-			'description'=>'Beskrivning',
-			'mangledDescription'=>'Beskrivning',
-			'voteCount'=>'Röster',
+			'creator.nick'=>Yii::t('suggest-competiton', 'Inlagd av'),
+			'name'=>Yii::t('suggest-competiton', 'Tävling'),
+			'description'=>Yii::t('suggest-competiton', 'Beskrivning'),
+			'mangledDescription'=>Yii::t('suggest-competiton', 'Beskrivning'),
+			'voteCount'=>Yii::t('suggest-competiton', 'Röster'),
 		);
 	}
 
 	/**
 	 * Returns the description in a form suitable for display
-	 * @return type
+	 * @return string
 	 */
 	public function getMangledDescription()
 	{
-		$description = CHtml::encode($this->description);
-
-		return nl2br($description);
+		return nl2br(CHtml::encode($this->description));
 	}
 
 	/**

@@ -60,17 +60,19 @@ class VoteController extends Controller
 				$vote->competition_id = $model->competition;
 				$vote->save(false);
 				
-				Yii::app()->user->setFlash('success', 'Din röst har registrerats');
+				Yii::app()->user->setFlash('success', Yii::t('vote', 'Din röst har registrerats'));
 				$this->redirect('results');
 			}
 		}
 		
 		// Get list of votable competitions
+		// TODO: Not used?
 		$criteria = new CDbCriteria();
 		$criteria->condition = 'lan_id = :lan_id';
 		$criteria->order = 'nick ASC';
 		$criteria->params = array(':lan_id'=>$currentLan->id);
 		
+		// TODO: Use scopes
 		$competitions = Competition::model()->findAll('lan_id = :lan_id AND votable = 1 AND deadline >= NOW()', array(
 			':lan_id'=>$currentLan->id,
 		));
@@ -90,14 +92,10 @@ class VoteController extends Controller
 	{
 		if (isset($_POST['VoteForm']))
 		{
-			// Sanity checks
-			$competitionId = $_POST['VoteForm']['competition'];
-			if(empty($competitionId))
-				throw new CHttpException(400, 'Ogiltig tävling');
-			
-			$competition = Competition::model()->with('submissions')->findByPk($competitionId);
+			// TODO: Create loadCompetition method
+			$competition = Competition::model()->with('submissions')->findByPk($_POST['VoteForm']['competition']);
 			if($competition === null)
-				throw new CHttpException(400, 'Ogiltig tävling');
+				throw new CHttpException(400, Yii::t('vote', 'Ogiltig tävling'));
 			
 			$submissions = $competition->submissions;
 
@@ -113,7 +111,7 @@ class VoteController extends Controller
 			else
 			{
 				$this->renderPartial('_placeholder', array(
-					'placeholder'=>'Inga submissions hittades för denna tävling',
+					'placeholder'=>Yii::t('vote', 'Inga submissions hittades för denna tävling'),
 				));
 			}
 		}
@@ -130,6 +128,7 @@ class VoteController extends Controller
 		$currentLan = Lan::model()->getCurrent();
 		
 		// Get a list of votable competitions
+		// TODO: Use scopes
 		$competitions = Competition::model()->findAll('lan_id = :lan_id AND votable = 1 AND deadline <= NOW()', array(
 			':lan_id'=>$currentLan->id,
 		));
@@ -138,6 +137,7 @@ class VoteController extends Controller
 		// of deadline
 		if(Yii::app()->user->isAdmin())
 		{
+			// TODO: Use scopes
 			$competitions = Competition::model()->findAll('lan_id = :lan_id AND votable = 1', array(
 				':lan_id'=>$currentLan->id,
 			));
@@ -159,11 +159,12 @@ class VoteController extends Controller
 		if (isset($_POST['VoteResultForm']))
 		{
 			// Find the competition's submissions
+			// TODO: Create loadCompetition method
 			$competitionId = $_POST['VoteResultForm']['competition'];
 			
 			$competition = Competition::model()->findByPk($competitionId);
 			if($competition === null)
-				throw new CHttpException(400, 'Ogiltig tävling');
+				throw new CHttpException(400, Yii::t('vote', 'Ogiltig tävling'));
 			
 			// Get a data provider
 			$dataProvider = new CActiveDataProvider('SubmissionVote', array(

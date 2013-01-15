@@ -1,6 +1,6 @@
 <?php
 
-$this->pageTitle = 'Tävlingsanmälan (under LAN)';
+$this->pageTitle = Yii::t('competition', 'Tävlingsanmälan (under LAN)');
 $this->breadcrumbs=array(
 	'Tävlingsanmälan (under LAN)',
 );

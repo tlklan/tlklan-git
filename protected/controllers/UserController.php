@@ -70,7 +70,7 @@ class UserController extends Controller
 				// Inform the committee that someone has registered
 				$this->sendRegistrationNotification($model);
 				
-				Yii::app()->user->setFlash('success', 'Du är nu registrerad och kan logga in genom att klicka på <i>Logga in</i> i menyn');
+				Yii::app()->user->setFlash('success', Yii::t('user', 'Du är nu registrerad och kan logga in genom att klicka på <i>Logga in</i> i menyn'));
 
 				$this->redirect(Yii::app()->homeUrl);
 			}
@@ -101,7 +101,7 @@ class UserController extends Controller
 				// We have already valited so no need to do it here
 				if ($model->save(false))
 				{
-					Yii::app()->user->setFlash('success', 'Ditt lösenord har uppdaterats');
+					Yii::app()->user->setFlash('success', Yii::t('user', 'Ditt lösenord har uppdaterats'));
 
 					$this->redirect(array('profile'));
 				}
@@ -171,7 +171,7 @@ class UserController extends Controller
 				
 				$model->save(false);
 
-				Yii::app()->user->setFlash('success', 'Dina användaruppgifter har uppdaterats');
+				Yii::app()->user->setFlash('success', Yii::t('user', 'Dina användaruppgifter har uppdaterats'));
 
 				$this->redirect(array('profile'));
 			}
@@ -192,7 +192,7 @@ class UserController extends Controller
 		$model = User::model()->findbyPk($id);
 
 		if ($model === null)
-			throw new CHttpException(404, 'The requested page does not exist.');
+			throw new CHttpException(404, Yii::t('general', 'Sidan du sökte finns ej'));
 
 		return $model;
 	}

@@ -86,13 +86,13 @@ class SiteController extends Controller
 			{
 				if ($model->login())
 				{
-					Yii::app()->user->setFlash('success', 'Du är nu inloggad');
+					Yii::app()->user->setFlash('success', Yii::t('login', 'Du är nu inloggad'));
 
 					// Redirect to the returnUrl we set earlier
 					$this->redirect(Yii::app()->user->returnUrl);
 				}
 				else
-					Yii::app()->user->setFlash('error', 'Felaktigt användarnamn eller lösenord');
+					Yii::app()->user->setFlash('error', Yii::t('login', 'Felaktigt användarnamn eller lösenord'));
 			}
 		}
 
@@ -105,7 +105,7 @@ class SiteController extends Controller
 	public function actionLogout()
 	{
 		Yii::app()->user->logout(false); // Don't destroy the session
-		Yii::app()->user->setFlash('success', 'Du har nu loggats ut');
+		Yii::app()->user->setFlash('success', Yii::t('login', 'Du har nu loggats ut'));
 
 		$this->redirect(Yii::app()->homeUrl);
 	}

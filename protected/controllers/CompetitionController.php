@@ -55,7 +55,7 @@ class CompetitionController extends Controller
 		
 		// Don't allow registration if the user is not on the LAN
 		if($registration === null)
-			throw new CHttpException(403, "Du måste vara anmäld till LANet för att kunna anmäla dig till tävlingar");
+			throw new CHttpException(403, Yii::t('competition', 'Du måste vara anmäld till LANet för att kunna anmäla dig till tävlingar'));
 		else
 			$model->registration = $registration->id;
 		
@@ -71,7 +71,7 @@ class CompetitionController extends Controller
 				$competitor->registration_id = $model->registration;
 				$competitor->save(false);
 
-				Yii::app()->user->setFlash('success', 'Din anmälan har registrerats');
+				Yii::app()->user->setFlash('success', Yii::t('competition', 'Din anmälan har registrerats'));
 				$this->redirect('register');
 			}
 		}
@@ -81,6 +81,7 @@ class CompetitionController extends Controller
 		// Get a list of competitions that are "signupable" and whose dead-line
 		// hasn't passed. Also get a list all competitions regardless of 
 		// deadline (for the results)
+		// TODO: Use scopes
 		$competitions = Competition::model()->findAll('lan_id = :lan_id AND signupable = 1 AND deadline >= NOW()', array(
 			':lan_id'=>$currentLan->id,
 		));

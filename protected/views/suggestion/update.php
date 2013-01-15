@@ -2,15 +2,15 @@
 
 /* @var $this SuggestionController */
 /* @var $model Suggestion */
-$this->pageTitle = 'Uppdatera förslag';
+$this->pageTitle = Yii::t('suggest-competiton', 'Uppdatera förslag');
 $this->breadcrumbs = array(
-	'Förslag'=>array('create'),
-	'Uppdatera '.$model->name,
+	Yii::t('suggest-competiton', 'Förslag')=>array('create'),
+	Yii::t('suggest-competiton', 'Uppdatera {name}', array('{name}'=>$model->name)),
 );
 
 ?>
 
-<h1>Uppdatera förslaget <i><?php echo $model->name; ?></i></h1>
+<h1><?php echo Yii::t('suggest-competiton', 'Uppdatera förslaget <i>{name}</i>', array('{name}'=>$model->name)); ?></h1>
 
 <hr />
 <?php echo $this->renderPartial('_form', array('model'=>$model));

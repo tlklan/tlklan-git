@@ -51,7 +51,7 @@ class SuggestionController extends Controller
 
 			if ($model->save())
 			{
-				Yii::app()->user->setFlash('success', 'Ditt förslag har tagits emot');
+				Yii::app()->user->setFlash('success', Yii::t('suggest-competiton', 'Ditt förslag har tagits emot'));
 
 				$this->redirect('create');
 			}
@@ -72,7 +72,7 @@ class SuggestionController extends Controller
 		
 		// Check whether the user has permission to edit the suggestion
 		if (!$model->isOwner(Yii::app()->user->getUserId()))
-			throw new CHttpException(403, Yii::t('suggestion', 'Du kan inte ändra någon annans förslag'));
+			throw new CHttpException(403, Yii::t('suggest-competition', 'Du kan inte ändra någon annans förslag'));
 
 		if (isset($_POST['Suggestion']))
 		{
@@ -80,7 +80,7 @@ class SuggestionController extends Controller
 
 			if ($model->save())
 			{
-				Yii::app()->user->setFlash('success', 'Förslaget har uppdaterats');
+				Yii::app()->user->setFlash('success', Yii::t('suggest-competition', 'Förslaget har uppdaterats'));
 
 				$this->redirect(array('create'));
 			}
@@ -118,9 +118,9 @@ class SuggestionController extends Controller
 		// The model will not validate if the user has already voted for this 
 		// suggestion
 		if ($model->save())
-			Yii::app()->user->setFlash('success', 'Din röst har tagits emot');
+			Yii::app()->user->setFlash('success', Yii::t('suggest-competition', 'Din röst har tagits emot'));
 		else
-			Yii::app()->user->setFlash('error', 'Du har redan röstat på det här förslaget');
+			Yii::app()->user->setFlash('error', Yii::t('suggest-competition', 'Du har redan röstat på det här förslaget'));
 
 		$this->redirect(array('create'));
 	}
@@ -134,7 +134,7 @@ class SuggestionController extends Controller
 	{
 		$model = Suggestion::model()->findByPk($id);
 		if ($model === null)
-			throw new CHttpException(404, 'The requested page does not exist.');
+			throw new CHttpException(404, Yii::t('general', 'Sidan du sökte finns ej'));
 		return $model;
 	}
 
