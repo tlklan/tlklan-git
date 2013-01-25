@@ -133,12 +133,12 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 			<div class="language-picker">
 				<?php
 				
-				echo CHtml::beginForm(array('//site/changeLanguage'));
+				echo CHtml::beginForm();
 				echo CHtml::label(Yii::t('general', 'Byt språk').': ', 'language');
 				
 				echo CHtml::dropDownList('language', Yii::app()->language, 
 					Controller::$validLanguages, 
-					array('submit'=>$this->createUrl('//site/changeLanguage')));
+					array('submit'=>$this->createUrl('/site/changeLanguage')));
 				
 				echo CHtml::endForm();
 				
