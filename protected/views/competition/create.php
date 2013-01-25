@@ -27,13 +27,13 @@ echo $form->dropDownListRow($model, 'competition', CHtml::listData($competitions
 		'buttonType'=>'submit',
 		'type'=>'primary',
 		'icon'=>'ok white',
-		'label'=>Yii::t('general', 'Anmäl dig'),
+		'label'=>Yii::t('competition', 'Anmäl dig'),
 	)); ?>
 </div>
 <?php $this->endWidget(); ?>
 <hr />
 
-<h1><?php echo Yii::t('competition', 'Anmälningar'); ?></h1>
+<h1><?php echo Yii::t('competition', 'Deltagare'); ?></h1>
 <?php
 
 // TODO: Display each competition in a tab instead of a long list

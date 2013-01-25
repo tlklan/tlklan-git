@@ -32,7 +32,7 @@ class ArchiveListWidget extends CWidget {
 					<th><?php echo Yii::t('submission', 'Namn'); ?>:</th>
 					<th><?php echo Yii::t('submission', 'Skapare'); ?>:</th>
 					<th><?php echo Yii::t('submission', 'Storlek'); ?>:</th>
-					<th><?php echo Yii::t('submission', 'Kommentar'); ?>:</th>
+					<th><?php echo Yii::t('submission', 'Kommentarer'); ?>:</th>
 				</tr>
 				<?php
 				

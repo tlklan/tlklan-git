@@ -171,7 +171,7 @@ class User extends CActiveRecord
 			'currentPassword'=>Yii::t('user', 'Nuvarande lösenord'),
 			'newPassword'=>Yii::t('user', 'Nytt lösenord'),
 			'passwordRepeat'=>Yii::t('user', 'Nytt lösenord (igen)'),
-			'has_werket_login'=>$this->scenario == 'update-admin' ? Yii::t('user', 'Har werket.tlk.fi konto') : Yii::t('user', 'Jag har ett konto på werket.tlk.fi'),
+			'has_werket_login'=>$this->scenario == 'update-admin' ? Yii::t('user', 'Har konto på werket.tlk.fi') : Yii::t('user', 'Jag har ett konto på werket.tlk.fi'),
 			'date_added'=>Yii::t('user', 'Registrerad sen'),
 			'removeProfileImage'=>Yii::t('user', 'Ta bort min nuvarande profilbild'),
 		);
