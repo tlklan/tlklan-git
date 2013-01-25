@@ -17,11 +17,11 @@ echo $form->passwordFieldRow($model, 'passwordRepeat');
 		'buttonType'=>'submit',
 		'type'=>'primary',
 		'icon'=>'ok white',
-		'label'=>'Ändra',
+		'label'=>Yii::t('general', 'Ändra'),
 	)); ?>&nbsp;&nbsp;&nbsp;<?php $this->widget('bootstrap.widgets.TbButton', array(
 		'buttonType'=>'link',
 		'icon'=>'remove',
-		'label'=>'Avbryt',
+		'label'=>Yii::t('general', 'Avbryt'),
 		'url'=>$this->createUrl('user/profile'),
 	)); ?>
 </div>

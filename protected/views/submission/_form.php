@@ -1,19 +1,18 @@
 <?php 
 
+/* @var $form TbActiveForm */
+/* @var $model Submission */
+
 // Create a list of competitions
 $competitionList = CHtml::listData($competitions, 'id', 'full_name');
 	
 // Render the form
-echo '<hr />';
-
 $form = $this->beginWidget('TbActiveForm', array(
 	'id'=>'submission-form',
 	'type'=>'horizontal',
-	'enableAjaxValidation'=>false,
 	'htmlOptions'=>array('enctype'=>'multipart/form-data')
 )); 
 
-/* @var $form TbActiveForm */
 
 echo $form->dropDownListRow($model, 'competition_id', $competitionList, array('prompt'=>''));
 echo $form->textFieldRow($model, 'name');
@@ -28,7 +27,7 @@ echo $form->textAreaRow($model, 'comments');
 		'buttonType'=>'submit',
 		'type'=>'primary',
 		'icon'=>'ok white',
-		'label'=>$model->isNewRecord ? 'Lämna in' : 'Uppdatera',
+		'label'=>$model->isNewRecord ? Yii::t('submission', 'Lämna in') : Yii::t('submission', 'Uppdatera'),
 	));
 	
 	echo '&nbsp;&nbsp;&nbsp;';
@@ -36,14 +35,14 @@ echo $form->textAreaRow($model, 'comments');
 	if($model->isNewRecord) {
 		$this->widget('bootstrap.widgets.TbButton', array(
 			'buttonType'=>'reset',
-			'label'=>'Töm formuläret'
+			'label'=>Yii::t('general', 'Töm formuläret')
 		));
 	}
 	else {
 		$this->widget('bootstrap.widgets.TbButton', array(
 			'buttonType'=>'link',
 			'icon'=>'remove',
-			'label'=>'Avbryt',
+			'label'=>Yii::t('general', 'Avbryt'),
 			'url'=>$this->createUrl('/submission/archive'),
 		));
 	}

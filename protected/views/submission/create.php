@@ -1,30 +1,39 @@
 <?php
 
-$this->pageTitle = 'Ny submission';
+$this->pageTitle = Yii::t('submission', 'Ny submission');
 $this->breadcrumbs=array(
-	'Submissions'=>array('archive'),
-	'Ny submission',
+	Yii::t('submission', 'Submissions')=>array('archive'),
+	Yii::t('submission', 'Ny submission'),
 );
 
 ?>
-<h1>Ny submission</h1>
+<h1><?php echo Yii::t('submission', 'Ny submission'); ?></h1>
+
 <p>
-	Fyll i fälten och klicka på "Lämna in". Kontakta LAN-crew om din submission 
-	är större än <b>64 MiB</b>!
+	<?php echo Yii::t('submission', 'Fyll i fälten och klicka på "Lämna in". Kontakta LAN-crew om din submission är större än <b>64 MiB</b>!'); ?>
 </p>
 
-<?php 
+<hr />
 
-// Display the upload form
-echo $this->renderPartial('_form', array(
+<?php echo $this->renderPartial('_form', array(
 	'model'=>$model,
 	'competitions'=>$competitions,
-)); 
+)); ?>
 
-?>
 <div class="alert in alert-block fade alert-info">
-	<b>OBS!</b> Genom att ladda upp dina filer här går du med på att de publiceras på 
-	<b><?php echo CHtml::link('arkivsidan', $this->createUrl('/submission/archive')); ?></b>. 
-	Om du inte vill ha din fil tillgänglig för nedladdning bör du 
-	kontakta <b><?php echo CHtml::mailto('lanklubben@tlk.fi', 'lanklubben@tlk.fi'); ?></b>.
+	<?php
+	
+	$archiveUrl = $this->createUrl('/submission/archive');
+	$archiveLink = CHtml::link(Yii::t('submission', 'arkivsidan'), $archiveUrl);
+	$mailtoLink = CHtml::link(Yii::app()->params['mail']['committee'], 
+							  Yii::app()->params['mail']['committee']);
+	
+	echo Yii::t('submission', '<b>OBS!</b> Genom att ladda upp dina filer här går du med på att de publiceras på 
+	<b>{archiveLink}</b>. Om du inte vill ha din fil tillgänglig för nedladdning bör du 
+	kontakta <b>{mailtoLink}</b>.', array(
+		'{archiveLink}'=>$archiveLink,
+		'{mailtoLink}'=>$mailtoLink,
+	));
+	
+	?>
 </div>

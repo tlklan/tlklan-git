@@ -13,7 +13,7 @@ $this->breadcrumbs=array(
 <div class="user-profile">
 	
 	<fieldset>
-		<legend>Användaruppgifter</legend>
+		<legend><?php echo Yii::t('user', 'Användaruppgifter'); ?></legend>
 
 		<div class="row">
 			<div class="span2">
@@ -43,7 +43,7 @@ $this->breadcrumbs=array(
 						array(
 							'name'=>'has_werket_login',
 							'type'=>'raw',
-							'label'=>'Har konto på werket.tlk.fi',
+							'label'=>Yii::t('user', 'Har konto på werket.tlk.fi'),
 							'value'=>$model->hasShellAccount() ? '<i class="icon-ok"></i>' : '',
 						),
 						array(
@@ -78,7 +78,12 @@ $this->breadcrumbs=array(
 					}
 				}
 				else
-					echo '<p>Du har inga utmärkelser för tillfället</p>';
+				{
+					echo CHtml::openTag('p');
+					echo Yii::t('user', 'Du har inga utmärkelser för tillfället');
+					echo CHtml::closeTag('p');
+				}
+					
 
 				?>
 			</fieldset>
@@ -99,7 +104,11 @@ $this->breadcrumbs=array(
 					));
 				}
 				else
-					echo '<p>Användaren har tills vidare inte submittat något</p>';
+				{
+					echo CHtml::openTag('p');
+					echo Yii::t('user', 'Användaren har tills vidare inte submittat något');
+					echo CHtml::closeTag('p');
+				}
 
 				?>
 			</fieldset>
@@ -119,7 +128,7 @@ $this->breadcrumbs=array(
 				'type'=>'primary',
 				'buttonType'=>'link',
 				'icon'=>'edit white',
-				'label'=>'Ändra uppgifter',
+				'label'=>Yii::t('user', 'Ändra uppgifter'),
 				'url'=>$this->createUrl('user/update'),
 			));
 
@@ -131,7 +140,7 @@ $this->breadcrumbs=array(
 				$this->widget('bootstrap.widgets.TbButton', array(
 					'buttonType'=>'link',
 					'icon'=>'edit',
-					'label'=>'Byt lösenord',
+					'label'=>Yii::t('user', 'Byt lösenord'),
 					'url'=>$this->createUrl('user/changePassword'),
 				));
 			}

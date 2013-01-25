@@ -73,10 +73,10 @@ class SubmissionVote extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'competition_id'=>'Tävling',
-			'user_id'=>'Skapare',
-			'submission_id'=>'Namn',
-			'vote_count'=>'Antal röster',
+			'competition_id'=>Yii::t('vote', 'Tävling'),
+			'user_id'=>Yii::t('vote', 'Skapare'),
+			'submission_id'=>Yii::t('vote', 'Namn'),
+			'vote_count'=>Yii::t('vote', 'Antal röster'),
 		);
 	}
 
