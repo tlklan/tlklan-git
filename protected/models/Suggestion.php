@@ -79,6 +79,7 @@ class Suggestion extends CActiveRecord
 	{
 		return array(
 			'creator.nick'=>Yii::t('suggest-competiton', 'Inlagd av'),
+			'created'=>Yii::t('suggest-competition', 'Inlagd'),
 			'name'=>Yii::t('suggest-competiton', 'Tävling'),
 			'description'=>Yii::t('suggest-competiton', 'Beskrivning'),
 			'mangledDescription'=>Yii::t('suggest-competiton', 'Beskrivning'),

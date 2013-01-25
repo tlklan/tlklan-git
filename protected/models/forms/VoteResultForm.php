@@ -20,7 +20,7 @@ class VoteResultForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'competition'=>'Tävling',
+			'competition'=>Yii::t('vote', 'Tävling'),
 		);
 	}
 

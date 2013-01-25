@@ -1,17 +1,18 @@
 <?php
 
-$this->pageTitle = 'Uppdatera submission';
+$this->pageTitle = Yii::t('submission', 'Uppdatera submission');
 $this->breadcrumbs=array(
-	'Submissions'=>array('archive'),
-	'Uppdatera submission',
+	Yii::t('submission', 'Submissions')=>array('archive'),
+	Yii::t('submission', 'Uppdatera submission'),
 );
 
 ?>
-<h1>Uppdatera submission</h1>
+<h1><?php echo Yii::t('submission', 'Uppdatera submission'); ?></h1>
 <p>
-	Fyll i fälten och klicka på "Uppdatera". Kontakta LAN-crew om din submission 
-	är större än <b>64 MiB</b>!
+	<?php echo Yii::t('submission', 'Fyll i fälten och klicka på "Uppdatera". Kontakta LAN-crew om din submission är större än <b>64 MiB</b>!'); ?>
 </p>
+
+<hr />
 
 <?php 
 

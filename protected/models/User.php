@@ -120,7 +120,7 @@ class User extends CActiveRecord
 			':username'=>$this->username));
 
 		if (count($dupes) > 0)
-			$this->addError('email', "Din e-postadress eller ditt nickname finns redan");
+			$this->addError('email', Yii::t('user', 'Din e-postadress eller ditt nickname finns redan'));
 	}
 	
 	/**
@@ -133,7 +133,7 @@ class User extends CActiveRecord
 		$password = $this->{$attribute};
 
 		if (!$this->checkPassword($password))
-			$this->addError($attribute, 'Felaktigt lösenord');
+			$this->addError($attribute, Yii::t('user', 'Felaktigt lösenord'));
 	}
 	
 	/**
@@ -162,18 +162,18 @@ class User extends CActiveRecord
 	{
 		return array(
 			'id'=>'ID',
-			'name'=>'Namn',
-			'email'=>'E-postadress',
-			'username'=>'Användarnamn',
-			'nick'=>'Nick',
-			'profileImage'=>'Profilbild',
-			'password'=>'Lösenord',
-			'currentPassword'=>'Nuvarande lösenord',
-			'newPassword'=>'Nytt lösenord',
-			'passwordRepeat'=>'Nytt lösenord (igen)',
-			'has_werket_login'=>$this->scenario == 'update-admin' ? 'Har werket.tlk.fi konto' : 'Jag har ett konto på werket.tlk.fi',
-			'date_added'=>'Registrerad sen',
-			'removeProfileImage'=>'Ta bort min nuvarande profilbild',
+			'name'=>Yii::t('user', 'Namn'),
+			'email'=>Yii::t('user', 'E-postadress'),
+			'username'=>Yii::t('user', 'Användarnamn'),
+			'nick'=>Yii::t('user', 'Nick'),
+			'profileImage'=>Yii::t('user', 'Profilbild'),
+			'password'=>Yii::t('user', 'Lösenord'),
+			'currentPassword'=>Yii::t('user', 'Nuvarande lösenord'),
+			'newPassword'=>Yii::t('user', 'Nytt lösenord'),
+			'passwordRepeat'=>Yii::t('user', 'Nytt lösenord (igen)'),
+			'has_werket_login'=>$this->scenario == 'update-admin' ? Yii::t('user', 'Har werket.tlk.fi konto') : Yii::t('user', 'Jag har ett konto på werket.tlk.fi'),
+			'date_added'=>Yii::t('user', 'Registrerad sen'),
+			'removeProfileImage'=>Yii::t('user', 'Ta bort min nuvarande profilbild'),
 		);
 	}
 

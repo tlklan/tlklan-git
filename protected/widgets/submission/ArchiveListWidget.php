@@ -28,11 +28,11 @@ class ArchiveListWidget extends CWidget {
 			
 			<table class="table table-striped archive-table" border="0" cellpadding="0" cellspacing="0">
 				<tr>
-					<th>Tävling:</th>
-					<th>Namn:</th>
-					<th>Skapare:</th>
-					<th>Storlek:</th>
-					<th>Kommentar:</th>
+					<th><?php echo Yii::t('submission', 'Tävling'); ?>:</th>
+					<th><?php echo Yii::t('submission', 'Namn'); ?>:</th>
+					<th><?php echo Yii::t('submission', 'Skapare'); ?>:</th>
+					<th><?php echo Yii::t('submission', 'Storlek'); ?>:</th>
+					<th><?php echo Yii::t('submission', 'Kommentar'); ?>:</th>
 				</tr>
 				<?php
 				
@@ -117,7 +117,7 @@ class ArchiveListWidget extends CWidget {
 											CHtml::image($baseUrl.'/files/images/icons/delete_button.png'), 
 											$this->controller->createUrl('/submission/delete', array('id'=>$submission->id)), 
 											array(
-												'confirm'=>"Är du säker?\n\nEntryn kommer endast att ta bort från databasen, inte får hårdskivan."
+												'confirm'=>Yii::t('submission', "Är du säker?\n\nEntryn kommer endast att ta bort från databasen, inte får hårdskivan."),
 											)
 										);
 									}
@@ -160,7 +160,9 @@ class ArchiveListWidget extends CWidget {
 				if($totalSubmissionCount == 0) {
 					?>
 					<tr class="no-submissions">
-						<td colspan="5">Finns inga submissions för detta LAN</td>
+						<td colspan="5">
+							<?php echo Yii::t('submission', 'Finns inga submissions för detta LAN'); ?>
+						</td>
 					</tr>
 					<?php
 				}

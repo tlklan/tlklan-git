@@ -81,16 +81,16 @@ class Submission extends CActiveRecord
 	{
 		return array(
 			'id'=>'ID',
-			'competition_id'=>'Tävling',
-			'competitionName'=>'Tävling',
-			'submitter'=>'Skapare',
-			'user_id'=>'Ditt nick',
-			'name'=>'Entrynamn',
-			'file'=>'Filnamn',
-			'physical_path'=>'Sökväg', // mostly internal
-			'size'=>'Storlek',
-			'comments'=>'Kommentarer',
-			'disqualified'=>'Diskvalificerad',
+			'competition_id'=>Yii::t('submission', 'Tävling'),
+			'competitionName'=>Yii::t('submission', 'Tävling'),
+			'submitter'=>Yii::t('submission', 'Skapare'),
+			'user_id'=>Yii::t('submission', 'Ditt nick'),
+			'name'=>Yii::t('submission', 'Entrynamn'),
+			'file'=>Yii::t('submission', 'Filnamn'),
+			'physical_path'=>Yii::t('submission', 'Sökväg'), // mostly internal
+			'size'=>Yii::t('submission', 'Storlek'),
+			'comments'=>Yii::t('submission', 'Kommentarer'),
+			'disqualified'=>Yii::t('submission', 'Diskvalificerad'),
 		);
 	}
 

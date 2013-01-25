@@ -2,11 +2,11 @@
 
 $this->pageTitle = Yii::t('competition', 'Tävlingsanmälan (under LAN)');
 $this->breadcrumbs=array(
-	'Tävlingsanmälan (under LAN)',
+	Yii::t('competition', 'Tävlingsanmälan (under LAN)'),
 );
 
 ?>
-<h1>Tävlingsanmälan (under LAN)</h1>
+<h1><?php echo Yii::t('competition', 'Tävlingsanmälan (under LAN)'); ?></h1>
 
 <?php $this->widget('cms.widgets.CmsBlock',array('name'=>'compo-reg-info')); ?>
 
@@ -27,23 +27,27 @@ echo $form->dropDownListRow($model, 'competition', CHtml::listData($competitions
 		'buttonType'=>'submit',
 		'type'=>'primary',
 		'icon'=>'ok white',
-		'label'=>'Anmäl dig'
+		'label'=>Yii::t('general', 'Anmäl dig'),
 	)); ?>
 </div>
 <?php $this->endWidget(); ?>
 <hr />
 
-<h1>Anmälningar</h1>
+<h1><?php echo Yii::t('competition', 'Anmälningar'); ?></h1>
 <?php
 
+// TODO: Display each competition in a tab instead of a long list
 // Show all competitions, not just those whose deadline haven't passed
 foreach($allCompetitions as $competition) 
 {
+	/* @var $dataProvider CActiveDataProvider */
 	$dataProvider = $competition->getActualCompetitorDataProvider();
 	
 	echo '<h2>'.$competition->full_name.'</h2>';
 	echo CHtml::openTag('p', array('class'=>'competitor-count'));
-	echo 'Antal anmälda: <b>'.$dataProvider->totalItemCount.'</b>';
+	echo Yii::t('competition', 'Antal anmälda: <b>{count}</b>', array(
+		'{count}'=>$dataProvider->totalItemCount,
+	));
 	echo CHtml::closeTag('p');
 	
 	// Only show the button column for logged in users
@@ -60,7 +64,7 @@ foreach($allCompetitions as $competition)
 		'type'=>'striped bordered condensed',
 		'dataProvider'=>$dataProvider,
 		'template'=>"{items}",
-		'emptyText'=>'Ingen har ännu anmält sig till den här tävlingen',
+		'emptyText'=>Yii::t('competition', 'Ingen har ännu anmält sig till den här tävlingen'),
 		'columns'=>$columns
 	));
 }
