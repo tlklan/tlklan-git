@@ -1,5 +1,8 @@
 <?php
 
+// Define bootstrap alias
+Yii::setPathOfAlias('bootstrap', dirname(__FILE__).'/../extensions/bootstrap');
+
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
@@ -8,8 +11,7 @@ return array(
 
 	// preloading 'log' component
 	'preload'=>array(
-		'log', 
-		'bootstrap',
+		'log',
 		'less',
 	),
 	
@@ -48,14 +50,13 @@ return array(
 	'components'=>array(
 		'bootstrap'=>array(
 			'class'=>'ext.bootstrap.components.Bootstrap',
-			'responsiveCss'=>true,
 		),
 		'clientScript'=>array(
 			'class'=>'ext.minify.EClientScript',
 			'combineScriptFiles'=>true,
 			'combineCssFiles'=>true,
 			'optimizeScriptFiles'=>true,
-			'optimizeCssFiles'=>false, // breaks things apparently
+			'optimizeCssFiles'=>true,
 			'packages'=>array(
 				// use minified version in production mode
 				'bbq'=>array(
