@@ -12,6 +12,7 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 	<meta name="robots" content="noindex, nofollow" />
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 	<?php $cs->registerCssFile(Yii::app()->baseUrl.'/css/styles.css'); ?>
+	<?php $cs->registerCssFile(Yii::app()->baseUrl.'/css/fontawesome/css/font-awesome.min.css'); ?>
 </head>
 <body>
 	<?php
