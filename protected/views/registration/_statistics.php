@@ -1,4 +1,4 @@
-<div class="statistics small-screen-hidden">
+<div class="statistics hidden-tablet hidden-phone">
 	<h3><?php echo Yii::t('competition', 'Tävlingsstatistik'); ?></h3>
 
 	<table class="stat_counter" cellpadding="0" cellspacing="0">
