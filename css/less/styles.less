@@ -82,10 +82,14 @@ tr.winning-submission td {
 .navbar-inner {
 	border-radius: 0 0 4px 4px;
 
-	// the items already provide some padding themselves so we don't need an 
-	// additional 20px
+	// the container provides enough padding as it is
 	padding-left: 0;
 	padding-right: 0;
+
+	.container-fluid {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
 }
 
 .navbar-inverse .navbar-inner {
@@ -103,12 +107,17 @@ tr.winning-submission td {
 
 // use lesser padding around navbar items
 .navbar .nav > li > a {
-	padding: 10px 10px;
+	padding: 10px 8px;
 }
 
 // use even lesser margin for the icon-only items to the right
 .menu-items-right > li > a {
 	padding: 10px 5px !important;
+}
+
+.navbar .brand {
+	margin-left: -10px;
+	padding-right: 10px;
 }
 
 /* ----------------------------------------------------------------------------
