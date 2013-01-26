@@ -13,6 +13,7 @@ files/images/originals/
 files/images/versions/
 css/styles.css
 css/small-screen.css
+files/images/.htaccess
 syntax: regexp
 ^assets/*
 ^nbproject/*
