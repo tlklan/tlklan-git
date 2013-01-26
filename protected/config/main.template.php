@@ -89,7 +89,8 @@ return array(
 		'image'=>array(
 			'class'=>'ImgManager',
 			'versions'=>array(
-				'small'=>array('width'=>264, 'height'=>264),
+				'small'=>array('width'=>170, 'height'=>170),
+				'profile'=>array('width'=>264, 'height'=>264),
 			),
 		),
 		'session'=>array(

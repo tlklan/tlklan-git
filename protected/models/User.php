@@ -334,7 +334,7 @@ class User extends CActiveRecord
 	public function getProfileImageUrl()
 	{
 		if ($this->image !== null)
-			return Yii::app()->image->getURL($this->image->id, 'small');
+			return Yii::app()->image->getURL($this->image->id, 'profile');
 		else
 			return Yii::app()->baseUrl.'/files/images/icons/missing-profile-picture.png';
 	}
