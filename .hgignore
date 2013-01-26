@@ -9,9 +9,10 @@ files/cms/attachments
 files/documents
 protected/runtime
 protected/config/console.php
-css/*.css
 files/images/originals/
 files/images/versions/
+css/styles.css
+css/small-screen.css
 syntax: regexp
 ^assets/*
 ^nbproject/*
