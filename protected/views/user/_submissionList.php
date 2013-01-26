@@ -1,7 +1,7 @@
 <table class="submission-list table table-striped table-bordered">
 	<tr>
-		<th>Tävling:</th>
-		<th>Namn:</th>
+		<th><?php echo Yii::t('profile', 'Tävling'); ?>:</th>
+		<th><?php echo Yii::t('profile', 'Namn'); ?>:</th>
 	</tr>
 	<?php
 

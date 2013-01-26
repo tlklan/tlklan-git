@@ -91,32 +91,31 @@ class Badge extends CModel
 		switch ($this->_type)
 		{
 			case self::BADGE_MANY_LANS:
-				return 'Har varit på mer än 5 LAN';
+				return Yii::t('badge', 'Har varit på mer än 5 LAN');
 				break;
 			case self::BADGE_HAS_SUBMISSION:
-				return 'Har submittat minst en entry';
+				return Yii::t('badge', 'Har submittat minst en entry');
 				break;
 			case self::BADGE_HAS_WINNING_SUBMISSION:
-				return 'Har submittad minst en vinnande entry';
+				return Yii::t('badge', 'Har submittad minst en vinnande entry');
 				break;
 			case self::BADGE_ALL_LANS:
-				return 'Har varit på varenda LAN';
+				return Yii::t('badge', 'Har varit på varenda LAN');
 				break;
 			case self::BADGE_ALL_CORNER_LANS:
-				return 'Har varit på samtliga Corner-LAN';
+				return Yii::t('badge', 'Har varit på samtliga Corner-LAN');
 				break;
 			case self::BADGE_IS_FOUNDING_FATHER:
-				return 'Har varit med och grundat LAN-klubben';
+				return Yii::t('badge', 'Har varit med och grundat LAN-klubben');
 				break;
 			case self::BADGE_IS_CURRENT_COM_MEMBER:
-				return 'Sitter för tillfället i LAN-klubbens styrelse';
+				return Yii::t('badge', 'Sitter för tillfället i LAN-klubbens styrelse');
 				break;
 			case self::BADGE_FORMER_COM_MEMBER:
-				return 'Har tidigare suttit i LAN-klubbens styrelse';
+				return Yii::t('badge', 'Har tidigare suttit i LAN-klubbens styrelse');
 				break;
 			case self::BADGE_NEVER_SHOWED:
-				return 'Har anmält sig till ett fullt LAN men inte dykt upp 
-					<span class="lan-name">('.$this->_dynamicValues['lan'].')</span>';
+				return Yii::t('badge', 'Har anmält sig till ett fullt LAN men inte dykt upp <span class="lan-name">({lanName})</span>', array('{lanName}'=>$this->_dynamicValues['lan']));
 				break;
 			default:
 				return '';
