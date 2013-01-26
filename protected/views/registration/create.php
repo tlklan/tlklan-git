@@ -1,10 +1,5 @@
 <?php
 
-// Register additional styles for small-screened devices
-Yii::app()->clientScript->registerCssFile(
-		Yii::app()->baseUrl.'/css/small-screen.css', 
-		'only screen and (max-device-width: 720px)');
-
 $this->pageTitle = Yii::t('registration', 'Anmälning till {lanName}', array('{lanName}'=>$currentLan->name));
 $this->breadcrumbs = array(
 	Yii::t('registration', 'Anmälning'),
