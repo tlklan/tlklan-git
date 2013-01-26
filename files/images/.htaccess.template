@@ -10,7 +10,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 # ...and if the source URL points to an image, we redirect to the create image URL.
-RewriteRule ^versions/([^/]+)/[^\-]*\-?(\d+)\.(gif|jpg|png)$ tlklan/image/default/create?id=$2&version=$1 [L,R,QSA]
+RewriteRule ^versions/([^/]+)/[^\-]*\-?(\d+)\.(gif|jpg|png)$ image/default/create?id=$2&version=$1 [L,R,QSA]
 
 </IfModule>
 
