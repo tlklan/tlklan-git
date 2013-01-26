@@ -81,6 +81,15 @@ tr.winning-submission td {
 // override some navbar defaults
 .navbar-inner {
 	border-radius: 0 0 4px 4px;
+
+	// the container provides enough padding as it is
+	padding-left: 0;
+	padding-right: 0;
+
+	.container-fluid {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
 }
 
 .navbar-inverse .navbar-inner {
@@ -94,6 +103,21 @@ tr.winning-submission td {
 
 .nav > li.active > a, li.dropdown > a {
 	background: none !important;
+}
+
+// use lesser padding around navbar items
+.navbar .nav > li > a {
+	padding: 10px 8px;
+}
+
+// use even lesser margin for the icon-only items to the right
+.menu-items-right > li > a {
+	padding: 10px 5px !important;
+}
+
+.navbar .brand {
+	margin-left: -10px;
+	padding-right: 10px;
 }
 
 /* ----------------------------------------------------------------------------

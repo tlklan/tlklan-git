@@ -12,6 +12,7 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 	<meta name="robots" content="noindex, nofollow" />
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 	<?php $cs->registerCssFile(Yii::app()->baseUrl.'/css/styles.css'); ?>
+	<?php $cs->registerCssFile(Yii::app()->baseUrl.'/css/fontawesome/css/font-awesome.min.css'); ?>
 </head>
 <body>
 	<?php
@@ -71,13 +72,13 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 	else
 	{
 		$rightItems = array(
-			array('label'=>Yii::t('menu', 'Min profil'), 'url'=>array('/user/profile'), 'icon'=>'white info-sign'));
+			array('url'=>array('/user/profile'), 'icon'=>'white user large'));
 
 		// Link to administration area
 		if (Yii::app()->user->isAdmin())
-			$rightItems[] = array('label'=>Yii::t('menu', 'Administration'), 'url'=>array('//admin/'), 'icon'=>'white th');
+			$rightItems[] = array('url'=>array('//admin/'), 'icon'=>'white cogs large');
 
-		$rightItems[] = array('label'=>Yii::t('menu', 'Logga ut'), 'url'=>array('/site/logout'), 'icon'=>'white off');
+		$rightItems[] = array('url'=>array('/site/logout'), 'icon'=>'white off large');
 	}
 	
 	$this->widget('bootstrap.widgets.TbNavbar', array(
@@ -95,7 +96,7 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 			),
 			array(
 				'class'=>'bootstrap.widgets.TbMenu',
-				'htmlOptions'=>array('class'=>'pull-right'),
+				'htmlOptions'=>array('class'=>'pull-right menu-items-right'),
 				'items'=>$rightItems,
 			),
 		),
