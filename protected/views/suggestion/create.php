@@ -52,8 +52,7 @@ $this->widget('TbGridView', array(
 				'upVote'=>array(
 					'label'=>Yii::t('suggest-competiton', 'Rösta'),
 					'icon'=>'thumbs-up',
-					'url'=>'Yii::app()->controller->createUrl("up
-						voteSuggestion", array("id"=>$data->id))',
+					'url'=>'Yii::app()->controller->createUrl("upvoteSuggestion", array("id"=>$data->id))',
 				),
 				'update'=>array(
 					// only displayed the update button if the user is allowed 

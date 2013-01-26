@@ -43,6 +43,7 @@ echo $form->dropDownListRow($model, 'category', $model->getCategoryList());
 	<?php $this->widget('TbButton', array(
 		'buttonType'=>'submit',
 		'type'=>'primary',
+		'icon'=>'edit white',
 		'label'=>'Ändra',
 	)); ?>
 </div>

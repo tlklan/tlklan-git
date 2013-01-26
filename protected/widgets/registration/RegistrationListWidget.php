@@ -78,17 +78,17 @@ class RegistrationListWidget extends CWidget
 				?>
 				<th><?php echo Yii::t('registration', 'Namn'); ?>:</th>
 				<th><?php echo Yii::t('registration', 'Nick'); ?>:</th>
-				<th class="thick_right_border small-screen-hidden">Laptop:</th>
+				<th class="thick_right_border hidden-tablet hidden-phone">Laptop:</th>
 				<?php
 
 				// Add one column for each competition
 				foreach($this->currentLan->competitions as $competition) 
 				{
-					?><th class="compo_header small-screen-hidden"><?php echo $competition->short_name; ?>:</th><?php
+					?><th class="compo_header hidden-tablet hidden-phone"><?php echo $competition->short_name; ?>:</th><?php
 				}
 
 				?>
-				<th class="thick_left_border small-screen-hidden">
+				<th class="thick_left_border hidden-tablet hidden-phone">
 					<?php echo Yii::t('registration', 'Anmälan gjord'); ?>
 				</th>
 			</tr>
@@ -163,7 +163,7 @@ class RegistrationListWidget extends CWidget
 						
 						?>
 					</td>
-					<td class="thick_right_border center-align small-screen-hidden">
+					<td class="thick_right_border center-align hidden-tablet hidden-phone">
 						<?php echo ($registration->hasLaptop()) ? 'x' : ''; ?>
 					</td>
 					<?php
@@ -171,14 +171,14 @@ class RegistrationListWidget extends CWidget
 					foreach($this->currentLan->competitions as $competition) 
 					{
 						?>
-						<td class="small-screen-hidden center-align">
+						<td class="hidden-tablet hidden-phone center-align">
 							<?php echo (in_array($competition->id, $registeredCompetitions)) ? 'x' : ''; ?>
 						</td>
 						<?php
 					}
 
 					?>
-					<td class="thick_left_border small-screen-hidden" style="width: 140px;">
+					<td class="thick_left_border hidden-tablet hidden-phone" style="width: 140px;">
 						<?php echo $registration->date; ?>
 					</td>
 				</tr>

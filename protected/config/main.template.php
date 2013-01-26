@@ -1,5 +1,8 @@
 <?php
 
+// Define bootstrap alias
+Yii::setPathOfAlias('bootstrap', dirname(__FILE__).'/../extensions/bootstrap');
+
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
@@ -8,8 +11,7 @@ return array(
 
 	// preloading 'log' component
 	'preload'=>array(
-		'log', 
-		'bootstrap',
+		'log',
 		'less',
 	),
 	
@@ -48,14 +50,13 @@ return array(
 	'components'=>array(
 		'bootstrap'=>array(
 			'class'=>'ext.bootstrap.components.Bootstrap',
-			'responsiveCss'=>true,
 		),
 		'clientScript'=>array(
 			'class'=>'ext.minify.EClientScript',
 			'combineScriptFiles'=>true,
 			'combineCssFiles'=>true,
 			'optimizeScriptFiles'=>true,
-			'optimizeCssFiles'=>false, // breaks things apparently
+			'optimizeCssFiles'=>true,
 			'packages'=>array(
 				// use minified version in production mode
 				'bbq'=>array(
@@ -68,7 +69,6 @@ return array(
 			'forceCompile'=>true, // indicates whether to force compiling
 			'paths'=>array(
 				'css/less/styles.less'=>'css/styles.css',
-				'css/less/small-screen.less'=>'css/small-screen.css',
 			),
 		),
 		'user'=>array(
@@ -89,7 +89,8 @@ return array(
 		'image'=>array(
 			'class'=>'ImgManager',
 			'versions'=>array(
-				'small'=>array('width'=>170, 'height'=>240),
+				'small'=>array('width'=>170, 'height'=>170),
+				'profile'=>array('width'=>264, 'height'=>264),
 			),
 		),
 		'session'=>array(
@@ -100,12 +101,19 @@ return array(
 			'urlFormat'=>'path',
 			'showScriptName'=>false,
 			'rules'=>array(
-				// Handle the language parameter
+				// Handle the language parameter. It is important that these 
+				// rules appear in this order for everything to work correctly.
+				'<language:(en|sv)>/page/<name>-<id:\d+>.html'=>'cms/node/page',
+
+				'<language:(en|sv)>/<module>'=>'<module>/',
+				'<language:(en|sv)>/<module:\w+>/<controller:\w+>/<id:\d+>'=>'<module>/<controller>/view',
+				'<language:(en|sv)>/<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>'=>'<module>/<controller>/<action>',
+				'<language:(en|sv)>/<module:\w+>/<controller:\w+>/<action:\w+>/*'=>'<module>/<controller>/<action>',
+				
 				'<language:(en|sv)>/' => 'site/index',
 				'<language:(en|sv)>/<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<language:(en|sv)>/<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<language:(en|sv)>/<controller:\w+>/<action:\w+>/*'=>'<controller>/<action>',
-				'<language:(en|sv)>/page/<name>-<id:\d+>.html'=>'cms/node/page',
 				
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',

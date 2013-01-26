@@ -16,13 +16,13 @@ $this->breadcrumbs=array(
 		<legend><?php echo Yii::t('user', 'Användaruppgifter'); ?></legend>
 
 		<div class="row">
-			<div class="span2">
+			<div class="span3">
 				<div class="picture">
 					<?php echo CHtml::image($model->getProfileImageUrl()); ?>
 				</div>
 			</div>
 
-			<div class="span10">
+			<div class="span9">
 				<?php 
 				
 				// Get the name of the first LAN the user registered to

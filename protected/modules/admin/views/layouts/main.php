@@ -11,7 +11,9 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="robots" content="noindex, nofollow" />
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
+	<?php Yii::app()->bootstrap->register(); ?>
 	<?php $cs->registerCssFile(Yii::app()->baseUrl.'/css/styles.css'); ?>
+	<?php $cs->registerCssFile(Yii::app()->baseUrl.'/css/fontawesome/css/font-awesome.min.css'); ?>
 </head>
 <body>
 <?php
@@ -48,7 +50,7 @@ $this->widget('bootstrap.widgets.TbNavbar', array(
 			'class'=>'bootstrap.widgets.TbMenu',
 			'htmlOptions'=>array('class'=>'pull-right'),
 			'items'=>array(
-				array('label' => 'Tillbaka till sidan', 'url' => Yii::app()->homeUrl),
+				array('label' => 'Tillbaka till sidan', 'url' =>$this->createUrl('//site/index')),
 				array('label' => 'Logga ut', 'url' => array('/site/logout'))
 			),
 		),

@@ -1,7 +1,7 @@
 <?php
 
 /* @var $form TbActiveForm */
-$form = $this->createWidget('TbActiveForm', array(
+$form = $this->beginWidget('TbActiveForm', array(
 	'type'=>'horizontal',
 ));
 
@@ -40,3 +40,5 @@ echo $form->textAreaRow($model, 'description', array(
 	
 	?>
 </div>
+
+<?php $this->endWidget();
