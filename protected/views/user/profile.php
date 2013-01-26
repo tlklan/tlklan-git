@@ -60,7 +60,7 @@ $this->breadcrumbs=array(
 	<div class="row">
 		<div class="span6">
 			<fieldset>
-				<legend>Utmärkelser</legend>
+				<legend><?php echo Yii::t('profile', 'Utmärkelser'); ?></legend>
 
 				<?php
 
