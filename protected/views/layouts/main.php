@@ -96,7 +96,7 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 			),
 			array(
 				'class'=>'bootstrap.widgets.TbMenu',
-				'htmlOptions'=>array('class'=>'pull-right'),
+				'htmlOptions'=>array('class'=>'pull-right menu-items-right'),
 				'items'=>$rightItems,
 			),
 		),
