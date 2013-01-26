@@ -48,7 +48,7 @@ $this->widget('bootstrap.widgets.TbNavbar', array(
 			'class'=>'bootstrap.widgets.TbMenu',
 			'htmlOptions'=>array('class'=>'pull-right'),
 			'items'=>array(
-				array('label' => 'Tillbaka till sidan', 'url' => Yii::app()->homeUrl),
+				array('label' => 'Tillbaka till sidan', 'url' =>$this->createUrl('//site/index')),
 				array('label' => 'Logga ut', 'url' => array('/site/logout'))
 			),
 		),

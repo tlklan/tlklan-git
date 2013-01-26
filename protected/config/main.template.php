@@ -100,12 +100,19 @@ return array(
 			'urlFormat'=>'path',
 			'showScriptName'=>false,
 			'rules'=>array(
-				// Handle the language parameter
+				// Handle the language parameter. It is important that these 
+				// rules appear in this order for everything to work correctly.
+				'<language:(en|sv)>/page/<name>-<id:\d+>.html'=>'cms/node/page',
+
+				'<language:(en|sv)>/<module>'=>'<module>/',
+				'<language:(en|sv)>/<module:\w+>/<controller:\w+>/<id:\d+>'=>'<module>/<controller>/view',
+				'<language:(en|sv)>/<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>'=>'<module>/<controller>/<action>',
+				'<language:(en|sv)>/<module:\w+>/<controller:\w+>/<action:\w+>/*'=>'<module>/<controller>/<action>',
+				
 				'<language:(en|sv)>/' => 'site/index',
 				'<language:(en|sv)>/<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<language:(en|sv)>/<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<language:(en|sv)>/<controller:\w+>/<action:\w+>/*'=>'<controller>/<action>',
-				'<language:(en|sv)>/page/<name>-<id:\d+>.html'=>'cms/node/page',
 				
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
