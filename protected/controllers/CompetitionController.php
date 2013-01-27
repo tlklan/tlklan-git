@@ -78,22 +78,15 @@ class CompetitionController extends Controller
 
 		$currentLan = Lan::model()->getCurrent();
 
-		// Get a list of competitions that are "signupable" and whose dead-line
-		// hasn't passed. Also get a list all competitions regardless of 
-		// deadline (for the results)
+		// Get a list of competitions that are "signupable"
 		// TODO: Use scopes
-		$competitions = Competition::model()->findAll('lan_id = :lan_id AND signupable = 1 AND deadline >= NOW()', array(
-			':lan_id'=>$currentLan->id,
-		));
-		
-		$allCompetitions = Competition::model()->findAll('lan_id = :lan_id AND signupable = 1', array(
+		$competitions = Competition::model()->findAll('lan_id = :lan_id AND signupable = 1', array(
 			':lan_id'=>$currentLan->id,
 		));
 
 		$this->render('create', array(
 			'model'=>$model,
 			'competitions'=>$competitions,
-			'allCompetitions'=>$allCompetitions,
 		));
 	}
 	

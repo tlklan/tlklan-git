@@ -42,7 +42,7 @@ $this->widget('cms.widgets.CmsBlock', array('name'=>'compo-reg-list-info'));
 // Display one tab for each competition
 $tabs = array();
 
-foreach ($allCompetitions as $competition)
+foreach ($competitions as $competition)
 {
 	/* @var $competition Competition */
 	/* @var $dataProvider CActiveDataProvider */
