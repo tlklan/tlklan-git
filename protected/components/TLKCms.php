@@ -20,5 +20,25 @@ class TLKCms extends Cms
 	{
 		return Yii::app()->user->isAdmin();
 	}
+	
+	/**
+	 * Returns whether a specific page is active. The parent implementation is 
+	 * overridden in order to speed things up a bit
+	 * @param string $name the content name
+	 * @return boolean the result
+	 */
+	public function isActive($name)
+	{
+		// Get the node. We don't want to eager load unused relations so we 
+		// can't use loadNode()
+		$node = CmsNode::model()->findByAttributes(array('name'=>$name));
+
+		$controller = Yii::app()->getController();
+		return ($controller->module !== null
+				&& $controller->module->id === 'cms'
+				&& $controller->id === 'node'
+				&& $controller->action->id === 'page'
+				&& isset($_GET['id']) && $_GET['id'] === $node->id);
+	}
 
 }
