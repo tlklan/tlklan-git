@@ -5,7 +5,7 @@
  *
  * @author Sam Stenvall <sam@supportersplace.com>
  */
-class BreadCrumbs extends TbBreadcrumbs
+class Breadcrumbs extends TbBreadcrumbs
 {
 
 	public function run()
