@@ -51,9 +51,8 @@ class CompetitionRegistrationForm extends CFormModel
 	 */
 	public function validateCompetition($attribute)
 	{
-		$competition = Competition::model()->find('id = :id AND deadline >= NOW()', array(
-			':id'=>$this->competition,
-		));
+		$competition = Competition::model()->undueDeadline()
+				->findByPk($this->competition);
 
 		if ($competition === null)
 			$this->addError($attribute, 'Du kan inte längre anmäla dig till den här tävlingen');

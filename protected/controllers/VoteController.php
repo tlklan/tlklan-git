@@ -40,7 +40,6 @@ class VoteController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$currentLan = Lan::model()->getCurrent();
 		$model = new VoteForm();
 
 		// Automatically set voter ID
@@ -65,17 +64,9 @@ class VoteController extends Controller
 			}
 		}
 		
-		// Get list of votable competitions
-		// TODO: Not used?
-		$criteria = new CDbCriteria();
-		$criteria->condition = 'lan_id = :lan_id';
-		$criteria->order = 'nick ASC';
-		$criteria->params = array(':lan_id'=>$currentLan->id);
-		
-		// TODO: Use scopes
-		$competitions = Competition::model()->findAll('lan_id = :lan_id AND votable = 1 AND deadline >= NOW()', array(
-			':lan_id'=>$currentLan->id,
-		));
+		// Get list of votable competitions whose deadline hasn't passed
+		$competitions = Competition::model()->currentLan()->votable()
+				->undueDeadline()->findAll();
 		
 		$this->render('create', array(
 			'competitions'=>$competitions,
@@ -125,27 +116,18 @@ class VoteController extends Controller
 	public function actionResults()
 	{
 		$model = new VoteResultForm();
-		$currentLan = Lan::model()->getCurrent();
 		
-		// Get a list of votable competitions
-		// TODO: Use scopes
-		$competitions = Competition::model()->findAll('lan_id = :lan_id AND votable = 1 AND deadline <= NOW()', array(
-			':lan_id'=>$currentLan->id,
-		));
+		// Determine the scope to be used when fetching the list of 
+		// competitions. Non-administrators can only see the results for 
+		// competitions whose deadline has passed
+		$modelScope = Competition::model()->currentLan()->votable();
 		
-		// For administrators we replace $allCompetitions with all regardless 
-		// of deadline
-		if(Yii::app()->user->isAdmin())
-		{
-			// TODO: Use scopes
-			$competitions = Competition::model()->findAll('lan_id = :lan_id AND votable = 1', array(
-				':lan_id'=>$currentLan->id,
-			));
-		}
-		
+		if (!Yii::app()->user->isAdmin())
+			$modelScope = $modelScope->undueDeadline();
+
 		$this->render('results', array(
 			'model'=>$model,
-			'competitions'=>$competitions,
+			'competitions'=>$modelScope->findAll(),
 		));
 	}
 	

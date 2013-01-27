@@ -76,13 +76,7 @@ class CompetitionController extends Controller
 			}
 		}
 
-		$currentLan = Lan::model()->getCurrent();
-
-		// Get a list of competitions that are "signupable"
-		// TODO: Use scopes
-		$competitions = Competition::model()->findAll('lan_id = :lan_id AND signupable = 1', array(
-			':lan_id'=>$currentLan->id,
-		));
+		$competitions = Competition::model()->currentLan()->signupable()->findAll();
 
 		$this->render('create', array(
 			'model'=>$model,
