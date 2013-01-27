@@ -49,9 +49,8 @@ class CompetitionController extends Controller
 		$model = new CompetitionRegistrationForm();
 
 		// Find the registration ID for the user
-		$registration = Registration::model()->currentLan()->find('user_id = :user_id', array(
-			':user_id'=>Yii::app()->user->getUserId(),
-		));
+		$registration = Registration::model()->currentLan()->findByAttributes(array(
+			'user_id'=>Yii::app()->user->getUserId()));
 		
 		// Don't allow registration if the user is not on the LAN
 		if($registration === null)

@@ -170,8 +170,8 @@ class Registration extends CActiveRecord
 	 */
 	public function isFirstTimer()
 	{
-		$models = Registration::model()->findAll('user_id = :user_id', array(
-			':user_id'=>$this->user_id));
+		$models = Registration::model()->findAllByAttributes(array(
+			'user_id'=>$this->user_id));
 
 		return count($models) == 1;
 	}
