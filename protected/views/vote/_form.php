@@ -48,7 +48,7 @@ else
 
 ?>
 <div class="form-actions">
-	<?php $this->widget('bootstrap.widgets.TbButton', array(
+	<?php $this->widget('TbButton', array(
 		'buttonType'=>'submit',
 		'type'=>'primary',
 		'icon'=>'thumbs-up white',

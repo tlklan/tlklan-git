@@ -30,7 +30,7 @@ echo $form->textAreaRow($model, 'description', array(
 	{
 		echo '&nbsp;&nbsp;&nbsp;';
 
-		$this->widget('bootstrap.widgets.TbButton', array(
+		$this->widget('TbButton', array(
 			'buttonType'=>'link',
 			'icon'=>'remove',
 			'label'=>Yii::t('general', 'Avbryt'),

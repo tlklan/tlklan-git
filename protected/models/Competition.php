@@ -84,13 +84,13 @@ class Competition extends CActiveRecord
 	{
 		return array(
 			'id'=>'ID',
-			'lan_id'=>'Lan',
-			'display_order'=>'Display Order',
-			'short_name'=>'Short Name',
-			'full_name'=>'Full Name',
-			'votable'=>'Votable',
-			'signupable'=>'Can be signed up for',
-			'deadline'=>'Voting deadline',
+			'lan_id'=>Yii::t('competition', 'LAN'),
+			'display_order'=>Yii::t('competition', 'Ordningsnummer'),
+			'short_name'=>Yii::t('competition', 'Kort namn'),
+			'full_name'=>Yii::t('competition', 'Långt namn'),
+			'votable'=>Yii::t('competition', 'Kan röstas på'),
+			'signupable'=>Yii::t('competition', 'Kan anmälas till'),
+			'deadline'=>Yii::t('competition', 'Deadline'),
 		);
 	}
 

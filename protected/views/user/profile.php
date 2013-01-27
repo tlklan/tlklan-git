@@ -124,7 +124,7 @@ $this->breadcrumbs=array(
 		<div class="form-actions">
 			<?php
 
-			$this->widget('bootstrap.widgets.TbButton', array(
+			$this->widget('TbButton', array(
 				'type'=>'primary',
 				'buttonType'=>'link',
 				'icon'=>'edit white',
@@ -137,7 +137,7 @@ $this->breadcrumbs=array(
 			// Shell users must change their password from the shell
 			if (!$model->hasShellAccount())
 			{
-				$this->widget('bootstrap.widgets.TbButton', array(
+				$this->widget('TbButton', array(
 					'buttonType'=>'link',
 					'icon'=>'edit',
 					'label'=>Yii::t('user', 'Byt lösenord'),

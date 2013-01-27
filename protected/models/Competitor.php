@@ -29,18 +29,6 @@ class Competitor extends CActiveRecord
 	}
 
 	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id'=>'ID',
-			'registration_id'=>'Registration',
-			'competition_id'=>'Competition',
-		);
-	}
-	
-	/**
 	 * Returns the relations for this model
 	 * @return array
 	 */

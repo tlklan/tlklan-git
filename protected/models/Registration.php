@@ -121,15 +121,15 @@ class Registration extends CActiveRecord
 	{
 		return array(
 			'id'=>'ID',
-			'lan_id'=>'LAN',
-			'user_id'=>'Användar-ID',
-			'lanName'=>'LAN',
-			'name'=>'Namn',
-			'email'=>'E-post',
-			'nick'=>'Nick',
-			'device'=>'Datortyp',
-			'date'=>'Anmälningsdatum',
-			'never_showed'=>'Dök aldrig upp',
+			'lan_id'=>Yii::t('registration', 'LAN'),
+			'user_id'=>Yii::t('registration', 'Användar-ID'),
+			'lanName'=>Yii::t('registration', 'LAN'),
+			'name'=>Yii::t('registration', 'Namn'),
+			'email'=>Yii::t('registration', 'E-post'),
+			'nick'=>Yii::t('registration', 'Nick'),
+			'device'=>Yii::t('registration', 'Datortyp'),
+			'date'=>Yii::t('registration', 'Anmälningsdatum'),
+			'never_showed'=>Yii::t('registration', 'Dök aldrig upp'),
 		);
 	}
 	

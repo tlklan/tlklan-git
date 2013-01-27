@@ -17,16 +17,16 @@ echo $form->checkboxRow($model, 'removeProfileImage');
 
 ?>
 <div class="form-actions">
-	<?php $this->widget('bootstrap.widgets.TbButton', array(
+	<?php $this->widget('TbButton', array(
 		'buttonType'=>'submit',
 		'type'=>'primary',
 		'icon'=>'ok white',
-		'label'=>'Ändra',
+		'label'=>Yii::t('general', 'Ändra'),
 	)); ?>&nbsp;&nbsp;
-	<?php $this->widget('bootstrap.widgets.TbButton', array(
+	<?php $this->widget('TbButton', array(
 		'buttonType'=>'link',
 		'icon'=>'remove',
-		'label'=>'Avbryt',
+		'label'=>Yii::t('general', 'Avbryt'),
 		'url'=>$this->createUrl('user/profile'),
 	)); ?>
 </div>

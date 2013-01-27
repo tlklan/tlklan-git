@@ -173,7 +173,7 @@ class RegistrationController extends Controller
 		// Note: the database should handle deleting related competition signups
 		$registration->delete();
 		
-		Yii::app()->user->setFlash('success', 'Anmälan har tagits bort');
+		Yii::app()->user->setFlash('success', Yii::t('registration', 'Anmälan har tagits bort'));
 		
 		$this->redirect($this->createUrl('registration/create'));
 	}

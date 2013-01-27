@@ -23,7 +23,7 @@ echo $form->textAreaRow($model, 'comments');
 <div class="form-actions">
 	<?php
 	
-	$this->widget('bootstrap.widgets.TbButton', array(
+	$this->widget('TbButton', array(
 		'buttonType'=>'submit',
 		'type'=>'primary',
 		'icon'=>'ok white',
@@ -33,13 +33,13 @@ echo $form->textAreaRow($model, 'comments');
 	echo '&nbsp;&nbsp;&nbsp;';
 
 	if($model->isNewRecord) {
-		$this->widget('bootstrap.widgets.TbButton', array(
+		$this->widget('TbButton', array(
 			'buttonType'=>'reset',
 			'label'=>Yii::t('general', 'Töm formuläret')
 		));
 	}
 	else {
-		$this->widget('bootstrap.widgets.TbButton', array(
+		$this->widget('TbButton', array(
 			'buttonType'=>'link',
 			'icon'=>'remove',
 			'label'=>Yii::t('general', 'Avbryt'),

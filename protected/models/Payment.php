@@ -102,14 +102,14 @@ class Payment extends CActiveRecord
 	{
 		return array(
 			'id'=>'ID',
-			'user_id'=>'Användare',
-			'userName'=>'Användare',
-			'name'=>'Användare',
-			'lan_id'=>'LAN',
-			'lanName'=>'LAN',
-			'season_id'=>'Säsong',
-			'seasonName'=>'Säsong',
-			'type'=>'Betalningstyp',
+			'user_id'=>Yii::t('payment', 'Användare'),
+			'userName'=>Yii::t('payment', 'Användare'),
+			'name'=>Yii::t('payment', 'Användare'),
+			'lan_id'=>Yii::t('payment', 'LAN'),
+			'lanName'=>Yii::t('payment', 'LAN'),
+			'season_id'=>Yii::t('payment', 'Säsong'),
+			'seasonName'=>Yii::t('payment', 'Säsong'),
+			'type'=>Yii::t('payment', 'Betalningstyp'),
 		);
 	}
 	
@@ -144,7 +144,7 @@ class Payment extends CActiveRecord
 			'user_id'=>$this->user_id, 'season_id'=>$lan->season_id));
 
 		if ($payment !== null)
-			$this->addError($attribute, 'Användaren har redan betalat');
+			$this->addError($attribute, Yii::t('payment', 'Användaren har redan betalat'));
 	}
 	
 	/**
@@ -157,7 +157,7 @@ class Payment extends CActiveRecord
 		// user_id anyway but we want a nicer error)
 		$user = User::model()->findByPk($this->user_id);
 		if ($user === null)
-			$this->addError($attribute, 'Okänd användare');
+			$this->addError($attribute, Yii::t('payment', 'Okänd användare'));
 	}
 	
 	/**
@@ -169,7 +169,7 @@ class Payment extends CActiveRecord
 		$value = $this->{$attribute};
 
 		if (empty($value) && $this->type == Payment::TYPE_SEASON)
-			$this->addError($attribute, 'Du måste välja säsong');
+			$this->addError($attribute, Yii::t('payment', 'Du måste välja säsong'));
 		elseif ($value != '' && $this->type == Payment::TYPE_SINGLE)
 			$this->season_id = null;
 	}
@@ -181,7 +181,7 @@ class Payment extends CActiveRecord
 	public function validateType($attribute)
 	{
 		if (!array_key_exists($this->type, $this->getValidTypes()))
-			$this->addError($attribute, 'Okänd betalningstyp');
+			$this->addError($attribute, Yii::t('payment', 'Okänd betalningstyp'));
 	}
 
 	/**
@@ -222,8 +222,8 @@ class Payment extends CActiveRecord
 	public function getValidTypes()
 	{
 		return array(
-			self::TYPE_SINGLE=>'Ett LAN',
-			self::TYPE_SEASON=>'Säsong',
+			self::TYPE_SINGLE=>Yii::t('payment', 'Ett LAN'),
+			self::TYPE_SEASON=>Yii::t('payment', 'Säsong'),
 		);
 	}
 

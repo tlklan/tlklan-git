@@ -3,14 +3,14 @@
 /* @var $this UserController */
 /* @var $model User */
 
-$this->pageTitle = 'Ändra uppgifter';
+$this->pageTitle = Yii::t('user', 'Ändra uppgifter');
 $this->breadcrumbs=array(
-	'Din profil'=>array('profile'),
-	'Ändra uppgifter',
+	Yii::t('user', 'Din profil')=>array('profile'),
+	Yii::t('user', 'Ändra uppgifter'),
 );
 
 ?>
-<h1>Ändra uppgifter</h1>
+<h1><?php echo Yii::t('user', 'Ändra uppgifter'); ?></h1>
 
 <hr />
 

@@ -55,7 +55,7 @@ class RegistrationForm extends CFormModel
 		return array(
 			array('name, email, nick, device', 'required'),
 			array('nick', 'validateDuplicates', 'on'=>'create'),
-			array('email', 'email', 'message'=>'Din e-postadress är ogiltig'),
+			array('email', 'email', 'message'=>Yii::t('registration', 'Ogiltig e-postadress')),
 			array('device', 'validateDevice'),
 			array('penis_long_enough', 'validatePenis'),
 			array('competitions', 'validateCompetitions'),
@@ -112,7 +112,7 @@ class RegistrationForm extends CFormModel
 		
 		if ($this->scenario == 'create' && Lan::model()->getCurrent()->isFull())
 		{
-			$this->addError(false, "Det går inte längre att anmäla sig till det här LANet");
+			$this->addError(false, Yii::t('registration', 'Det går inte längre att anmäla sig till det här LANet'));
 
 			return false;
 		}
@@ -130,7 +130,7 @@ class RegistrationForm extends CFormModel
 			'id'=>Yii::app()->user->userId));
 
 		if (count($dupes) > 0)
-			$this->addError($attribute, "Du har redan registrerat dig till detta LAN");
+			$this->addError($attribute, Yii::t('registration', 'Du har redan registrerat dig till detta LAN'));
 	}
 
 	/**
@@ -141,7 +141,7 @@ class RegistrationForm extends CFormModel
 	public function validateDevice($attribute)
 	{
 		if (!in_array($this->device, $this->_validDevices))
-			$this->addError($attribute, 'Du får inte komma på LAN med den valda maskinen.');
+			$this->addError($attribute, Yii::t('registration', 'Du får inte komma på LAN med den valda maskinen'));
 	}
 
 	/**
@@ -151,7 +151,8 @@ class RegistrationForm extends CFormModel
 	public function validatePenis($attribute)
 	{
 		if (!$this->hasErrors() && $this->penis_long_enough != 'yes')
-			$this->addError($attribute, Yii::app()->params['minimumPenisLength'].' inch penis or GTFO');
+			$this->addError($attribute, Yii::t('registration', '{minimumPenisLength} inch penis or GTFO', array(
+				'{minimumPenisLength}'=>Yii::app()->params['minimumPenisLength'])));
 	}
 
 	/**
@@ -172,7 +173,7 @@ class RegistrationForm extends CFormModel
 
 			foreach ($this->competitions as $competition)
 				if (!in_array($competition, $validCompetitionIds))
-					$this->addError($attribute, 'Ditt val av tävlingar är ogiltigt');
+					$this->addError($attribute, Yii::t('registration', 'Ditt val av tävlingar är ogiltigt'));
 		}
 	}
 

@@ -95,13 +95,14 @@ class Lan extends CActiveRecord
 	{
 		return array(
 			'id'=>'ID',
-			'name'=>'Namn',
-			'seasonId'=>'Säsong',
-			'reg_limit'=>'Max antal deltagare',
-			'start_date'=>'Startdatum',
-			'end_date'=>'Slutdatum',
-			'location'=>'Plats',
-			'enabled'=>in_array($this->scenario, array('insert', 'update')) ? 'Sätt som aktivt' : 'Aktivt',
+			'name'=>Yii::t('lan', 'Namn'),
+			'seasonId'=>Yii::t('lan', 'Säsong'),
+			'reg_limit'=>Yii::t('lan', 'Max antal deltagare'),
+			'start_date'=>Yii::t('lan', 'Startdatum'),
+			'end_date'=>Yii::t('lan', 'Slutdatum'),
+			'location'=>Yii::t('lan', 'Plats'),
+			'enabled'=>in_array($this->scenario, array('insert', 'update')) ? 
+				Yii::t('lan', 'Sätt som aktivt') : Yii::t('lan', 'Aktivt'),
 		);
 	}
 	
@@ -112,7 +113,7 @@ class Lan extends CActiveRecord
 	public function validateLocation($attribute)
 	{
 		if (!array_key_exists($this->{$attribute}, $this->getLocationList()))
-			$this->addError($attribute, 'Ogiltig plats');
+			$this->addError($attribute, Yii::t('lan', 'Ogiltig plats'));
 	}
 	
 	/**
@@ -180,6 +181,8 @@ class Lan extends CActiveRecord
 	 */
 	public function getCurrent()
 	{
+		// TODO: Die fatally here because we can almost never continue without 
+		// a LAN model
 		return self::model()->find('enabled = 1');
 	}
 	
@@ -203,6 +206,7 @@ class Lan extends CActiveRecord
 	 */
 	public function getFriendlyLocation()
 	{
+		// TODO: Can't we just check from getLocationList?
 		switch ($this->location)
 		{
 			case self::LOCATION_CORNER:

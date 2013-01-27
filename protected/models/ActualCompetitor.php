@@ -63,8 +63,8 @@ class ActualCompetitor extends CActiveRecord
 	{
 		return array(
 			'id'=>'ID',
-			'competition_id'=>'Tävling',
-			'registration_id'=>'Anmälan',
+			'competition_id'=>Yii::t('competition', 'Tävling'),
+			'registration_id'=>Yii::t('competition', 'Anmälan'),
 		);
 	}
 

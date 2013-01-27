@@ -1,7 +1,7 @@
 <hr />
 <?php
 
-$this->widget('bootstrap.widgets.TbGridView', array(
+$this->widget('TbGridView', array(
 	'type'=>'striped bordered condensed',
 	'dataProvider'=>$dataProvider,
 	'template'=>"{items}",

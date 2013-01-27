@@ -1,21 +1,21 @@
 <?php
 
-$this->pageTitle = 'Logga in';
+$this->pageTitle = Yii::t('login', 'Logga in');
 $this->breadcrumbs=array(
-	'Logga in',
+	Yii::t('login', 'Logga in'),
 );
 
 ?>
-<h1>Logga in</h1>
+<h1><?php echo Yii::t('login', 'Logga in'); ?></h1>
 <p>
-	Fyll i användarnamn och lösenord för att logga in. Användaruppgifterna är 
-	samma som till shellen.
+	<?php echo Yii::t('login', 'Fyll i användarnamn och lösenord för att logga in. Användaruppgifterna är 
+	samma som till shellen.'); ?>
 </p>
 <hr />
 <?php 
 
 /** @var BootActiveForm $form */
-$form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+$form = $this->beginWidget('TbActiveForm', array(
     'id'=>'verticalForm',
 )); 
 
@@ -25,11 +25,11 @@ echo $form->checkboxRow($model, 'rememberMe');
 
 ?>
 <div class="form-actions">
-	<?php $this->widget('bootstrap.widgets.TbButton', array(
+	<?php $this->widget('TbButton', array(
 		'buttonType'=>'submit',
 		'type'=>'primary',
 		'icon'=>'ok white',
-		'label'=>'Logga in'
+		'label'=>Yii::t('login', 'Logga in'),
 	)); ?>
 </div>
 <?php $this->endWidget(); ?>
