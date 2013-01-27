@@ -5,7 +5,7 @@
  *
  * @author Sam
  */
-class RegistrationListWidget extends CWidget 
+class RegistrationList extends CWidget 
 {
 	
 	/**

@@ -62,6 +62,4 @@ $this->breadcrumbs = array(
 <?php
 
 // Render the list of registered people
-$this->widget('application.widgets.registration.RegistrationListWidget', array(
-	'currentLan'=>$currentLan,
-));
+$this->widget('RegistrationList', array('currentLan'=>$currentLan));

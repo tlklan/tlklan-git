@@ -22,8 +22,6 @@ return array(
 		'application.components.*',
 		'application.components.behaviors.*',
 		'application.widgets.*',
-		'application.widgets.registration.*',
-		'application.widgets.ArchiveListWidget.*',
 		'ext.localuser.*',
 		'ext.bootstrap.widgets.*',
 		'application.modules.cms.CmsModule',

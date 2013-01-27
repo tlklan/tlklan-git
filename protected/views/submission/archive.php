@@ -12,8 +12,5 @@ $this->breadcrumbs=array(
 
 $this->widget('cms.widgets.CmsBlock',array('name'=>'archive_info'));
 
-foreach($lans as $lan) {
-	$this->widget('application.widgets.submission.ArchiveListWidget', array(
-		'lan'=>$lan,
-	));
-}
+foreach($lans as $lan)
+	$this->widget('ArchiveList', array('lan'=>$lan));

@@ -5,7 +5,7 @@
  *
  * @author Sam
  */
-class ArchiveListWidget extends CWidget {
+class ArchiveList extends CWidget {
 	/**
 	 * @var LAN the LAN associated with this widget
 	 */
