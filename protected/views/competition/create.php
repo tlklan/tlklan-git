@@ -34,37 +34,31 @@ echo $form->dropDownListRow($model, 'competition', CHtml::listData($competitions
 <hr />
 
 <h1><?php echo Yii::t('competition', 'Deltagare'); ?></h1>
-<?php
 
-// TODO: Display each competition in a tab instead of a long list
-// Show all competitions, not just those whose deadline haven't passed
-foreach($allCompetitions as $competition) 
+<?php 
+
+$this->widget('cms.widgets.CmsBlock', array('name'=>'compo-reg-list-info'));
+
+// Display one tab for each competition
+$tabs = array();
+
+foreach ($allCompetitions as $competition)
 {
+	/* @var $competition Competition */
 	/* @var $dataProvider CActiveDataProvider */
 	$dataProvider = $competition->getActualCompetitorDataProvider();
-	
-	echo '<h2>'.$competition->full_name.'</h2>';
-	echo CHtml::openTag('p', array('class'=>'competitor-count'));
-	echo Yii::t('competition', 'Antal anmälda: <b>{count}</b>', array(
-		'{count}'=>$dataProvider->totalItemCount,
-	));
-	echo CHtml::closeTag('p');
-	
-	// Only show the button column for logged in users
-	$columns = array('registration.nick');
-	if(Yii::app()->user->isAdmin())
-	{
-		$columns[] = array(
-			'class'=>'bootstrap.widgets.TbButtonColumn',
-			'template'=>'{delete}',
-		);
-	}
 
-	$this->widget('bootstrap.widgets.TbGridView', array(
-		'type'=>'striped bordered condensed',
+	$label = $competition->full_name.' ('.$dataProvider->totalItemCount.')';
+	$content = $this->renderPartial('_participantsTab', array(
 		'dataProvider'=>$dataProvider,
-		'template'=>"{items}",
-		'emptyText'=>Yii::t('competition', 'Ingen har ännu anmält sig till den här tävlingen'),
-		'columns'=>$columns
-	));
+		'competition'=>$competition), true);
+
+	$active = empty($tabs); // first item will be active
+	$tabs[] = array('label'=>$label, 'content'=>$content, 'active'=>$active);
 }
+
+// Render the tabs
+$this->widget('TbTabs', array(
+	'type'=>'tabs',
+	'tabs'=>$tabs,
+));
