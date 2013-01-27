@@ -51,6 +51,28 @@ tr.winning-submission td {
    Layout
    ------------------------------------------------------------------------- */
 
+.breadcrumbs {
+	position: relative;
+
+	.language-selector {
+		position: absolute;
+		top: 3px;
+		right: 3px;
+
+		label {
+			// this thing refuses to be positioned in any sane way
+			position: relative;
+			top: -3px;
+			display: inline-block;
+			margin-right: 10px;
+		}
+
+		select {
+			width: 100px;
+		}
+	}
+}
+
 .content {
 	margin-bottom: 20px;
 }
@@ -61,21 +83,6 @@ tr.winning-submission td {
 	border-top: 1px solid @grayLighter;
 	font-size: 0.8em;
 	text-align: center;
-
-	.language-picker {
-		position: absolute;
-		top: 20px;
-		right: 0;
-
-		label {
-			display: inline-block;
-			margin-right: 10px;
-		}
-
-		select {
-			width: 100px;
-		}
-	}
 }
 
 // override some navbar defaults

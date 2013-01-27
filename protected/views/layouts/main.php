@@ -105,7 +105,7 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 
 	?>
 	<div class="container">
-		<?php $this->widget('bootstrap.widgets.TbBreadcrumbs', array(
+		<?php $this->widget('Breadcrumbs', array(
 			'homeLink'=>CHtml::link(Yii::app()->name, Yii::app()->homeUrl),
 			'links'=>$this->breadcrumbs,
 		)); ?>
@@ -131,21 +131,6 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 					<?php echo Yii::t('general', 'Design och kod'); ?>:
 				</a> <b>negge</b>
 			</p>
-			
-			<div class="language-picker">
-				<?php
-				
-				echo CHtml::beginForm();
-				echo CHtml::label(Yii::t('general', 'Byt språk').': ', 'language');
-				
-				echo CHtml::dropDownList('language', Yii::app()->language, 
-					Controller::$validLanguages, 
-					array('submit'=>$this->createUrl('/site/changeLanguage')));
-				
-				echo CHtml::endForm();
-				
-				?>
-			</div>
 		</div>
 		
 	</div>
