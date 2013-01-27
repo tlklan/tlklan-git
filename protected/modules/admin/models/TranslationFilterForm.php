@@ -38,9 +38,21 @@ class TranslationFilterForm extends CFormModel
 		return array(
 			array('targetLanguage', 'required'),
 			array('targetLanguage', 'validateTargetLanguage'),
-			// TODO: Check that category exists
-			array('category', 'safe'),
+			array('category', 'validateCategory'),
 		);
+	}
+	
+	/**
+	 * Validates the category attribute (checking that it exists)
+	 * @param string $attribute the attribute being validated
+	 */
+	public function validateCategory($attribute)
+	{
+		$model = MessageSource::model()->findByAttributes(array(
+			'category'=>$this->{$attribute}));
+
+		if ($model === null)
+			$this->addError($attribute, 'Ogiltig kategori');
 	}
 
 	/**
