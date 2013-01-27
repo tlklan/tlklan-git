@@ -178,12 +178,15 @@ class Lan extends CActiveRecord
 	/**
 	 * Returns the model for the current LAN
 	 * @return Lan the model
+	 * @throws CHttpException if no LAN is marked as active/current
 	 */
 	public function getCurrent()
 	{
-		// TODO: Die fatally here because we can almost never continue without 
-		// a LAN model
-		return self::model()->find('enabled = 1');
+		$model = self::model()->find('enabled = 1');
+		if ($model === null)
+			throw new CHttpException(400, Yii::t('lan', 'Inget LAN är aktivt för tillfället. Kolla tillbaka senare!'));
+
+		return $model;
 	}
 	
 	/**
