@@ -55,7 +55,7 @@ class CompetitionRegistrationForm extends CFormModel
 				->findByPk($this->competition);
 
 		if ($competition === null)
-			$this->addError($attribute, 'Du kan inte längre anmäla dig till den här tävlingen');
+			$this->addError($attribute, Yii::t('competition', 'Du kan inte längre anmäla dig till den här tävlingen'));
 	}
 	
 	/**
@@ -71,7 +71,7 @@ class CompetitionRegistrationForm extends CFormModel
 		));
 
 		if ($competitor !== null)
-			$this->addError('competition', 'Du har redan anmält dig till denna tävling');
+			$this->addError('competition', Yii::t('competition', 'Du har redan anmält dig till denna tävling'));
 	}
 
 }

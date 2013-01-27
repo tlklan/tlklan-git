@@ -45,19 +45,6 @@ class CommitteeMember extends CActiveRecord
 	}
 
 	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id'=>'ID',
-			'user_id'=>'User',
-			'year'=>'Year',
-			'position'=>'Position',
-		);
-	}
-
-	/**
 	 * Checks whether the specified user is currently on the committee
 	 * @param int $userId
 	 * @return boolean

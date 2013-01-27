@@ -27,18 +27,6 @@ class Message extends CActiveRecord
 	}
 
 	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id'=>'Id',
-			'language'=>'Language',
-			'translation'=>'Translation',
-		);
-	}
-
-	/**
 	 * Filters out all translations except the one for the specified language.
 	 * @param string $language the language
 	 * @return \Message this

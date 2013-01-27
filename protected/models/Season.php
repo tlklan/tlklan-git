@@ -60,7 +60,7 @@ class Season extends CActiveRecord
 	{
 		return array(
 			'id'=>'ID',
-			'name'=>'Namn',
+			'name'=>Yii::t('season', 'Namn'),
 		);
 	}
 

@@ -17,6 +17,6 @@ $this->widget('TbGridView', array(
 	'type'=>'striped bordered condensed',
 	'dataProvider'=>$dataProvider,
 	'template'=>"{items}",
-	'emptyText'=>Yii::t('competition', 'Ingen har ännu anmält sig till den här tävlingen'),
+	'emptyText'=>Yii::t('competition', Yii::t('competition', 'Ingen har ännu anmält sig till den här tävlingen')),
 	'columns'=>$columns
 ));

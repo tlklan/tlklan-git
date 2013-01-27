@@ -84,16 +84,4 @@ class MessageSource extends CActiveRecord
 		return $this;
 	}
 	
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'Id',
-			'category' => 'Category',
-			'message' => 'Message',
-            'used' => 'In Use',
-		);
-	}
 }

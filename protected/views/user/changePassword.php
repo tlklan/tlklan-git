@@ -3,10 +3,10 @@
 /* @var $this UserController */
 /* @var $model User */
 
-$this->pageTitle = 'Byt lösenord';
+$this->pageTitle = Yii::t('user', 'Byt lösenord');
 $this->breadcrumbs=array(
-	'Din profil'=>array('profile'),
-	'Byt lösenord',
+	Yii::t('user', 'Din profil')=>array('profile'),
+	Yii::t('user', 'Byt lösenord'),
 );
 
 ?>

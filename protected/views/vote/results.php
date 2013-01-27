@@ -25,7 +25,7 @@ echo $form->dropDownListRow($model, 'competition', CHtml::listData($competitions
 
 ?>
 <div class="form-actions">
-	<?php $this->widget('bootstrap.widgets.TbButton', array(
+	<?php $this->widget('TbButton', array(
 		'buttonType'=>'ajaxSubmit',
 		'type'=>'primary',
 		'icon'=>'ok white',

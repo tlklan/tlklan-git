@@ -1,13 +1,13 @@
 <?php
 
-$this->pageTitle = 'Arkiv';
+$this->pageTitle = Yii::t('submission', 'Arkiv');
 $this->breadcrumbs=array(
-	'Submissions'=>array('archive'),
-	'Arkiv',
+	Yii::t('submission', 'Submissions')=>array('archive'),
+	Yii::t('submission', 'Arkiv'),
 );
 
 ?>
-<h1>Submissionarkiv</h1>
+<h1><?php echo Yii::t('submission', 'Submissionarkiv'); ?></h1>
 <?php  
 
 $this->widget('cms.widgets.CmsBlock',array('name'=>'archive_info'));

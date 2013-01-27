@@ -53,7 +53,7 @@ class SuggestionVote extends CActiveRecord
 
 		// The message here isn't actually used
 		if (count($votes) != 0)
-			$this->addError($attribute, 'Du har redan röstat på det här förslaget');
+			$this->addError($attribute, Yii::t('suggest-competition', 'Du har redan röstat på det här förslaget'));
 	}
 
 	/**

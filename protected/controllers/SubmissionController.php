@@ -279,7 +279,7 @@ class SubmissionController extends Controller
 		// Create the path if it doesn't exist. Throw exception if it 
 		// is not couldn't be created.
 		if (!is_dir($physicalPath) && !mkdir($physicalPath, 0777, true))
-			throw new CHttpException(500, 'Kunde inte spara din submission');
+			throw new CHttpException(500, Yii::t('submission', 'Kunde inte spara din submission'));
 
 		$physicalPath = $physicalPath.$model->file->name;
 

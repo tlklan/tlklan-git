@@ -33,17 +33,4 @@ class Vote extends CActiveRecord
 		return 'tlk_votes';
 	}
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id'=>'ID',
-			'voter_id'=>'Voter',
-			'submission_id'=>'Submission',
-			'competition_id'=>'Competition',
-		);
-	}
-
 }
