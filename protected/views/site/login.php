@@ -8,8 +8,7 @@ $this->breadcrumbs=array(
 ?>
 <h1><?php echo Yii::t('login', 'Logga in'); ?></h1>
 <p>
-	<?php echo Yii::t('login', 'Fyll i användarnamn och lösenord för att logga in. Användaruppgifterna är 
-	samma som till shellen.'); ?>
+	<?php echo Yii::t('login', 'Fyll i användarnamn och lösenord för att logga in.'); ?>
 </p>
 <hr />
 <?php 
