@@ -123,7 +123,8 @@ class UserController extends Controller
 		
 		// Do some eager loading, it will be needed when determining the user's
 		// badges
-		$model = User::model()->with('submissions', 'submissionCount', 'lans', 
+		$model = User::model()->with('submissions', 'submissions.competition', 
+				'submissions.competition.lan', 'submissionCount', 'lans', 
 				'lanCount', 'registrations')->findByPk($userId);
 
 		$this->render('profile', array(

@@ -46,14 +46,7 @@ class RegistrationController extends AdminController
 				// Save and store the primary key for the next query
 				$registration->save();
 				$registrationId = $registration->primaryKey;
-
-				// If this is an update, remove all previous competitions so we 
-				// don't get any duplicates
-				// TODO: Remove this duplicate code (move to separate method)
-				if (!$registration->isNewRecord)
-					foreach ($registration->competitions as $competition)
-						$competition->delete();
-
+				
 				// Register the user to the specifeid competitions if he signed 
 				// up for any
 				if (!empty($model->competitions))

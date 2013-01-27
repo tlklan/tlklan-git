@@ -49,9 +49,8 @@ class CompetitionController extends Controller
 		$model = new CompetitionRegistrationForm();
 
 		// Find the registration ID for the user
-		$registration = Registration::model()->currentLan()->find('user_id = :user_id', array(
-			':user_id'=>Yii::app()->user->getUserId(),
-		));
+		$registration = Registration::model()->currentLan()->findByAttributes(array(
+			'user_id'=>Yii::app()->user->getUserId()));
 		
 		// Don't allow registration if the user is not on the LAN
 		if($registration === null)
@@ -76,24 +75,11 @@ class CompetitionController extends Controller
 			}
 		}
 
-		$currentLan = Lan::model()->getCurrent();
-
-		// Get a list of competitions that are "signupable" and whose dead-line
-		// hasn't passed. Also get a list all competitions regardless of 
-		// deadline (for the results)
-		// TODO: Use scopes
-		$competitions = Competition::model()->findAll('lan_id = :lan_id AND signupable = 1 AND deadline >= NOW()', array(
-			':lan_id'=>$currentLan->id,
-		));
-		
-		$allCompetitions = Competition::model()->findAll('lan_id = :lan_id AND signupable = 1', array(
-			':lan_id'=>$currentLan->id,
-		));
+		$competitions = Competition::model()->currentLan()->signupable()->findAll();
 
 		$this->render('create', array(
 			'model'=>$model,
 			'competitions'=>$competitions,
-			'allCompetitions'=>$allCompetitions,
 		));
 	}
 	

@@ -126,9 +126,8 @@ class RegistrationForm extends CFormModel
 	 */
 	public function validateDuplicates($attribute)
 	{
-		$dupes = Registration::model()->currentLan()->findAll('user_id = :id', array(
-			':id'=>Yii::app()->user->userId,
-		));
+		$dupes = Registration::model()->currentLan()->findAllByAttributes(array(
+			'id'=>Yii::app()->user->userId));
 
 		if (count($dupes) > 0)
 			$this->addError($attribute, "Du har redan registrerat dig till detta LAN");

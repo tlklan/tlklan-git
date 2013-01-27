@@ -220,10 +220,11 @@ class User extends CActiveRecord
 	public function getWonCompetitions($withDeadlines = true)
 	{
 		$wonCompetitions = array();
-
+		$staticModel = SubmissionVote::model(); // reuse inside loop
+		
 		foreach ($this->competitions as $competition)
 		{
-			$winner = SubmissionVote::model()->getWinningSubmission($competition->id);
+			$winner = $staticModel->getWinningSubmission($competition->id);
 
 			if ($winner !== null && $winner->user_id == $this->id)
 			{

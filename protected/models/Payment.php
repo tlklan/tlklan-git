@@ -122,7 +122,7 @@ class Payment extends CActiveRecord
 	protected function beforeValidate()
 	{
 		// Find the actual user_id
-		$user = User::model()->find('name = :name', array(':name'=>$this->name));
+		$user = User::model()->findByAttributes(array('name'=>$this->name));
 		$this->user_id = $user !== null ? $user->id : 0;
 
 		return parent::beforeValidate();
@@ -140,9 +140,8 @@ class Payment extends CActiveRecord
 			return;
 
 		// See if the user has a payment for that season
-		$payment = Payment::model()->find('user_id = :user_id AND season_id = :season_id', array(
-			':user_id'=>$this->user_id,
-			':season_id'=>$lan->season_id));
+		$payment = Payment::model()->findByAttributes(array(
+			'user_id'=>$this->user_id, 'season_id'=>$lan->season_id));
 
 		if ($payment !== null)
 			$this->addError($attribute, 'Användaren har redan betalat');

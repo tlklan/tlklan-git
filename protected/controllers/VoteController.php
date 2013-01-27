@@ -40,7 +40,6 @@ class VoteController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$currentLan = Lan::model()->getCurrent();
 		$model = new VoteForm();
 
 		// Automatically set voter ID
@@ -65,17 +64,9 @@ class VoteController extends Controller
 			}
 		}
 		
-		// Get list of votable competitions
-		// TODO: Not used?
-		$criteria = new CDbCriteria();
-		$criteria->condition = 'lan_id = :lan_id';
-		$criteria->order = 'nick ASC';
-		$criteria->params = array(':lan_id'=>$currentLan->id);
-		
-		// TODO: Use scopes
-		$competitions = Competition::model()->findAll('lan_id = :lan_id AND votable = 1 AND deadline >= NOW()', array(
-			':lan_id'=>$currentLan->id,
-		));
+		// Get list of votable competitions whose deadline hasn't passed
+		$competitions = Competition::model()->currentLan()->votable()
+				->undueDeadline()->findAll();
 		
 		$this->render('create', array(
 			'competitions'=>$competitions,
@@ -86,18 +77,14 @@ class VoteController extends Controller
 	/**
 	 * AJAX-triggered action for fetching the submissions for the specified
 	 * competition
-	 * @throws CHttpException if the competition ID is invalid
 	 */
 	public function actionAjaxSubmissions()
 	{
 		if (isset($_POST['VoteForm']))
 		{
-			// TODO: Create loadCompetition method
-			$competition = Competition::model()->with('submissions')->findByPk($_POST['VoteForm']['competition']);
-			if($competition === null)
-				throw new CHttpException(400, Yii::t('vote', 'Ogiltig tävling'));
-			
-			$submissions = $competition->submissions;
+			// Get the submissions
+			$submissions = Submission::model()->findAllByAttributes(array(
+				'competition_id'=>$_POST['VoteForm']['competition']));
 
 			// Render some checkboxes if there's anything to select, otherwise
 			// render just the place holder
@@ -125,27 +112,18 @@ class VoteController extends Controller
 	public function actionResults()
 	{
 		$model = new VoteResultForm();
-		$currentLan = Lan::model()->getCurrent();
 		
-		// Get a list of votable competitions
-		// TODO: Use scopes
-		$competitions = Competition::model()->findAll('lan_id = :lan_id AND votable = 1 AND deadline <= NOW()', array(
-			':lan_id'=>$currentLan->id,
-		));
+		// Determine the scope to be used when fetching the list of 
+		// competitions. Non-administrators can only see the results for 
+		// competitions whose deadline has passed
+		$modelScope = Competition::model()->currentLan()->votable();
 		
-		// For administrators we replace $allCompetitions with all regardless 
-		// of deadline
-		if(Yii::app()->user->isAdmin())
-		{
-			// TODO: Use scopes
-			$competitions = Competition::model()->findAll('lan_id = :lan_id AND votable = 1', array(
-				':lan_id'=>$currentLan->id,
-			));
-		}
-		
+		if (!Yii::app()->user->isAdmin())
+			$modelScope = $modelScope->undueDeadline();
+
 		$this->render('results', array(
 			'model'=>$model,
-			'competitions'=>$competitions,
+			'competitions'=>$modelScope->findAll(),
 		));
 	}
 	
@@ -158,19 +136,13 @@ class VoteController extends Controller
 	{
 		if (isset($_POST['VoteResultForm']))
 		{
-			// Find the competition's submissions
-			// TODO: Create loadCompetition method
-			$competitionId = $_POST['VoteResultForm']['competition'];
-			
-			$competition = Competition::model()->findByPk($competitionId);
-			if($competition === null)
-				throw new CHttpException(400, Yii::t('vote', 'Ogiltig tävling'));
+			$competition = $this->loadModel($_POST['VoteResultForm']['competition']);
 			
 			// Get a data provider
 			$dataProvider = new CActiveDataProvider('SubmissionVote', array(
 				'criteria'=>array(
 					'condition'=>'competition_id = :id',
-					'params'=>array(':id'=>$competitionId),
+					'params'=>array(':id'=>$competition->id),
 				),
 				'pagination'=>false,
 			));
@@ -181,6 +153,21 @@ class VoteController extends Controller
 		}
 		
 		Yii::app()->end();
+	}
+	
+	/**
+	 * Loads the specified model
+	 * @param int $id the competition ID
+	 * @return Competition the model
+	 * @throws CHttpException if the model is not found
+	 */
+	private function loadModel($id)
+	{
+		$competition = Competition::model()->with('submissions')->findByPk($id);
+		if ($competition === null)
+			throw new CHttpException(400, Yii::t('vote', 'Ogiltig tävling'));
+
+		return $competition;
 	}
 
 }

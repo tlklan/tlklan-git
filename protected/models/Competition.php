@@ -51,6 +51,31 @@ class Competition extends CActiveRecord
 			'lan'=>array(self::BELONGS_TO, 'Lan', 'lan_id'),
 		);
 	}
+	
+	/**
+	 * @return array the scopes for this model
+	 */
+	public function scopes()
+	{
+		return array(
+			// only returns competitions for the current LAN
+			'currentLan'=>array(
+				'condition'=>'lan_id = '.Lan::model()->getCurrent()->id,
+			),
+			// only return competitions that can't be signed up to
+			'signupable'=>array(
+				'condition'=>'signupable = 1',
+			),
+			// only return competitions that can be voted on
+			'votable'=>array(
+				'condition'=>'votable = 1',
+			),
+			// only return competitions whose deadline hasn't passed
+			'undueDeadline'=>array(
+				'condition'=>'deadline >= NOW()',
+			)
+		);
+	}
 
 	/**
 	 * @return array customized attribute labels (name=>label)

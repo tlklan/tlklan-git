@@ -15,7 +15,7 @@ class UserIdentity extends CUserIdentity
 	public function authenticate()
 	{
 		// Find the user model
-		$user = User::model()->find('username = :username', array(
+		$user = User::model()->findByAttributes(array(
 			'username'=>$this->username));
 
 		// Assume the login will fail

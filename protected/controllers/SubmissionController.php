@@ -37,8 +37,7 @@ class SubmissionController extends Controller
 	public function filterCheckRegistration($filterChain)
 	{
 		$registration = Registration::model()->currentLan()
-				->find('user_id = :user_id', array(':user_id'=>
-			Yii::app()->user->getUserId()));
+				->findByAttributes(array('user_id'=>Yii::app()->user->getUserId()));
 
 		if ($registration === null)
 			throw new CHttpException(403, Yii::t('submission', 'Du måste vara registrerad till LANet för att kunna submitta entries'));
@@ -121,7 +120,7 @@ class SubmissionController extends Controller
 				if (!$hasCompoRegistration)
 				{
 					$registration = Registration::model()->currentLan()
-							->find('user_id = :user_id', array(':user_id'=>$userId));
+							->findByAttributes(array('user_id'=>$userId));
 
 					$competitor = new Competitor();
 					$competitor->registration_id = $registration->id;

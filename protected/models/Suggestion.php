@@ -65,8 +65,8 @@ class Suggestion extends CActiveRecord
 	 */
 	public function validateName($attribute)
 	{
-		$dupes = Suggestion::model()->findAll('name = :name', array(
-			':name'=>$this->{$attribute}));
+		$dupes = Suggestion::model()->findAllByAttributes(array(
+			'name'=>$this->{$attribute}));
 
 		if (count($dupes) > 0)
 			$this->addError($attribute, Yii::t('suggest-competiton', 'Det finns redan ett identiskt förslag'));

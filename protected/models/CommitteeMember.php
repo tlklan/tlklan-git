@@ -92,9 +92,8 @@ class CommitteeMember extends CActiveRecord
 	 */
 	public function isFounder($userId)
 	{
-		return self::model()->find('year = :year AND user_id = :user_id', array(
-					':year'=>$this->getMinYear(),
-					':user_id'=>$userId)) !== null;
+		return self::model()->findByAttributes(array(
+					'year'=>$this->getMinYear(), 'user_id'=>$userId)) !== null;
 	}
 
 	/**

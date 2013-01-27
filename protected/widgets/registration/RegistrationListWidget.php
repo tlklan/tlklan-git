@@ -61,8 +61,7 @@ class RegistrationListWidget extends CWidget
 		// Check if the user has a registration. We need to know this so we 
 		// know which columns to show
 		$hasRegistration = (Registration::model()->currentLan()
-				->find('user_id = :user_id', 
-				array(':user_id'=>$user->getUserId())) !== null);
+				->findByAttributes(array('user_id'=>$user->getUserId())) !== null);
 		
 		?>
 		<table class="table table-striped table-bordered table-condensed" border="0" cellpadding="0" cellspacing="0">

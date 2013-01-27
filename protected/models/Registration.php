@@ -132,6 +132,19 @@ class Registration extends CActiveRecord
 			'never_showed'=>'Dök aldrig upp',
 		);
 	}
+	
+	/**
+	 * Remove all associated competition registrations if the model is 
+	 * updated (they will be added again afterwards)
+	 */
+	protected function afterSave()
+	{
+		if (!$this->isNewRecord)
+			foreach ($this->competitions as $competition)
+				$competition->delete();
+
+		parent::afterSave();
+	}
 
 	/**
 	 * Returns true if the user is using a laptop
@@ -157,8 +170,8 @@ class Registration extends CActiveRecord
 	 */
 	public function isFirstTimer()
 	{
-		$models = Registration::model()->findAll('user_id = :user_id', array(
-			':user_id'=>$this->user_id));
+		$models = Registration::model()->findAllByAttributes(array(
+			'user_id'=>$this->user_id));
 
 		return count($models) == 1;
 	}
