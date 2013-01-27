@@ -120,14 +120,6 @@ class RegistrationController extends Controller
 				$registration->save();
 				$registrationId = $registration->primaryKey;
 
-				// If this is an update, remove all previous competitions so we 
-				// don't get any duplicates
-				if(!$registration->isNewRecord) {
-					foreach($registration->competitions as $competition) {
-						$competition->delete();
-					}
-				}
-
 				// Register the user to the specifeid competitions if he signed 
 				// up for any
 				if(!empty($model->competitions)) {
