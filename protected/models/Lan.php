@@ -258,4 +258,13 @@ class Lan extends CActiveRecord
 		return count($this->registrations) >= $this->reg_limit;
 	}
 	
+	/**
+	 * Checks whether the LAN has officially started or not
+	 * @return boolean
+	 */
+	public function hasStarted()
+	{
+		return time() > strtotime($this->start_date);
+	}
+	
 }
