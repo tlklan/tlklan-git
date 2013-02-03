@@ -205,7 +205,7 @@ class RegistrationList extends CWidget
 			<?php echo $this->currentLan->reg_limit; ?></b>
 			
 			<img style="margin-left: 12px;" src="<?php echo Yii::app()->baseUrl; ?>/files/images/icons/new_icon_small.png" alt="Har ej deltagit förr" />
-			 = <?php echo Yii::t('registration', 'har ej deltagit förut'); ?>, 
+			 = <?php echo Yii::t('registration', 'har ej deltagit förut'); ?> 
 			 <img style="margin-left: 12px;" src="<?php echo Yii::app()->baseUrl; ?>/files/images/icons/no_can_has_pay.png" alt="Har ej betalt" />
 			 = <?php echo Yii::t('registration', 'har ej giltig betalning'); ?>
 		</p>
