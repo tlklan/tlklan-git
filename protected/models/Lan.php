@@ -33,6 +33,12 @@ class Lan extends CActiveRecord
 	private $_seasonId;
 	
 	/**
+	 * @var int same as the above except this one is used for forms and 
+	 * validation purposes
+	 */
+	public $season_id;
+	
+	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Lan the static model class
 	 */
@@ -55,7 +61,7 @@ class Lan extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('name, reg_limit, start_date, end_date, location', 'required'),
+			array('name, season_id, reg_limit, start_date, end_date, location', 'required'),
 			array('reg_limit, enabled', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>20),
 			array('start_date, end_date', 'date', 'format'=>'yyyy-MM-dd'),
@@ -97,6 +103,7 @@ class Lan extends CActiveRecord
 			'id'=>'ID',
 			'name'=>Yii::t('lan', 'Namn'),
 			'seasonId'=>Yii::t('lan', 'Säsong'),
+			'season_id'=>Yii::t('lan', 'Säsong'),
 			'reg_limit'=>Yii::t('lan', 'Max antal deltagare'),
 			'start_date'=>Yii::t('lan', 'Startdatum'),
 			'end_date'=>Yii::t('lan', 'Slutdatum'),
