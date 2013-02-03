@@ -25,8 +25,7 @@ class CompetitionRegistrationForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'registration'=>'Ditt nick',
-			'competition'=>'Tävling',
+			'competition'=>Yii::t('competition', 'Tävling'),
 		);
 	}
 	
