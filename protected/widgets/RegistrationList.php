@@ -77,7 +77,9 @@ class RegistrationList extends CWidget
 				?>
 				<th><?php echo Yii::t('registration', 'Namn'); ?>:</th>
 				<th><?php echo Yii::t('registration', 'Nick'); ?>:</th>
-				<th class="thick_right_border hidden-tablet hidden-phone">Laptop:</th>
+				<th class="thick_right_border hidden-tablet hidden-phone">
+					<?php echo Yii::t('registration', 'Maskin'); ?>:
+				</th>
 				<?php
 
 				// Add one column for each competition
@@ -162,8 +164,13 @@ class RegistrationList extends CWidget
 						
 						?>
 					</td>
-					<td class="thick_right_border center-align hidden-tablet hidden-phone">
-						<?php echo ($registration->hasLaptop()) ? 'x' : ''; ?>
+					<td class="thick_right_border center-align hidden-tablet hidden-phone device">
+						<?php 
+						
+						echo CHtml::image(Yii::app()->baseUrl.'/files/images/icons/devices/'.$registration->device.'.png');
+						//echo ($registration->hasLaptop()) ? 'x' : ''; 
+						
+						?>
 					</td>
 					<?php
 
