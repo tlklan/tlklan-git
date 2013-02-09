@@ -13,11 +13,8 @@
 	echo $form->uneditableRow($model, 'name');
 	echo $form->uneditableRow($model, 'email');
 	echo $form->uneditableRow($model, 'nick');
-	echo $form->radioButtonListRow($model, 'device', array(
-		'desktop'=>'Desktop', 
-		'laptop'=>'Laptop',
-		'ipad'=>'iPad',
-	));
+	
+	$this->renderPartial('_deviceList', array('form'=>$form, 'model'=>$model));
 
 	echo $form->checkBoxListRow($model, 'competitions', CHtml::listData($competitions, 'id', 'full_name'));
 	echo $form->radioButtonListRow($model, 'penis_long_enough', 

@@ -45,6 +45,7 @@ class Registration extends CActiveRecord
 	 */
 	private $_nick;
 	
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Registration the static model class

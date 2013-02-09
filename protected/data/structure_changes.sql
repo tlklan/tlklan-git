@@ -515,3 +515,12 @@ CREATE TABLE `tlk_translated_messages` (
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
+
+#
+# 2013-02-09
+#
+# Add new device
+ALTER TABLE `tlk_registrations`
+	ALTER `device` DROP DEFAULT;
+ALTER TABLE `tlk_registrations`
+	CHANGE COLUMN `device` `device` ENUM('desktop','laptop','console') NOT NULL AFTER `user_id`;
