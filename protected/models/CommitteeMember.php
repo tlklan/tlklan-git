@@ -55,6 +55,19 @@ class CommitteeMember extends CActiveRecord
 					'year'=>$this->getMaxYear(),
 					'user_id'=>$userId)) !== null;
 	}
+	
+	/**
+	 * Checks whether the user was on the board during the specified year
+	 * @param int $userId the user
+	 * @param int $year the year
+	 * @return boolean
+	 */
+	public function wasDuring($userId, $year)
+	{
+		return self::model()->findByAttributes(array(
+					'year'=>$year,
+					'user_id'=>$userId)) !== null;
+	}
 
 	/**
 	 * Checks if the specified user has previously been on the committee
