@@ -34,7 +34,14 @@ $this->widget('TbGridView', array(
 		),
 		'email',
 		'nick',
-		'device',
+		array(
+			'name'=>'device',
+			'type'=>'raw',
+            'header'=>'Maskin',
+            'filter'=>Device::getSelectableDevices(),
+            'value'=>'CHtml::image(Yii::app()->baseUrl."/files/images/icons/devices/".$data->device.".png")',
+			'htmlOptions'=>array('style'=>'text-align: center; padding: 6px 8px;'),
+		),
 		'date',
 		array(
 			'class'=>'TbButtonColumn',
