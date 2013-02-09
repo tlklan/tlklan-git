@@ -25,6 +25,15 @@ class Registration extends CActiveRecord
 {
 	
 	/**
+	 * @var array list of valid devices
+	 */
+	public static $validDevices = array(
+		'desktop',
+		'laptop',
+		'console',
+	);
+	
+	/**
 	 * Used for sorting grids when data is fetched throughn search()
 	 * @var string
 	 */

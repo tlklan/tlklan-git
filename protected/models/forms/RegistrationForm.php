@@ -39,14 +39,6 @@ class RegistrationForm extends CFormModel
 	public $penis_long_enough;
 
 	/**
-	 * @var array list of valid devices
-	 */
-	private $_validDevices = array(
-		'desktop',
-		'laptop',
-	);
-
-	/**
 	 * Returns the validation rules for this model
 	 * @return array
 	 */
@@ -134,13 +126,12 @@ class RegistrationForm extends CFormModel
 	}
 
 	/**
-	 * Validates the "device" property. It checks that the selected device 
-	 * listed in $this->_validDevices 
+	 * Validates the "device" property.
 	 * @param string $attribute the attribute being validated
 	 */
 	public function validateDevice($attribute)
 	{
-		if (!in_array($this->device, $this->_validDevices))
+		if (!in_array($this->device, Registration::$validDevices))
 			$this->addError($attribute, Yii::t('registration', 'Du får inte komma på LAN med den valda maskinen'));
 	}
 
