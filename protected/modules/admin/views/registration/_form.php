@@ -11,10 +11,10 @@ echo $form->errorSummary($model, '');
 echo $form->uneditableRow($model, 'name');
 echo $form->uneditableRow($model, 'email');
 echo $form->uneditableRow($model, 'nick');
-echo $form->radioButtonListRow($model, 'device', array(
-	'desktop'=>'Desktop', 
-	'laptop'=>'Laptop',
-	'ipad'=>'iPad',
+
+$this->renderPartial('//registration/_deviceList', array(
+	'form'=>$form,
+	'model'=>$model,
 ));
 
 echo $form->checkBoxListRow($model, 'competitions', CHtml::listData($competitions, 'id', 'full_name'));
