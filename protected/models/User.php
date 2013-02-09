@@ -362,13 +362,18 @@ class User extends CActiveRecord
 	 */
 	public function hasValidPayment()
 	{
-		// Committee members don't have to pay
+		// Current board members don't have to pay
 		if (CommitteeMember::model()->isCurrent($this->id))
 			return true;
-
-		// Check for valid payments
+		
 		$lan = Lan::model()->getCurrent();
-
+		
+		// Check if the user was on the committee when the current season 
+		// started
+		if (CommitteeMember::model()->wasDuring($this->id, $lan->season->start_year))
+			return true;
+		
+		// Check for valid payments
 		return Payment::model()->find('user_id = :user_id AND (season_id = :season_id OR lan_id = :lan_id)', array(
 			':user_id'=>$this->id,
 			':season_id'=>$lan->season_id,
