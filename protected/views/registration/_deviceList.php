@@ -3,6 +3,13 @@
 /* @var $form TbActiveForm */
 /* @var $model RegistrationForm */
 
+$devices = array(
+	'desktop'=>'Desktop',
+	'laptop'=>'Laptop',
+	'console'=>'Konsol',
+	'ipad'=>'iPad',
+);
+
 ?>
 <div class="control-group">
 	<?php echo $form->labelEx($model, 'device', array('class'=>'control-label')); ?>
@@ -13,7 +20,7 @@
 		$attribute = 'device';
 		$i = 0;
 		
-		foreach(Registration::$validDevices as $value => $name) 
+		foreach($devices as $value => $name) 
 		{
 			// Determine initial htmlOptions for the label and radiobutton
 			$htmlOptions = array();
