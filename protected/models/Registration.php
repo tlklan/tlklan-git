@@ -71,7 +71,7 @@ class Registration extends CActiveRecord
 		return array(
 			array('lan_id, user_id, device, date', 'required'),
 			array('lan_id, user_id, never_showed', 'numerical', 'integerOnly'=>true),
-			array('lanName, user, email, nick', 'safe', 'on'=>'search'),
+			array('lanName, user, name, email, nick', 'safe', 'on'=>'search'),
 		);
 	}
 
