@@ -39,11 +39,25 @@ class UserController extends Controller
 				'actions'=>array('register'),
 			),
 			array('allow',
-				'actions'=>array('profile', 'update', 'changePassword'),
+				'actions'=>array('list', 'profile', 'update', 'changePassword'),
 				'expression'=>'!Yii::app()->user->isGuest',
 			),
 			array('deny'),
 		);
+	}
+	
+	/**
+	 * Shows a grid of all users
+	 */
+	public function actionList()
+	{
+		$dataProvider = User::model()->search();
+		$dataProvider->pagination = false;
+		$dataProvider->sort = array('defaultOrder'=>'name ASC');
+
+		$this->render('list', array(
+			'dataProvider'=>$dataProvider,
+		));
 	}
 	
 	/**

@@ -59,6 +59,7 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 					array('label'=>Yii::t('menu', 'Ny submission'), 'url'=>array('/submission/create')),
 					array('label'=>Yii::t('menu', 'Arkiv'), 'url'=>array('/submission/archive')),
 				), 'active'=>in_array(Yii::app()->controller->route, array('submission/archive', 'submission/create')), 'icon'=>'white list-alt'),
+			array('label'=>Yii::t('menu', 'Användare'), 'url'=>array('/user/list'), 'icon'=>'white user'),
 		);
 	}
 
