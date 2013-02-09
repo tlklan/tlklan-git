@@ -131,7 +131,7 @@ class RegistrationForm extends CFormModel
 	 */
 	public function validateDevice($attribute)
 	{
-		if (!in_array($this->device, Registration::$validDevices))
+		if (!in_array($this->device, Device::getValidDevices()))
 			$this->addError($attribute, Yii::t('registration', 'Du får inte komma på LAN med den valda maskinen'));
 	}
 

@@ -25,15 +25,6 @@ class Registration extends CActiveRecord
 {
 	
 	/**
-	 * @var array list of valid devices
-	 */
-	public static $validDevices = array(
-		'desktop',
-		'laptop',
-		'console',
-	);
-	
-	/**
 	 * Used for sorting grids when data is fetched throughn search()
 	 * @var string
 	 */
@@ -53,6 +44,7 @@ class Registration extends CActiveRecord
 	 * @var string the user's nick (provided for backward compatibility)
 	 */
 	private $_nick;
+	
 	
 	/**
 	 * Returns the static model of the specified AR class.
