@@ -6,6 +6,8 @@
  * The followings are the available columns in table 'tlk_seasons':
  * @property integer $id
  * @property string $name
+ * @property int $start_year
+ * @property int $end_year
  *
  * The followings are the available model relations:
  * @property Payment[] $payments

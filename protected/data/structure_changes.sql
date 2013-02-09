@@ -524,3 +524,13 @@ ALTER TABLE `tlk_registrations`
 	ALTER `device` DROP DEFAULT;
 ALTER TABLE `tlk_registrations`
 	CHANGE COLUMN `device` `device` ENUM('desktop','laptop','console') NOT NULL AFTER `user_id`;
+
+# Add start and end_year columns to tlk_seasons
+ALTER TABLE `tlk_seasons`
+	ADD COLUMN `start_year` SMALLINT(4) NOT NULL AFTER `name`,
+	ADD COLUMN `end_year` SMALLINT(4) NOT NULL AFTER `start_year`;
+
+UPDATE `tlk_seasons` SET `start_year`=2009, `end_year`=2010 WHERE  `id`=1;
+UPDATE `tlk_seasons` SET `start_year`=2010, `end_year`=2011 WHERE  `id`=2;
+UPDATE `tlk_seasons` SET `start_year`=2011, `end_year`=2012 WHERE  `id`=3;
+UPDATE `tlk_seasons` SET `start_year`=2012, `end_year`=2013 WHERE  `id`=4;
