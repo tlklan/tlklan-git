@@ -53,6 +53,20 @@ class Competition extends CActiveRecord
 	}
 	
 	/**
+	 * @return array validation rules
+	 */
+	public function rules()
+	{
+		return array(
+			array('lan_id, display_order, short_name, full_name, votable, signupable, deadline', 'required'),
+			array('lan_id', 'validateLan'),
+			array('display_order, votable, signupable', 'numerical', 'integerOnly'=>true),
+			array('deadline', 'date', 'format'=>'yyyy-MM-dd HH:mm:ss'),
+			array('lan_id, display_order, short_name, full_name, votable, signupable, deadline', 'safe', 'on'=>'search'),
+		);
+	}
+
+	/**
 	 * @return array the scopes for this model
 	 */
 	public function scopes()
@@ -93,6 +107,16 @@ class Competition extends CActiveRecord
 			'deadline'=>Yii::t('competition', 'Deadline'),
 		);
 	}
+	
+	/**
+	 * Validates the lan_id attribute
+	 * @param string $attribute the attribute
+	 */
+	public function validateLan($attribute)
+	{
+		if (Lan::model()->findByPk($this->{$attribute}) === null)
+			$this->addError($attribute, 'Ogiltigt LAN');
+	}
 
 	/**
 	 * Returns a string containing the full name of the competition and it's 
@@ -125,17 +149,22 @@ class Competition extends CActiveRecord
 		));
 	}
 	
+	public function getLanName()
+	{
+		return $this->lan->name;
+	}
+	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models 
 	 * based on the search/filter conditions.
 	 */
-	public function search($lanId)
+	public function search($lanId = false)
 	{
 		$criteria = new CDbCriteria;
 
 		$criteria->compare('id', $this->id);
-		$criteria->compare('lan_id', $lanId);
+		$criteria->compare('lan_id', $lanId ? $lanId : $this->lan_id);
 		$criteria->compare('display_order', $this->display_order);
 		$criteria->compare('short_name', $this->short_name, true);
 		$criteria->compare('full_name', $this->full_name, true);
@@ -148,7 +177,10 @@ class Competition extends CActiveRecord
 			'sort'=>array(
 				'defaultOrder'=>'display_order',
 			),
-			'pagination'=>false);
+			'pagination'=>array(
+				'pageSize'=>25,
+			)
+		);
 		
 		return new CActiveDataProvider($this, $options);
 	}

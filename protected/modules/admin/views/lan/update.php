@@ -1,5 +1,6 @@
 <?php
 
+/* @var $competitionDataProvider CActiveDataProvider */
 $this->pageTitle = 'Uppdatera '.CHtml::encode($model->name);
 $this->breadcrumbs=array(
 	'LAN'=>array('admin'),
@@ -13,16 +14,14 @@ Yii::app()->clientScript->registerScript(__CLASS__.'-update-grid', '
 	}
 ', CClientScript::POS_END);
 
-?>
+$competitionDataProvider->pagination = false;
 
+?>
 <h1>Uppdatera <?php echo CHtml::encode($model->name); ?></h1>
 
 <hr />
 
-<fieldset>
-	<legend>Inställningar</legend>
-	<?php echo $this->renderPartial('_form',array('model'=>$model)); ?>
-</fieldset>
+<?php echo $this->renderPartial('_form',array('model'=>$model)); ?>
 
 <fieldset>
 	<legend>Tävlingar</legend>
@@ -61,9 +60,18 @@ Yii::app()->clientScript->registerScript(__CLASS__.'-update-grid', '
 				array(
 					'name'=>'signupable',
 					'type'=>'raw',
-					'value'=>'($data->votable=="1")?(\'<i class="icon-ok"></i>\'):""',
+					'value'=>'($data->signupable=="1")?(\'<i class="icon-ok"></i>\'):""',
 				),
 				'deadline',
+				array(
+					'class'=>'TbButtonColumn',
+					'htmlOptions'=>array('style'=>'width: 50px;'),
+					'template'=>'{update} {delete}',
+					
+					// the URLs are pointing to LanController by default
+					'updateButtonUrl'=>'Yii::app()->controller->createUrl("competition/update", array("id"=>$data->id))',
+					'deleteButtonUrl'=>'Yii::app()->controller->createUrl("competition/delete", array("id"=>$data->id))',
+				)
 			)
 		));
 		

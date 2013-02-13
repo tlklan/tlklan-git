@@ -234,6 +234,14 @@ class Lan extends CActiveRecord
 	}
 	
 	/**
+	 * @return array of all LANs for dropdown lists
+	 */
+	public function getListData()
+	{
+		return CHtml::listData($this->findAll(), 'id', 'name');
+	}
+	
+	/**
 	 * Getter for _seasonId. This method is used when sorting/filtering grid 
 	 * views
 	 * @return int the season ID

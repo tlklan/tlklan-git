@@ -38,6 +38,10 @@ $this->widget('bootstrap.widgets.TbNavbar', array(
 					array('label'=>'Hantera', 'url'=>array('lan/admin')),
 					array('label'=>'Skapa nytt', 'url'=>array('lan/create')),
 				), 'active'=>(strpos(Yii::app()->controller->route, 'admin/lan') !== false)),
+				array('label'=>'Tävlingar', 'items'=>array(
+					array('label'=>'Hantera', 'url'=>array('competition/admin')),
+					array('label'=>'Skapa ny', 'url'=>array('competition/create')),
+				), 'active'=>(strpos(Yii::app()->controller->route, 'admin/competition') !== false)),
 				array('label'=>'Betalningar', 'items'=>array(
 					array('label'=>'Hantera', 'url'=>array('payment/admin')),
 					array('label'=>'Ny betalning', 'url'=>array('payment/create')),
