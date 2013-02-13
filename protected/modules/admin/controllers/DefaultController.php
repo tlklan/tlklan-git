@@ -7,11 +7,11 @@ class DefaultController extends AdminController
 {
 
 	/**
-	 * Default action. All it does is redirect to the user management page.
+	 * Default action. All it does is redirect to the dashboard
 	 */
 	public function actionIndex()
 	{
-		$this->redirect($this->createUrl('registration/admin'));
+		$this->redirect($this->createUrl('dashboard/'));
 	}
 
 	/**
