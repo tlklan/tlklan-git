@@ -84,6 +84,7 @@ class Submission extends CActiveRecord
 			'competition_id'=>Yii::t('submission', 'Tävling'),
 			'competitionName'=>Yii::t('submission', 'Tävling'),
 			'submitter'=>Yii::t('submission', 'Skapare'),
+			'user_id'=>Yii::t('submission', 'Skapare'),
 			'name'=>Yii::t('submission', 'Entrynamn'),
 			'file'=>Yii::t('submission', 'Filnamn'),
 			'physical_path'=>Yii::t('submission', 'Sökväg'), // mostly internal

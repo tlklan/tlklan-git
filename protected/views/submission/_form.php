@@ -13,6 +13,10 @@ $form = $this->beginWidget('TbActiveForm', array(
 	'htmlOptions'=>array('enctype'=>'multipart/form-data')
 )); 
 
+// Only allow administrators to change submitter
+if (Yii::app()->user->isAdmin())
+	echo $form->dropDownListRow($model, 'user_id', CHtml::listData(
+			User::model()->findAll(array('order'=>'name')), 'id', 'name'));
 
 echo $form->dropDownListRow($model, 'competition_id', $competitionList, array('prompt'=>''));
 echo $form->textFieldRow($model, 'name');
