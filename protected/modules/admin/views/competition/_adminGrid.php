@@ -10,6 +10,7 @@ $dataProvider->sort = array(
 <div class="lan-competition-grid">
 	<?php $this->widget('TbGridView', array(
 		'id'=>'competition-grid',
+		'type'=>'striped bordered',
 		'dataProvider'=>$dataProvider,
 		'filter'=>$model,
 		'template'=>'{summary} {items} {pager}',

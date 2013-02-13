@@ -16,6 +16,7 @@ $this->menu = array(
 
 <?php $this->widget('bootstrap.widgets.TbGridView',array(
 	'id'=>'payment-grid',
+	'type'=>'striped bordered',
 	'dataProvider'=>$dataProvider,
 	'filter'=>$model,
 	'columns'=>array(

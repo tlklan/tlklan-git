@@ -18,6 +18,7 @@ $this->breadcrumbs=array(
 
 $this->widget('bootstrap.widgets.TbGridView',array(
 	'id'=>'lan-grid',
+	'type'=>'striped bordered',
 	'dataProvider'=>$dataProvider,
 	'filter'=>$model,
 	'columns'=>array(

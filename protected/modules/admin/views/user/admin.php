@@ -16,6 +16,7 @@ $this->breadcrumbs=array(
 
 <?php $this->widget('TbGridView', array(
 	'id'=>'user-grid',
+	'type'=>'striped bordered',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
