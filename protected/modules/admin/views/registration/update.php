@@ -1,7 +1,9 @@
 <?php
+
 /* @var $this RegistrationController */
 /* @var $registration Registration */
 
+$this->pageTitle = 'Uppdatera anmälan för '.CHtml::encode($registration->name);
 $this->breadcrumbs=array(
 	'Anmälningar'=>array('admin'),
 	$registration->name. ' - uppdatera',

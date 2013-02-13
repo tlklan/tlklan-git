@@ -2,6 +2,7 @@
 
 /* @var $this RegistrationController */
 /* @var $model Registration */
+$this->pageTitle = 'Hantera anmälningar';
 $this->breadcrumbs = array(
 	'Anmälningar'=>array('admin'),
 	'Hantera anmälningar',

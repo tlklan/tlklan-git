@@ -1,7 +1,9 @@
 <?php
+
 /* @var $this UserController */
 /* @var $model User */
 
+$this->pageTitle = 'Hantera användare';
 $this->breadcrumbs=array(
 	'Användare'=>array('admin'),
 );

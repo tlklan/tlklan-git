@@ -3,6 +3,7 @@
 /* @var $this AdminCompetitionController */
 /* @var $model Competition */
 
+$this->pageTitle = 'Skapa ny tävling';
 $this->breadcrumbs=array(
 	'Tävlingar'=>array('admin'),
 	'Skapa ny',

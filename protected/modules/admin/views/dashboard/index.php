@@ -4,6 +4,12 @@
 
 $isActive = $lan->hasStarted() && !$lan->hasEnded();
 
+$this->pageTitle = 'Dashboard';
+$this->menu = array(
+	array('label'=>'Uppdatera LAN-inställningar', 'url'=>array('lan/update', 'id'=>$lan->id)),
+	array('label'=>'Lägg till ny betalning', 'url'=>array('payment/create')),
+);
+
 ?>
 <div class="dashboard">
 	<h1>Dashboard</h1>
@@ -26,26 +32,14 @@ $isActive = $lan->hasStarted() && !$lan->hasEnded();
 		</div>
 
 		<div class="span8">
-			<?php
-
-			$this->widget('TbDetailView', array(
+			<?php $this->widget('TbDetailView', array(
 				'type'=>'striped',
 				'data'=>$lan,
 				'attributes'=>array(
 					'name',
 					'registrationCount',
 				)
-			));
-			
-			$this->widget('bootstrap.widgets.TbButton', array(
-				'buttonType'=>'link',
-				'icon'=>'ok white',
-				'type'=>'primary',
-				'label'=>'Uppdatera',
-				'url'=>$this->createUrl('lan/update', array('id'=>$lan->id)),
-			));
-
-			?>
+			)); ?>
 		</div>
 	</div>
 	

@@ -1,5 +1,6 @@
 <?php
 
+$this->pageTitle = 'Skapa ett nytt LAN';
 $this->breadcrumbs=array(
 	'LAN'=>array('admin'),
 	'Skapa nytt',
