@@ -36,8 +36,6 @@ class CompetitionController extends AdminController
 		{
 			foreach ($_POST['display_order'] as $id=> $displayOrder)
 			{
-				// TODO: Make display_order non-mandatory and determine the order if 
-				// it is left empty
 				if (!empty($displayOrder) && $displayOrder > 0)
 				{
 					$model = $this->loadModel($id);
@@ -59,8 +57,6 @@ class CompetitionController extends AdminController
 	{
 		$model = new Competition;
 
-		// TODO: Make display_order non-mandatory and determine the order if 
-		// it is left empty
 		if (isset($_POST['Competition']))
 		{
 			$model->attributes = $_POST['Competition'];

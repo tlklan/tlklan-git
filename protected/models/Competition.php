@@ -58,7 +58,7 @@ class Competition extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('lan_id, display_order, short_name, full_name, votable, signupable, deadline', 'required'),
+			array('lan_id, short_name, full_name, votable, signupable, deadline', 'required'),
 			array('lan_id', 'validateLan'),
 			array('display_order, votable, signupable', 'numerical', 'integerOnly'=>true),
 			array('deadline', 'date', 'format'=>'yyyy-MM-dd HH:mm:ss'),
@@ -116,6 +116,30 @@ class Competition extends CActiveRecord
 	{
 		if (Lan::model()->findByPk($this->{$attribute}) === null)
 			$this->addError($attribute, 'Ogiltigt LAN');
+	}
+	
+	/**
+	 * Determines and sets the display_order property if it hasn't been set
+	 * @return boolean whether to save or not
+	 */
+	protected function beforeSave()
+	{
+		// Determine next display order if one hasn't been set
+		if (!$this->display_order)
+		{
+			$order = 1;
+
+			$otherCompetitions = $this->findAllByAttributes(array(
+				'lan_id'=>$this->lan_id));
+
+			foreach ($otherCompetitions as $competition)
+				if ($competition->display_order > $order)
+					$order = $competition->display_order + 1;
+
+			$this->display_order = $order;
+		}
+
+		return parent::beforeSave();
 	}
 
 	/**
