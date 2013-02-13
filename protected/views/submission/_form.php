@@ -14,7 +14,7 @@ $form = $this->beginWidget('TbActiveForm', array(
 )); 
 
 // Only allow administrators to change submitter
-if (Yii::app()->user->isAdmin())
+if (!$model->isNewRecord && Yii::app()->user->isAdmin())
 	echo $form->dropDownListRow($model, 'user_id', CHtml::listData(
 			User::model()->findAll(array('order'=>'name')), 'id', 'name'));
 
