@@ -124,5 +124,33 @@ class Competition extends CActiveRecord
 			'pagination'=>false,
 		));
 	}
+	
+	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models 
+	 * based on the search/filter conditions.
+	 */
+	public function search($lanId)
+	{
+		$criteria = new CDbCriteria;
+
+		$criteria->compare('id', $this->id);
+		$criteria->compare('lan_id', $lanId);
+		$criteria->compare('display_order', $this->display_order);
+		$criteria->compare('short_name', $this->short_name, true);
+		$criteria->compare('full_name', $this->full_name, true);
+		$criteria->compare('votable', $this->votable);
+		$criteria->compare('signupable', $this->signupable);
+		$criteria->compare('deadline', $this->deadline, true);
+
+		$options = array(
+			'criteria'=>$criteria,
+			'sort'=>array(
+				'defaultOrder'=>'display_order',
+			),
+			'pagination'=>false);
+		
+		return new CActiveDataProvider($this, $options);
+	}
 
 }
