@@ -67,6 +67,14 @@ $this->widget('bootstrap.widgets.TbNavbar', array(
 		'homeLink'=>CHtml::link('Administration', $this->createUrl('//admin')),
 		'links'=>$this->breadcrumbs,
 	)); ?>
+	
+	<?php 
+	
+	$this->widget('TbMenu', array(
+		'type'=>'tabs', // '', 'tabs', 'pills' (or 'list')
+		'stacked'=>false, // whether this is a stacked menu
+		'items'=>$this->menu,
+	)); ?>
 
 	<?php $this->widget('bootstrap.widgets.TbAlert', array(
 		'block'=>true,

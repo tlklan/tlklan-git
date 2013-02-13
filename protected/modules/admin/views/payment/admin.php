@@ -6,21 +6,14 @@ $this->breadcrumbs=array(
 	'Hantera',
 );
 
+$this->menu = array(
+	array('label'=>'Ny betalning', 'url'=>array('create')),
+);
+
 ?>
 
 <h1>Hantera betalningar</h1>
 
-<hr />
-
-<p>
-	<?php $this->widget('bootstrap.widgets.TbButton', array(
-		'buttonType'=>'link',
-		'url'=>$this->createUrl('create'),
-		'type'=>'primary',
-		'icon'=>'pencil white',
-		'label'=>'Ny betalning'
-	)); ?>
-</p>
 <?php $this->widget('bootstrap.widgets.TbGridView',array(
 	'id'=>'payment-grid',
 	'dataProvider'=>$dataProvider,

@@ -8,7 +8,9 @@ $this->breadcrumbs=array(
 	'Hantera',
 );
 
-// TODO: Add submenu for Skapa ny
+$this->menu = array(
+	array('label'=>'Skapa ny', 'url'=>array('create')),
+);
 
 ?>
 <h1>Hantera tävlingar</h1>
