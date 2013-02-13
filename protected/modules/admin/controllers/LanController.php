@@ -48,8 +48,7 @@ class LanController extends AdminController
 	public function actionUpdate($id)
 	{
 		$model = $this->loadModel($id);
-
-
+		
 		if (isset($_POST['Lan']))
 		{
 			$model->attributes = $_POST['Lan'];
@@ -64,6 +63,7 @@ class LanController extends AdminController
 
 		$this->render('update', array(
 			'model'=>$model,
+			'competitionDataProvider'=>Competition::model()->search($id),
 		));
 	}
 

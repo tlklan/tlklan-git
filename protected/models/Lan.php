@@ -27,6 +27,15 @@ class Lan extends CActiveRecord
 	const LOCATION_HARTWALL		= 'hartwall';
 	
 	/**
+	 * @var array human-readable location mapping
+	 */
+	public static $locationList = array(
+		Lan::LOCATION_CORNER=>'Cornern',
+		Lan::LOCATION_WERKET=>'Werket',
+		Lan::LOCATION_HARTWALL=>'Hartwall Arena'
+	);
+	
+	/**
 	 * @var int the season ID. This property is used for sorting/filtering grid 
 	 * views
 	 */
@@ -119,7 +128,7 @@ class Lan extends CActiveRecord
 	 */
 	public function validateLocation($attribute)
 	{
-		if (!array_key_exists($this->{$attribute}, $this->getLocationList()))
+		if (!array_key_exists($this->{$attribute}, self::$locationList))
 			$this->addError($attribute, Yii::t('lan', 'Ogiltig plats'));
 	}
 	
@@ -197,40 +206,11 @@ class Lan extends CActiveRecord
 	}
 	
 	/**
-	 * Returns a list of valid LAN locations (can be used for grid view filters 
-	 * or drop down lists)
-	 * @return array
+	 * @return array of all LANs for dropdown lists
 	 */
-	public function getLocationList()
+	public function getListData()
 	{
-		return array(
-			Lan::LOCATION_CORNER=>'Cornern',
-			Lan::LOCATION_WERKET=>'Werket',
-			Lan::LOCATION_HARTWALL=>'Hartwall Arena'
-		);
-	}
-
-	/**
-	 * Returns the friendly name of the LAN location
-	 * @return string
-	 */
-	public function getFriendlyLocation()
-	{
-		// TODO: Can't we just check from getLocationList?
-		switch ($this->location)
-		{
-			case self::LOCATION_CORNER:
-				return 'Cornern';
-				break;
-			case self::LOCATION_WERKET:
-				return 'Werket';
-				break;
-			case self::LOCATION_HARTWALL:
-				return 'Hartwall Arena';
-				break;
-			default:
-				return '';
-		}
+		return CHtml::listData($this->findAll(), 'id', 'name');
 	}
 	
 	/**

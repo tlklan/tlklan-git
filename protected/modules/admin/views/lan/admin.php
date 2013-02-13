@@ -14,7 +14,9 @@ $this->breadcrumbs=array(
 	aktivt.
 </p>
 
-<?php $this->widget('bootstrap.widgets.TbGridView',array(
+<?php 
+
+$this->widget('bootstrap.widgets.TbGridView',array(
 	'id'=>'lan-grid',
 	'dataProvider'=>$dataProvider,
 	'filter'=>$model,
@@ -31,9 +33,9 @@ $this->breadcrumbs=array(
 		'end_date',
 		array(
 			'name'=>'location',
-            'filter'=>$model->getLocationList(),
+            'filter'=>Lan::$locationList,
 			'type'=>'raw',
-            'value'=>'$data->getFriendlyLocation()',
+            'value'=>'Lan::$locationList[$data->location]',
 		),
 		array(
 			'name'=>'enabled',
