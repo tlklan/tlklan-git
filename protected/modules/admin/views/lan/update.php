@@ -41,6 +41,7 @@ $competitionDataProvider->pagination = false;
 
 		$this->widget('TbGridView', array(
 			'id'=>'competition-grid',
+			'type'=>'striped bordered',
 			'dataProvider'=>$competitionDataProvider,
 			'template'=>'{items}',
 			'columns'=>array(
@@ -56,11 +57,13 @@ $competitionDataProvider->pagination = false;
 					'name'=>'votable',
 					'type'=>'raw',
 					'value'=>'($data->votable=="1")?(\'<i class="icon-ok"></i>\'):""',
+					'htmlOptions'=>array('style'=>'text-align: center;')
 				),
 				array(
 					'name'=>'signupable',
 					'type'=>'raw',
 					'value'=>'($data->signupable=="1")?(\'<i class="icon-ok"></i>\'):""',
+					'htmlOptions'=>array('style'=>'text-align: center;')
 				),
 				'deadline',
 				array(
@@ -86,7 +89,7 @@ $competitionDataProvider->pagination = false;
 				'ajaxOptions'=>array(
 					'success'=>'updateGrid',
 				),
-			)); ?>
+	)); ?>
 		</div>
 		
 		<?php $this->endWidget(); ?>

@@ -30,6 +30,8 @@ $this->widget('bootstrap.widgets.TbNavbar', array(
 			'class'=>'bootstrap.widgets.TbMenu',
 			'encodeLabel'=>false,
 			'items'=>array(
+				array('label'=>'Dashboard', 'url'=>array('dashboard/'),
+					'active'=>Yii::app()->controller->route == 'admin/dashboard/index'),
 				array('label'=>'Anmälningar', 'url'=>array('registration/admin'),
 					'active'=>Yii::app()->controller->route == 'admin/registration/admin'),
 				array('label'=>'Användare', 'url'=>array('user/admin'),
