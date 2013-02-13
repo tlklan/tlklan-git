@@ -88,6 +88,7 @@ class Lan extends CActiveRecord
 			'season'=>array(self::BELONGS_TO, 'Season', 'season_id'),
 			'competitions'=>array(self::HAS_MANY, 'Competition', 'lan_id', 'order'=>'display_order'),
 			'registrations'=>array(self::HAS_MANY, 'Registration', 'lan_id'),
+			'registrationCount'=>array(self::STAT, 'Registration', 'lan_id'),
 		);
 	}
 
@@ -114,6 +115,7 @@ class Lan extends CActiveRecord
 			'seasonId'=>Yii::t('lan', 'Säsong'),
 			'season_id'=>Yii::t('lan', 'Säsong'),
 			'reg_limit'=>Yii::t('lan', 'Max antal deltagare'),
+			'registrationCount'=>'Antal deltagare',
 			'start_date'=>Yii::t('lan', 'Startdatum'),
 			'end_date'=>Yii::t('lan', 'Slutdatum'),
 			'location'=>Yii::t('lan', 'Plats'),
@@ -252,6 +254,15 @@ class Lan extends CActiveRecord
 	public function hasStarted()
 	{
 		return time() > strtotime($this->start_date);
+	}
+	
+	/**
+	 * Checks whether the LAN has officially ended or not
+	 * @return boolean
+	 */
+	public function hasEnded()
+	{
+		return time() < strtotime($this->start_date);
 	}
 	
 }

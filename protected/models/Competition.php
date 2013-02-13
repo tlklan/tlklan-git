@@ -105,6 +105,7 @@ class Competition extends CActiveRecord
 			'votable'=>Yii::t('competition', 'Kan röstas på'),
 			'signupable'=>Yii::t('competition', 'Kan anmälas till'),
 			'deadline'=>Yii::t('competition', 'Deadline'),
+			'competitorCount'=>'Antal deltagare',
 		);
 	}
 	

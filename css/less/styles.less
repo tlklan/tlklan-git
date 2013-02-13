@@ -387,6 +387,8 @@ tr.winning-submission td {
 	.display-order {
 		input {
 			width: 25px;
+			height: 12px;
+			font-size: 12px;
 			margin: 0;
 		}
 	}
@@ -398,6 +400,23 @@ tr.winning-submission td {
 
 		.control-group {
 			margin-bottom: 0;
+		}
+	}
+}
+
+.dashboard {
+	.lan-status {
+		height: 120px;
+		line-height: 120px;
+		text-align: center;
+		background-color: @errorBackground;
+		.border-radius(4px);
+		font-size: 16px;
+		font-weight: bold;
+		color: #333;
+
+		&.on {
+			background-color: @successBackground;
 		}
 	}
 }
