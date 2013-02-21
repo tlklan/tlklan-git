@@ -31,8 +31,16 @@ $this->widget('TbGridView', array(
 				'addPayment'=>array(
 					'label'=>'Ny betalning',
 					'icon'=>'money',
-					'url'=>'Yii::app()->controller->createUrl("payment/create", array("registrationId"=>$data->id))',
+					'url'=>'array("payment/create", "registrationId"=>$data->id)',
 					'visible'=>'!$data->user->hasValidPayment()',
+				),
+				// make the URLs point to the correct controller no matter where 
+				// this view is rendered
+				'update'=>array(
+					'url'=>'array("registration/update", "id"=>$data->id)'
+				),
+				'delete'=>array(
+					'url'=>'array("registration/delete", "id"=>$data->id)'
 				),
 			),
 			'template'=>'{addPayment} {update} {delete}',
