@@ -30,25 +30,25 @@ $this->widget('bootstrap.widgets.TbNavbar', array(
 			'class'=>'bootstrap.widgets.TbMenu',
 			'encodeLabel'=>false,
 			'items'=>array(
-				array('label'=>'Dashboard', 'url'=>array('dashboard/'),
+				array('label'=>'Dashboard', 'url'=>array('dashboard/'), 'icon'=>'dashboard',
 					'active'=>Yii::app()->controller->route == 'admin/dashboard/index'),
-				array('label'=>'Anmälningar', 'url'=>array('registration/admin'),
+				array('label'=>'Anmälningar', 'url'=>array('registration/admin'), 'icon'=>'pencil',
 					'active'=>Yii::app()->controller->route == 'admin/registration/admin'),
-				array('label'=>'Användare', 'url'=>array('user/admin'),
+				array('label'=>'Användare', 'url'=>array('user/admin'), 'icon'=>'user',
 					'active'=>Yii::app()->controller->route == 'admin/user/admin'),
-				array('label'=>'LAN', 'items'=>array(
+				array('label'=>'LAN', 'icon'=>'group', 'items'=>array(
 					array('label'=>'Hantera', 'url'=>array('lan/admin')),
 					array('label'=>'Skapa nytt', 'url'=>array('lan/create')),
 				), 'active'=>(strpos(Yii::app()->controller->route, 'admin/lan') !== false)),
-				array('label'=>'Tävlingar', 'items'=>array(
+				array('label'=>'Tävlingar', 'icon'=>'screenshot', 'items'=>array(
 					array('label'=>'Hantera', 'url'=>array('competition/admin')),
 					array('label'=>'Skapa ny', 'url'=>array('competition/create')),
 				), 'active'=>(strpos(Yii::app()->controller->route, 'admin/competition') !== false)),
-				array('label'=>'Betalningar', 'items'=>array(
+				array('label'=>'Betalningar', 'icon'=>'money', 'items'=>array(
 					array('label'=>'Hantera', 'url'=>array('payment/admin')),
 					array('label'=>'Ny betalning', 'url'=>array('payment/create')),
 				), 'active'=>(strpos(Yii::app()->controller->route, 'admin/payment') !== false)),
-				array('label'=>'Översättningar', 'url'=>array('translation/translate'), 
+				array('label'=>'Översättningar', 'url'=>array('translation/translate'), 'icon'=>'file-alt',
 					'active'=>(Yii::app()->controller->route == 'translation/translate')),
 			),
 		),
