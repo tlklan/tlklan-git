@@ -19,10 +19,25 @@ class PaymentController extends AdminController
 	
 	/**
 	 * Adds a new payment
+	 * @param int $registrationId optional registration ID. If this parameter 
+	 * is specified, the payment model will be populated with data from the 
+	 * registration model
 	 */
-	public function actionCreate()
+	public function actionCreate($registrationId = null)
 	{
 		$model = new Payment;
+		
+		// Populate the model with values from the registration (if specified)
+		if ($registrationId !== null)
+		{
+			$registration = Registration::model()->findByPk($registrationId);
+			if ($registration !== null)
+			{
+				$model->name = $registration->user->name;
+				$model->lan_id = $registration->lan->id;
+				$model->season_id = $registration->lan->season->id;
+			}
+		}
 
 		if (isset($_POST['Payment']))
 		{

@@ -27,7 +27,15 @@ $this->widget('TbGridView', array(
 		'date',
 		array(
 			'class'=>'TbButtonColumn',
-			'template'=>'{update} {delete}',
+			'buttons'=>array(
+				'addPayment'=>array(
+					'label'=>'Ny betalning',
+					'icon'=>'money',
+					'url'=>'Yii::app()->controller->createUrl("payment/create", array("registrationId"=>$data->id))',
+					'visible'=>'!$data->user->hasValidPayment()',
+				),
+			),
+			'template'=>'{addPayment} {update} {delete}',
 		),
 	),
 ));
