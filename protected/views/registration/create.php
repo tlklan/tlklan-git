@@ -1,63 +1,65 @@
 <?php
 
+/* @var $currentLan Lan */
+/* @var $registration Registration */
+
 $this->pageTitle = Yii::t('registration', 'Anmälning till {lanName}', array('{lanName}'=>$currentLan->name));
 $this->breadcrumbs = array(
-	Yii::t('registration', 'Anmälning'),
+	Yii::t('registration', 'Anmälningar till {lanName}', array('{lanName}'=>$currentLan->name)),
 );
 
 ?>
-<div class="registration-container row clearfix">
-	<div class="registration-form span7">
-		<h1>
-			<?php echo Yii::t('registration', 'Anmälningar till {lanName}', array('{lanName}'=>$currentLan->name)); ?>
-		</h1>
-
-		<div class="disclaimer">
-			<?php $this->widget('cms.widgets.CmsBlock', array(
-				'name'=>'registration_disclaimer'
-			)); ?>
-		</div>
-		
-		<?php 
-		
-		// Show the registration form to logged in users only
-		if (Yii::app()->user->isGuest) 
-		{
-			?>
-			<div class="alert alert-error alert-block">
-				<?php echo Yii::t('registration', 'Du måste vara inloggad för att registrera dig. Har du inte ett konto är det bara att registrera sig!'); ?>
-			</div>
-			<?php
-		}
-		else 
-		{
-			$this->renderPartial('_form', array(
-				'model'=>$model,
-				'registration'=>$registration,
-				'competitions'=>$competitions,
-			)); 
-		}
-		
-		?>
-	</div>
-	
-	<div class="registration-info hidden-tablet hidden-phone span5">
-		<h1 style="margin-top: 0;"><?php echo Yii::t('registration', 'Information'); ?></h1>
-		<?php $this->widget('cms.widgets.CmsBlock',array('name'=>'registration_info')); ?>
-	</div>
+<div class="row clearfix">
 	
 	<?php
 	
-	// Don't show the statistics to guests (there's not enough vertical space
-	// for it)
 	if (!Yii::app()->user->isGuest)
 	{
-		$this->renderPartial('_statistics', array(
-			'currentLan'=>$currentLan,
-		));
+		$hasRegistration = Registration::model()->currentLan()->
+				findByAttributes(array('user_id'=>Yii::app()->user->userId));
+
+		if (!$hasRegistration)
+		{
+			$this->renderPartial('_form', array(
+				'model'=>$model,
+				'currentLan'=>$currentLan,
+			));
+		}
 	}
-	
+		
 	?>
+	
+	<div class="hidden-tablet hidden-phone span4">
+		<h2><?php echo Yii::t('registration', 'Information'); ?></h2>
+		
+		<?php $this->widget('cms.widgets.CmsBlock',array('name'=>'registration_info')); ?>
+	</div>
+	
+	<div class="span3">
+		<h2><?php echo Yii::t('competition', 'Tävlingsstatistik'); ?></h2>
+
+		<table class="table">
+			<?php
+
+			foreach ($currentLan->competitions as $competition) 
+			{
+				?>
+				<tr>
+					<td><?php echo $competition->short_name; ?></td>
+					<td><b><?php echo $competition->competitorCount; ?></b></td>
+				</tr>
+				<?php
+			}
+
+			?>
+		</table>
+	</div>
+	
+	<div class="span12">
+		<h2><?php echo Yii::t('registration', 'Anmälningar'); ?></h2>
+		
+		<hr />
+	</div>
 </div>
 <?php
 

@@ -4,6 +4,7 @@
  * Renders the list of registered people in registration/index
  *
  * @author Sam
+ * @todo refactor
  */
 class RegistrationList extends CWidget 
 {
@@ -23,6 +24,7 @@ class RegistrationList extends CWidget
 	 */
 	public function init()
 	{
+		// TODO: Use relation
 		$this->_registrationCount = count($this->currentLan->registrations);
 	}
 
@@ -114,6 +116,7 @@ class RegistrationList extends CWidget
 					<?php
 					
 					// Show an edit/delete links
+					// TODO: Add hidden-tablet etc. classes
 					if(!$user->isGuest && $hasRegistration) {
 						echo '<td>';
 						

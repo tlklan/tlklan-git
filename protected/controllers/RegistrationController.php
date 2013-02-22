@@ -3,7 +3,7 @@
 /**
  * Handles registrations (front-end part)
  */
-class RegistrationController extends Controller 
+class RegistrationController extends Controller
 {
 
 	/**
@@ -41,7 +41,7 @@ class RegistrationController extends Controller
 
 		$filterChain->run();
 	}
-	
+
 	/**
 	 * Checks that the current user has the right to edit the registration. 
 	 * @param CFilterChain $filterChain the filter chain
@@ -59,7 +59,7 @@ class RegistrationController extends Controller
 
 		$filterChain->run();
 	}
-	
+
 	/**
 	 * Returns the access rules for this controller
 	 * @return array
@@ -79,114 +79,124 @@ class RegistrationController extends Controller
 			array('deny')
 		);
 	}
-	
+
 	/**
 	 * Creates a new registration
-	 * @param Registration $registration 
 	 */
-	public function actionCreate($registration = null) 
+	public function actionCreate()
 	{
-		$currentLan = Lan::model()->with('registrations', 'competitions', 
-				'registrations.user')->getCurrent();
-		
-		$model = new RegistrationForm;
-		
-		// Populate the form model with values from the registration model 
-		// (if one is specified) and set scenarios.
-		if($registration === null) {
-			$registration = new Registration();
-			$model->scenario = 'create';
-		}
-		else {
-			$model->populate($registration);
-			$model->scenario = 'update';
-		}
-		
-		if(isset($_POST['RegistrationForm'])) {
-			$model->attributes = $_POST['RegistrationForm'];
+		$currentLan = Lan::model()->with('registrations', 'competitions', 'registrations.user')->getCurrent();
 
-			if ($registration->isNewRecord)
-				$registration->user_id = Yii::app()->user->userId;
-			
-			if($model->validate()) {
-				// If this is a new registration we need to remember it
-				$isNewRecord = $registration->isNewRecord;
+		$model = new Registration();
 
-				$registration->lan_id = $currentLan->id;
-				$registration->device = $model->device;
-				$registration->date = date('Y-m-d H:i:s');
-				
-				// Save and store the primary key for the next query
-				$registration->save();
-				$registrationId = $registration->primaryKey;
+		if (isset($_POST['Registration']))
+		{
+			$model->attributes = $_POST['Registration'];
+			$model->user_id = Yii::app()->user->userId;
+			$model->lan_id = $currentLan->id;
+			$model->date = date('Y-m-d H:i:s');
 
-				// Register the user to the specifeid competitions if he signed 
-				// up for any
-				if(!empty($model->competitions)) {
-					foreach($model->competitions as $competition) {
-						$competitor = new Competitor;
-						$competitor->competition_id = $competition;
-						$competitor->registration_id = $registrationId;
+			if ($model->save())
+			{
+				// Register the user to the competitions he signed up for
+				if (!empty($model->competitionList))
+					$this->saveCompetitions($model->competitionList, $model->primaryKey);
 
-						$competitor->save();
-					}
-				}
+				Yii::app()->user->setFlash('success', Yii::t('registration', 'Du är nu registrerad till {lanName}!', array('{lanName}'=>$currentLan->name)));
 
-				// Show different message depending on context
-				if($isNewRecord)
-					Yii::app()->user->setFlash('success', Yii::t('registration', 'Du är nu registrerad till {lanName}!', array('{lanName}'=>$currentLan->name)));
-				else
-					Yii::app()->user->setFlash('success', Yii::t('registration', 'Anmälan ifråga har uppdaterats'));
-
-				// Redirect to the same action to prevent an F5 from
-				// res-POSTing
-				$this->redirect($this->createUrl('/registration/create'));
+				$this->refresh();
 			}
 		}
-		
+
+		// Inform guests that they have to log in
+		if (Yii::app()->user->isGuest)
+			Yii::app()->user->setFlash('info', Yii::t('registration', 'Du måste vara inloggad för att registrera dig. Har du inte ett konto är det bara att skapa ett!'));
+
 		$this->render('create', array(
 			'model'=>$model,
-			'registration'=>$registration,
 			'currentLan'=>$currentLan,
-			'competitions'=>$currentLan->competitions,
 		));
 	}
-	
+
 	/**
 	 * Updates a registration
 	 * @param int $id the registration to update
 	 */
 	public function actionUpdate($id)
 	{
-		// Pass on the model to the create action which handles the rest of the magic
-		$this->actionCreate($this->loadModel($id));
+		// Populate the model
+		$model = $this->loadModel($id);
+		$model->penis_long_enough = 'yes';
+
+		// Populate competitionList
+		foreach ($model->competitions as $competition)
+			$model->competitionList[] = $competition->competition_id;
+
+		if (isset($_POST['Registration']))
+		{
+			$model->attributes = $_POST['Registration'];
+
+			if ($model->save())
+			{
+				// Register the user to the competitions he signed up for
+				if (!empty($model->competitionList))
+					$this->saveCompetitions($model->competitionList, $model->primaryKey);
+
+				Yii::app()->user->setFlash('success', Yii::t('registration', 'Anmälan ifråga har uppdaterats'));
+
+				$this->redirect(array('create'));
+			}
+		}
+
+		$this->render('update', array(
+			'model'=>$model,
+		));
 	}
-	
+
 	/**
 	 * Deletes a registration
 	 * @param int $id the registration to delete
 	 */
-	public function actionDelete($id) {
+	public function actionDelete($id)
+	{
 		// Find the registration and check that it exists
 		$registration = $this->loadModel($id);
-		
+
 		// Note: the database should handle deleting related competition signups
 		$registration->delete();
-		
+
 		Yii::app()->user->setFlash('success', Yii::t('registration', 'Anmälan har tagits bort'));
-		
+
 		$this->redirect($this->createUrl('registration/create'));
 	}
-	
+
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer the ID of the model to be loaded
 	 */
-	public function loadModel($id) {
+	public function loadModel($id)
+	{
 		$model = Registration::model()->findByPk((int) $id);
-		if($model === null)
+		if ($model === null)
 			throw new CHttpException(400, Yii::t('registration', 'Anmälan hittades inte'));
 		return $model;
 	}
+
+	/**
+	 * Takes a list of competition ID and a registration ID and registers the 
+	 * user to those competitions
+	 * @param array $competitions array of integers
+	 */
+	private function saveCompetitions($competitions, $registrationId)
+	{
+		foreach ($competitions as $competitionId)
+		{
+			$competitor = new Competitor;
+			$competitor->competition_id = $competitionId;
+			$competitor->registration_id = $registrationId;
+			$competitor->save();
+		}
+	}
+
 }
