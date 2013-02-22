@@ -97,9 +97,12 @@ class WebUser extends CWebUser
 		// Get the LocalUser object
 		$this->_localUser = $this->getState('model');
 
-		// Get the user model
-		$this->_user = User::model()->findByAttributes(array(
-			'username'=>Yii::app()->user->id));
+		// Get the user model if it hasn't been fetched already
+		if ($this->_user === null)
+		{
+			$this->_user = User::model()->findByAttributes(array(
+				'username'=>Yii::app()->user->id));
+		}
 	}
 	
 	/**
