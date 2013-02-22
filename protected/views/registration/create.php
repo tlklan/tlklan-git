@@ -41,12 +41,13 @@ $this->breadcrumbs = array(
 		<table class="table">
 			<?php
 
-			foreach ($currentLan->competitions as $competition) 
-			{
+			$statistics = $currentLan->getCompetitionStatistics();
+			
+			foreach ($statistics as $competition => $competitorCount) {
 				?>
 				<tr>
-					<td><?php echo $competition->short_name; ?></td>
-					<td><b><?php echo $competition->competitorCount; ?></b></td>
+					<td><?php echo $competition; ?></td>
+					<td><b><?php echo $competitorCount; ?></b></td>
 				</tr>
 				<?php
 			}
