@@ -146,6 +146,7 @@ class User extends CActiveRecord
 			'submissions'=>array(self::HAS_MANY, 'Submission', 'user_id', 'order'=>'submissions.id DESC'),
 			'submissionCount'=>array(self::STAT, 'Submission', 'user_id'),
 			'registrations'=>array(self::HAS_MANY, 'Registration', 'user_id'),
+			'registrationCount'=>array(self::STAT, 'Registration', 'user_id'),
 			'lans'=>array(self::HAS_MANY, 'Lan', array('lan_id'=>'id'), 'through'=>'registrations'),
 			// the following relation is only used as an intermediate to get the 
 			// competitions relation
@@ -362,22 +363,27 @@ class User extends CActiveRecord
 	 */
 	public function hasValidPayment()
 	{
-		// Current board members don't have to pay
-		if (CommitteeMember::model()->isCurrent($this->id))
-			return true;
-		
 		$lan = Lan::model()->getCurrent();
-		
-		// Check if the user was on the committee when the current season 
-		// started
-		if (CommitteeMember::model()->wasDuring($this->id, $lan->season->start_year))
-			return true;
-		
-		// Check for valid payments
-		return Payment::model()->find('user_id = :user_id AND (season_id = :season_id OR lan_id = :lan_id)', array(
+
+		$payment = Payment::model()->find('user_id = :user_id AND (season_id = :season_id OR lan_id = :lan_id)', array(
 			':user_id'=>$this->id,
 			':season_id'=>$lan->season_id,
-			':lan_id'=>$lan->id)) !== null;
+			':lan_id'=>$lan->id));
+
+		if ($payment !== null)
+			return true;
+		else
+		{
+			// Current board members don't have to pay
+			if (CommitteeMember::model()->isCurrent($this->id))
+				return true;
+
+			// Check if the user was on the board when the current season started
+			if (CommitteeMember::model()->wasDuring($this->id, $lan->season->start_year))
+				return true;
+		}
+
+		return false;
 	}
 
 }
