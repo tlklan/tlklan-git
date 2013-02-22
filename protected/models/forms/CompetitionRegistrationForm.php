@@ -56,8 +56,7 @@ class CompetitionRegistrationForm extends CFormModel
 
 		if ($competition === null)
 			$this->addError($attribute, Yii::t('competition', 'Du kan inte längre anmäla dig till den här tävlingen'));
-		
-		if (!$competition->lan->hasStarted())
+		elseif (!$competition->lan->hasStarted())
 		{
 			$this->addError($attribute, Yii::t('competition', 'Du kan anmäla dig till tävlingar först då {lanName} har börjat'), array(
 				'{lanName}'=>$competition->lan->name));
