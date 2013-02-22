@@ -22,6 +22,7 @@
  * @property Registration[] $registrations
  * @property Competition[] $competitions
  * @property Image $image
+ * @property Payment[] $payments
  */
 class User extends CActiveRecord
 {
@@ -153,6 +154,7 @@ class User extends CActiveRecord
 			'competitors'=>array(self::HAS_MANY, 'Competitor', array('id'=>'registration_id'), 'through'=>'registrations'),
 			'competitions'=>array(self::HAS_MANY, 'Competition', array('competition_id'=>'id'), 'through'=>'competitors'),
 			'image'=>array(self::HAS_ONE, 'Image', array('id'=>'image_id')),
+			'payments'=>array(self::HAS_MANY, 'Payment', 'user_id'),
 		);
 	}
 
@@ -359,29 +361,27 @@ class User extends CActiveRecord
 	
 	/**
 	 * Checks if the user has a valid payment for the current LAN
+	 * @param Lan $lan the LAN which the payment should be valid for. If not 
+	 * specified the current LAN will be used.
 	 * @return boolean
 	 */
-	public function hasValidPayment()
+	public function hasValidPayment($lan = null)
 	{
-		$lan = Lan::model()->getCurrent();
+		if ($lan === null)
+			$lan = Lan::model()->getCurrent();
 
-		$payment = Payment::model()->find('user_id = :user_id AND (season_id = :season_id OR lan_id = :lan_id)', array(
-			':user_id'=>$this->id,
-			':season_id'=>$lan->season_id,
-			':lan_id'=>$lan->id));
+		// Check for standard payments
+		foreach ($this->payments as $payment)
+			if ($payment->season_id == $lan->season_id || $payment->lan_id == $lan->id)
+				return true;
 
-		if ($payment !== null)
+		// Current board members don't have to pay
+		if (CommitteeMember::model()->isCurrent($this->id))
 			return true;
-		else
-		{
-			// Current board members don't have to pay
-			if (CommitteeMember::model()->isCurrent($this->id))
-				return true;
 
-			// Check if the user was on the board when the current season started
-			if (CommitteeMember::model()->wasDuring($this->id, $lan->season->start_year))
-				return true;
-		}
+		// Check if the user was on the board when the current season started
+		if (CommitteeMember::model()->wasDuring($this->id, $lan->season->start_year))
+			return true;
 
 		return false;
 	}
