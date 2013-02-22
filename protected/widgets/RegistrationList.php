@@ -15,20 +15,6 @@ class RegistrationList extends CWidget
 	public $currentLan;
 
 	/**
-	 * @var int the number of registrations for this LAN
-	 */
-	private $_registrationCount;
-
-	/**
-	 * Initializes the widget
-	 */
-	public function init()
-	{
-		// TODO: Use relation
-		$this->_registrationCount = count($this->currentLan->registrations);
-	}
-
-	/**
 	 * Runs the widget. The rendering is done here.
 	 */
 	public function run() 
@@ -40,7 +26,7 @@ class RegistrationList extends CWidget
 			<?php
 			
 			$this->renderRegistrationCount();
-			if ($this->_registrationCount > 0)
+			if ($this->currentLan->registrationCount > 0)
 				$this->renderList();
 			
 			?>
@@ -150,7 +136,7 @@ class RegistrationList extends CWidget
 								array('id'=>$registration->user_id)));
 						
 						// Show badge for first timers
-						if ($registration->isFirstTimer())
+						if ($registration->user->registrationCount == 1)
 						{
 							echo CHtml::image(Yii::app()->baseUrl.
 									'/files/images/icons/new_icon_small.png', 
@@ -158,7 +144,7 @@ class RegistrationList extends CWidget
 						}
 						
 						// Show warning icon for those who haven't payed
-						if (!$registration->user->hasValidPayment())
+						if (!$registration->user->hasValidPayment($this->currentLan))
 						{
 							echo CHtml::image(Yii::app()->baseUrl.
 									'/files/images/icons/no_can_has_pay.png',
@@ -211,7 +197,7 @@ class RegistrationList extends CWidget
 		?>
 		<p>
 			<?php echo Yii::t('registration', 'Antal registrerade hittills'); ?>: 
-			<b><?php echo $this->_registrationCount; ?> / 
+			<b><?php echo $this->currentLan->registrationCount; ?> / 
 			<?php echo $this->currentLan->reg_limit; ?></b>
 			
 			<img style="margin-left: 12px;" src="<?php echo Yii::app()->baseUrl; ?>/files/images/icons/new_icon_small.png" alt="Har ej deltagit förr" />

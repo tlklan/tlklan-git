@@ -271,18 +271,6 @@ class Registration extends CActiveRecord
 	}
 	
 	/**
-	 * Checks whether this is the first time the user has been registered
-	 * @return boolean
-	 */
-	public function isFirstTimer()
-	{
-		$models = Registration::model()->findAllByAttributes(array(
-			'user_id'=>$this->user_id));
-
-		return count($models) == 1;
-	}
-	
-	/**
 	 * Returns the first registration the specified user ever made
 	 * @return Registration
 	 */
