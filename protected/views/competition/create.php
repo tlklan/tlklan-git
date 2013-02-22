@@ -19,7 +19,9 @@ $form = $this->beginWidget('TbActiveForm', array(
 	'type'=>'horizontal',
 ));
 
-echo $form->dropDownListRow($model, 'competition', CHtml::listData($competitions, 'id', 'nameAndDeadline'), array('prompt'=>''));
+$competitionList = CHtml::listData($competitions, 'id', 'nameAndDeadline');
+echo $form->dropDownListRow($model, 'competition', $competitionList, array(
+	'prompt'=>'', 'class'=>'span3'));
 
 ?>
 <div class="form-actions">
