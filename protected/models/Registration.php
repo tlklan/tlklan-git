@@ -7,9 +7,6 @@
  * @property integer $id
  * @property integer $lan_id
  * @property integer $user_id
- * @property string $name
- * @property string $email
- * @property string $nick
  * @property string $device
  * @property string $date
  * @property int $never_showed
@@ -23,28 +20,41 @@
  */
 class Registration extends CActiveRecord
 {
+
+	/**
+	 * @var string the device the person will use
+	 */
+	public $device = 'desktop';
+
+	/**
+	 * @var array list of competitions (IDs) the user will likely participate in
+	 */
+	public $competitionList;
+
+	/**
+	 * @var boolean legacy question
+	 */
+	public $penis_long_enough;
 	
 	/**
-	 * Used for sorting grids when data is fetched throughn search()
-	 * @var string
+	 * @var string used for sorting grids when data is fetched through search()
 	 */
 	private $_lanName;
 	
 	/**
-	 * @var string the user's name (provided for backward compatibility)
+	 * @var string used for sorting grids when data is fetched through search()
 	 */
 	private $_name;
 	
 	/**
-	 * @var string the user's email (provided for backward compatibility)
+	 * @var string used for sorting grids when data is fetched through search()
 	 */
 	private $_email;
 	
 	/**
-	 * @var string the user's nick (provided for backward compatibility)
+	 * @var string used for sorting grids when data is fetched through search()
 	 */
 	private $_nick;
-	
 	
 	/**
 	 * Returns the static model of the specified AR class.
@@ -71,8 +81,100 @@ class Registration extends CActiveRecord
 		return array(
 			array('lan_id, user_id, device, date', 'required'),
 			array('lan_id, user_id, never_showed', 'numerical', 'integerOnly'=>true),
+			
+			// user's can only register once
+			array('nick', 'validateDuplicates', 'on'=>'create'),
+			
+			// sanity checks
+			array('device', 'validateDevice'),
+			array('penis_long_enough', 'validatePenis'),
+			array('competitionList', 'validateCompetitionList'),
+			
+			// search rule
 			array('lanName, user, name, email, nick', 'safe', 'on'=>'search'),
 		);
+	}
+	
+	/**
+	 * Pre-validation logic. Here we check that the current LAN isn't already 
+	 * full. If it is we add a general error to the model (no attribute) and 
+	 * stop validating.
+	 * // TODO: Do this in RegistrationController instead
+	 * @return boolean whether to continue validation
+	 */
+	protected function beforeValidate()
+	{
+		parent::beforeValidate();
+		
+		if ($this->scenario == 'create' && Lan::model()->getCurrent()->isFull())
+		{
+			$this->addError(false, Yii::t('registration', 'Det går inte längre att anmäla sig till det här LANet'));
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Checks that the user hasn't already registered to the current LAN
+	 * @param string $attribute the attribute being validated
+	 */
+	public function validateDuplicates($attribute)
+	{
+		$dupes = Registration::model()->currentLan()->findAllByAttributes(array(
+			'user_id'=>Yii::app()->user->userId));
+
+		if (count($dupes) > 0)
+			$this->addError($attribute, Yii::t('registration', 'Du har redan registrerat dig till detta LAN'));
+	}
+
+	/**
+	 * Validates the "device" property.
+	 * @param string $attribute the attribute being validated
+	 */
+	public function validateDevice($attribute)
+	{
+		if (!in_array($this->device, Device::getValidDevices()))
+			$this->addError($attribute, Yii::t('registration', 'Du får inte komma på LAN med den valda maskinen'));
+	}
+
+	/**
+	 * Validates the "penis size" property
+	 * @param string $attribute the attribute being validated
+	 */
+	public function validatePenis($attribute)
+	{
+		if (!$this->hasErrors() && $this->penis_long_enough != 'yes')
+			$this->addError($attribute, Yii::t('registration', '{minimumPenisLength} inch penis or GTFO', array(
+				'{minimumPenisLength}'=>Yii::app()->params['minimumPenisLength'])));
+	}
+
+	/**
+	 * Checks that the selected competitions actually exist
+	 * @param string $attribute the attribute being validated
+	 */
+	public function validateCompetitionList($attribute)
+	{
+		if (!empty($this->competitionList))
+		{
+			$validCompetitions = Lan::model()->getCurrent()->competitions;
+
+			// Make an array of the competition IDs so we can compare to $this->competitions
+			$validCompetitionIds = array();
+			foreach ($validCompetitions as $validCompetition)
+				$validCompetitionIds[] = $validCompetition->id;
+
+			foreach ($this->competitionList as $competition)
+			{
+				if (!in_array($competition, $validCompetitionIds))
+				{
+					$this->addError($attribute, Yii::t('registration', 'Ditt val av tävlingar är ogiltigt'));
+
+					break;
+				}
+			}
+		}
 	}
 
 	/**
@@ -96,6 +198,7 @@ class Registration extends CActiveRecord
 	{
 		return array(
 			'currentLan'=>array(
+				// TODO: Check how often getCurrent() is called, perhaps we should cache
 				'condition'=>'lan_id = '.Lan::model()->getCurrent()->id,
 			)
 		);
@@ -128,8 +231,10 @@ class Registration extends CActiveRecord
 			'name'=>Yii::t('registration', 'Namn'),
 			'email'=>Yii::t('registration', 'E-post'),
 			'nick'=>Yii::t('registration', 'Nick'),
-			'device'=>Yii::t('registration', 'Datortyp'),
+			'device'=>Yii::t('registration', 'Jag använder en'),
+			'competitionList'=>Yii::t('registration', 'Jag tänker eventuellt delta i dessa tävlingar'),
 			'date'=>Yii::t('registration', 'Anmälningsdatum'),
+			'penis_long_enough'=>Yii::t('registration', 'Penis längre än {length}"?', array('{length}'=>Yii::app()->params['minimumPenisLength'])),
 			'never_showed'=>Yii::t('registration', 'Dök aldrig upp'),
 		);
 	}
@@ -163,18 +268,6 @@ class Registration extends CActiveRecord
 	public function hasDesktop()
 	{
 		return $this->device == 'desktop';
-	}
-	
-	/**
-	 * Checks whether this is the first time the user has been registered
-	 * @return boolean
-	 */
-	public function isFirstTimer()
-	{
-		$models = Registration::model()->findAllByAttributes(array(
-			'user_id'=>$this->user_id));
-
-		return count($models) == 1;
 	}
 	
 	/**

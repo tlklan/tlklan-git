@@ -22,6 +22,7 @@
  * @property Registration[] $registrations
  * @property Competition[] $competitions
  * @property Image $image
+ * @property Payment[] $payments
  */
 class User extends CActiveRecord
 {
@@ -146,12 +147,14 @@ class User extends CActiveRecord
 			'submissions'=>array(self::HAS_MANY, 'Submission', 'user_id', 'order'=>'submissions.id DESC'),
 			'submissionCount'=>array(self::STAT, 'Submission', 'user_id'),
 			'registrations'=>array(self::HAS_MANY, 'Registration', 'user_id'),
+			'registrationCount'=>array(self::STAT, 'Registration', 'user_id'),
 			'lans'=>array(self::HAS_MANY, 'Lan', array('lan_id'=>'id'), 'through'=>'registrations'),
 			// the following relation is only used as an intermediate to get the 
 			// competitions relation
 			'competitors'=>array(self::HAS_MANY, 'Competitor', array('id'=>'registration_id'), 'through'=>'registrations'),
 			'competitions'=>array(self::HAS_MANY, 'Competition', array('competition_id'=>'id'), 'through'=>'competitors'),
 			'image'=>array(self::HAS_ONE, 'Image', array('id'=>'image_id')),
+			'payments'=>array(self::HAS_MANY, 'Payment', 'user_id'),
 		);
 	}
 
@@ -358,26 +361,29 @@ class User extends CActiveRecord
 	
 	/**
 	 * Checks if the user has a valid payment for the current LAN
+	 * @param Lan $lan the LAN which the payment should be valid for. If not 
+	 * specified the current LAN will be used.
 	 * @return boolean
 	 */
-	public function hasValidPayment()
+	public function hasValidPayment($lan = null)
 	{
+		if ($lan === null)
+			$lan = Lan::model()->getCurrent();
+
+		// Check for standard payments
+		foreach ($this->payments as $payment)
+			if ($payment->season_id == $lan->season_id || $payment->lan_id == $lan->id)
+				return true;
+
 		// Current board members don't have to pay
 		if (CommitteeMember::model()->isCurrent($this->id))
 			return true;
-		
-		$lan = Lan::model()->getCurrent();
-		
-		// Check if the user was on the committee when the current season 
-		// started
+
+		// Check if the user was on the board when the current season started
 		if (CommitteeMember::model()->wasDuring($this->id, $lan->season->start_year))
 			return true;
-		
-		// Check for valid payments
-		return Payment::model()->find('user_id = :user_id AND (season_id = :season_id OR lan_id = :lan_id)', array(
-			':user_id'=>$this->id,
-			':season_id'=>$lan->season_id,
-			':lan_id'=>$lan->id)) !== null;
+
+		return false;
 	}
 
 }

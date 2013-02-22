@@ -132,8 +132,15 @@ return array(
 			'username' => 'root',
 			'password' => '',
 			'charset' => 'utf8',
+			'schemaCachingDuration'=>2592000, // 30 days
+			
+			// make the debug toolbar work
+			'enableProfiling'=>true,
+			'enableParamLogging'=>true,
 		),
-		
+		'cache'=>array(
+			'class'=>'CFileCache',
+		),
 		'errorHandler'=>array(
             'errorAction'=>'site/error',
         ),
@@ -144,12 +151,17 @@ return array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
 				),
+//				array(
+//					'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
+//					'ipFilters'=>array('127.0.0.1'),
+//				),
 			),
 		),
 		'messages'=>array(
 			'class'=>'CDbMessageSource',
 			'sourceMessageTable'=>'tlk_source_messages',
 			'translatedMessageTable'=>'tlk_translated_messages',
+			'cachingDuration'=>86400,
 		),
 	),
 

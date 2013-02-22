@@ -117,6 +117,7 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 			'closeText'=>'&times;',
 			'alerts'=>array(
 				'success'=>array('block'=>true, 'fade'=>true, 'closeText'=>'&times;'),
+				'info'=>array('block'=>true, 'fade'=>true, 'closeText'=>'&times;'),
 				'error'=>array('block'=>true, 'fade'=>true, 'closeText'=>'&times;'),
 			),
 		)); ?>
