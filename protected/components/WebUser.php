@@ -68,10 +68,7 @@ class WebUser extends CWebUser
 
 		$this->loadUser();
 
-		if ($this->_user->id == 1)
-			return true;
-		else
-			return $this->hasGroup($this->gid);
+		return $this->hasGroup($this->gid);
 	}
 
 	/**
