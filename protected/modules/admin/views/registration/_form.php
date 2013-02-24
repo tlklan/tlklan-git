@@ -1,9 +1,9 @@
 <?php 
 
+/* @var $model AdminRegistration */
+
 $form = $this->beginWidget('TbActiveForm', array(
-	'id'=>'registration-form',
 	'type'=>'horizontal',
-	'enableClientValidation'=>false,
 ));
 
 echo $form->errorSummary($model, '');
@@ -17,7 +17,7 @@ $this->renderPartial('//registration/_deviceList', array(
 	'model'=>$model,
 ));
 
-echo $form->checkBoxListRow($model, 'competitions', CHtml::listData($competitions, 'id', 'full_name'));
+echo $form->checkBoxListRow($model, 'competitionList', CHtml::listData($competitions, 'id', 'full_name'));
 echo $form->checkBoxRow($model, 'never_showed');
 
 ?>
