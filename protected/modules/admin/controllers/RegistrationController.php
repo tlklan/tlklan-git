@@ -37,9 +37,9 @@ class RegistrationController extends AdminController
 			throw new CHttpException(400, "Inget LAN är aktivt för tillfället");
 
 		// Handle input
-		if (isset($_POST['Registration']))
+		if (isset($_POST['AdminRegistration']))
 		{
-			$model->attributes = $_POST['Registration'];
+			$model->attributes = $_POST['AdminRegistration'];
 			
 			if ($model->save())
 			{
