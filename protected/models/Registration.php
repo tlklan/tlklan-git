@@ -252,14 +252,26 @@ class Registration extends CActiveRecord
 	}
 	
 	/**
-	 * Remove all associated competition registrations if the model is 
-	 * updated (they will be added again afterwards)
+	 * Save the user's competition registrations as well
 	 */
 	protected function afterSave()
 	{
+		// Remove any previous registrations
 		if (!$this->isNewRecord)
 			foreach ($this->competitions as $competition)
 				$competition->delete();
+
+		// Add the new ones
+		if (!empty($this->competitionList))
+		{
+			foreach ($this->competitionList as $competition)
+			{
+				$competitor = new Competitor;
+				$competitor->competition_id = $competition;
+				$competitor->registration_id = $this->id;
+				$competitor->save();
+			}
+		}
 
 		parent::afterSave();
 	}

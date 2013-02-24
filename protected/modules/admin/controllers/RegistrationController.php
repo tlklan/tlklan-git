@@ -38,22 +38,6 @@ class RegistrationController extends AdminController
 			
 			if ($model->save())
 			{
-				$registrationId = $model->primaryKey;
-				
-				// Register the user to the specifeid competitions if he signed 
-				// up for any
-				// TODO: Do in afterSave()
-				if (!empty($model->competitionList))
-				{
-					foreach ($model->competitionList as $competition)
-					{
-						$competitor = new Competitor;
-						$competitor->competition_id = $competition;
-						$competitor->registration_id = $registrationId;
-						$competitor->save();
-					}
-				}
-
 				Yii::app()->user->setFlash('success', 'Anmälan ifråga har uppdaterats');
 
 				$this->redirect($this->createUrl('registration/admin'));
