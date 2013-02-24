@@ -131,10 +131,6 @@ class RegistrationController extends Controller
 		$model = $this->loadModel($id);
 		$model->penis_long_enough = 'yes';
 
-		// Populate competitionList
-		foreach ($model->competitions as $competition)
-			$model->competitionList[] = $competition->competition_id;
-
 		if (isset($_POST['Registration']))
 		{
 			$model->attributes = $_POST['Registration'];

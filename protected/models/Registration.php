@@ -115,6 +115,18 @@ class Registration extends CActiveRecord
 
 		return true;
 	}
+	
+	/**
+	 * Populates the competitionList attribute (used in forms to display 
+	 * checkbox lists)
+	 */
+	protected function afterFind()
+	{
+		parent::afterFind();
+
+		foreach ($this->competitions as $competition)
+			$this->competitionList[] = $competition->competition_id;
+	}
 
 	/**
 	 * Checks that the user hasn't already registered to the current LAN

@@ -26,11 +26,6 @@ class RegistrationController extends AdminController
 		$model = $this->loadModel($id);
 		$model->penis_long_enough = 'yes';
 
-		// Populate competitionList
-		// TODO: Do this in afterFind
-		foreach ($model->competitions as $competition)
-			$model->competitionList[] = $competition->competition_id;
-		
 		// Get the current LAN
 		$currentLan = Lan::model()->getCurrent();
 		if ($currentLan === null)
