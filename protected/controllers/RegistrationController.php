@@ -133,7 +133,7 @@ class RegistrationController extends Controller
 
 			if ($model->save())
 			{
-				Yii::app()->user->setFlash('success', Yii::t('registration', 'Anmälan ifråga har uppdaterats'));
+				Yii::app()->user->setFlash('success', Yii::t('registration', 'Din anmälan har uppdaterats'));
 
 				$this->redirect(array('create'));
 			}
