@@ -101,10 +101,6 @@ class RegistrationController extends Controller
 
 			if ($model->save())
 			{
-				// Register the user to the competitions he signed up for
-				if (!empty($model->competitionList))
-					$this->saveCompetitions($model->competitionList, $model->primaryKey);
-
 				Yii::app()->user->setFlash('success', Yii::t('registration', 'Du är nu registrerad till {lanName}!', array('{lanName}'=>$currentLan->name)));
 
 				$this->refresh();
@@ -131,21 +127,13 @@ class RegistrationController extends Controller
 		$model = $this->loadModel($id);
 		$model->penis_long_enough = 'yes';
 
-		// Populate competitionList
-		foreach ($model->competitions as $competition)
-			$model->competitionList[] = $competition->competition_id;
-
 		if (isset($_POST['Registration']))
 		{
 			$model->attributes = $_POST['Registration'];
 
 			if ($model->save())
 			{
-				// Register the user to the competitions he signed up for
-				if (!empty($model->competitionList))
-					$this->saveCompetitions($model->competitionList, $model->primaryKey);
-
-				Yii::app()->user->setFlash('success', Yii::t('registration', 'Anmälan ifråga har uppdaterats'));
+				Yii::app()->user->setFlash('success', Yii::t('registration', 'Din anmälan har uppdaterats'));
 
 				$this->redirect(array('create'));
 			}
@@ -184,22 +172,6 @@ class RegistrationController extends Controller
 		if ($model === null)
 			throw new CHttpException(400, Yii::t('registration', 'Anmälan hittades inte'));
 		return $model;
-	}
-
-	/**
-	 * Takes a list of competition ID and a registration ID and registers the 
-	 * user to those competitions
-	 * @param array $competitions array of integers
-	 */
-	private function saveCompetitions($competitions, $registrationId)
-	{
-		foreach ($competitions as $competitionId)
-		{
-			$competitor = new Competitor;
-			$competitor->competition_id = $competitionId;
-			$competitor->registration_id = $registrationId;
-			$competitor->save();
-		}
 	}
 
 }

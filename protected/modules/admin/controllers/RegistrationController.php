@@ -22,10 +22,9 @@ class RegistrationController extends AdminController
 	 */
 	public function actionUpdate($id)
 	{
-		// Load the model and populate the form model with its values
-		$registration = $this->loadModel($id);	
-		$model = new AdminRegistrationForm();
-		$model->populate($registration);
+		// Populate the model
+		$model = $this->loadModel($id);
+		$model->penis_long_enough = 'yes';
 
 		// Get the current LAN
 		$currentLan = Lan::model()->getCurrent();
@@ -33,34 +32,12 @@ class RegistrationController extends AdminController
 			throw new CHttpException(400, "Inget LAN är aktivt för tillfället");
 
 		// Handle input
-		if (isset($_POST['AdminRegistrationForm']))
+		if (isset($_POST['AdminRegistration']))
 		{
-			$model->attributes = $_POST['AdminRegistrationForm'];
+			$model->attributes = $_POST['AdminRegistration'];
 			
-			if ($model->validate())
+			if ($model->save())
 			{
-				// Copy some values to the registration model
-				$registration->device = $model->device;
-				$registration->never_showed = $model->never_showed;
-
-				// Save and store the primary key for the next query
-				$registration->save();
-				$registrationId = $registration->primaryKey;
-				
-				// Register the user to the specifeid competitions if he signed 
-				// up for any
-				if (!empty($model->competitions))
-				{
-					foreach ($model->competitions as $competition)
-					{
-						$competitor = new Competitor;
-						$competitor->competition_id = $competition;
-						$competitor->registration_id = $registrationId;
-
-						$competitor->save();
-					}
-				}
-
 				Yii::app()->user->setFlash('success', 'Anmälan ifråga har uppdaterats');
 
 				$this->redirect($this->createUrl('registration/admin'));
@@ -69,7 +46,6 @@ class RegistrationController extends AdminController
 
 		$this->render('update', array(
 			'model'=>$model,
-			'registration'=>$registration,
 			'competitions'=>$currentLan->competitions,
 		));
 	}
@@ -141,7 +117,7 @@ class RegistrationController extends AdminController
 	 */
 	public function loadModel($id)
 	{
-		$model = Registration::model()->findByPk($id);
+		$model = AdminRegistration::model()->findByPk($id);
 		if ($model === null)
 			throw new CHttpException(404, Yii::t('general', 'Sidan du sökte finns ej'));
 		return $model;
