@@ -1,7 +1,7 @@
 <?php
 
 /* @var $form TbActiveForm */
-/* @var $model RegistrationForm */
+/* @var $model Registration */
 
 ?>
 <div class="control-group">
