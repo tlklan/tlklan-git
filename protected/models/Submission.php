@@ -53,7 +53,7 @@ class Submission extends CActiveRecord
 			array('competition_id, user_id, name', 'required'),
 			array('file', 'required', 'on'=>'insert'),
 			array('file', 'file', 'on'=>'insert'),
-			array('competition_id, user_id', 'numerical', 'integerOnly'=>true),
+			array('competition_id, user_id, disqualified', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>30),
 			array('size, comments', 'safe'),
 			// the file doesn't have to be resubmitted when updating

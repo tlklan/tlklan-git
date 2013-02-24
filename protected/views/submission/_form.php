@@ -13,8 +13,10 @@ $form = $this->beginWidget('TbActiveForm', array(
 	'htmlOptions'=>array('enctype'=>'multipart/form-data')
 )); 
 
+$isAdmin = Yii::app()->user->isAdmin();
+
 // Only allow administrators to change submitter
-if (!$model->isNewRecord && Yii::app()->user->isAdmin())
+if (!$model->isNewRecord && $isAdmin)
 	echo $form->dropDownListRow($model, 'user_id', CHtml::listData(
 			User::model()->findAll(array('order'=>'name')), 'id', 'name'));
 
@@ -22,6 +24,9 @@ echo $form->dropDownListRow($model, 'competition_id', $competitionList, array('p
 echo $form->textFieldRow($model, 'name');
 echo $form->fileFieldRow($model, 'file');
 echo $form->textAreaRow($model, 'comments');
+
+if ($isAdmin)
+	echo $form->checkBoxRow($model, 'disqualified');
 
 ?>
 <div class="form-actions">
