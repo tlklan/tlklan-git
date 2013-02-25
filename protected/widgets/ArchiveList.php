@@ -63,32 +63,40 @@ class ArchiveList extends CWidget {
 						$submissionVotes[] = $submission->voteCount;
 					}
 					
-					$rowClass = 'submission-separator';
+					$rowClasses = array('submission-separator');
 					
 					// Start looping through each submission
 					foreach($submissions as $k => $submission) {
 						// Only show the competition name once
 						$competitionName = ($k == 0) ? $competition->full_name : '';
 						
+						// Mark disqualified submissions
+						if($submission->disqualified == true)
+							$rowClasses[] = 'disqualified';
+						
 						// Mark the winning submission(s) row, but only if there 
 						// have actually been a vote. We also don't want to 
 						// show the winner until the competitions deadline is 
-						// over
+						// over. We also don't want to mark the row as winning 
+						// if it has been disqualified
+						
+						// Has the deadline passed?
 						if (strtotime($competition->deadline) < time())
 						{
-							if (count($submissions) == 1 || max($submissionVotes) > 0 && $submission->voteCount
-									== max($submissionVotes))
+							// Is it disqualified?
+							if (!in_array('disqualified', $rowClasses))
 							{
-								$rowClass .= ' winning-submission';
+								// Is it a winner+
+								if (count($submissions) == 1 || max($submissionVotes) > 0 
+										&& $submission->voteCount == max($submissionVotes))
+								{
+									$rowClasses[] = 'winning-submission';
+								}
 							}
 						}
-							
-						// Mark disqualified submissions
-						if($submission->disqualified == true)
-							$rowClass .= ' disqualified';
-						
+												
 						?>
-						<tr class="<?php echo $rowClass; ?>">
+						<tr class="<?php echo implode(' ', $rowClasses); ?>">
 							<td><?php echo $competitionName; ?></td>
 							<td>
 								<?php 
@@ -151,7 +159,7 @@ class ArchiveList extends CWidget {
 						<?php
 						
 						// Reset the row class and increment the submission counter
-						$rowClass = '';
+						$rowClasses = array();
 						$totalSubmissionCount++;
 					}
 				}
