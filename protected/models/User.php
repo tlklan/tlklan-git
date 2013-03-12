@@ -310,6 +310,11 @@ class User extends CActiveRecord
 		if ($allCornerLans)
 			$badges[] = new Badge(Badge::BADGE_ALL_CORNER_LANS);
 		
+		// Has been to Assembly
+		foreach ($attendedLans as $lan)
+			if ($lan->location == Lan::LOCATION_HARTWALL)
+				$badges[] = new Badge(Badge::BADGE_ASSEMBLY);
+		
 		// Never showed badge
 		foreach ($this->registrations as $registration)
 		{

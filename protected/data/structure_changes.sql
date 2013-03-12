@@ -544,5 +544,5 @@ ALTER TABLE `tlk_votes`
 	DROP FOREIGN KEY `votes_competition_id_fk`;
 
 # Add position column indicating how the user finished in the competition
-ALTER TABLE `tlk_competitors`
+ALTER TABLE `tlk_actual_competitors`
 	ADD COLUMN `position` INT(11) NULL DEFAULT NULL AFTER `competition_id`;

@@ -19,6 +19,7 @@ class Badge extends CModel
 	const BADGE_NEVER_SHOWED				= 128;
 	const BADGE_MINIMUM_10_LANS			= 256;
 	const BADGE_WINNER					= 512;
+	const BADGE_ASSEMBLY				= 1024;
 
 	/**
 	 * @var int the type of the badge
@@ -75,6 +76,9 @@ class Badge extends CModel
 			case self::BADGE_WINNER:
 				return 'winner.png';
 				break;
+			case self::BADGE_ASSEMBLY:
+				return 'assembly.png';
+				break;
 			default:
 				return 'default.png';
 		}
@@ -117,6 +121,9 @@ class Badge extends CModel
 				break;
 			case self::BADGE_WINNER:
 				return Yii::t('badge', 'Har vunnit minst en tävling');
+				break;
+			case self::BADGE_ASSEMBLY:
+				return Yii::t('badge', 'Har varit på Assembly (räknas endast om man anmält sig via oss)');
 				break;
 			default:
 				return '';
