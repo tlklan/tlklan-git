@@ -315,8 +315,7 @@ class User extends CActiveRecord
 		{
 			if ($registration->never_showed)
 			{
-				$badges[] = new Badge(Badge::BADGE_NEVER_SHOWED,
-								array('lan'=>$registration->lan->name));
+				$badges[] = new BadgeNeverShowed($registration->lan->name);
 
 				break;
 			}

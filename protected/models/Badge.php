@@ -23,21 +23,14 @@ class Badge extends CModel
 	 * @var int the type of the badge
 	 */
 	private $_type;
-	
-	/**
-	 * @var array list of key->value pairs that can be used to add dynamic 
-	 * content to the badge descriptions.
-	 */
-	private $_dynamicValues;
 
 	/**
 	 * Class constructor. It sets the badge type
-	 * @param type $type
+	 * @param int $type
 	 */
-	public function __construct($type, $dynamicValues = array())
+	public function __construct($type)
 	{
 		$this->_type = $type;
-		$this->_dynamicValues = $dynamicValues;
 	}
 
 	/**
@@ -74,9 +67,6 @@ class Badge extends CModel
 			case self::BADGE_IS_CURRENT_COM_MEMBER:
 			case self::BADGE_FORMER_COM_MEMBER:
 				return 'committee_member.png';
-				break;
-			case self::BADGE_NEVER_SHOWED:
-				return 'never_showed.png';
 				break;
 			case self::BADGE_MINIMUM_10_LANS:
 				return 'minimum_10_lans.png';
@@ -120,9 +110,6 @@ class Badge extends CModel
 				break;
 			case self::BADGE_FORMER_COM_MEMBER:
 				return Yii::t('badge', 'Har tidigare suttit i LAN-klubbens styrelse');
-				break;
-			case self::BADGE_NEVER_SHOWED:
-				return Yii::t('badge', 'Har anmält sig till ett fullt LAN men inte dykt upp <span class="lan-name">({lanName})</span>', array('{lanName}'=>$this->_dynamicValues['lan']));
 				break;
 			default:
 				return '';
