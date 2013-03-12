@@ -534,3 +534,11 @@ UPDATE `tlk_seasons` SET `start_year`=2009, `end_year`=2010 WHERE  `id`=1;
 UPDATE `tlk_seasons` SET `start_year`=2010, `end_year`=2011 WHERE  `id`=2;
 UPDATE `tlk_seasons` SET `start_year`=2011, `end_year`=2012 WHERE  `id`=3;
 UPDATE `tlk_seasons` SET `start_year`=2012, `end_year`=2013 WHERE  `id`=4;
+
+#
+# 2013-02-12
+#
+# Remove the competition_id column, we don't need it
+ALTER TABLE `tlk_votes`
+	DROP COLUMN `competition_id`,
+	DROP FOREIGN KEY `votes_competition_id_fk`;

@@ -7,11 +7,9 @@
  * @property integer $id
  * @property integer $voter_id
  * @property integer $submission_id
- * @property integer $competition_id
  *
  * The followings are the available model relations:
  * @property Submission $submission
- * @property Registration $voter
  */
 class Vote extends CActiveRecord
 {
@@ -32,5 +30,15 @@ class Vote extends CActiveRecord
 	{
 		return 'tlk_votes';
 	}
-
+	
+	/**
+	 * @return array the relations for this model
+	 */
+	public function relations()
+	{
+		return array(
+			'submission'=>array(self::BELONGS_TO, 'Submission', 'submission_id'),
+		);
+	}
+	
 }

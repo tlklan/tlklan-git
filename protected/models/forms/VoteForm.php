@@ -69,10 +69,15 @@ class VoteForm extends CFormModel
 	 */
 	public function validateVoter()
 	{
-		$votes = Vote::model()->findByAttributes(array(
-			'voter_id'=>$this->voter,
-			'competition_id'=>$this->competition,
-		));
+		// Join the submissions table so we can check for dupes by competition ID
+		$with = array(
+			'submission'=>array(
+				'select'=>false,
+				'condition'=>'submission.competition_id = :competition',
+				'params'=>array(':competition'=>$this->competition)));
+		
+		$votes = Vote::model()->with($with)->findByAttributes(array(
+			'voter_id'=>$this->voter));
 
 		// The voter attribute isn't shown in the form so we have to put the 
 		// error elsewhere
