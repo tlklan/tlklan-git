@@ -542,3 +542,7 @@ UPDATE `tlk_seasons` SET `start_year`=2012, `end_year`=2013 WHERE  `id`=4;
 ALTER TABLE `tlk_votes`
 	DROP COLUMN `competition_id`,
 	DROP FOREIGN KEY `votes_competition_id_fk`;
+
+# Add position column indicating how the user finished in the competition
+ALTER TABLE `tlk_competitors`
+	ADD COLUMN `position` INT(11) NULL DEFAULT NULL AFTER `competition_id`;
