@@ -274,7 +274,11 @@ class User extends CActiveRecord
 		
 		// User has been on more than five LANs
 		if ($this->lanCount >= 5)
-			$badges[] = new Badge(Badge::BADGE_MANY_LANS);
+			$badges[] = new Badge(Badge::BADGE_MINIMUM_5_LANS);
+		
+		// User has been on more than 10 LANs
+		if ($this->lanCount >= 10)
+			$badges[] = new Badge(Badge::BADGE_MINIMUM_10_LANS);
 
 		$allCornerLans = true; // User has attended all Cornern LANs
 		$allLans = true; // User has attended all LANs
