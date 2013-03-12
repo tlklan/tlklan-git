@@ -99,6 +99,20 @@ class CompetitionController extends AdminController
 
 			if ($model->save())
 			{
+				// Save positions
+				if (isset($_POST['position']))
+				{
+					foreach ($_POST['position'] as $competitorId=> $position)
+					{
+						if (!empty($position))
+						{
+							$competitor = ActualCompetitor::model()->findByPk($competitorId);
+							$competitor->position = $position;
+							$competitor->save(false);
+						}
+					}
+				}
+				
 				Yii::app()->user->setFlash('success', 'Tävlingen har uppdaterats');
 
 				$this->redirect(array('admin'));

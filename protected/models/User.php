@@ -330,6 +330,20 @@ class User extends CActiveRecord
 		if (count($this->getWonCompetitions()) > 0)
 			$badges[] = new Badge(Badge::BADGE_HAS_WINNING_SUBMISSION);
 
+		// User has won at least one competition (excluding those that have 
+		// submissions)
+		$with = array(
+			'registration'=>array(
+				'select'=>false,
+				'condition'=>'registration.user_id = :user_id',
+				'params'=>array(':user_id'=>$this->id)));
+
+		$wins = ActualCompetitor::model()->with($with)->findAllByAttributes(
+				array('position'=>1));
+
+		if (count($wins) > 0)
+			$badges[] = new Badge(Badge::BADGE_WINNER);
+		
 		return $badges;
 	}
 	

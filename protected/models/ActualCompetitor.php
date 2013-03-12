@@ -7,6 +7,7 @@
  * @property integer $id
  * @property integer $competition_id
  * @property integer $registration_id
+ * @property int $position
  *
  * The followings are the available model relations:
  * @property Competition $compo
