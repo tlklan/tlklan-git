@@ -51,6 +51,13 @@ $this->breadcrumbs=array(
 							'value'=>isset($lanName) ? $model->date_added.' <span class="lan-name">('.$lanName.')</span>' : $model->date_added,
 							'type'=>'raw',
 						),
+						array(
+							'type'=>'raw',
+							'label'=>Yii::t('user', 'Besökta LAN'),
+							'value'=>$this->renderPartial('_visitedLans', array(
+								'user'=>$model,
+							), true),
+						)
 					),
 				)); ?>
 			</div>
