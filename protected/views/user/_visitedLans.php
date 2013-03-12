@@ -16,7 +16,7 @@ Yii::app()->clientScript->registerScript('toggle-lan-list', "
 <?php echo count($user->lans); ?> st 
 <a id="toggle-lan-list" class="lan-name" href="#">(visa lista)</a>
 
-<div id="lan-list">
+<div id="lan-list" class="profile-inner-list">
 	<table class="table table-striped table-bordered">
 		<tr>
 			<th><?php echo Yii::t('lan', 'Namn'); ?></th>

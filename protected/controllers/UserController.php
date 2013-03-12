@@ -140,9 +140,21 @@ class UserController extends Controller
 		$model = User::model()->with('submissions', 'submissions.competition', 
 				'submissions.competition.lan', 'submissionCount', 'lans', 
 				'lanCount', 'registrations')->findByPk($userId);
+		
+		// Get the ActualCompetitor models for the competitions where the user 
+		// won
+		$with = array(
+			'registration'=>array(
+				'select'=>false,
+				'condition'=>'registration.user_id = :user_id',
+				'params'=>array(':user_id'=>$userId)));
+
+		$actualCompetitors = ActualCompetitor::model()->with($with)->findAllByAttributes(
+				array('position'=>1));
 
 		$this->render('profile', array(
 			'model'=>$model,
+			'actualCompetitors'=>$actualCompetitors,
 		));
 	}
 

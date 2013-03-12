@@ -57,6 +57,13 @@ $this->breadcrumbs=array(
 							'value'=>$this->renderPartial('_visitedLans', array(
 								'user'=>$model,
 							), true),
+						),
+						array(
+							'type'=>'raw',
+							'label'=>Yii::t('user', 'Vunna tävlingar'),
+							'value'=>$this->renderPartial('_wonCompetitions', array(
+								'actualCompetitors'=>$actualCompetitors,
+							), true),
 						)
 					),
 				)); ?>
