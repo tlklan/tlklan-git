@@ -80,8 +80,8 @@ class ArchiveList extends CWidget {
 						// over. We also don't want to mark the row as winning 
 						// if it has been disqualified
 						
-						// Has the deadline passed?
-						if (strtotime($competition->deadline) < time())
+						// Has the deadline passed? Or is the user an admin?
+						if ($isAdmin || strtotime($competition->deadline) < time())
 						{
 							// Is it disqualified?
 							if (!in_array('disqualified', $rowClasses))
