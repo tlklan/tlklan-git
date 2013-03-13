@@ -546,3 +546,12 @@ ALTER TABLE `tlk_votes`
 # Add position column indicating how the user finished in the competition
 ALTER TABLE `tlk_actual_competitors`
 	ADD COLUMN `position` INT(11) NULL DEFAULT NULL AFTER `competition_id`;
+
+#
+# 2013-02-13
+#
+# Added modified column to cms_content
+ALTER TABLE `cms_content`
+	ADD COLUMN `modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `nodeId`;
+
+UPDATE cms_content SET modified = NOW();
