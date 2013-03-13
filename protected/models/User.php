@@ -231,8 +231,6 @@ class User extends CActiveRecord
 
 			if ($winner !== null && $winner->user_id == $this->id)
 			{
-				$competition = $winner->competition;
-
 				if ($withDeadlines && strtotime($competition->deadline) > time())
 					continue;
 				
@@ -303,7 +301,7 @@ class User extends CActiveRecord
 				if ($allCornerLans && !in_array($lan, $attendedLans))
 					$allCornerLans = false;
 		}
-
+		
 		if ($allLans)
 			$badges[] = new Badge(Badge::BADGE_ALL_LANS);
 

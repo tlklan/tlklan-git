@@ -26,7 +26,8 @@ $this->breadcrumbs=array(
 				<?php 
 				
 				// Get the name of the first LAN the user registered to
-				$registration = Registration::model()->getFirstRegistration($model->id);
+				$registration = Registration::model()->with('lan')
+						->getFirstRegistration($model->id);
 				
 				// Newly registered users will not have a first LAN
 				if ($registration !== null)
