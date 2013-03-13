@@ -115,6 +115,7 @@ $this->breadcrumbs=array(
 				if (count($submissions) > 0)
 				{
 					$this->renderPartial('_submissionList', array(
+						'user'=>$model,
 						'submissions'=>$submissions,
 					));
 				}

@@ -53,6 +53,12 @@ class User extends CActiveRecord
 	public $removeProfileImage = false;
 	
 	/**
+	 * @var Competititon[] runtime cache for getWonCompetitions()
+	 * @see User::getWonCompetitions()
+	 */
+	private $_wonCompetitions;
+	
+	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return User the static model class
@@ -215,30 +221,35 @@ class User extends CActiveRecord
 	
 	/**
 	 * Returns the competitions that the user has won. Only competitions where 
-	 * a vote has taken place will be included.
+	 * a vote has taken place will be included. The result is stored in 
+	 * _wonCompetitions so it can be reused during the same request (since this 
+	 * method is fairly expensive).
 	 * @param boolean $withDeadlines don't include competitions which deadlines 
 	 * haven't passed
 	 * @return Competititon[]
 	 */
 	public function getWonCompetitions($withDeadlines = true)
 	{
-		$wonCompetitions = array();
-		$staticModel = SubmissionVote::model(); // reuse inside loop
-		
-		foreach ($this->competitions as $competition)
+		if ($this->_wonCompetitions === null)
 		{
-			$winner = $staticModel->getWinningSubmission($competition->id);
+			$this->_wonCompetitions = array();
+			$staticModel = SubmissionVote::model(); // reuse inside loop
 
-			if ($winner !== null && $winner->user_id == $this->id)
+			foreach ($this->competitions as $competition)
 			{
-				if ($withDeadlines && strtotime($competition->deadline) > time())
-					continue;
-				
-				$wonCompetitions[] = $competition;
+				$winner = $staticModel->getWinningSubmission($competition->id);
+
+				if ($winner !== null && $winner->user_id == $this->id)
+				{
+					if ($withDeadlines && strtotime($competition->deadline) > time())
+						continue;
+
+					$this->_wonCompetitions[] = $competition;
+				}
 			}
 		}
 
-		return $wonCompetitions;
+		return $this->_wonCompetitions;
 	}
 	
 	/**
