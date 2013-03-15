@@ -18,69 +18,95 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 <body>
 	<?php
 
-	// Determine left-hand side items
-	if (Yii::app()->user->isGuest)
+	// Determine a cache ID for this page
+	$cmsNodeId = isset($_GET['id']) ? $_GET['id'] : '';
+	$cacheId = 'MainMenu_'.intval(Yii::app()->user->isGuest).'_'.
+			Yii::app()->language.'_'.Yii::app()->controller->route.'_'.
+			$cmsNodeId;
+	
+	// Generate cache dependency
+	$cacheDependency = new CChainedCacheDependency(array(
+		new DbModifiedDependency('cms_content'),
+		new CFileCacheDependency(__FILE__)));
+	
+	$leftItems  = Yii::app()->cache->get($cacheId.'_left');
+	$rightItems = Yii::app()->cache->get($cacheId.'_right');
+	
+	if ($leftItems === false) 
 	{
-		$leftItems = array(
-			array('label'=>Yii::t('menu', 'Information'), 'url'=>'#', 'icon'=>'white info-sign', 'items'=>array(
-				array('label'=>Yii::t('menu', 'Allmänt'), 'url'=>Yii::app()->cms->createUrl('home'), 'active'=>Yii::app()->cms->isActive('home'), 'icon'=>'home'),
-				array('label'=>Yii::t('menu', 'Styrelsen'), 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee'), 'icon'=>'globe'),
-			), 'active'=>(Yii::app()->cms->isActive('home') || Yii::app()->cms->isActive('committee'))),
-			
-			array('label'=>Yii::t('menu', '<b>Anmälningar</b>'), 'url'=>array('/registration/create'), 'icon'=>'white pencil'),
-			array('label'=>Yii::t('menu', 'Tidtabell'), 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable'), 'icon'=>'white time'),
-			array('label'=>Yii::t('menu', 'Tävlingar'), 'url'=>'#', 'icon'=>'white screenshot', 'items'=>array(
-					array('label'=>Yii::t('menu', 'Regler'), 'url'=>Yii::app()->cms->createUrl('rules')),
-				), 'active'=>Yii::app()->cms->isActive('rules')),
-			array('label'=>Yii::t('menu', 'Submissions'), 'url'=>array('/submission/archive'),
-				'active'=>Yii::app()->controller->route == 'submission/archive', 'icon'=>'white list-alt'),
-		);
-	}
-	else
-	{
-		$leftItems = array(
-			array('label'=>Yii::t('menu', 'Information'), 'url'=>'#', 'icon'=>'white info-sign', 'items'=>array(
-				array('label'=>Yii::t('menu', 'Allmänt'), 'url'=>Yii::app()->cms->createUrl('home'), 'active'=>Yii::app()->cms->isActive('home'), 'icon'=>'home'),
-				array('label'=>Yii::t('menu', 'Styrelsen'), 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee'), 'icon'=>'globe'),
-			), 'active'=>(Yii::app()->cms->isActive('home') || Yii::app()->cms->isActive('committee'))),
-			array('label'=>Yii::t('menu', '<b>Anmälningar</b>'), 'url'=>array('/registration/create'), 'icon'=>'white pencil'),
-			array('label'=>Yii::t('menu', 'Röstning'), 'url'=>'#', 'items'=>array(
-					array('label'=>Yii::t('menu', 'Rösta'), 'url'=>array('/vote/create')),
-					array('label'=>Yii::t('menu', 'Resultat'), 'url'=>array('/vote/results')),
-			), 'active'=>in_array(Yii::app()->controller->route, array('vote/create', 'vote/results')), 'icon'=>'white thumbs-up'),
-			array('label'=>Yii::t('menu', 'Tidtabell'), 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable'), 'icon'=>'white time'),
-			array('label'=>Yii::t('menu', 'Tävlingar'), 'url'=>'#', 'items'=>array(
-					array('label'=>Yii::t('menu', 'Anmäl (under LAN)'), 'url'=>array('/competition/register')),
-					array('label'=>Yii::t('menu', 'Regler'), 'url'=>Yii::app()->cms->createUrl('rules')),
-					array('label'=>Yii::t('menu', 'Serverinformation'), 'url'=>Yii::app()->cms->createUrl('serverinfo')),
-					array('label'=>Yii::t('menu', 'Föreslå en tävling'), 'url'=>array('/suggestion/create')),
-				), 'active'=>(Yii::app()->cms->isActive('rules') || Yii::app()->cms->isActive('serverinfo') || Yii::app()->controller->route == 'suggestion/create'), 'icon'=>'white screenshot'),
-			array('label'=>Yii::t('menu', 'Submissions'), 'url'=>array('/submission'), 'items'=>array(
-					array('label'=>Yii::t('menu', 'Ny submission'), 'url'=>array('/submission/create')),
-					array('label'=>Yii::t('menu', 'Arkiv'), 'url'=>array('/submission/archive')),
-				), 'active'=>in_array(Yii::app()->controller->route, array('submission/archive', 'submission/create')), 'icon'=>'white list-alt'),
-			array('label'=>Yii::t('menu', 'Användare'), 'url'=>array('/user/list'), 'icon'=>'white user'),
-		);
+		// Determine left-hand side items
+		if (Yii::app()->user->isGuest)
+		{
+			$leftItems = array(
+				array('label'=>Yii::t('menu', 'Information'), 'url'=>'#', 'icon'=>'white info-sign', 'items'=>array(
+					array('label'=>Yii::t('menu', 'Allmänt'), 'url'=>Yii::app()->cms->createUrl('home'), 'active'=>Yii::app()->cms->isActive('home'), 'icon'=>'home'),
+					array('label'=>Yii::t('menu', 'Styrelsen'), 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee'), 'icon'=>'globe'),
+				), 'active'=>(Yii::app()->cms->isActive('home') || Yii::app()->cms->isActive('committee'))),
+
+				array('label'=>Yii::t('menu', '<b>Anmälningar</b>'), 'url'=>array('/registration/create'), 'icon'=>'white pencil'),
+				array('label'=>Yii::t('menu', 'Tidtabell'), 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable'), 'icon'=>'white time'),
+				array('label'=>Yii::t('menu', 'Tävlingar'), 'url'=>'#', 'icon'=>'white screenshot', 'items'=>array(
+						array('label'=>Yii::t('menu', 'Regler'), 'url'=>Yii::app()->cms->createUrl('rules')),
+					), 'active'=>Yii::app()->cms->isActive('rules')),
+				array('label'=>Yii::t('menu', 'Submissions'), 'url'=>array('/submission/archive'),
+					'active'=>Yii::app()->controller->route == 'submission/archive', 'icon'=>'white list-alt'),
+			);
+		}
+		else
+		{
+			$leftItems = array(
+				array('label'=>Yii::t('menu', 'Information'), 'url'=>'#', 'icon'=>'white info-sign', 'items'=>array(
+					array('label'=>Yii::t('menu', 'Allmänt'), 'url'=>Yii::app()->cms->createUrl('home'), 'active'=>Yii::app()->cms->isActive('home'), 'icon'=>'home'),
+					array('label'=>Yii::t('menu', 'Styrelsen'), 'url'=>Yii::app()->cms->createUrl('committee'), 'active'=>Yii::app()->cms->isActive('committee'), 'icon'=>'globe'),
+				), 'active'=>(Yii::app()->cms->isActive('home') || Yii::app()->cms->isActive('committee'))),
+				array('label'=>Yii::t('menu', '<b>Anmälningar</b>'), 'url'=>array('/registration/create'), 'icon'=>'white pencil'),
+				array('label'=>Yii::t('menu', 'Röstning'), 'url'=>'#', 'items'=>array(
+						array('label'=>Yii::t('menu', 'Rösta'), 'url'=>array('/vote/create')),
+						array('label'=>Yii::t('menu', 'Resultat'), 'url'=>array('/vote/results')),
+				), 'active'=>in_array(Yii::app()->controller->route, array('vote/create', 'vote/results')), 'icon'=>'white thumbs-up'),
+				array('label'=>Yii::t('menu', 'Tidtabell'), 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable'), 'icon'=>'white time'),
+				array('label'=>Yii::t('menu', 'Tävlingar'), 'url'=>'#', 'items'=>array(
+						array('label'=>Yii::t('menu', 'Anmäl (under LAN)'), 'url'=>array('/competition/register')),
+						array('label'=>Yii::t('menu', 'Regler'), 'url'=>Yii::app()->cms->createUrl('rules')),
+						array('label'=>Yii::t('menu', 'Serverinformation'), 'url'=>Yii::app()->cms->createUrl('serverinfo')),
+						array('label'=>Yii::t('menu', 'Föreslå en tävling'), 'url'=>array('/suggestion/create')),
+					), 'active'=>(Yii::app()->cms->isActive('rules') || Yii::app()->cms->isActive('serverinfo') || Yii::app()->controller->route == 'suggestion/create'), 'icon'=>'white screenshot'),
+				array('label'=>Yii::t('menu', 'Submissions'), 'url'=>array('/submission'), 'items'=>array(
+						array('label'=>Yii::t('menu', 'Ny submission'), 'url'=>array('/submission/create')),
+						array('label'=>Yii::t('menu', 'Arkiv'), 'url'=>array('/submission/archive')),
+					), 'active'=>in_array(Yii::app()->controller->route, array('submission/archive', 'submission/create')), 'icon'=>'white list-alt'),
+				array('label'=>Yii::t('menu', 'Användare'), 'url'=>array('/user/list'), 'icon'=>'white user'),
+			);
+		}
+		
+		// Update the cache
+		Yii::app()->cache->set($cacheId.'_left', $leftItems, 7776000, $cacheDependency);
 	}
 
-	// Determine right-hand side items
-	if (Yii::app()->user->isGuest)
+	if ($rightItems === false) 
 	{
-		$rightItems = array(
-			array('label'=>Yii::t('menu', 'Registrera dig'), 'url'=>array('/user/register'), 'icon'=>'white pencil'),
-			array('label'=>Yii::t('menu', 'Logga in'), 'url'=>array('/site/login'), 'icon'=>'white lock'),
-		);
-	}
-	else
-	{
-		$rightItems = array(
-			array('url'=>array('/user/profile'), 'icon'=>'white user large'));
+		// Determine right-hand side items
+		if (Yii::app()->user->isGuest)
+		{
+			$rightItems = array(
+				array('label'=>Yii::t('menu', 'Registrera dig'), 'url'=>array('/user/register'), 'icon'=>'white pencil'),
+				array('label'=>Yii::t('menu', 'Logga in'), 'url'=>array('/site/login'), 'icon'=>'white lock'),
+			);
+		}
+		else
+		{
+			$rightItems = array(
+				array('url'=>array('/user/profile'), 'icon'=>'white user large'));
 
-		// Link to administration area
-		if (Yii::app()->user->isAdmin())
-			$rightItems[] = array('url'=>array('//admin/'), 'icon'=>'white cogs large');
+			// Link to administration area
+			if (Yii::app()->user->isAdmin())
+				$rightItems[] = array('url'=>array('//admin/'), 'icon'=>'white cogs large');
 
-		$rightItems[] = array('url'=>array('/site/logout'), 'icon'=>'white off large');
+			$rightItems[] = array('url'=>array('/site/logout'), 'icon'=>'white off large');
+		}
+		
+		// Update the cache
+		Yii::app()->cache->set($cacheId.'_right', $rightItems, 7776000, $cacheDependency);
 	}
 	
 	$this->widget('bootstrap.widgets.TbNavbar', array(
