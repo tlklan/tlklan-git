@@ -262,7 +262,7 @@ class Lan extends CActiveRecord
 	 */
 	public function hasEnded()
 	{
-		return time() < strtotime($this->start_date);
+		return time() > strtotime($this->end_date);
 	}
 	
 }
