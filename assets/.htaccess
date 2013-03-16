@@ -8,4 +8,9 @@
         ExpiresByType text/javascript "access plus 180 days"
         ExpiresByType application/x-javascript "access plus 180 days"
         ExpiresByType application/javascript "access plus 180 days"
+
+		# Fontawesome
+        ExpiresByType application/vnd.bw-fontobject "access plus 180 days"
+        ExpiresByType application/x-font-ttf "access plus 180 days"
+        ExpiresByType application/x-font-woff "access plus 180 days"
 </IfModule>
