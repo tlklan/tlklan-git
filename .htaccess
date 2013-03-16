@@ -11,3 +11,8 @@ RewriteRule . index.php
 <IfModule mod_deflate.c>
         AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript
 </IfModule>
+
+# register correct MIME types for Fontawesome fonts
+AddType application/vnd.bw-fontobject .eot
+AddType application/x-font-ttf .ttf
+AddType application/x-font-woff .woff
