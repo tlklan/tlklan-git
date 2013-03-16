@@ -1,4 +1,14 @@
+AddType application/vnd.bw-fontobject .eot
+AddType application/x-font-ttf .ttf
+AddType application/x-font-woff .woff
+
 <IfModule mod_expires.c>
+		# Cache all CSS files
         ExpiresActive On
         ExpiresByType text/css "access plus 180 days"
+
+		# Cache the fonts
+		ExpiresByType application/vnd.bw-fontobject "access plus 180 days"
+        ExpiresByType application/x-font-ttf "access plus 180 days"
+        ExpiresByType application/x-font-woff "access plus 180 days"
 </IfModule>
