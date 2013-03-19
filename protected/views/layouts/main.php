@@ -21,8 +21,8 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 	// Determine a cache ID for this page
 	$cmsNodeId = isset($_GET['id']) ? $_GET['id'] : '';
 	$cacheId = 'MainMenu_'.intval(Yii::app()->user->isGuest).'_'.
-			Yii::app()->language.'_'.Yii::app()->controller->route.'_'.
-			$cmsNodeId;
+			intval(Yii::app()->user->isAdmin()).'_'.Yii::app()->language.'_'.
+			Yii::app()->controller->route.'_'.$cmsNodeId;
 	
 	// Generate cache dependency
 	$cacheDependency = new CChainedCacheDependency(array(
