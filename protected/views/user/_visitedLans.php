@@ -12,9 +12,67 @@ Yii::app()->clientScript->registerScript('toggle-lan-list', "
 ", CClientScript::POS_READY);
 
 ?>
+<div class="row">
+	<div class="span3">
+		<?php
 
-<?php echo count($user->lans); ?> st 
-<a id="toggle-lan-list" class="lan-name" href="#">(visa lista)</a>
+		// Amount of LANs and the link to the table
+		echo count($user->lans).' '.Yii::t('general', 'st').' ';
+		echo CHtml::link(Yii::t('user', '(visa lista)'), '#', array(
+			'id'=>'toggle-lan-list',
+			'class'=>'lan-name'));
+
+		?>
+	</div>
+	<div class="span4">
+		<?php
+
+		// Efficiency bar
+		$efficiency = $user->getLanEfficiency();
+
+		// Determien bar color
+		$barType = 'danger';
+
+		if ($efficiency >= 30)
+			$barType = 'warning';
+		if ($efficiency >= 75)
+			$barType = 'success';
+
+		// Show the efficiency
+		$formatter = new CNumberFormatter(Yii::app()->language);
+
+		echo CHtml::openTag('p');
+		echo '<b>'.Yii::t('user', 'Effektivitet').': </b>';
+		echo $formatter->format('##', $efficiency).'%';
+
+		// Show explanation
+		$this->widget('bootstrap.widgets.TbButton', array(
+			'label'=>'What',
+			'type'=>'info',
+			'size'=>'small',
+			'icon'=>'white question-sign',
+			'htmlOptions'=>array(
+				'data-title'=>Yii::t('user', 'Effektivitet'), 
+				'data-content'=>Yii::t('user', 'LAN-effektiviten räknas som hur många av de senaste två årens LAN man deltagit i.'), 
+				'rel'=>'popover',
+				'style'=>'margin-left: 20px;',
+			),
+		));
+
+		echo CHtml::closeTag('p');
+
+		$this->widget('bootstrap.widgets.TbProgress', array(
+			'type'=>$barType,
+			'percent'=>$efficiency,
+			'striped'=>true,
+			'animated'=>true,
+		));
+
+		?>
+	</div>
+</div>
+
+<div class="clearfix"></div>
 
 <div id="lan-list" class="profile-inner-list">
 	<table class="table table-striped table-bordered">

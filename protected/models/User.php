@@ -362,6 +362,37 @@ class User extends CActiveRecord
 	}
 	
 	/**
+	 * Returns the user's "LAN efficiency" as a percentage. The efficiency is 
+	 * how many out of the last two years' LANs the user has visited (not counting 
+	 * Assembly).
+	 * @return float the efficiency
+	 */
+	public function getLanEfficiency()
+	{
+		$lanCondition = 'location != :location AND start_date >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR)';
+		$lanParams = array(':location'=>Lan::LOCATION_HARTWALL);
+
+		$with = array(
+			'lan'=>array(
+				'select'=>false,
+				'condition'=>$lanCondition,
+				'params'=>$lanParams));
+
+		// Find the number of LANs that have been held the last two years
+		$totalLans = Lan::model()->findAll(array(
+			'condition'=>$lanCondition,
+			'params'=>$lanParams));
+
+		// Find the number of registrations the user had in the same period
+		$registrations = Registration::model()->with($with)->findAll(array(
+			'condition'=>'user_id = :user_id',
+			'params'=>array(':user_id'=>$this->id)));
+
+		// And compare them
+		return count($registrations) / count($totalLans) * 100;
+	}
+	
+	/**
 	 * Returns the URL to the user's profile picture (or a placeholder if one 
 	 * doesn't exist)
 	 * @return string the URL
