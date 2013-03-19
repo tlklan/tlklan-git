@@ -39,7 +39,7 @@ class BadgeNeverShowed extends Badge
 	 */
 	public function getDescription()
 	{
-		return Yii::t('badge', 'Har anmält sig till ett fullt LAN men inte dykt upp <span class="lan-name">({lanName})</span>', array('{lanName}'=>$this->_lanName));
+		return Yii::t('badge', 'Har anmält sig till ett LAN men inte dykt upp <span class="lan-name">({lanName})</span>', array('{lanName}'=>$this->_lanName));
 	}
 
 }
