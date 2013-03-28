@@ -109,5 +109,18 @@ class SiteController extends Controller
 
 		$this->redirect(Yii::app()->homeUrl);
 	}
+	
+	/**
+	 * Shows the rules page
+	 */
+	public function actionRules()
+	{
+		$currentLan = Lan::model()->with('competitions')->getCurrent();
+		$competitions = $currentLan->competitions;
+
+		$this->render('rules', array(
+			'competitions'=>$competitions,
+		));
+	}
 
 }
