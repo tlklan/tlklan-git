@@ -196,8 +196,7 @@ class Competition extends CActiveRecord
 		$criteria->compare('display_order', $this->display_order);
 		$criteria->compare('short_name', $this->short_name, true);
 		$criteria->compare('full_name', $this->full_name, true);
-		// rules is also a method which complicates things a bit
-		$criteria->compare('rules', $this->getAttribute('rules'), true);
+		$criteria->compare('rules', $this->rules, true);
 		$criteria->compare('votable', $this->votable);
 		$criteria->compare('signupable', $this->signupable);
 		$criteria->compare('deadline', $this->deadline, true);
