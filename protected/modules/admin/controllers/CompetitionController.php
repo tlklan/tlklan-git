@@ -115,7 +115,7 @@ class CompetitionController extends AdminController
 				
 				Yii::app()->user->setFlash('success', 'Tävlingen har uppdaterats');
 
-				$this->redirect(array('admin'));
+				$this->refresh();
 			}
 		}
 
