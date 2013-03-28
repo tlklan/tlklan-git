@@ -42,14 +42,14 @@ $form = $this->beginWidget('TbActiveForm', array(
 	)); ?>
 	
 	<div class="form-actions">
-		<?php $this->widget('bootstrap.widgets.TbButton', array(
+		<?php $this->widget('TbButton', array(
 			'buttonType'=>'submit',
 			'type'=>'primary',
 			'icon'=>'ok white',
 			'label'=>$model->isNewRecord ? 'Skapa' : 'Uppdatera',
 		)); ?>
 		&nbsp;&nbsp;&nbsp;
-		<?php $this->widget('bootstrap.widgets.TbButton', array(
+		<?php $this->widget('TbButton', array(
 			'buttonType'=>'link',
 			'icon'=>'remove',
 			'label'=>'Avbryt',
