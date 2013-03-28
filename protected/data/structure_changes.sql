@@ -555,3 +555,10 @@ ALTER TABLE `cms_content`
 	ADD COLUMN `modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `nodeId`;
 
 UPDATE cms_content SET modified = NOW();
+
+#
+# 2013-03-28
+#
+# Added rules column to tlk_competitions
+ALTER TABLE `tlk_competitions`
+	ADD COLUMN `rules` MEDIUMTEXT NOT NULL AFTER `full_name`;

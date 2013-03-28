@@ -9,6 +9,7 @@
  * @property integer $display_order
  * @property string $short_name
  * @property string $full_name
+ * @property string $rules
  * @property int $votable
  * @property int $signupable
  * @property string $deadline
@@ -62,6 +63,7 @@ class Competition extends CActiveRecord
 			array('lan_id', 'validateLan'),
 			array('display_order, votable, signupable', 'numerical', 'integerOnly'=>true),
 			array('deadline', 'date', 'format'=>'yyyy-MM-dd HH:mm:ss'),
+			array('rules', 'safe'),
 			array('lan_id, display_order, short_name, full_name, votable, signupable, deadline', 'safe', 'on'=>'search'),
 		);
 	}
@@ -102,6 +104,7 @@ class Competition extends CActiveRecord
 			'display_order'=>Yii::t('competition', 'Ordningsnummer'),
 			'short_name'=>Yii::t('competition', 'Kort namn'),
 			'full_name'=>Yii::t('competition', 'Långt namn'),
+			'rules'=>Yii::t('competition', 'Regler'),
 			'votable'=>Yii::t('competition', 'Kan röstas på'),
 			'signupable'=>Yii::t('competition', 'Kan anmälas till'),
 			'deadline'=>Yii::t('competition', 'Deadline'),
@@ -193,6 +196,8 @@ class Competition extends CActiveRecord
 		$criteria->compare('display_order', $this->display_order);
 		$criteria->compare('short_name', $this->short_name, true);
 		$criteria->compare('full_name', $this->full_name, true);
+		// rules is also a method which complicates things a bit
+		$criteria->compare('rules', $this->getAttribute('rules'), true);
 		$criteria->compare('votable', $this->votable);
 		$criteria->compare('signupable', $this->signupable);
 		$criteria->compare('deadline', $this->deadline, true);
