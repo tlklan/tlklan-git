@@ -137,9 +137,18 @@ class UserController extends Controller
 		
 		// Do some eager loading, it will be needed when determining the user's
 		// badges
-		$model = User::model()->with('submissions', 'submissions.competition', 
-				'submissions.competition.lan', 'submissionCount', 'lans', 
-				'lanCount', 'registrations')->findByPk($userId);
+		$with = array(
+			'submissions',
+			'submissions.competition',
+			'submissions.competition.lan',
+			'submissionCount',
+			// Don't include LANs that have not yet ended
+			'lans'=>array('condition'=>'NOW() > lans.end_date'),
+			'lanCount'=>array('condition'=>'NOW() > t.end_date'),
+			'registrations',
+		);
+
+		$model = User::model()->with($with)->findByPk($userId);
 		
 		// Get the ActualCompetitor models for the competitions where the user 
 		// won
