@@ -1,6 +1,6 @@
 <?php
 
-/* @var $this AdminCompetitionController */
+/* @var $this CompetitionController */
 /* @var $model Competition */
 
 $this->pageTitle = 'Uppdatera '.$model->full_name;

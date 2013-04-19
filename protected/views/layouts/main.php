@@ -46,8 +46,8 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 				array('label'=>Yii::t('menu', '<b>Anmälningar</b>'), 'url'=>array('/registration/create'), 'icon'=>'white pencil'),
 				array('label'=>Yii::t('menu', 'Tidtabell'), 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable'), 'icon'=>'white time'),
 				array('label'=>Yii::t('menu', 'Tävlingar'), 'url'=>'#', 'icon'=>'white screenshot', 'items'=>array(
-						array('label'=>Yii::t('menu', 'Regler'), 'url'=>Yii::app()->cms->createUrl('rules')),
-					), 'active'=>Yii::app()->cms->isActive('rules')),
+						array('label'=>Yii::t('menu', 'Regler'), 'url'=>array('/site/rules')),
+					), 'active'=>Yii::app()->controller->route == 'site/rules'),
 				array('label'=>Yii::t('menu', 'Submissions'), 'url'=>array('/submission/archive'),
 					'active'=>Yii::app()->controller->route == 'submission/archive', 'icon'=>'white list-alt'),
 			);
@@ -67,10 +67,10 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 				array('label'=>Yii::t('menu', 'Tidtabell'), 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable'), 'icon'=>'white time'),
 				array('label'=>Yii::t('menu', 'Tävlingar'), 'url'=>'#', 'items'=>array(
 						array('label'=>Yii::t('menu', 'Anmäl (under LAN)'), 'url'=>array('/competition/register')),
-						array('label'=>Yii::t('menu', 'Regler'), 'url'=>Yii::app()->cms->createUrl('rules')),
+						array('label'=>Yii::t('menu', 'Regler'), 'url'=>array('/site/rules')),
 						array('label'=>Yii::t('menu', 'Serverinformation'), 'url'=>Yii::app()->cms->createUrl('serverinfo')),
 						array('label'=>Yii::t('menu', 'Föreslå en tävling'), 'url'=>array('/suggestion/create')),
-					), 'active'=>(Yii::app()->cms->isActive('rules') || Yii::app()->cms->isActive('serverinfo') || Yii::app()->controller->route == 'suggestion/create'), 'icon'=>'white screenshot'),
+					), 'active'=>(Yii::app()->cms->isActive('serverinfo') || in_array(Yii::app()->controller->route, array('suggestion/create', 'site/rules'))), 'icon'=>'white screenshot'),
 				array('label'=>Yii::t('menu', 'Submissions'), 'url'=>array('/submission'), 'items'=>array(
 						array('label'=>Yii::t('menu', 'Ny submission'), 'url'=>array('/submission/create')),
 						array('label'=>Yii::t('menu', 'Arkiv'), 'url'=>array('/submission/archive')),

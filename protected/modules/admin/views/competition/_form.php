@@ -31,43 +31,25 @@ $form = $this->beginWidget('TbActiveForm', array(
 	
 	<hr />
 	
-	<h2>Resultat</h2>
-	
-	<p>
-		Skriv in den slutliga positionen för deltagarna i tävlingen. Lämna tomt 
-		om du inte vet positionen.
-	</p>
-	
-	<div class="position-grid">
-		<?php $this->widget('TbGridView', array(
-			'id'=>'position-grid',
-			'type'=>'striped bordered',
-			'dataProvider'=>$model->getActualCompetitorDataProvider(),
-			'template'=>'{items}',
-			'columns'=>array(
-				array(
-					'name'=>'registration_id',
-					'value'=>'$data->registration->user->name',
-				),
-				array(
-					'name'=>'position',
-					'type'=>'raw',
-					'value'=>'CHtml::textField("position[$data->id]", $data->position)',
-					'htmlOptions'=>array('class'=>'position'),
-				),
-			)
-		)); ?>
-	</div>
+	<?php $this->widget('TbTabs', array(
+		'type'=>'tabs',
+		'tabs'=>array(
+			array('label'=>'Resultat', 'content'=>$this->renderPartial(
+					'_positionGrid', array('model'=>$model), true), 'active'=>true),
+			array('label'=>'Regler', 'content'=>$this->renderPartial(
+					'_rules', array('model'=>$model, 'form'=>$form), true)),
+		)
+	)); ?>
 	
 	<div class="form-actions">
-		<?php $this->widget('bootstrap.widgets.TbButton', array(
+		<?php $this->widget('TbButton', array(
 			'buttonType'=>'submit',
 			'type'=>'primary',
 			'icon'=>'ok white',
 			'label'=>$model->isNewRecord ? 'Skapa' : 'Uppdatera',
 		)); ?>
 		&nbsp;&nbsp;&nbsp;
-		<?php $this->widget('bootstrap.widgets.TbButton', array(
+		<?php $this->widget('TbButton', array(
 			'buttonType'=>'link',
 			'icon'=>'remove',
 			'label'=>'Avbryt',
