@@ -74,6 +74,14 @@ class SiteController extends Controller
 	 */
 	public function actionLogin()
 	{
+		// Redirect to the profile if the user is already logged in
+		if (!Yii::app()->user->isGuest)
+		{
+			Yii::app()->user->setFlash('info', Yii::t('login', 'Du är redan inloggad'));
+
+			$this->redirect(array('/user/profile'));
+		}
+
 		$model = new LoginForm;
 
 		if (isset($_POST['LoginForm']))

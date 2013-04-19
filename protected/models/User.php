@@ -369,7 +369,7 @@ class User extends CActiveRecord
 	 */
 	public function getLanEfficiency()
 	{
-		$lanCondition = 'location != :location AND start_date >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR)';
+		$lanCondition = 'location != :location AND start_date >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR) AND NOW() > end_date';
 		$lanParams = array(':location'=>Lan::LOCATION_HARTWALL);
 
 		$with = array(
