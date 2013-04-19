@@ -5,7 +5,7 @@
 $this->pageTitle = Yii::t('competition', 'Regler');
 
 ?>
-<h1><?php echo $this->pageTitle; ?></h1>
+<h1><?php echo Yii::t('competition', 'Regler'); ?></h1>
 
 <?php
 
