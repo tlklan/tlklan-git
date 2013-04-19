@@ -6,6 +6,21 @@
 ?>
 <h1><?php echo Yii::t('competition', 'Regler'); ?></h1>
 
+<?php
+
+if (Yii::app()->user->isAdmin()) 
+{ 
+	?>
+	<div class="alert alert-block alert-info">
+		De allmänna reglerna ändras genom att trycka på Update-knappen. 
+		Tävlingsspecifika regler ändras från backenden (Tävlingar -> Hantera -> 
+		Uppdatera).
+	</div>
+	<?php
+}
+
+?>
+
 <div class="row">
 	<div class="span9">
 		<?php $this->widget('cms.widgets.CachedCmsBlock', array(
