@@ -8,6 +8,16 @@ class TranslationController extends AdminController
 {
 
 	/**
+	 * Initializes the controller
+	 */
+	public function init()
+	{
+		$this->defaultAction = 'translate';
+
+		parent::init();
+	}
+
+	/**
 	 * Action for translating the yii messages (See t() function.)
 	 * @param string $targetLanguage the language to translate to
 	 */
