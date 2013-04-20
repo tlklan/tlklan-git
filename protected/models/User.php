@@ -169,6 +169,11 @@ class User extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
+		$newPassword = $this->scenario == 'insert' ? 
+				Yii::t('user', 'Lösenord') : Yii::t('user', 'Nytt lösenord');
+		$passwordRepeat = $this->scenario == 'insert' ? 
+				Yii::t('user', 'Lösenord (igen)') : Yii::t('user', 'Nytt lösenord (igen)');
+		
 		return array(
 			'id'=>'ID',
 			'name'=>Yii::t('user', 'Namn'),
@@ -176,10 +181,9 @@ class User extends CActiveRecord
 			'username'=>Yii::t('user', 'Användarnamn'),
 			'nick'=>Yii::t('user', 'Nick'),
 			'profileImage'=>Yii::t('user', 'Profilbild'),
-			'password'=>Yii::t('user', 'Lösenord'),
 			'currentPassword'=>Yii::t('user', 'Nuvarande lösenord'),
-			'newPassword'=>Yii::t('user', 'Nytt lösenord'),
-			'passwordRepeat'=>Yii::t('user', 'Nytt lösenord (igen)'),
+			'newPassword'=>$newPassword,
+			'passwordRepeat'=>$passwordRepeat,
 			'has_werket_login'=>$this->scenario == 'update-admin' ? Yii::t('user', 'Har konto på werket.tlk.fi') : Yii::t('user', 'Jag har ett konto på werket.tlk.fi'),
 			'date_added'=>Yii::t('user', 'Registrerad sen'),
 			'removeProfileImage'=>Yii::t('user', 'Ta bort min nuvarande profilbild'),
