@@ -78,7 +78,13 @@ class TranslationController extends AdminController
 		}
 
 		// Get the list of translatable messages based on the filter
-		$messageSourceList = MessageSource::model()->inUse()->filterCategory($model->category)->findAll(array(
+		$staticModel = MessageSource::model()->inUse();
+		
+		// Filter out a single category if one has been specified
+		if (!empty($model->category))
+			$staticModel->filterCategory($model->category);
+		
+		$messageSourceList = $staticModel->findAll(array(
 			'with'=>array(
 				'translations'=>array(
 					'scopes'=>array('filterLanguage'=>$model->targetLanguage)

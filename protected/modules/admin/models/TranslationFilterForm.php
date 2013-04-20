@@ -48,11 +48,14 @@ class TranslationFilterForm extends CFormModel
 	 */
 	public function validateCategory($attribute)
 	{
-		$model = MessageSource::model()->findByAttributes(array(
-			'category'=>$this->{$attribute}));
+		if (!empty($this->{$attribute}))
+		{
+			$model = MessageSource::model()->findByAttributes(array(
+				'category'=>$this->{$attribute}));
 
-		if ($model === null)
-			$this->addError($attribute, 'Ogiltig kategori');
+			if ($model === null)
+				$this->addError($attribute, 'Ogiltig kategori');
+		}
 	}
 
 	/**
