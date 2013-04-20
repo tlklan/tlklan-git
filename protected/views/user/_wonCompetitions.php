@@ -1,5 +1,7 @@
 <?php
 
+/* @var $wonCompetitions Competition[] */
+
 // Script for toggling display of the list
 Yii::app()->clientScript->registerScript('toggle-won-competitions-list', "
 	$('#toggle-won-competitions-list').click(function() {
@@ -9,7 +11,7 @@ Yii::app()->clientScript->registerScript('toggle-won-competitions-list', "
 	});
 ", CClientScript::POS_READY);
 
-$wonCompetitionCount = count($actualCompetitors);
+$wonCompetitionCount = count($wonCompetitions);
 
 echo Yii::t('user', '{wonCompetitions} st', array(
 	'{wonCompetitions}'=>$wonCompetitionCount));
@@ -30,16 +32,12 @@ if ($wonCompetitionCount > 0)
 			</tr>
 			<?php
 
-			foreach ($actualCompetitors as $actualCompetitor) 
+			foreach ($wonCompetitions as $competition) 
 			{
-				
-				$competition = $actualCompetitor->competition->full_name;
-				$lan = $actualCompetitor->competition->lan->name;
-				
 				?>
 				<tr>
-					<td><?php echo $competition; ?></td>
-					<td><?php echo $lan; ?></td>
+					<td><?php echo $competition->full_name; ?></td>
+					<td><?php echo $competition->lan->name; ?></td>
 				</tr>
 				<?php
 			}

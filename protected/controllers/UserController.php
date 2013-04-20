@@ -149,20 +149,9 @@ class UserController extends Controller
 
 		$model = User::model()->with($with)->findByPk($userId);
 		
-		// Get the ActualCompetitor models for the competitions where the user 
-		// won
-		$with = array(
-			'registration'=>array(
-				'select'=>false,
-				'condition'=>'registration.user_id = :user_id',
-				'params'=>array(':user_id'=>$userId)));
-
-		$actualCompetitors = ActualCompetitor::model()->with($with)->findAllByAttributes(
-				array('position'=>1));
-
 		$this->render('profile', array(
 			'model'=>$model,
-			'actualCompetitors'=>$actualCompetitors,
+			'wonCompetitions'=>$this->getAllWonCompetitions($model),
 		));
 	}
 
@@ -215,6 +204,50 @@ class UserController extends Controller
 		$this->render('update', array(
 			'model'=>$model,
 		));
+	}
+	
+	/**
+	 * Returns all the competitions that the user has won (both those won by 
+	 * skill and by vote)
+	 * TODO: This is getting complicated
+	 * @param User $user the user
+	 * @return Competition[] the won competitions
+	 */
+	private function getAllWonCompetitions($user)
+	{
+		// Get the ActualCompetitor models for the competitions where the user 
+		// won
+		$with = array(
+			'registration'=>array(
+				'select'=>false,
+				'condition'=>'registration.user_id = :user_id',
+				'params'=>array(':user_id'=>$user->id)));
+
+		$actualCompetitors = ActualCompetitor::model()->with($with)
+				->findAllByAttributes(array('position'=>1));
+
+		// Determine the user's winning submissions
+		$wonCompetitionIds = array();
+		$wonSubmissions = array();
+
+		foreach ($user->getWonCompetitions() as $wonCompetition)
+			$wonCompetitionIds[] = $wonCompetition->id;
+
+		foreach ($user->submissions as $submission)
+		{
+			$competition = $submission->competition;
+
+			if (in_array($submission->competition->id, $wonCompetitionIds))
+				$wonSubmissions[] = $competition;
+		}
+
+		// Combine both lists
+		$wonCompetitions = array();
+
+		foreach ($actualCompetitors as $actualCompetitor)
+			$wonCompetitions[] = $actualCompetitor->competition;
+
+		return array_merge($wonCompetitions, $wonSubmissions);
 	}
 	
 	/**

@@ -63,7 +63,7 @@ $this->breadcrumbs=array(
 							'type'=>'raw',
 							'label'=>Yii::t('user', 'Vunna tävlingar'),
 							'value'=>$this->renderPartial('_wonCompetitions', array(
-								'actualCompetitors'=>$actualCompetitors,
+								'wonCompetitions'=>$wonCompetitions,
 							), true),
 						)
 					),
