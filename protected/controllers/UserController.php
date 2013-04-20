@@ -142,9 +142,8 @@ class UserController extends Controller
 			'submissions.competition',
 			'submissions.competition.lan',
 			'submissionCount',
-			// Don't include LANs that have not yet ended
-			'lans'=>array('condition'=>'NOW() > lans.end_date'),
-			'lanCount'=>array('condition'=>'NOW() > t.end_date'),
+			'lans'=>array('scopes'=>array('notEnded')),
+			'lanCount'=>array('scopes'=>array('notEnded')),
 			'registrations',
 		);
 

@@ -103,8 +103,21 @@ class Lan extends CActiveRecord
 			'order'=>$this->getTableAlias(false, false).'.id DESC',
 		);
 	}
-
+	
 	/**
+	 * @return array the scopes for this model
+	 */
+	public function scopes()
+	{
+		$alias = $this->getTableAlias(false, false);
+
+		return array(
+			// excludes LANs that haven't ended yet
+			'notEnded'=>array('condition'=>'NOW() > '.$alias.'.end_date'),
+		);
+	}
+
+		/**
 	 * @return array customized attribute labels (name=>label)
 	 */
 	public function attributeLabels()
