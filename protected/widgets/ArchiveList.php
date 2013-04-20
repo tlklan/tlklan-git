@@ -105,9 +105,11 @@ class ArchiveList extends CWidget {
 								
 								// Show some buttons for logged in users
 								if(!$isGuest) {
+									echo CHtml::openTag('div', array('class'=>'archive-buttons'));
+									
 									// download link
 									echo CHtml::link(
-										CHtml::image($baseUrl.'/files/images/icons/save_icon_small.png'), 
+										'<i class="icon-save"></i>', 
 										$this->controller->createUrl('/submission/get', array('id'=>$submission->id))
 									);
 									
@@ -116,19 +118,21 @@ class ArchiveList extends CWidget {
 									if($isAdmin || $submission->user_id == $userId) {
 										// update link
 										echo CHtml::link(
-											CHtml::image($baseUrl.'/files/images/icons/edit_button.png'), 
+											'<i class="icon-pencil"></i>', 
 											$this->controller->createUrl('/submission/update', array('id'=>$submission->id))
 										);
 										
 										// delete link
 										echo CHtml::link(
-											CHtml::image($baseUrl.'/files/images/icons/delete_button.png'), 
+											'<i class="icon-trash"></i>', 
 											$this->controller->createUrl('/submission/delete', array('id'=>$submission->id)), 
 											array(
 												'confirm'=>Yii::t('submission', "Är du säker?\n\nEntryn kommer endast att ta bort från databasen, inte får hårdskivan."),
 											)
 										);
 									}
+									
+									echo CHtml::closeTag('div');
 									
 									echo CHtml::link($submissionName, $this->controller->createUrl('/submission/get', array('id'=>$submission->id)), array('name'=>$submission->id)); 
 								}

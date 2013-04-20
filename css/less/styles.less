@@ -251,6 +251,16 @@ tr.winning-submission td {
 	.archive-table {
 		border: 1px solid @grayLight;
 
+		// emulate a TbButtonColumn
+		.archive-buttons {
+			display: inline-block;
+
+			a {
+				display: inline-block;
+				padding-right: 4px;
+				color: #333;
+			}
+		}
 		tr {
 			th, td {
 				border: 1px solid @grayLight;
