@@ -343,6 +343,10 @@ class User extends CActiveRecord
 		if ($allCornerLans)
 			$badges[] = new Badge(Badge::BADGE_ALL_CORNER_LANS);
 		
+		// LAN efficiency at 100% at some point in time
+		if (BadgeLanEfficiency::isEligible($this))
+			$badges[] = new BadgeLanEfficiency();
+		
 		// Never showed badge
 		foreach ($this->registrations as $registration)
 		{
@@ -384,12 +388,21 @@ class User extends CActiveRecord
 	 * Returns the user's "LAN efficiency" as a percentage. The efficiency is 
 	 * how many out of the last two years' LANs the user has visited (not counting 
 	 * Assembly).
+	 * @param string $date the date to count up to
 	 * @return float the efficiency
 	 */
-	public function getLanEfficiency()
+	public function getLanEfficiency($date = false)
 	{
-		$lanCondition = 'location != :location AND start_date >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR) AND NOW() > end_date';
-		$lanParams = array(':location'=>Lan::LOCATION_HARTWALL);
+		if ($date === false)
+			$date = date("Y-m-d H:i:s");
+		
+		// Get the end date of the first LAN. We can't count that one since 
+		// then everyone who attended the first LAN would get a 100% 
+		// efficiency badge
+		$firstEndDate = Yii::app()->db->createCommand('SELECT MIN(end_date) FROM tlk_lans')->queryScalar();
+		
+		$lanCondition = 'location != :location AND start_date >= DATE_SUB(:date, INTERVAL 2 YEAR) AND :date >= end_date AND end_date > :firstEndDate';
+		$lanParams = array(':location'=>Lan::LOCATION_HARTWALL, ':date'=>$date, ':firstEndDate'=>$firstEndDate);
 
 		$with = array(
 			'lan'=>array(
@@ -398,17 +411,23 @@ class User extends CActiveRecord
 				'params'=>$lanParams));
 
 		// Find the number of LANs that have been held the last two years
-		$totalLans = Lan::model()->findAll(array(
+		$lans = Lan::model()->findAll(array(
 			'condition'=>$lanCondition,
 			'params'=>$lanParams));
 
-		// Find the number of registrations the user had in the same period
+		// Find the number of registrations the user had in the same period 
+		// and compare the numbers
 		$registrations = Registration::model()->with($with)->findAll(array(
 			'condition'=>'user_id = :user_id',
 			'params'=>array(':user_id'=>$this->id)));
 
-		// And compare them
-		return count($registrations) / count($totalLans) * 100;
+		$totalLans = count($lans);
+
+		// Avoid division by zero
+		if ($totalLans > 0)
+			return count($registrations) / $totalLans * 100;
+		else
+			return 0;
 	}
 	
 	/**

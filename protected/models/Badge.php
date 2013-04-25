@@ -18,6 +18,7 @@ class Badge extends CModel
 	const BADGE_FORMER_COM_MEMBER		= 'former_com_member';
 	const BADGE_NEVER_SHOWED			= 'never_showed';
 	const BADGE_MINIMUM_10_LANS			= 'minimum_10_lans';
+	const BADGE_LAN_EFFICIENCY			= 'lan_efficiency';
 	const BADGE_WINNER					= 'winner';
 	const BADGE_ASSEMBLY				= 'assembly';
 
@@ -128,6 +129,19 @@ class Badge extends CModel
 			default:
 				return '';
 		}
+	}
+	
+	/**
+	 * This method provides a way for a badge to determine whether the user 
+	 * is eligible for it or not. This can be used for badges that require 
+	 * complex logic to be determined and thus can't be done easily in 
+	 * User::getBadges()
+	 * @param User $user the user to evaluate
+	 * @return boolean whether the user is eligible for the badge or not
+	 */
+	public static function isEligible($user)
+	{
+		return true;
 	}
 
 }
