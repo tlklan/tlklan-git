@@ -186,6 +186,8 @@ return array(
 				'arcada.fi',
 				'cc.hut.fi',
 				'metropolia.fi',
+				'aalto.fi',
+				'helsinki.fi',
 			)
 		)
 	),
