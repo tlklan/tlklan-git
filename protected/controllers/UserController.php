@@ -84,9 +84,14 @@ class UserController extends Controller
 				// Inform the committee that someone has registered
 				$this->sendRegistrationNotification($model);
 				
-				Yii::app()->user->setFlash('success', Yii::t('user', 'Du är nu registrerad och kan logga in genom att klicka på <i>Logga in</i> i menyn'));
+				Yii::app()->user->setFlash('success', Yii::t('user', 'Du är nu registrerad'));
+				
+				// Login the user
+				$identity = new UserIdentity($model->username, $model->newPassword);
+				$identity->authenticate();
+				Yii::app()->user->login($identity);
 
-				$this->redirect(Yii::app()->homeUrl);
+				$this->redirect(array('user/profile'));
 			}
 		}
 
