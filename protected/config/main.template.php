@@ -22,7 +22,7 @@ return array(
 		'application.models.badges.*',
 		'application.components.*',
 		'application.components.behaviors.*',
-		'application.widgets.*',
+		'application.components.widgets.*',
 		'ext.localuser.*',
 		'ext.bootstrap.widgets.*',
 		'application.modules.cms.CmsModule',
