@@ -179,7 +179,7 @@ return array(
 		
 		// e-mail settings
 		'mail'=>array(
-			'noreply'=>'noreply-lanklubben@tlk.fi',
+			'noreply'=>'root@werket.tlk.fi',
 			'committee'=>'lanklubben@tlk.fi',
 			// only these e-mails can be used to register
 			'validDomains'=>array(
