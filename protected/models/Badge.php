@@ -7,19 +7,19 @@
  */
 class Badge extends CModel
 {
-	// Define badge types. The values don't mean anything for now
-	const BADGE_MINIMUM_5_LANS			= 0;
-	const BADGE_HAS_SUBMISSION			= 1;
-	const BADGE_HAS_WINNING_SUBMISSION	= 2;
-	const BADGE_ALL_LANS					= 4;
-	const BADGE_ALL_CORNER_LANS			= 8;
-	const BADGE_IS_FOUNDING_FATHER		= 16;
-	const BADGE_IS_CURRENT_COM_MEMBER	= 32;
-	const BADGE_FORMER_COM_MEMBER		= 64;
-	const BADGE_NEVER_SHOWED				= 128;
-	const BADGE_MINIMUM_10_LANS			= 256;
-	const BADGE_WINNER					= 512;
-	const BADGE_ASSEMBLY				= 1024;
+	// Available badges
+	const BADGE_MINIMUM_5_LANS			= 'minimum_5_lans';
+	const BADGE_HAS_SUBMISSION			= 'has_submission';
+	const BADGE_HAS_WINNING_SUBMISSION	= 'has_winning_submission';
+	const BADGE_ALL_LANS				= 'all_lans';
+	const BADGE_ALL_CORNER_LANS			= 'all_corner_lans';
+	const BADGE_IS_FOUNDING_FATHER		= 'is_founding_father';
+	const BADGE_IS_CURRENT_COM_MEMBER	= 'is_current_com_member';
+	const BADGE_FORMER_COM_MEMBER		= 'former_com_member';
+	const BADGE_NEVER_SHOWED			= 'never_showed';
+	const BADGE_MINIMUM_10_LANS			= 'minimum_10_lans';
+	const BADGE_WINNER					= 'winner';
+	const BADGE_ASSEMBLY				= 'assembly';
 
 	/**
 	 * @var int the type of the badge
