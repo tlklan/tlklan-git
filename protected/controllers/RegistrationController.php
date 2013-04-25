@@ -101,7 +101,7 @@ class RegistrationController extends Controller
 
 			if ($model->save())
 			{
-				Yii::app()->user->setFlash('success', Yii::t('registration', 'Du är nu registrerad till {lanName}!', array('{lanName}'=>$currentLan->name)));
+				Yii::app()->user->setFlash('success', Yii::t('registration', 'Du är nu anmäld till {lanName}!', array('{lanName}'=>$currentLan->name)));
 
 				$this->refresh();
 			}
@@ -109,7 +109,7 @@ class RegistrationController extends Controller
 
 		// Inform guests that they have to log in
 		if (Yii::app()->user->isGuest)
-			Yii::app()->user->setFlash('info', Yii::t('registration', 'Du måste vara inloggad för att registrera dig. Har du inte ett konto är det bara att skapa ett!'));
+			Yii::app()->user->setFlash('info', Yii::t('registration', 'Du måste vara inloggad för att anmäla dig. Har du inte ett konto är det bara att skapa ett!'));
 
 		$this->render('create', array(
 			'model'=>$model,
