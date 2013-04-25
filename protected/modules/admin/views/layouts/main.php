@@ -50,6 +50,7 @@ $this->widget('bootstrap.widgets.TbNavbar', array(
 				), 'active'=>(strpos(Yii::app()->controller->route, 'admin/payment') !== false)),
 				array('label'=>'Översättningar', 'url'=>array('translation/translate'), 'icon'=>'file-alt',
 					'active'=>(Yii::app()->controller->route == 'translation/translate')),
+				array('label'=>'CMS', 'url'=>array('//cms/node/index'), 'icon'=>'book'),
 			),
 		),
 		array(
