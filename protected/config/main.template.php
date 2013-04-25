@@ -181,6 +181,12 @@ return array(
 		'mail'=>array(
 			'noreply'=>'noreply-lanklubben@tlk.fi',
 			'committee'=>'lanklubben@tlk.fi',
+			// only these e-mails can be used to register
+			'validDomains'=>array(
+				'arcada.fi',
+				'cc.hut.fi',
+				'metropolia.fi',
+			)
 		)
 	),
 );

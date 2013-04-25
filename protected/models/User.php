@@ -95,6 +95,7 @@ class User extends CActiveRecord
 			// register new user (insert) scenario
 			array('username, newPassword, passwordRepeat, has_werket_login', 'required', 'on'=>'insert'),
 			array('email', 'validateDuplicates', 'on'=>'insert'),
+			array('email', 'checkEmailDomain', 'on'=>'insert'),
 			
 			// don't require passwords if the user has a werket account
 			array('newPassword, passwordRepeat', 'safe', 'on'=>'insert-has-werket'),
@@ -114,6 +115,19 @@ class User extends CActiveRecord
 			// search scenario
 			array('id, name, email, username, has_werket_login, date_added', 'safe', 'on'=>'search'),
 		);
+	}
+	
+	/**
+	 * Checks that the e-mail used to register is white-listed
+	 * @see application parameters
+	 * @param string $attribute the attribute being validated
+	 */
+	public function checkEmailDomain($attribute)
+	{
+		$domain = end(explode('@', $this->{$attribute}));
+
+		if (!in_array($domain, Yii::app()->params['mail']['validDomains']))
+			$this->addError($attribute, Yii::t('user', 'Din e-postadress är ogiltig'));
 	}
 	
 	/**
