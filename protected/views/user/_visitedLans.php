@@ -16,11 +16,15 @@ Yii::app()->clientScript->registerScript('toggle-lan-list', "
 	<div class="span3">
 		<?php
 
-		// Amount of LANs and the link to the table
+		// Amount of LANs and optional the link to the table
 		echo $user->lanCount.' '.Yii::t('general', 'st').' ';
-		echo CHtml::link(Yii::t('user', '(visa lista)'), '#', array(
-			'id'=>'toggle-lan-list',
-			'class'=>'lan-name'));
+		
+		if ($user->lanCount > 0)
+		{
+			echo CHtml::link(Yii::t('user', '(visa lista)'), '#', array(
+				'id'=>'toggle-lan-list',
+				'class'=>'lan-name'));
+		}
 
 		?>
 	</div>
