@@ -4,16 +4,14 @@
 /* @var $model User */
 
 $this->pageTitle = $model->name;
-$this->breadcrumbs=array(
-	$model->name,
-);
+$this->breadcrumbs = array(CHtml::encode($model->name));
 
 ?>
 
 <div class="user-profile">
 	
 	<fieldset>
-		<legend><?php echo Yii::t('user', 'Användaruppgifter'); ?></legend>
+		<legend><?php echo CHtml::encode($model->name); ?></legend>
 
 		<div class="row">
 			<div class="span3">
@@ -37,7 +35,6 @@ $this->breadcrumbs=array(
 					'type'=>'striped',
 					'data'=>$model,
 					'attributes'=>array(
-						'name',
 						'email',
 						'username',
 						'nick',
