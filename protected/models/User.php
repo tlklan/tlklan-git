@@ -295,6 +295,7 @@ class User extends CActiveRecord
 
 		$allCornerLans = true; // User has attended all Cornern LANs
 		$allLans = true; // User has attended all LANs
+		$hasAssembly = false;
 
 		$attendedLans = $this->lans;
 
@@ -305,9 +306,14 @@ class User extends CActiveRecord
 			if (time() < strtotime($lan->end_date))
 				continue;
 
-			// Skip Assembly, it doesn't count
+			// Add Assembly as a second badge but don't count it to allLans
 			if ($lan->location == Lan::LOCATION_HARTWALL)
+			{
+				if (!$hasAssembly && in_array($lan, $attendedLans))
+					$badges[] = new Badge(Badge::BADGE_ASSEMBLY);
+
 				continue;
+			}
 
 			if ($allLans && !in_array($lan, $attendedLans))
 				$allLans = false;
@@ -322,11 +328,6 @@ class User extends CActiveRecord
 
 		if ($allCornerLans)
 			$badges[] = new Badge(Badge::BADGE_ALL_CORNER_LANS);
-		
-		// Has been to Assembly
-		foreach ($attendedLans as $lan)
-			if ($lan->location == Lan::LOCATION_HARTWALL)
-				$badges[] = new Badge(Badge::BADGE_ASSEMBLY);
 		
 		// Never showed badge
 		foreach ($this->registrations as $registration)
