@@ -74,9 +74,6 @@ class Badge extends CModel
 			case self::BADGE_MINIMUM_10_LANS:
 				return 'minimum_10_lans.png';
 				break;
-			case self::BADGE_LAN_EFFICIENCY:
-				return 'lan_efficiency.png';
-				break;
 			case self::BADGE_WINNER:
 				return 'winner.png';
 				break;
@@ -126,15 +123,25 @@ class Badge extends CModel
 			case self::BADGE_WINNER:
 				return Yii::t('badge', 'Har vunnit minst en tävling');
 				break;
-			case self::BADGE_LAN_EFFICIENCY:
-				return Yii::t('badge', 'Har någon gång haft 100% LAN-effektivitet');
-				break;
 			case self::BADGE_ASSEMBLY:
 				return Yii::t('badge', 'Har varit på Assembly (räknas endast om man anmält sig via oss)');
 				break;
 			default:
 				return '';
 		}
+	}
+	
+	/**
+	 * This method provides a way for a badge to determine whether the user 
+	 * is eligible for it or not. This can be used for badges that require 
+	 * complex logic to be determined and thus can't be done easily in 
+	 * User::getBadges()
+	 * @param User $user the user to evaluate
+	 * @return boolean whether the user is eligible for the badge or not
+	 */
+	public static function isEligible($user)
+	{
+		return true;
 	}
 
 }

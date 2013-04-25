@@ -310,7 +310,6 @@ class User extends CActiveRecord
 		$allCornerLans = true; // User has attended all Cornern LANs
 		$allLans = true; // User has attended all LANs
 		$hasAssembly = false;
-		$fullEfficiency = false;
 
 		$attendedLans = $this->lans;
 
@@ -336,14 +335,6 @@ class User extends CActiveRecord
 			if ($lan->location == Lan::LOCATION_CORNER)
 				if ($allCornerLans && !in_array($lan, $attendedLans))
 					$allCornerLans = false;
-			
-			// LAN efficiency at 100% at some point in time
-			if (in_array($lan, $attendedLans) && !$fullEfficiency &&
-					$this->getLanEfficiency($lan->end_date) == 100)
-			{
-				$fullEfficiency = true;
-				$badges[] = new Badge(Badge::BADGE_LAN_EFFICIENCY);
-			}
 		}
 		
 		if ($allLans)
@@ -351,6 +342,10 @@ class User extends CActiveRecord
 
 		if ($allCornerLans)
 			$badges[] = new Badge(Badge::BADGE_ALL_CORNER_LANS);
+		
+		// LAN efficiency at 100% at some point in time
+		if (BadgeLanEfficiency::isEligible($this))
+			$badges[] = new BadgeLanEfficiency();
 		
 		// Never showed badge
 		foreach ($this->registrations as $registration)
