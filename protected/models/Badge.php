@@ -18,6 +18,7 @@ class Badge extends CModel
 	const BADGE_FORMER_COM_MEMBER		= 'former_com_member';
 	const BADGE_NEVER_SHOWED			= 'never_showed';
 	const BADGE_MINIMUM_10_LANS			= 'minimum_10_lans';
+	const BADGE_LAN_EFFICIENCY			= 'lan_efficiency';
 	const BADGE_WINNER					= 'winner';
 	const BADGE_ASSEMBLY				= 'assembly';
 
@@ -73,6 +74,9 @@ class Badge extends CModel
 			case self::BADGE_MINIMUM_10_LANS:
 				return 'minimum_10_lans.png';
 				break;
+			case self::BADGE_LAN_EFFICIENCY:
+				return 'lan_efficiency.png';
+				break;
 			case self::BADGE_WINNER:
 				return 'winner.png';
 				break;
@@ -121,6 +125,9 @@ class Badge extends CModel
 				break;
 			case self::BADGE_WINNER:
 				return Yii::t('badge', 'Har vunnit minst en tävling');
+				break;
+			case self::BADGE_LAN_EFFICIENCY:
+				return Yii::t('badge', 'Har någon gång haft 100% LAN-effektivitet');
 				break;
 			case self::BADGE_ASSEMBLY:
 				return Yii::t('badge', 'Har varit på Assembly (räknas endast om man anmält sig via oss)');
