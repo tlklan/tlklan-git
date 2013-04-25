@@ -95,7 +95,10 @@ $this->breadcrumbs=array(
 				else
 				{
 					echo CHtml::openTag('p');
-					echo Yii::t('user', 'Du har inga utmärkelser för tillfället');
+					if (Yii::app()->user->getUserId() == $model->id)
+						echo Yii::t('user', 'Du har inga utmärkelser för tillfället');
+					else
+						echo Yii::t('user', 'Användaren har inga utmärkelser för tillfället');
 					echo CHtml::closeTag('p');
 				}
 					
@@ -121,7 +124,10 @@ $this->breadcrumbs=array(
 				else
 				{
 					echo CHtml::openTag('p');
-					echo Yii::t('user', 'Användaren har tills vidare inte submittat något');
+					if (Yii::app()->user->getUserId() == $model->id)
+						echo Yii::t('user', 'Du har tills vidare inte submittat något');
+					else
+						echo Yii::t('user', 'Användaren har tills vidare inte submittat något');
 					echo CHtml::closeTag('p');
 				}
 
