@@ -63,6 +63,27 @@ tr.winning-submission td {
    Layout
    ------------------------------------------------------------------------- */
 
+
+body {
+	background-image: url('../files/images/layout/body-bg.png');
+
+	// remove navbar margin (use padding-top on main container instead)
+	.navbar {
+		margin-bottom: 0;
+	}
+
+	> .container {
+		padding: 20px 20px 0 20px;
+		margin-bottom: 20px;
+		background: #FFF;
+		border: 1px solid #D0D0D0;
+		border-width: 0 1px;
+
+		// rounded borders at bottom
+		.border-radius(0 0 4px 4px);
+	}
+}
+
 .breadcrumbs {
 	position: relative;
 
@@ -95,6 +116,10 @@ tr.winning-submission td {
 	border-top: 1px solid @grayLighter;
 	font-size: 0.8em;
 	text-align: center;
+
+	p {
+		margin-bottom: 0;
+	}
 }
 
 // override some navbar defaults
