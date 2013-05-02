@@ -25,7 +25,7 @@ $this->breadcrumbs=array(
 	
 	$archiveUrl = $this->createUrl('/submission/archive');
 	$archiveLink = CHtml::link(Yii::t('submission', 'arkivsidan'), $archiveUrl);
-	$mailtoLink = CHtml::link(Yii::app()->params['mail']['committee'], 
+	$mailtoLink = CHtml::mailto(Yii::app()->params['mail']['committee'], 
 							  Yii::app()->params['mail']['committee']);
 	
 	echo Yii::t('submission', '<b>OBS!</b> Genom att ladda upp dina filer här går du med på att de publiceras på 
