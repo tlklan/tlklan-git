@@ -566,25 +566,23 @@ ALTER TABLE `tlk_competitions`
 #
 # 2013-05-06
 #
-# Add table for competition categories
+# Add table for competition categories and a table that links the competition 
+# table to it
 CREATE TABLE `tlk_competition_category` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(50) NOT NULL,
-	PRIMARY KEY (`name`)
+	PRIMARY KEY (`id`)
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
 
-# Add link table
 CREATE TABLE `tlk_competition_categories` (
 	`competition_id` INT(11) NOT NULL,
-	`category` VARCHAR(50) NOT NULL
+	`category_id` INT(11) NOT NULL,
+	INDEX `competition_categories_competition_id_fk` (`competition_id`),
+	INDEX `competition_categories_category_id_fk` (`category_id`),
+	CONSTRAINT `competition_categories_category_id_fk` FOREIGN KEY (`category_id`) REFERENCES `tlk_competition_category` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT `competition_categories_competition_id_fk` FOREIGN KEY (`competition_id`) REFERENCES `tlk_competitions` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
-
-# Add foreign key constraints
-ALTER TABLE `tlk_competition_categories`
-	ADD CONSTRAINT `competition_categories_competition_id_fk` FOREIGN KEY (`competition_id`) REFERENCES `tlk_competitions` (`id`) ON UPDATE CASCADE ON DELETE CASCADE;
-
-ALTER TABLE `tlk_competition_categories`
-	ADD CONSTRAINT `competition_categories_category_fk` FOREIGN KEY (`category`) REFERENCES `tlk_competition_category` (`name`) ON UPDATE CASCADE ON DELETE CASCADE;

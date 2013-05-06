@@ -128,11 +128,12 @@ class CompetitionController extends AdminController
 					$deleteCategoryAssociations($model->id);
 					$command = Yii::app()->db->createCommand();
 
-					foreach ($categories as $name)
+					
+					foreach ($categories as $id)
 					{
 						$command->insert('tlk_competition_categories', array(
 							'competition_id'=>$model->id,
-							'category'=>$name));
+							'category_id'=>$id));
 					}
 				}
 				else
