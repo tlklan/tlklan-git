@@ -26,5 +26,14 @@ class CompetitionCategory extends CActiveRecord
 	{
 		return 'tlk_competition_category';
 	}
+	
+	/**
+	 * Returns dropdown list options
+	 * @return array
+	 */
+	public function getDropdownListOptions()
+	{
+		return CHtml::listData(self::model()->findAll(), 'name', 'name');
+	}
 
 }

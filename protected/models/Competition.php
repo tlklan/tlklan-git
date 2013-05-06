@@ -23,6 +23,11 @@
  */
 class Competition extends CActiveRecord
 {
+	
+	/**
+	 * @var array the selected categories for this competition. Used in forms.
+	 */
+	public $categoryDropdownList = array();
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -111,7 +116,19 @@ class Competition extends CActiveRecord
 			'signupable'=>Yii::t('competition', 'Kan anmälas till'),
 			'deadline'=>Yii::t('competition', 'Deadline'),
 			'competitorCount'=>'Antal deltagare',
+			'categoryDropdownList'=>'Kategorier',
 		);
+	}
+	
+	/**
+	 * Populates the categoryList virtual attribute with the values from the 
+	 * relation
+	 */
+	protected function afterFind()
+	{
+		parent::afterFind();
+
+		$this->categoryDropdownList = CHtml::listData($this->categories, 'name', 'name');
 	}
 	
 	/**

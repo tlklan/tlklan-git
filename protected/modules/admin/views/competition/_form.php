@@ -27,6 +27,10 @@ $form = $this->beginWidget('TbActiveForm', array(
 	echo $form->textFieldRow($model, 'deadline', array(
 		'hint'=>'Format: YYYY-MM-DD HH:MM:SS'));
 
+	echo $form->dropDownListRow($model, 'categoryDropdownList', 
+			CompetitionCategory::model()->getDropdownListOptions(), 
+			array('multiple'=>true));
+	
 	?>
 	
 	<hr />
