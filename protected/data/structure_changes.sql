@@ -562,3 +562,29 @@ UPDATE cms_content SET modified = NOW();
 # Added rules column to tlk_competitions
 ALTER TABLE `tlk_competitions`
 	ADD COLUMN `rules` MEDIUMTEXT NOT NULL AFTER `full_name`;
+
+#
+# 2013-05-06
+#
+# Add table for competition categories
+CREATE TABLE `tlk_competition_category` (
+	`name` VARCHAR(50) NOT NULL,
+	PRIMARY KEY (`name`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB;
+
+# Add link table
+CREATE TABLE `tlk_competition_categories` (
+	`competition_id` INT(11) NOT NULL,
+	`category` VARCHAR(50) NOT NULL
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB;
+
+# Add foreign key constraints
+ALTER TABLE `tlk_competition_categories`
+	ADD CONSTRAINT `competition_categories_competition_id_fk` FOREIGN KEY (`competition_id`) REFERENCES `tlk_competitions` (`id`) ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE `tlk_competition_categories`
+	ADD CONSTRAINT `competition_categories_category_fk` FOREIGN KEY (`category`) REFERENCES `tlk_competition_category` (`name`) ON UPDATE CASCADE ON DELETE CASCADE;
