@@ -19,9 +19,15 @@
  * @property int $competitorCount
  * @property Submission[] $submissions
  * @property Lan $lan
+ * @property CompetitionCategory[] $categories
  */
 class Competition extends CActiveRecord
 {
+	
+	/**
+	 * @var array the selected categories for this competition. Used in forms.
+	 */
+	public $categoryDropdownList = array();
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -50,6 +56,7 @@ class Competition extends CActiveRecord
 			'competitorCount'=>array(self::STAT, 'Competitor', 'competition_id'),
 			'submissions'=>array(self::HAS_MANY, 'Submission', 'competition_id'),
 			'lan'=>array(self::BELONGS_TO, 'Lan', 'lan_id'),
+			'categories'=>array(self::MANY_MANY, 'CompetitionCategory', 'tlk_competition_categories(competition_id, category_id)'),
 		);
 	}
 	
@@ -109,7 +116,21 @@ class Competition extends CActiveRecord
 			'signupable'=>Yii::t('competition', 'Kan anmälas till'),
 			'deadline'=>Yii::t('competition', 'Deadline'),
 			'competitorCount'=>'Antal deltagare',
+			'categoryDropdownList'=>'Kategorier',
 		);
+	}
+	
+	/**
+	 * Populates the categoryList virtual attribute with the values from the 
+	 * relation
+	 */
+	protected function afterFind()
+	{
+		parent::afterFind();
+
+		// Yes, the third parameter really should be "id", otherwise the 
+		// current categories won't be pre-selected
+		$this->categoryDropdownList = CHtml::listData($this->categories, 'id', 'id');
 	}
 	
 	/**

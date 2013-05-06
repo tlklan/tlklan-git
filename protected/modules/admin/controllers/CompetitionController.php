@@ -96,7 +96,7 @@ class CompetitionController extends AdminController
 		if (isset($_POST['Competition']))
 		{
 			$model->attributes = $_POST['Competition'];
-
+			
 			if ($model->save())
 			{
 				// Save positions
@@ -112,6 +112,32 @@ class CompetitionController extends AdminController
 						}
 					}
 				}
+				
+				// This function removes all category associations
+				$deleteCategoryAssociations = function($competitionId) {
+					Yii::app()->db->createCommand()->delete('tlk_competition_categories',
+					'competition_id = :id', array(':id'=>$competitionId));
+				};
+				
+				// Save categories (if no categories have been selected we 
+				// remove all current ones)
+				if (isset($_POST['Competition']['categoryDropdownList']))
+				{
+					// Remove previous associations then add the selected ones
+					$categories = $_POST['Competition']['categoryDropdownList'];
+					$deleteCategoryAssociations($model->id);
+					$command = Yii::app()->db->createCommand();
+
+					
+					foreach ($categories as $id)
+					{
+						$command->insert('tlk_competition_categories', array(
+							'competition_id'=>$model->id,
+							'category_id'=>$id));
+					}
+				}
+				else
+					$deleteCategoryAssociations($model->id);
 				
 				Yii::app()->user->setFlash('success', 'Tävlingen har uppdaterats');
 
