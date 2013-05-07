@@ -45,6 +45,8 @@ $this->widget('bootstrap.widgets.TbNavbar', array(
 					array('label'=>'Skapa ny', 'url'=>array('competition/create')),
 					array('label'=>'Kategorier', 'url'=>array('competitionCategory/admin')),
 				), 'active'=>(strpos(Yii::app()->controller->route, 'admin/competition') !== false)),
+				array('label'=>'Tidtabell', 'url'=>array('timetable/admin'), 'icon'=>'time', 
+					'active'=>(strpos(Yii::app()->controller->route, 'admin/payment') !== false)),
 				array('label'=>'Betalningar', 'icon'=>'money', 'items'=>array(
 					array('label'=>'Hantera', 'url'=>array('payment/admin')),
 					array('label'=>'Ny betalning', 'url'=>array('payment/create')),
