@@ -22,6 +22,7 @@
 <?php
 
 $dateFormatter = Yii::app()->dateFormatter;
+$this->beginWidget('TbActiveForm');
 
 foreach ($dates as $i => $date)
 {
@@ -38,3 +39,5 @@ foreach ($dates as $i => $date)
 
 	echo CHtml::closeTag('div');
 }
+
+$this->endWidget();

@@ -3,7 +3,6 @@
 /* @var $model Timetable */
 /* @var $lan Lan */
 /* @var $date DateTime */
-$this->beginWidget('TbActiveForm');
 
 $this->widget('TbGridView',array(
 	'type'=>'bordered',
@@ -58,5 +57,3 @@ $this->widget('TbGridView',array(
 		'label'=>'Spara',
 	)); ?>
 </div>
-
-<?php $this->endWidget(); ?>
