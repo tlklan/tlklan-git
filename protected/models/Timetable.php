@@ -7,7 +7,8 @@
  * @property integer $id
  * @property integer $lan_id
  * @property string $date
- * @property string $time
+ * @property string $start_time
+ * @property string $end_time
  * @property string $name
  * @property string $type
  *
@@ -17,6 +18,15 @@
 class Timetable extends CActiveRecord
 {
 
+	/**
+	 * @var array list of possible event types (can be used e.g. in dropdown 
+	 * lists)
+	 */
+	public static $types = array(
+		'competition'=>'Tävling',
+		'voting'=>'Röstning',
+	);
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -41,10 +51,11 @@ class Timetable extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('lan_id, date, time, name, type', 'required'),
+			array('lan_id, date, start_time, name, type', 'required'),
+			array('start_time, end_time', 'date', 'format'=>array('hh:mm', 'h:mm')),
 			array('lan_id', 'numerical', 'integerOnly'=>true),
 			array('name, type', 'length', 'max'=>50),
-			array('id, lan_id, date, time, name, type', 'safe', 'on'=>'search'),
+			array('id, lan_id, date, start_time, end_time, name, type', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -67,30 +78,39 @@ class Timetable extends CActiveRecord
 			'id'=>'ID',
 			'lan_id'=>'Lan',
 			'date'=>'Date',
-			'time'=>'Time',
+			'start_time'=>'Start time',
+			'end_time'=>'End time',
 			'name'=>'Name',
 			'type'=>'Type',
 		);
 	}
 
 	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models 
-	 * based on the search/filter conditions.
+	 * Returns a data provider for this model
+	 * @param mixed $lanId a LAN ID. Defaults to null, meaning lan_id is not 
+	 * evaluated
+	 * @param DateTime $date a DateTime object representing a date. Defaults to 
+	 * null meaning date won't be evaluated
+	 * @return \CActiveDataProvider the data provider
 	 */
-	public function search()
+	public function search($lanId = null, $date = null)
 	{
 		$criteria = new CDbCriteria;
-		$criteria->compare('id', $this->id);
-		$criteria->compare('lan_id', $this->lan_id);
-		$criteria->compare('date', $this->date, true);
-		$criteria->compare('time', $this->time, true);
-		$criteria->compare('name', $this->name, true);
-		$criteria->compare('type', $this->type, true);
+		$criteria->compare('lan_id', $lanId);
+		$criteria->compare('date', $date->format('Y-m-d'));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	/**
+	 * Returns the type of this model in human-readable form
+	 * @return string the type
+	 */
+	public function getType()
+	{
+		return isset(self::$types[$this->type]) ? self::$types[$this->type] : '';
 	}
 
 }

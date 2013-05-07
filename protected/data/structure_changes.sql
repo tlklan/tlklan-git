@@ -595,10 +595,12 @@ CREATE TABLE `tlk_timetable` (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`lan_id` INT(10) NOT NULL,
 	`date` DATE NOT NULL,
-	`time` TIME NOT NULL,
+	`start_time` TIME NOT NULL,
+	`end_time` TIME NULL DEFAULT NULL,
 	`name` VARCHAR(50) NOT NULL,
-	`type` VARCHAR(50) NOT NULL,
+	`type` VARCHAR(50) NULL DEFAULT NULL,
 	PRIMARY KEY (`id`),
+	INDEX `timetable_lan_id_fk` (`lan_id`),
 	CONSTRAINT `timetable_lan_id_fk` FOREIGN KEY (`lan_id`) REFERENCES `tlk_lans` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 )
 COLLATE='utf8_general_ci'
