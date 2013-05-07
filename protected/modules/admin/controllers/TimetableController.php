@@ -30,7 +30,47 @@ class TimetableController extends AdminController
 		$lan = Lan::model()->getCurrent();
 		$model = new Timetable();
 		$dates = $this->getDateTimes($lan);
+		
+		if (isset($_POST['Timetable']))
+		{
+			$data = $_POST['Timetable'];
+			
+			// Keep track of errors and successful saves
+			$successes = 0;
+			$errors = array();
 
+			foreach ($data as $id=> $attributes)
+			{
+				$model = $this->loadModel($id);
+				$model->attributes = $attributes;
+
+				if (!$model->validate())
+					$errors = array_merge($errors, $model->getErrors());
+				else
+				{
+					$model->save(false);
+					++$successes;
+				}
+			}
+
+			if ($errors)
+			{
+				// Convert the errors to a string
+				$errorMessage = 'Vänligen korrigera följande fel:'.PHP_EOL.PHP_EOL;
+
+				foreach ($errors as $messages)
+					foreach ($messages as $message)
+						$errorMessage .= $message.PHP_EOL;
+
+				Yii::app()->user->setFlash('info', 'Endast '.$successes.' av '.count($data).' rader sparades korrekt');
+				Yii::app()->user->setFlash('error', nl2br($errorMessage));
+			}
+			else
+				Yii::app()->user->setFlash('success', 'Tidtabellen har uppdaterats');
+
+			$this->refresh();
+		}
+		
 		$this->render('admin', array(
 			'lan'=>$lan,
 			'model'=>$model,
@@ -62,12 +102,25 @@ class TimetableController extends AdminController
 	 */
 	public function actionDelete($id)
 	{
-		$model = Timetable::model()->findByPk($id);
+		$model = $this->loadModel($id);
 		if ($model !== null)
 			$model->delete();
 
 		if (!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+	}
+	
+	/**
+	 * Loads and returns the specified model
+	 * @param int the ID of the model to be loaded
+	 * @return Timetable
+	 */
+	public function loadModel($id)
+	{
+		$model = Timetable::model()->findByPk((int)$id);
+		if ($model === null)
+			throw new CHttpException(404, 'Unable to find the event');
+		return $model;
 	}
 	
 	/**
