@@ -75,13 +75,11 @@ class Timetable extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id'=>'ID',
-			'lan_id'=>'Lan',
-			'date'=>'Date',
-			'start_time'=>'Start time',
-			'end_time'=>'End time',
-			'name'=>'Name',
-			'type'=>'Type',
+			'date'=>Yii::t('Timetable', 'Datum'),
+			'start_time'=>Yii::t('Timetable', 'Från'),
+			'end_time'=>Yii::t('Timetable', 'Till'),
+			'name'=>Yii::t('Timetable', 'Vad händer'),
+			'type'=>Yii::t('Timetable', 'Kategori'),
 		);
 	}
 
