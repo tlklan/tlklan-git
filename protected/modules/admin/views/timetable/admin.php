@@ -15,10 +15,14 @@
 
 <?php
 
+$dateFormatter = Yii::app()->dateFormatter;
+
 foreach ($dates as $i => $date)
 {
+	$dateString = ucfirst($dateFormatter->format("EEEE d.M.yyyy", $date->format('r')));
+	
 	echo CHtml::openTag('div', array('class'=>'timetable-date'));
-	echo CHtml::tag('h4', array(), $date->format('r'));
+	echo CHtml::tag('h4', array(), $dateString);
 
 	$this->renderPartial('_timetableDate', array(
 		'lan'=>$lan,
