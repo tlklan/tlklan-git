@@ -45,8 +45,12 @@ $this->widget('TbGridView',array(
 	
 <div class="form-actions">
 	<?php $this->widget('TbButton', array(
-		'buttonType'=>'ajaxButton',
+		'buttonType'=>'linkButton',
 		'label'=>'Lägg till rad',
+		'url'=>$this->createUrl('addEvent', array('lanId'=>$lan->id, 'date'=>$date->format('Y-m-d'))),
+		'htmlOptions'=>array(
+			'confirm'=>"Eventuella ändringar kommer inte att sparas!\n\nTryck på Spara-knappen först för att spara dina ändringar.",
+		),
 	)); ?>&nbsp;&nbsp;&nbsp;
 	<?php $this->widget('TbButton', array(
 		'buttonType'=>'submit',

@@ -37,7 +37,25 @@ class TimetableController extends AdminController
 			'dates'=>$dates,
 		));
 	}
+	
+	/**
+	 * Adds an empty event row to the time table for the specified LAN and date 
+	 * and redirects to the admin page.
+	 * @param int $lanId the LAN ID
+	 * @param string $date the date (YYYY-MM-DD format)
+	 */
+	public function actionAddEvent($lanId, $date)
+	{
+		$model = new Timetable();
+		$model->lan_id = $lanId;
+		$model->date = $date;
+		$model->save();
 
+		Yii::app()->user->setFlash('success', 'En ny rad har skapats');
+
+		$this->redirect(array('admin'));
+	}
+	
 	/**
 	 * Returns an array of DateTime objects, one for each date during which the 
 	 * LAN is on.

@@ -51,7 +51,7 @@ class Timetable extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('lan_id, date, start_time, name, type', 'required'),
+			array('lan_id, date', 'required'),
 			array('start_time, end_time', 'date', 'format'=>array('hh:mm', 'h:mm')),
 			array('lan_id', 'numerical', 'integerOnly'=>true),
 			array('name, type', 'length', 'max'=>50),
