@@ -82,6 +82,24 @@ class Timetable extends CActiveRecord
 			'type'=>Yii::t('Timetable', 'Kategori'),
 		);
 	}
+	
+	/**
+	 * Nullifies certain attributes if they are empty
+	 * @return boolean whether to continue saving or not
+	 */
+	protected function beforeSave()
+	{
+		// Nullify certain attributes if empty
+		foreach (array('start_time', 'end_time', 'type') as $attribute)
+		{
+			$value = $this->{$attribute};
+
+			if (empty($value))
+				$this->{$attribute} = null;
+		}
+
+		return parent::beforeSave();
+	}
 
 	/**
 	 * Returns a data provider for this model
