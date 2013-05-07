@@ -10,8 +10,14 @@
 </h1>
 
 <p>
-	Här kan du ändra på tidtabellen för <?php echo $lan->name; ?>.
+	Här kan du ändra på tidtabellen för <?php echo $lan->name; ?>. Ändringar 
+	på existerande rader görs direkt i tabellerna nedan. För att spara 
+	ändringarna trycker du på Spara-knappen. Om du vill lägga till en ny rad 
+	trycker du på Lägg till rad knappen. <i>Observera dock att dina ändringar inte 
+	kommer att sparas då du lägger till en ny rad!</i>
 </p>
+
+<hr />
 
 <?php
 
