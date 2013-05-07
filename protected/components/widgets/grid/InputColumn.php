@@ -38,7 +38,7 @@ class InputColumn extends CDataColumn
 	 */
 	protected function getInputAttributeName($data)
 	{
-		return $this->name.'['.$data['id'].']';
+		return get_class($data).'['.$data['id'].']['.$this->name.']';
 	}
 
 	/**
