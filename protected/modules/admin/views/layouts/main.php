@@ -81,13 +81,7 @@ $this->widget('bootstrap.widgets.TbNavbar', array(
 	)); ?>
 
 	<?php $this->widget('bootstrap.widgets.TbAlert', array(
-		'block'=>true,
-		'fade'=>true,
-		'closeText'=>'&times;',
-		'alerts'=>array(
-			'success'=>array('block'=>true, 'fade'=>true, 'closeText'=>'&times;'),
-			'error'=>array('block'=>true, 'fade'=>true, 'closeText'=>'&times;'),
-		),
+		'fade'=>false,
 	)); ?>
 
     <div class="content">
