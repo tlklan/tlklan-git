@@ -14,6 +14,23 @@ class InputColumn extends CDataColumn
 	public $htmlOptions = array();
 
 	/**
+	 * @var array options that should always be there
+	 */
+	protected $defaultHtmlOptions = array(
+		'style'=>'margin-bottom: 0;'
+	);
+
+	/**
+	 * Returns the full htmlOptions array (merge of htmlOptions and 
+	 * defaultHtmlOptions)
+	 * @return array
+	 */
+	protected function getHtmlOptions()
+	{
+		return array_merge($this->defaultHtmlOptions, $this->htmlOptions);
+	}
+
+	/**
 	 * Returns the form element name. Child-classes should always use this 
 	 * method to determine the input name
 	 * @param mixed $data the data

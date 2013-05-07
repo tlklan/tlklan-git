@@ -13,7 +13,7 @@ class TextInputColumn extends InputColumn
 		unset($row); // suppress unused variable warning
 
 		echo CHtml::textField($this->getInputAttributeName($data), 
-				$this->getInputValue($data), $this->htmlOptions);
+				$this->getInputValue($data), $this->getHtmlOptions());
 	}
 
 }

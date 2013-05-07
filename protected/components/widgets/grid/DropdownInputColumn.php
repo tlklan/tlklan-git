@@ -18,7 +18,7 @@ class DropdownInputColumn extends InputColumn
 	{
 		unset($row); // suppress unused variable warning
 		
-		$htmlOptions = array_merge($this->htmlOptions, array('prompt'=>''));
+		$htmlOptions = array_merge($this->getHtmlOptions(), array('prompt'=>''));
 
 		echo CHtml::dropDownList($this->getInputAttributeName($data), 
 				$this->getInputValue($data), $this->listData, $htmlOptions);
