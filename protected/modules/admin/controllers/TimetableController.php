@@ -57,6 +57,20 @@ class TimetableController extends AdminController
 	}
 	
 	/**
+	 * Deletes the specified model
+	 * @param int $id
+	 */
+	public function actionDelete($id)
+	{
+		$model = Timetable::model()->findByPk($id);
+		if ($model !== null)
+			$model->delete();
+
+		if (!isset($_GET['ajax']))
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+	}
+	
+	/**
 	 * Returns an array of DateTime objects, one for each date during which the 
 	 * LAN is on.
 	 * @param Lan $lan the LAN
