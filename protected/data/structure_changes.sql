@@ -595,7 +595,7 @@ CREATE TABLE `tlk_timetable` (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`lan_id` INT(10) NOT NULL,
 	`date` DATE NOT NULL,
-	`start_time` TIME NOT NULL,
+	`start_time` TIME NULL DEFAULT NULL,
 	`end_time` TIME NULL DEFAULT NULL,
 	`name` VARCHAR(50) NOT NULL,
 	`type` VARCHAR(50) NULL DEFAULT NULL,
