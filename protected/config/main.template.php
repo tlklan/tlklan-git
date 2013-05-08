@@ -23,6 +23,7 @@ return array(
 		'application.components.*',
 		'application.components.behaviors.*',
 		'application.components.widgets.*',
+		'application.components.widgets.grid.*',
 		'ext.localuser.*',
 		'ext.bootstrap.widgets.*',
 		'application.modules.cms.CmsModule',
