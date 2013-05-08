@@ -64,7 +64,8 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 						array('label'=>Yii::t('menu', 'Rösta'), 'url'=>array('/vote/create')),
 						array('label'=>Yii::t('menu', 'Resultat'), 'url'=>array('/vote/results')),
 				), 'active'=>in_array(Yii::app()->controller->route, array('vote/create', 'vote/results')), 'icon'=>'white thumbs-up'),
-				array('label'=>Yii::t('menu', 'Tidtabell'), 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable'), 'icon'=>'white time'),
+				array('label'=>Yii::t('menu', 'Tidtabell'), 'url'=>array('/timetable/view'), 
+					'active'=>(strpos(Yii::app()->controller->route, 'timetable') !== false), 'icon'=>'white time'),
 				array('label'=>Yii::t('menu', 'Tävlingar'), 'url'=>'#', 'items'=>array(
 						array('label'=>Yii::t('menu', 'Anmäl (under LAN)'), 'url'=>array('/competition/register')),
 						array('label'=>Yii::t('menu', 'Regler'), 'url'=>array('/site/rules')),
