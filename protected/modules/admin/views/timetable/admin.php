@@ -26,7 +26,7 @@ $this->beginWidget('TbActiveForm');
 
 foreach ($dates as $i => $date)
 {
-	$dateString = ucfirst($dateFormatter->format("EEEE d.M.yyyy", $date->format('r')));
+	$dateString = ucfirst($dateFormatter->format("EEEE d.M", $date->format('r')));
 	
 	echo CHtml::openTag('div', array('class'=>'timetable-date'));
 	echo CHtml::tag('h4', array(), $dateString);
