@@ -3,6 +3,7 @@
 /* @var $this SiteController */
 /* @var $competitions Competition[] */
 $this->pageTitle = Yii::t('competition', 'Regler');
+$this->breadcrumbs = array(Yii::t('competition', 'Regler'));
 
 ?>
 <h1><?php echo Yii::t('competition', 'Regler'); ?></h1>
