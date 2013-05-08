@@ -24,7 +24,7 @@
 $dateFormatter = Yii::app()->dateFormatter;
 $this->beginWidget('TbActiveForm');
 
-foreach ($dates as $i => $date)
+foreach ($dates as $date)
 {
 	$dateString = ucfirst($dateFormatter->format("EEEE d.M", $date->format('r')));
 	
