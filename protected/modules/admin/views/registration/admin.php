@@ -14,8 +14,9 @@ $this->breadcrumbs = array(
 
 <p>
 	Härifrån kan man se vilka som är/har varit anmälda till de olika LANen. 
-	Genom att klicka på ikonerna till höger i listan kan man ändra, ta bort 
-	och godkänna anmälningar.
+	Genom att klicka på ikonerna till höger i listan kan man ändra och ta bort 
+	anmälningar samt lägga in betalningar för sådana som inte har en giltig 
+	betalning.
 </p>
 
 <?php 
