@@ -38,6 +38,8 @@ foreach ($dates as $date)
 	));
 
 	echo CHtml::closeTag('div');
+	
+	echo '<hr />';
 }
 
 $this->endWidget();
