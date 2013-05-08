@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 ?>
 <h1><?php echo Yii::t('competition', 'Tävlingsanmälan (under LAN)'); ?></h1>
 
-<?php $this->widget('cms.widgets.CmsBlock',array('name'=>'compo-reg-info')); ?>
+<?php $this->widget('cms.widgets.CachedCmsBlock',array('name'=>'compo-reg-info')); ?>
 
 <hr />
 <?php
@@ -39,7 +39,7 @@ echo $form->dropDownListRow($model, 'competition', $competitionList, array(
 
 <?php 
 
-$this->widget('cms.widgets.CmsBlock', array('name'=>'compo-reg-list-info'));
+$this->widget('cms.widgets.CachedCmsBlock', array('name'=>'compo-reg-list-info'));
 
 // Display one tab for each competition
 $tabs = array();

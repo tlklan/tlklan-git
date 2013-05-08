@@ -15,7 +15,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.
 
 ?>
 <h1><?php echo Yii::t('user', 'Registrera dig'); ?></h1>
-<?php $this->widget('cms.widgets.CmsBlock',array('name'=>'register-user-info')); ?>
+<?php $this->widget('cms.widgets.CachedCmsBlock',array('name'=>'register-user-info')); ?>
 <hr />
 <?php
 

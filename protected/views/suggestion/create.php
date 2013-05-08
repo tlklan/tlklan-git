@@ -11,7 +11,7 @@ $this->breadcrumbs = array(
 ?>
 <h1><?php echo Yii::t('suggest-competiton', 'Föreslå en tävling'); ?></h1>
 
-<?php $this->widget('cms.widgets.CmsBlock',array('name'=>'suggest-info')); ?>
+<?php $this->widget('cms.widgets.CachedCmsBlock',array('name'=>'suggest-info')); ?>
 
 <hr />
 

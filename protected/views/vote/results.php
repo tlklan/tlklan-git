@@ -8,7 +8,7 @@ $this->breadcrumbs = array(
 ?>
 <h1><?php Yii::t('vote', 'Resultat'); ?></h1>
 
-<?php $this->widget('cms.widgets.CmsBlock', array('name'=>'vote-result-info')); ?>
+<?php $this->widget('cms.widgets.CachedCmsBlock', array('name'=>'vote-result-info')); ?>
 
 <hr />
 

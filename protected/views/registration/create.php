@@ -32,7 +32,7 @@ $this->breadcrumbs = array(
 	<div class="hidden-tablet hidden-phone span4">
 		<h2><?php echo Yii::t('registration', 'Information'); ?></h2>
 		
-		<?php $this->widget('cms.widgets.CmsBlock',array('name'=>'registration_info')); ?>
+		<?php $this->widget('cms.widgets.CachedCmsBlock',array('name'=>'registration_info')); ?>
 	</div>
 	
 	<div class="span3">
