@@ -46,7 +46,14 @@ $this->widget('bootstrap.widgets.TbGridView',array(
 		),
 		array(
 			'class'=>'bootstrap.widgets.TbButtonColumn',
-			'template'=>'{update} {delete}',
+			'buttons'=>array(
+				'timetable'=>array(
+					'label'=>'Hantera tidtabellen',
+					'icon'=>'time',
+					'url'=>'array("timetable/admin", "lanId"=>$data->id)',
+				),
+			),
+			'template'=>'{timetable} {update} {delete}',
 		),
 	),
 ));

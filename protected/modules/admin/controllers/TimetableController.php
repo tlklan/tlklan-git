@@ -22,12 +22,18 @@ class TimetableController extends AdminController
 	}
 
 	/**
-	 * Default action. It renders a grid of the timetable for the current LAN 
-	 * which can be edited.
+	 * Default action. It renders a grid of the timetable for the specified LAN 
+	 * which can be edited. If no LAN is specified, the current LAN will be 
+	 * used
+	 * @param int $lanId the ID of the LAN
 	 */
-	public function actionAdmin()
+	public function actionAdmin($lanId = null)
 	{
-		$lan = Lan::model()->getCurrent();
+		if ($lanId === null)
+			$lan = Lan::model()->getCurrent();
+		else
+			$lan = Lan::model()->findByPk($lanId);
+		
 		$model = new Timetable();
 		$dates = $this->getDateTimes($lan);
 		
@@ -93,7 +99,7 @@ class TimetableController extends AdminController
 
 		Yii::app()->user->setFlash('success', 'En ny rad har skapats');
 
-		$this->redirect(array('admin'));
+		$this->redirect(array('admin', 'lanId'=>$lanId));
 	}
 	
 	/**
