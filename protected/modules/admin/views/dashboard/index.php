@@ -8,6 +8,7 @@ $this->pageTitle = 'Dashboard';
 $this->menu = array(
 	array('label'=>'Uppdatera LAN-inställningar', 'url'=>array('lan/update', 'id'=>$lan->id)),
 	array('label'=>'Lägg till ny betalning', 'url'=>array('payment/create')),
+	array('label'=>'Hantera tidtabellen', 'url'=>array('timetable/admin')),
 );
 
 ?>
