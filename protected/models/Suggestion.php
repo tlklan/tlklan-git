@@ -53,25 +53,12 @@ class Suggestion extends CActiveRecord
 		return array(
 			array('name, user_id, description', 'required'),
 			array('user_id', 'numerical', 'integerOnly'=>true),
-			array('name', 'validateName', 'on'=>'insert'),
+			array('name', 'unique', 'on'=>'insert', 'message'=>Yii::t('suggest-competiton', 'Det finns redan ett identiskt förslag')),
 			array('name', 'length', 'max'=>50),
 			array('id, created, name, description', 'safe', 'on'=>'search'),
 		);
 	}
 	
-	/**
-	 * Checks for identical suggestions
-	 * @param string $attribute the attribute being validated
-	 */
-	public function validateName($attribute)
-	{
-		$dupes = Suggestion::model()->findAllByAttributes(array(
-			'name'=>$this->{$attribute}));
-
-		if (count($dupes) > 0)
-			$this->addError($attribute, Yii::t('suggest-competiton', 'Det finns redan ett identiskt förslag'));
-	}
-
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
