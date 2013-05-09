@@ -44,7 +44,8 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 				), 'active'=>(Yii::app()->cms->isActive('home') || Yii::app()->cms->isActive('committee'))),
 
 				array('label'=>Yii::t('menu', '<b>Anmälningar</b>'), 'url'=>array('/registration/create'), 'icon'=>'white pencil'),
-				array('label'=>Yii::t('menu', 'Tidtabell'), 'url'=>Yii::app()->cms->createUrl('timetable'), 'active'=>Yii::app()->cms->isActive('timetable'), 'icon'=>'white time'),
+				array('label'=>Yii::t('menu', 'Tidtabell'), 'url'=>array('/timetable/view'), 
+					'active'=>(strpos(Yii::app()->controller->route, 'timetable') !== false), 'icon'=>'white time'),
 				array('label'=>Yii::t('menu', 'Tävlingar'), 'url'=>'#', 'icon'=>'white screenshot', 'items'=>array(
 						array('label'=>Yii::t('menu', 'Regler'), 'url'=>array('/site/rules')),
 					), 'active'=>Yii::app()->controller->route == 'site/rules'),
