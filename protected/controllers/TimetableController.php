@@ -36,6 +36,35 @@ class TimetableController extends Controller
 	}
 	
 	/**
+	 * Prints a JSON object array for the upcoming events of the current date
+	 */
+	public function actionGetUpcoming()
+	{
+
+		$criteria = new CDbCriteria();
+		$criteria->addCondition('date = CURDATE()');
+		$criteria->addCondition('start_time >= NOW()');
+		$events = Timetable::model()->findAll($criteria);
+
+		// Create an array of JSON objects
+		$jsonObjects = array();
+
+		foreach ($events as $event)
+		{
+			$object = array();
+
+			foreach ($event->attributes as $attribute=> $value)
+				$object[$attribute] = $value;
+
+			$jsonObjects[] = $object;
+		}
+
+		header('Content-type: application/json');
+		echo CJSON::encode($jsonObjects);
+		Yii::app()->end();
+	}
+	
+	/**
 	 * Loads and returns the specified model
 	 * @param int the ID of the model to be loaded
 	 * @return Timetable
