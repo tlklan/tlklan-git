@@ -25,7 +25,7 @@ echo $form->textFieldRow($model, 'name');
 echo $form->fileFieldRow($model, 'file');
 echo $form->textAreaRow($model, 'comments');
 
-if ($isAdmin)
+if (!$model->isNewRecord && $isAdmin)
 	echo $form->checkBoxRow($model, 'disqualified');
 
 ?>
