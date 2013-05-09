@@ -48,22 +48,13 @@ class TimetableController extends Controller
 		$criteria->limit = (int)$limit;
 		$events = Timetable::model()->findAll($criteria);
 
-		// Create an array of JSON objects
 		$jsonObjects = array();
 
 		foreach ($events as $event)
-		{
-			$object = array();
-
-			foreach ($event->attributes as $attribute=> $value)
-				$object[$attribute] = $value;
-
-			$jsonObjects[] = $object;
-		}
+			$jsonObjects[] = $event->attributes;
 
 		header('Content-type: application/json');
 		echo CJSON::encode($jsonObjects);
-		Yii::app()->end();
 	}
 	
 	/**
