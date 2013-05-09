@@ -35,27 +35,17 @@ class SuggestionVote extends CActiveRecord
 	{
 		return array(
 			array('suggestion_id, user_id', 'required'),
-			array('user_id', 'validateUser'),
+			// validate uniqueness based on both user_id and suggestion_id
+			// the message isn't actually used, the rule is only there to throw 
+			// errors on dupes
+			array('user_id', 'unique', 'criteria'=>array(
+					'condition'=>'suggestion_id = :suggestionId',
+					'params'=>array(':suggestionId'=>$this->suggestion_id))),
 			array('suggestion_id, user_id', 'numerical', 'integerOnly'=>true),
 			array('suggestion_id, user_id', 'safe', 'on'=>'search'),
 		);
 	}
 	
-	/**
-	 * Checks for duplicate votes
-	 * @param string $attribute the attribute being validated
-	 */
-	public function validateUser($attribute)
-	{
-		$votes = SuggestionVote::model()->findAllByAttributes(array(
-			'suggestion_id'=>$this->suggestion_id,
-			'user_id'=>$this->user_id));
-
-		// The message here isn't actually used
-		if (count($votes) != 0)
-			$this->addError($attribute, Yii::t('suggest-competition', 'Du har redan röstat på det här förslaget'));
-	}
-
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
