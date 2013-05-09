@@ -40,8 +40,8 @@ $this->widget('TbGridView', array(
 		'name',
 		'creator.nick',
 		array(
-			'name'=>'mangledDescription',
-			'type'=>'raw',
+			'name'=>'description',
+			'type'=>'ntext',
 			'htmlOptions'=>array('style'=>'max-width: 500px;'),
 		),
 		'created',

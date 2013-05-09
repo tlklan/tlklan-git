@@ -69,18 +69,8 @@ class Suggestion extends CActiveRecord
 			'created'=>Yii::t('suggest-competition', 'Inlagd'),
 			'name'=>Yii::t('suggest-competiton', 'Tävling'),
 			'description'=>Yii::t('suggest-competiton', 'Beskrivning'),
-			'mangledDescription'=>Yii::t('suggest-competiton', 'Beskrivning'),
 			'voteCount'=>Yii::t('suggest-competiton', 'Röster'),
 		);
-	}
-
-	/**
-	 * Returns the description in a form suitable for display
-	 * @return string
-	 */
-	public function getMangledDescription()
-	{
-		return nl2br(CHtml::encode($this->description));
 	}
 
 	/**
