@@ -36,14 +36,16 @@ class TimetableController extends Controller
 	}
 	
 	/**
-	 * Prints a JSON object array for the upcoming events of the current date
+	 * Prints a JSON object array for the upcoming events of the current date. 
+	 * @param int $limit the amount of events to display
 	 */
-	public function actionGetUpcoming()
+	public function actionGetUpcoming($limit = 5)
 	{
-
 		$criteria = new CDbCriteria();
-		$criteria->addCondition('date = CURDATE()');
+		$criteria->addCondition('lan_id = :lanId');
 		$criteria->addCondition('start_time >= NOW()');
+		$criteria->params = array(':lanId'=>Lan::model()->getCurrent()->id);
+		$criteria->limit = (int)$limit;
 		$events = Timetable::model()->findAll($criteria);
 
 		// Create an array of JSON objects
