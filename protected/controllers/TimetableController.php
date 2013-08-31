@@ -44,6 +44,7 @@ class TimetableController extends Controller
 		$criteria = new CDbCriteria();
 		$criteria->addCondition('lan_id = :lanId');
 		$criteria->addCondition('start_time >= NOW()');
+		$criteria->addCondition(('date = CURDATE()'));
 		$criteria->params = array(':lanId'=>Lan::model()->getCurrent()->id);
 		$criteria->limit = (int)$limit;
 		$events = Timetable::model()->findAll($criteria);
