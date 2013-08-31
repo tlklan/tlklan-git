@@ -124,7 +124,8 @@ class User extends CActiveRecord
 	 */
 	public function checkEmailDomain($attribute)
 	{
-		$domain = end(explode('@', $this->{$attribute}));
+		$emailParts = explode('@', $this->{$attribute});
+		$domain = end($emailParts);
 
 		if (!in_array($domain, Yii::app()->params['mail']['validDomains']))
 			$this->addError($attribute, Yii::t('user', 'Din e-postadress är ogiltig'));
