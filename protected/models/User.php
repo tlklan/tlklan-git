@@ -325,7 +325,10 @@ class User extends CActiveRecord
 			if ($lan->location == Lan::LOCATION_HARTWALL)
 			{
 				if (!$hasAssembly && in_array($lan, $attendedLans))
+				{
 					$badges[] = new Badge(Badge::BADGE_ASSEMBLY);
+					$hasAssembly = true;
+				}
 
 				continue;
 			}
