@@ -82,8 +82,11 @@ class Registration extends CActiveRecord
 			array('lan_id, user_id, device, date', 'required'),
 			array('lan_id, user_id, never_showed', 'numerical', 'integerOnly'=>true),
 			
+			// LAN cannot be full
+			array('lan_id', 'checkParticipantCount', 'on'=>'insert'),
+			
 			// user's can only register once
-			array('nick', 'validateDuplicates', 'on'=>'create'),
+			array('nick', 'validateDuplicates', 'on'=>'insert'),
 			
 			// sanity checks
 			array('device', 'validateDevice'),
@@ -93,27 +96,6 @@ class Registration extends CActiveRecord
 			// search rule
 			array('lanName, user, name, email, nick', 'safe', 'on'=>'search'),
 		);
-	}
-	
-	/**
-	 * Pre-validation logic. Here we check that the current LAN isn't already 
-	 * full. If it is we add a general error to the model (no attribute) and 
-	 * stop validating.
-	 * // TODO: Do this in RegistrationController instead
-	 * @return boolean whether to continue validation
-	 */
-	protected function beforeValidate()
-	{
-		parent::beforeValidate();
-		
-		if ($this->scenario == 'create' && Lan::model()->getCurrent()->isFull())
-		{
-			$this->addError(false, Yii::t('registration', 'Det går inte längre att anmäla sig till det här LANet'));
-
-			return false;
-		}
-
-		return true;
 	}
 	
 	/**
@@ -139,6 +121,16 @@ class Registration extends CActiveRecord
 
 		if (count($dupes) > 0)
 			$this->addError($attribute, Yii::t('registration', 'Du har redan registrerat dig till detta LAN'));
+	}
+	
+	/**
+	 * Checks that the current LAN is not full
+	 * @param string $attribute the attribute being validated
+	 */
+	public function checkParticipantCount($attribute)
+	{
+		if (Lan::model()->getCurrent()->isFull())
+			$this->addError($attribute, Yii::t('registration', 'Det går inte längre att anmäla sig till det här LANet'));
 	}
 
 	/**
