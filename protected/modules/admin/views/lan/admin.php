@@ -30,6 +30,10 @@ $this->widget('bootstrap.widgets.TbGridView',array(
             'value'=>'($data->season !== null) ? $data->season->name : ""',
 		),
 		'reg_limit',
+		array(
+			'name'=>'registrationCount',
+			'filter'=>false,
+		),
 		'start_date',
 		'end_date',
 		array(
