@@ -92,20 +92,20 @@ class User extends CActiveRecord
 			// update scenario
 			array('removeProfileImage', 'required', 'on'=>'update'),
 			
-			// register new user (insert) scenario
-			array('username, newPassword, passwordRepeat, has_werket_login', 'required', 'on'=>'insert'),
-			array('email', 'validateDuplicates', 'on'=>'insert'),
-			array('email', 'checkEmailDomain', 'on'=>'insert'),
-			
-			// don't require passwords if the user has a werket account
-			array('newPassword, passwordRepeat', 'safe', 'on'=>'insert-has-werket'),
+			// register new user scenario
+			array('username, newPassword, passwordRepeat, has_werket_login', 'required', 'on'=>'insert, insert-has-werket'),
+			array('username, email, nick', 'unique', 'on'=>'insert, insert-has-werket'),
+			array('email', 'checkEmailDomain', 'on'=>'insert, insert-has-werket'),
 			
 			// changePassword scenario
 			array('currentPassword, newPassword, passwordRepeat', 'required', 'on'=>'changePassword'),
 			array('currentPassword', 'validatePassword', 'on'=>'changePassword'),
 			
 			// insert/changePassword scenario
-			array('newPassword', 'compare', 'on'=>'changePassword, insert', 'compareAttribute'=>'passwordRepeat'),
+			array('newPassword', 'compare', 'on'=>'changePassword, insert, insert-has-werket', 'compareAttribute'=>'passwordRepeat'),
+			
+			// insert-has-werket specific rules
+			array('newPassword', 'checkWerketCredentials', 'on'=>'insert-has-werket'),
 			
 			// update-admin scenario
 			array('has_werket_login', 'required', 'on'=>'update-admin'),
@@ -132,19 +132,25 @@ class User extends CActiveRecord
 	}
 	
 	/**
-	 * Checks that both e-mail and username is unique
+	 * Checks that the username and password is valid when the user has checked 
+	 * the "has werket login" checkbox.
 	 * @param string $attribute the attribute being validated
 	 */
-	public function validateDuplicates($attribute)
+	public function checkWerketCredentials($attribute)
 	{
-		$dupes = User::model()->findAll('email = :email OR username = :username', array(
-			':email'=>$this->{$attribute},
-			':username'=>$this->username));
+		if ($this->hasErrors('newPassword'))
+			return;
 
-		if (count($dupes) > 0)
-			$this->addError('email', Yii::t('user', 'Din e-postadress eller ditt nickname finns redan'));
+		// See if the credentials match
+		Yii::app()->localUser->connect();
+
+		$username = strtolower($this->username);
+		$password = $this->{$attribute};
+
+		if (!Yii::app()->localUser->authenticate($username, $password))
+			$this->addError($attribute, Yii::t('login', 'Felaktigt användarnamn eller lösenord'));
 	}
-	
+
 	/**
 	 * Validates the password attribute. It checks that it really is the user's 
 	 * current password.
@@ -184,9 +190,9 @@ class User extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		$newPassword = $this->scenario == 'insert' ? 
+		$newPassword = in_array($this->scenario, array('insert', 'insert-has-werket')) ? 
 				Yii::t('user', 'Lösenord') : Yii::t('user', 'Nytt lösenord');
-		$passwordRepeat = $this->scenario == 'insert' ? 
+		$passwordRepeat = in_array($this->scenario, array('insert', 'insert-has-werket')) ? 
 				Yii::t('user', 'Lösenord (igen)') : Yii::t('user', 'Nytt lösenord (igen)');
 		
 		return array(

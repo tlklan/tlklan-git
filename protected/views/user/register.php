@@ -9,10 +9,6 @@ $this->breadcrumbs=array(
 	Yii::t('user', 'Registrera dig'),
 );
 
-// Register some scripts
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.
-		'/js/hide-login-details-fields.js', CClientScript::POS_END);
-
 ?>
 <h1><?php echo Yii::t('user', 'Registrera dig'); ?></h1>
 <?php $this->widget('cms.widgets.CachedCmsBlock',array('name'=>'register-user-info')); ?>
@@ -32,16 +28,10 @@ echo $form->checkboxRow($model, 'has_werket_login', array(
 	'id'=>'has-werket-login',
 ));
 
+echo $form->passwordFieldRow($model, 'newPassword');
+echo $form->passwordFieldRow($model, 'passwordRepeat');
+
 ?>
-<div class="login-details-fields" style="display: <?php echo $model->has_werket_login ? 'none;' : 'block;'; ?>">
-	<?php
-
-	echo $form->passwordFieldRow($model, 'newPassword');
-	echo $form->passwordFieldRow($model, 'passwordRepeat');
-
-	?>
-</div>
-
 <div class="form-actions">
 	<?php $this->widget('bootstrap.widgets.TbButton', array(
 		'buttonType'=>'submit',
