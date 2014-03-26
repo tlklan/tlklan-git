@@ -80,7 +80,7 @@ class RegistrationController extends AdminController
 		$sort->attributes = array(
 			'device',
 			'date',
-			'lanName'=>array(
+			'lan_id'=>array(
 				'asc'=>'lan.id',
 				'desc'=>'lan.id DESC',
 			),

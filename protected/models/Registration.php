@@ -39,11 +39,6 @@ class Registration extends CActiveRecord
 	/**
 	 * @var string used for sorting grids when data is fetched through search()
 	 */
-	private $_lanName;
-	
-	/**
-	 * @var string used for sorting grids when data is fetched through search()
-	 */
 	private $_name;
 	
 	/**
@@ -338,19 +333,6 @@ class Registration extends CActiveRecord
 	}
 	
 	/**
-	 * Getter for the lanName property. It should only be used for sorting and 
-	 * filtering.
-	 * @return string the name of the LAN for this registration
-	 */
-	public function getLanName()
-	{
-		if (!isset($this->_lanName) && $this->lan !== null)
-			$this->_lanName = $this->lan->name;
-
-		return $this->_lanName;
-	}
-	
-	/**
 	 * Setter for _name. Provided for backward compatibility + sorting/filtering
 	 * @param string $name
 	 */
@@ -378,16 +360,6 @@ class Registration extends CActiveRecord
 	}
 	
 	/**
-	 * Setter for the lanName property. It should only be used for sorting and 
-	 * filtering.
-	 * @param string $name the LAN name
-	 */
-	public function setLanName($name)
-	{
-		$this->_lanName = $name;
-	}
-	
-	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models 
 	 * based on the search/filter conditions.
@@ -398,7 +370,7 @@ class Registration extends CActiveRecord
 		$criteria->with = array('lan', 'user');
 
 		$criteria->compare($this->getTableAlias().'id', $this->id);
-		$criteria->compare('lan.name', $this->getLanName(), true);
+		$criteria->compare('lan_id', $this->lan_id, false);
 		$criteria->compare('user.name', $this->name, true);
 		$criteria->compare('user.email', $this->email, true);
 		$criteria->compare('user.nick', $this->nick, true);

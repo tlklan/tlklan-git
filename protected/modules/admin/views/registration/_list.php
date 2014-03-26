@@ -7,7 +7,11 @@ $this->widget('TbGridView', array(
 	'filter'=>isset($disableFilter) ? null : $model,
 	'enableSorting'=>isset($disableSorting) ? false : true, 
 	'columns'=>array(
-		'lanName',
+		array(
+			'name'=>'lan_id',
+			'filter'=>Lan::model()->getListData(),
+			'value'=>'$data->lan->name',
+		),
 		array(
 			'name'=>'name',
 			'type'=>'raw',
