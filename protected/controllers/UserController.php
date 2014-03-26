@@ -82,7 +82,8 @@ class UserController extends Controller
 				$model->save(false);
 
 				// Inform the committee that someone has registered
-				$this->sendRegistrationNotification($model);
+				// TODO: Re-enable once Composer has been used, this does not currently work
+				//$this->sendRegistrationNotification($model);
 				
 				Yii::app()->user->setFlash('success', Yii::t('user', 'Du är nu registrerad'));
 				
