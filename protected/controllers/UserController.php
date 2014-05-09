@@ -243,8 +243,12 @@ class UserController extends Controller
 		{
 			$competition = $submission->competition;
 
-			if (in_array($submission->competition->id, $wonCompetitionIds))
+			// Don't count multiple submissions
+			if (in_array($submission->competition->id, $wonCompetitionIds) &&
+			   !in_array($competition, $wonSubmissions))
+			{
 				$wonSubmissions[] = $competition;
+			}
 		}
 
 		// Combine both lists
