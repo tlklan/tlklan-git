@@ -12,10 +12,15 @@ class WebUser extends CWebUser
 {
 	
 	/**
-	 * @var int the gid of the UNIX group which users should be administrators 
-	 * on the site
+	 * @var int the gid of the UNIX group which users are board members
+	 *          (board members are administrators)
 	 */
-	public $gid;
+	public $boardGid;
+
+	/**
+	 * @var int the gid of the UNIX group which users should be administrators
+	 */
+	public $adminGid;
 	
 	/**
 	 * Cached user object
@@ -68,7 +73,7 @@ class WebUser extends CWebUser
 
 		$this->loadUser();
 
-		return $this->hasGroup($this->gid);
+		return $this->hasGroup($this->boardGid) || $this->hasGroup($this->adminGid);
 	}
 
 	/**

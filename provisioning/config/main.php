@@ -130,12 +130,12 @@ return array(
 			'attachmentPath'=>'/files/cms/attachments/',
 		),
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=tlk_lan_test',
+			'connectionString' => 'mysql:host=localhost;dbname=tlk_lan',
 			'emulatePrepare' => true,
 			'username' => 'root',
-			'password' => '',
+			'password' => 'root',
 			'charset' => 'utf8',
-			'schemaCachingDuration'=>2592000, // 30 days
+			'schemaCachingDuration'=>0, // 30 days
 			
 			// make the debug toolbar work
 			'enableProfiling'=>true,
@@ -178,7 +178,7 @@ return array(
 		'minimumPenisLength'=>9,
 		
 		// Location for uploaded submissions
-		'submissionPath'=>'/media/Storage/submissions',
+		'submissionPath'=>'/vagrant/files/submissions',
 		
 		// e-mail settings
 		'mail'=>array(
