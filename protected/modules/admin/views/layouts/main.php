@@ -34,8 +34,10 @@ $this->widget('bootstrap.widgets.TbNavbar', array(
 					'active'=>Yii::app()->controller->route == 'admin/dashboard/index'),
 				array('label'=>'Anmälningar', 'url'=>array('registration/admin'), 'icon'=>'pencil',
 					'active'=>Yii::app()->controller->route == 'admin/registration/admin'),
-				array('label'=>'Användare', 'url'=>array('user/admin'), 'icon'=>'user',
-					'active'=>Yii::app()->controller->route == 'admin/user/admin'),
+				array('label'=>'Användare', 'icon'=>'user', 'items'=>array(
+					array('label'=>'Användare', 'url'=>array('user/admin')),
+					array('label'=>'Styrelsemedlemmar', 'url'=>array('committeeMember/admin')),
+				), 'active'=>Yii::app()->controller->route == 'admin/user/admin' || Yii::app()->controller->route == 'admin/committeeMember/admin'),
 				array('label'=>'LAN', 'icon'=>'group', 'items'=>array(
 					array('label'=>'Hantera', 'url'=>array('lan/admin')),
 					array('label'=>'Skapa nytt', 'url'=>array('lan/create')),
