@@ -1,9 +1,4 @@
-\.orig$
-\.orig\..*$
-\.chg\..*$
-\.rej$
-\.conflict\~$
-syntax: glob
+assets/*
 protected/config/main.php
 files/cms/attachments
 files/documents
@@ -17,6 +12,3 @@ files/images/.htaccess
 .idea
 .vagrant
 provisioning/sql/database.sql
-syntax: regexp
-^assets/*
-^nbproject/*
