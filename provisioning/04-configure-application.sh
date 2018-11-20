@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 {
 	# create the main configuration file
 	cp -f /vagrant/provisioning/config/main.php /vagrant/protected/config
