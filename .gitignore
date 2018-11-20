@@ -9,6 +9,6 @@ files/images/versions/
 css/styles.css
 css/small-screen.css
 files/images/.htaccess
-.idea
+.idea/workspace.xml
 .vagrant
 provisioning/sql/database.sql
