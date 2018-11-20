@@ -4,10 +4,18 @@
 	# create the main configuration file
 	cp -f /vagrant/provisioning/config/main.php /vagrant/protected/config
 
-	# create a folder for submissions
-	if [ ! -d /vagrant/files/submissions ]
+    # change ownership of /media
+    sudo chown vagrant:vagrant /media
+
+	# create a directory and a symlink for submissions (path is hardcoded in the database)
+	if [ ! -d /media/Storage ]
 	then
-		mkdir /vagrant/files/submissions
+		mkdir /media/Storage
+	fi
+	
+	if [ ! -L /media/Storage/submissions ]
+	then
+	    ln -s /vagrant/files/submissions /media/Storage/submissions
 	fi
 }
 
