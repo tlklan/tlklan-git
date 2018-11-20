@@ -21,9 +21,11 @@ Vagrant.configure(2) do |config|
     name: "01 - Install system packages"
   config.vm.provision "shell", path: "provisioning/02-configure-apache.sh",
     name: "02 - Configure Apache"
-  config.vm.provision "shell", path: "provisioning/03-import-database.sh",
-    name: "03 - Import database"
-  config.vm.provision "shell", path: "provisioning/04-configure-application.sh",
-    name: "04 - Configure application"
+  config.vm.provision "shell", path: "provisioning/03-configure-mysql.sh",
+    name: "03 - Configure MySQL"
+  config.vm.provision "shell", path: "provisioning/04-import-database.sh",
+    name: "04 - Import database"
+  config.vm.provision "shell", path: "provisioning/05-configure-application.sh",
+    name: "05 - Configure application"
 
 end
