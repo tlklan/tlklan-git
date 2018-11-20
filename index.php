@@ -1,7 +1,6 @@
 <?php
 
-// change the following paths if necessary
-require_once('./framework/yii.php');
+require_once __DIR__.'/vendor/autoload.php';
 
 // Join the template and local config file. Abort if local config file is missing
 $templateFile = dirname(__FILE__).'/protected/config/main.template.php';

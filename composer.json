@@ -1,0 +1,14 @@
+{
+    "name": "tlklan/tlklan",
+    "description": "The source code for lan.tlk.fi",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Sam Stenvall",
+            "email": "neggelandia@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii": "^1.1"
+    }
+}
