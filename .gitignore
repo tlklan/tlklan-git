@@ -12,3 +12,4 @@ files/images/.htaccess
 .idea/workspace.xml
 .vagrant
 provisioning/sql/database.sql
+/vendor/
