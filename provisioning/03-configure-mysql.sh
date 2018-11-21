@@ -3,7 +3,8 @@
 set -e
 
 {
-    mysql -uroot -proot -e "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));"
+    # disable strict mode (introduced in 5.7)
+    cp /vagrant/provisioning/etc/mysql/conf.d/disable-strict-mode.cnf /etc/mysql/conf.d
 }
 
 # > /dev/null 2>&1
