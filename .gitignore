@@ -13,3 +13,4 @@ files/images/.htaccess
 .vagrant
 provisioning/sql/database.sql
 /vendor/
+*.log
