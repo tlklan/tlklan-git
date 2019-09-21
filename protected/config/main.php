@@ -74,13 +74,13 @@ return array(
 		'user'=>array(
 			'class'=>'WebUser',
 			'allowAutoLogin'=>true,
-			'boardGid'=>10002,
-			'adminGid'=>10000,
+			'boardGid'=>getenv('USER_BOARD_GID'),
+			'adminGid'=>getenv('USER_ADMIN_GID'),
 		),
 		'localUser'=>array(
 			'class'=>'ext.localuser.LocalUser',
-			'hostname'=>'werket.tlk.fi',
-			'port'=>22,
+			'hostname'=>getenv('USER_SSH_HOSTNAME'),
+			'port'=>getenv('USER_SSH_PORT'),
 		),
 		'hasher'=>array(
 			'class'=>'ext.phpass.Phpass',
@@ -130,16 +130,12 @@ return array(
 			'attachmentPath'=>'/files/cms/attachments/',
 		),
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=tlk_lan_test',
+			'connectionString' => sprintf('mysql:host=%s;dbname=%s', getenv('MYSQL_HOSTNAME'), getenv('MYSQL_DATABASE')),
 			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => '',
+			'username' => getenv('MYSQL_USERNAME'),
+			'password' => getenv('MYSQL_PASSWORD'),
 			'charset' => 'utf8',
-			'schemaCachingDuration'=>2592000, // 30 days
-			
-			// make the debug toolbar work
-			'enableProfiling'=>true,
-			'enableParamLogging'=>true,
+			'schemaCachingDuration'=>getenv('SCHEMA_CACHING_DURATION'),
 		),
 		'cache'=>array(
 			'class'=>'CFileCache',
@@ -178,7 +174,7 @@ return array(
 		'minimumPenisLength'=>9,
 		
 		// Location for uploaded submissions
-		'submissionPath'=>'/media/Storage/submissions',
+		'submissionPath'=>getenv('SUBMISSION_PATH'),
 		
 		// e-mail settings
 		'mail'=>array(

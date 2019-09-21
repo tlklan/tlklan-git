@@ -31,6 +31,10 @@
         "tlklan/yii-cms": "dev-master#65023b76aada0e9283aaf28e25f94b788ba927d1",
         "tlklan/yii-img": "dev-master#0526c75e37985646a63401875f0f111b11149452",
         "tlklan/yii-less": "dev-master#f427bf18fda87ae8c1a135b62159e87f8f0cf77a",
+        "vlucas/phpdotenv": "^3.6",
         "yiisoft/yii": "^1.1"
+    },
+    "config": {
+        "sort-packages": true
     }
 }
