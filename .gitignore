@@ -1,9 +1,7 @@
 assets/*
-protected/config/main.php
 files/cms/attachments
 files/documents
 protected/runtime
-protected/config/console.php
 files/images/originals/
 files/images/versions/
 css/styles.css
@@ -13,3 +11,5 @@ css/small-screen.css
 provisioning/sql/database.sql
 /vendor/
 *.log
+.env*
+!.env.example

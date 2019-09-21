@@ -8,6 +8,9 @@
       <path value="$PROJECT_DIR$/vendor/tlklan/yii-less" />
       <path value="$PROJECT_DIR$/vendor/tlklan/yii-img" />
       <path value="$PROJECT_DIR$/vendor/tlklan/yii-cms" />
+      <path value="$PROJECT_DIR$/vendor/vlucas/phpdotenv" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/vendor/phpoption/phpoption" />
     </include_path>
   </component>
 </project>
