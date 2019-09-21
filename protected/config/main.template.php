@@ -1,13 +1,18 @@
 <?php
 
 // Define bootstrap alias
-Yii::setPathOfAlias('bootstrap', dirname(__FILE__).'/../extensions/bootstrap');
+Yii::setPathOfAlias('bootstrap', __DIR__.'/../../vendor/tlklan/yii-bootstrap');
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'LAN-klubben',
+
+	'aliases' => [
+		'cms' => __DIR__ . '/../../vendor/tlklan/yii-cms',
+		'vendor' => __DIR__ . '/../../vendor',
+	],
 
 	// preloading 'log' component
 	'preload'=>array(
@@ -25,10 +30,10 @@ return array(
 		'application.components.widgets.*',
 		'application.components.widgets.grid.*',
 		'ext.localuser.*',
-		'ext.bootstrap.widgets.*',
-		'application.modules.cms.CmsModule',
-		'application.modules.image.components.*',
-        'application.modules.image.models.Image',
+		'vendor.tlklan.yii-bootstrap.widgets.*',
+		'vendor.tlklan.yii-cms.CmsModule',
+		'vendor.tlklan.yii-img.components.*',
+		'vendor.tlklan.yii-img.models.Image',
 	),
 
 	'modules'=>array(
@@ -37,6 +42,7 @@ return array(
 			'layout'=>'main',
 		),
 		'image'=>array(
+			'class' => 'vendor.tlklan.yii-img.ImageModule',
 			'createOnDemand'=>true,
         ),
 	),
@@ -49,7 +55,7 @@ return array(
 	// application components
 	'components'=>array(
 		'bootstrap'=>array(
-			'class'=>'ext.bootstrap.components.Bootstrap',
+			'class'=>'vendor.tlklan.yii-bootstrap.components.Bootstrap',
 		),
 		'clientScript'=>array(
 			'class'=>'ext.minify.EClientScript',
@@ -59,7 +65,7 @@ return array(
 			'optimizeCssFiles'=>true,
 		),
 		'less'=>array(
-			'class'=>'ext.less.components.LessCompiler',
+			'class'=>'vendor.tlklan.yii-less.components.LessCompiler',
 			'forceCompile'=>true, // indicates whether to force compiling
 			'paths'=>array(
 				'css/less/styles.less'=>'css/styles.css',

@@ -2,9 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/protected/extensions/bootstrap" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/protected/extensions/less" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/protected/modules/cms" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/protected/modules/image" vcs="Git" />
   </component>
 </project>
