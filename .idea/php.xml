@@ -4,6 +4,10 @@
     <include_path>
       <path value="$PROJECT_DIR$/vendor/yiisoft/yii" />
       <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/tlklan/yii-bootstrap" />
+      <path value="$PROJECT_DIR$/vendor/tlklan/yii-less" />
+      <path value="$PROJECT_DIR$/vendor/tlklan/yii-img" />
+      <path value="$PROJECT_DIR$/vendor/tlklan/yii-cms" />
     </include_path>
   </component>
 </project>

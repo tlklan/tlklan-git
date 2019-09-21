@@ -8,7 +8,6 @@ files/images/originals/
 files/images/versions/
 css/styles.css
 css/small-screen.css
-files/images/.htaccess
 .idea/workspace.xml
 .vagrant
 provisioning/sql/database.sql

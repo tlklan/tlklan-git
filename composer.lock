@@ -4,20 +4,88 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b8eb9374d0b1e21b80aa54641a0921e",
+    "content-hash": "33db4e076a2860c3cc6ea9c84ec6ddab",
     "packages": [
         {
+            "name": "tlklan/yii-bootstrap",
+            "version": "dev-stable",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tlklan/yii-bootstrap-git.git",
+                "reference": "afe9edbf5370810a0d708364bfe711fb8cbf2ccb"
+            },
+            "type": "library",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Fork of yii-bootstrap",
+            "time": "2019-09-21T06:43:43+00:00"
+        },
+        {
+            "name": "tlklan/yii-cms",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tlklan/yii-cms-git.git",
+                "reference": "65023b76aada0e9283aaf28e25f94b788ba927d1"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "components",
+                    "controllers",
+                    "models",
+                    "widgets"
+                ]
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Fork of nordcms",
+            "time": "2018-11-21T21:32:51+00:00"
+        },
+        {
+            "name": "tlklan/yii-img",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tlklan/yii-img-git.git",
+                "reference": "0526c75e37985646a63401875f0f111b11149452"
+            },
+            "type": "library",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Fork of yii-img",
+            "time": "2019-09-21T06:56:48+00:00"
+        },
+        {
+            "name": "tlklan/yii-less",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tlklan/yii-less-git.git",
+                "reference": "f427bf18fda87ae8c1a135b62159e87f8f0cf77a"
+            },
+            "type": "library",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Fork of yii-less",
+            "time": "2019-09-21T06:53:35+00:00"
+        },
+        {
             "name": "yiisoft/yii",
-            "version": "1.1.20",
+            "version": "1.1.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii.git",
-                "reference": "6ed38411e7568f7a13c4aab8bcd38bff2a6f2390"
+                "reference": "733ac5856b0b72228346b5a6af10b0b9df18ad6c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii/zipball/6ed38411e7568f7a13c4aab8bcd38bff2a6f2390",
-                "reference": "6ed38411e7568f7a13c4aab8bcd38bff2a6f2390",
+                "url": "https://api.github.com/repos/yiisoft/yii/zipball/733ac5856b0b72228346b5a6af10b0b9df18ad6c",
+                "reference": "733ac5856b0b72228346b5a6af10b0b9df18ad6c",
                 "shasum": ""
             },
             "require": {
@@ -25,11 +93,13 @@
             },
             "require-dev": {
                 "phing/phing": "2.*",
+                "phpseclib/mcrypt_compat": "^1.0",
                 "phpunit/phpunit": "~4.8.34",
                 "phpunit/phpunit-selenium": "~1.4.0"
             },
             "suggest": {
-                "ext-mcrypt": "Required by encrypt and decrypt methods of CSecurityManager"
+                "ext-mcrypt": "Required by encrypt and decrypt methods of CSecurityManager",
+                "phpseclib/mcrypt_compat": "To provide mcrypt polyfill when extension is unavailable"
             },
             "bin": [
                 "framework/yiic"
@@ -102,13 +172,18 @@
                 "framework",
                 "yii"
             ],
-            "time": "2018-07-06T17:18:25+00:00"
+            "time": "2019-04-02T07:32:41+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "tlklan/yii-bootstrap": 20,
+        "tlklan/yii-cms": 20,
+        "tlklan/yii-img": 20,
+        "tlklan/yii-less": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

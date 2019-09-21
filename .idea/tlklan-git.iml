@@ -4,6 +4,10 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/protected/extensions/bootstrap/demo" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/tlklan/yii-bootstrap" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/tlklan/yii-cms" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/tlklan/yii-img" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/tlklan/yii-less" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/yiisoft/yii" />
     </content>
     <orderEntry type="inheritedJdk" />
