@@ -195,7 +195,7 @@ class SubmissionController extends Controller
 	}
 
 	/**
-	 * Retrieves a submission and serves it to the user as an attachment
+	 * Retrieves a submission and serves it to the user
 	 * 
 	 * @param integer $id the submission ID
 	 */
@@ -218,7 +218,7 @@ class SubmissionController extends Controller
 		if ($mime !== false)
 			header("Content-type: $mime");
 		
-		header('Content-Disposition: attachment; filename="'.$basename.'"');
+		header('Content-Disposition: filename="'.$basename.'"');
 		header('Content-Length: '.$submission->getSize(false));
 
 		readfile($physicalPath);
