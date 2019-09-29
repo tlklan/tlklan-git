@@ -5,8 +5,7 @@ This is the source code for https://lan.tlk.fi/
 ## Setting up a development environment
 
 * Clone the repository
-* Place a complete database dump (preferably with DROP DATABASE IF EXISTS and DROP TABLE IF EXISTS statements) in 
-`provisioning/sql/database.sql`
+* Place a complete database dump in `provisioning/sql/database.sql`, ask someone if you don't have one
 * Run `vagrant up`
 * Run `vagrant ssh`, then `cd /vagrant`
 * Run `composer install`
