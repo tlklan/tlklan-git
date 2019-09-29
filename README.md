@@ -11,7 +11,7 @@ This is the source code for https://lan.tlk.fi/
 * Run `vagrant ssh`, then `cd /vagrant`
 * Run `composer install`
 * Run `cp .env.example .env`
-* (optional) copy dynamic image files from the production server (`files/image/originals/*`) to make profile images work
+* (optional) copy dynamic image files from the production server (`files/images/originals/*`) to make profile images work
 * Browse to http://192.168.15.15/
 
 ## Configuration
