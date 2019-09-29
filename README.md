@@ -12,6 +12,7 @@ This is the source code for https://lan.tlk.fi/
 * Run `composer install`
 * Run `cp .env.example .env`
 * (optional) copy dynamic image files from the production server (`files/images/originals/*`) to make profile images work
+* (optional) copy CMS attachments from the production server (`files/cms/attachments/*`) to make uploaded document files work
 * Browse to http://192.168.15.15/
 
 ## Configuration
