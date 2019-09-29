@@ -3,11 +3,8 @@
 set -e
 
 {
-	# create the main configuration file
-	cp -f /vagrant/provisioning/config/main.php /vagrant/protected/config
-
-    # change ownership of /media
-    chown vagrant:vagrant /media
+	# change ownership of /media
+	chown vagrant:vagrant /media
 
 	# create a directory and a symlink for submissions (path is hardcoded in the database)
 	if [ ! -d /media/Storage ]
