@@ -605,3 +605,10 @@ CREATE TABLE `tlk_timetable` (
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
+
+#
+# 2019-10-04
+#
+# Add "is_honorary_member" to the user table
+ALTER TABLE `tlk_users`
+    ADD COLUMN `is_honorary_member` TINYINT(1) NOT NULL DEFAULT '0' AFTER `has_werket_login`;
