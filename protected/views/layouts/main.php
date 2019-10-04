@@ -150,7 +150,7 @@ $cs->registerScriptFile(Yii::app()->baseUrl.'/js/main.js', CClientScript::POS_HE
 		<div class="footer">
 			<p>
 				Copyright 2010-<?php echo date("Y"); ?> &copy; <b>LAN-klubben</b><br />
-				<a href="https://bitbucket.org/negge/tlklan2">
+				<a href="https://github.com/tlklan/tlklan-git">
 					<?php echo Yii::t('general', 'Design och kod'); ?>:
 				</a> <b>negge</b>
 			</p>
