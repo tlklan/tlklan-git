@@ -12,6 +12,7 @@
  * @property string $password
  * @property int $image_id
  * @property integer $has_werket_login
+ * @property integer $is_honorary_member
  * @property string $date_added
  * @property boolean $removeProfileImage
  * 
@@ -108,7 +109,7 @@ class User extends CActiveRecord
 			array('newPassword', 'checkWerketCredentials', 'on'=>'insert-has-werket'),
 			
 			// update-admin scenario
-			array('has_werket_login', 'required', 'on'=>'update-admin'),
+			array('has_werket_login, is_honorary_member', 'required', 'on'=>'update-admin'),
 			array('passwordRepeat', 'safe', 'on'=>'update-admin'),
 			array('newPassword', 'compare', 'on'=>'update-admin', 'allowEmpty'=>true, 'compareAttribute'=>'passwordRepeat'),
 			
@@ -206,6 +207,7 @@ class User extends CActiveRecord
 			'newPassword'=>$newPassword,
 			'passwordRepeat'=>$passwordRepeat,
 			'has_werket_login'=>$this->scenario == 'update-admin' ? Yii::t('user', 'Har konto på werket.tlk.fi') : Yii::t('user', 'Jag har ett konto på werket.tlk.fi'),
+			'is_honorary_member'=>Yii::t('user', 'Hedersmedlem'),
 			'date_added'=>Yii::t('user', 'Registrerad sen'),
 			'removeProfileImage'=>Yii::t('user', 'Ta bort min nuvarande profilbild'),
 		);
@@ -305,6 +307,10 @@ class User extends CActiveRecord
 		// Is founding father?
 		if (CommitteeMember::model()->isFounder($this->id))
 			$badges[] = new Badge(Badge::BADGE_IS_FOUNDING_FATHER);
+		
+		// Is honorary member?
+		if ($this->is_honorary_member)
+			$badges[] = new Badge(Badge::BADGE_IS_HONORARY_MEMBER);
 		
 		// User has been on more than five LANs
 		if ($this->lanCount >= 5)

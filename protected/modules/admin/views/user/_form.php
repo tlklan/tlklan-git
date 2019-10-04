@@ -11,6 +11,7 @@ echo $form->textFieldRow($model, 'name');
 echo $form->textFieldRow($model, 'email');
 echo $form->textFieldRow($model, 'username');
 echo $form->checkboxRow($model, 'has_werket_login');
+echo $form->checkboxRow($model, 'is_honorary_member');
 echo $form->passwordFieldRow($model, 'newPassword');
 echo $form->passwordFieldRow($model, 'passwordRepeat');
 
@@ -31,4 +32,4 @@ echo $form->passwordFieldRow($model, 'passwordRepeat');
 	)); ?>
 </div>
 
-<?php $this->endWidget(); ?>
+<?php $this->endWidget();
