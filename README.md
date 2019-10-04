@@ -18,3 +18,11 @@ This is the source code for https://lan.tlk.fi/
 
 The application reads configuration from the environment, or optionally from a `.env` file if one is found in the 
 project root directory. See `.env.example` for the available variables.
+
+## Deploying
+
+The instructions here may or may not be correct, always take a backup before touching the production code.
+
+1. Run `git pull` in the deployment directory
+2. Manually run any new SQL statements from `protected/data`
+3. Run `php protected/yiic.php findmessages` if there have been any new `Yii::t()` calls added
