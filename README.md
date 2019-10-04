@@ -24,5 +24,6 @@ project root directory. See `.env.example` for the available variables.
 The instructions here may or may not be correct, always take a backup before touching the production code.
 
 1. Run `git pull` in the deployment directory
-2. Manually run any new SQL statements from `protected/data`
+2. Manually run any new SQL statements from `protected/data`. If you change the database structure, you must 
+manually clear the cache (the schema is cached for some time) by deleting everything in `protected/runtime/cache`.
 3. Run `php protected/yiic.php findmessages` if there have been any new `Yii::t()` calls added
