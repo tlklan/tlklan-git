@@ -54,32 +54,24 @@ class Badge extends CModel
 		{
 			case self::BADGE_HAS_SUBMISSION:
 				return 'has_submission.png';
-				break;
 			case self::BADGE_HAS_WINNING_SUBMISSION:
 				return 'winning_submission.png';
-				break;
 			case self::BADGE_ALL_LANS:
 				return 'alllans.png';
-				break;
 			case self::BADGE_ALL_CORNER_LANS:
 				return 'all_corner_lans.png';
-				break;
 			case self::BADGE_IS_FOUNDING_FATHER:
 				return 'founding_father.png';
 				break;
 			case self::BADGE_IS_CURRENT_COM_MEMBER:
 			case self::BADGE_FORMER_COM_MEMBER:
 				return 'committee_member.png';
-				break;
 			case self::BADGE_MINIMUM_10_LANS:
 				return 'minimum_10_lans.png';
-				break;
 			case self::BADGE_WINNER:
 				return 'winner.png';
-				break;
 			case self::BADGE_ASSEMBLY:
 				return 'assembly.png';
-				break;
 			default:
 				return 'default.png';
 		}
@@ -95,37 +87,27 @@ class Badge extends CModel
 		{
 			case self::BADGE_MINIMUM_5_LANS:
 				return Yii::t('badge', 'Har varit på mer än 5 LAN');
-				break;
 			case self::BADGE_MINIMUM_10_LANS:
 				return Yii::t('badge', 'Har varit på mer än 10 LAN');
-				break;
 			case self::BADGE_HAS_SUBMISSION:
 				return Yii::t('badge', 'Har submittat minst en entry');
-				break;
 			case self::BADGE_HAS_WINNING_SUBMISSION:
 				return Yii::t('badge', 'Har submittad minst en vinnande entry');
-				break;
 			case self::BADGE_ALL_LANS:
 				return Yii::t('badge', 'Har varit på varenda LAN');
-				break;
 			case self::BADGE_ALL_CORNER_LANS:
 				return Yii::t('badge', 'Har varit på samtliga Corner-LAN');
-				break;
 			case self::BADGE_IS_FOUNDING_FATHER:
 				return Yii::t('badge', 'Har varit med och grundat LAN-klubben');
-				break;
 			case self::BADGE_IS_CURRENT_COM_MEMBER:
 				return Yii::t('badge', 'Sitter för tillfället i LAN-klubbens styrelse');
-				break;
 			case self::BADGE_FORMER_COM_MEMBER:
 				return Yii::t('badge', 'Har tidigare suttit i LAN-klubbens styrelse');
 				break;
 			case self::BADGE_WINNER:
 				return Yii::t('badge', 'Har vunnit minst en tävling');
-				break;
 			case self::BADGE_ASSEMBLY:
 				return Yii::t('badge', 'Har varit på Assembly (räknas endast om man anmält sig via oss)');
-				break;
 			default:
 				return '';
 		}
