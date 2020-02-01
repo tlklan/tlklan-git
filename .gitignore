@@ -8,7 +8,7 @@ tlklan/css/styles.css
 tlklan/css/small-screen.css
 .idea/workspace.xml
 .vagrant
-provisioning/sql/database.sql
+provisioning/sql/*.sql
 /vendor/
 *.log
 .env*
