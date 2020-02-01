@@ -24,3 +24,6 @@ COPY provisioning/etc/apache2/sites-available/tlklan.conf /etc/apache2/sites-ava
 RUN a2dissite 000-default
 RUN a2ensite tlklan
 RUN a2enmod rewrite expires rewrite
+
+# Add legacy symlink
+RUN mkdir -p /media/Storage && ln -s /var/www/html/tlklan/files/submissions /media/Storage/submissions
