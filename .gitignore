@@ -15,3 +15,4 @@ provisioning/sql/*.sql
 !.env.example
 db/
 submissions/
+runtime/
