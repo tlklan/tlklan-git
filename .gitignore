@@ -13,3 +13,5 @@ provisioning/sql/database.sql
 *.log
 .env*
 !.env.example
+db/
+submissions/
