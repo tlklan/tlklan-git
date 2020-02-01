@@ -10,8 +10,8 @@ This is the source code for https://lan.tlk.fi/
 * Run `vagrant ssh`, then `cd /vagrant`
 * Run `composer install`
 * Run `cp .env.example .env`
-* (optional) copy dynamic image files from the production server (`files/images/originals/*`) to make profile images work
-* (optional) copy CMS attachments from the production server (`files/cms/attachments/*`) to make uploaded document files work
+* (optional) copy dynamic image files from the production server (`tlklan/files/images/originals/*`) to make profile images work
+* (optional) copy CMS attachments from the production server (`tlklan/files/cms/attachments/*`) to make uploaded document files work
 * Browse to http://192.168.15.15/
 
 ## Configuration
@@ -32,7 +32,8 @@ manually clear the cache (the schema is cached for some time) by deleting everyt
 ## Alternative using docker
 
 1. Add db dump as `provisioning/sql/startup.sql`
-2. Run `docker-compose build`
-3. Run `docker-compose up -d`
-4. Open `http://localhost:8082/`
-5. Ask skug for more details ;)
+2. Run `cp .env.example .env` and configure
+3. Run `docker-compose build`
+4. Run `docker-compose up -d`
+5. Open `http://localhost:8082/`
+6. Ask skug for more details ;)

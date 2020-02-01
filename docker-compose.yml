@@ -8,8 +8,8 @@ services:
     ports:
       - 8082:80
     volumes:
-      - ./submissions:/var/www/html/tlklan/files/submissions
-      - ./runtime:/var/www/html/tlklan/protected/runtime
+      - ./volumes/files:/var/www/html/tlklan/files
+      - ./volumes/runtime:/var/www/html/tlklan/protected/runtime
     env_file:
       - .env
 
@@ -21,4 +21,4 @@ services:
       STARTUP_SQL: /tmp/mysql-script/startup.sql
     volumes:
       - ./provisioning/sql:/tmp/mysql-script
-      - ./db:/var/lib/mysql
+      - ./volumes/db:/var/lib/mysql

@@ -9,10 +9,8 @@ tlklan/css/small-screen.css
 .idea/workspace.xml
 .vagrant
 provisioning/sql/*.sql
-/vendor/
+tlklan/vendor/
 *.log
 .env*
 !.env.example
-db/
-submissions/
-runtime/
+volumes/
