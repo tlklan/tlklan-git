@@ -10,9 +10,10 @@ if (is_readable(__DIR__ . '/.env')) {
 }
 
 // Enable error reporting and display errors eventually
-error_reporting(E_ALL);
+error_reporting(E_ERROR);
 
 if (getenv('APP_ENV') === 'local') {
+    error_reporting(E_ALL);
 	ini_set('display_errors', 1);
 }
 

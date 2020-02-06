@@ -148,7 +148,7 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
+					'levels'=>'error, warning, info, debug',
 				),
 //				array(
 //					'class'=>'ext.yii-debug-toolbar.YiiDebugToolbarRoute',

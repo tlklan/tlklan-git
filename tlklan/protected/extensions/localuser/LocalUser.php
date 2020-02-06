@@ -45,14 +45,6 @@ class LocalUser extends CApplicationComponent
 	 */
 	public function init()
 	{
-		// Include phpseclib
-		Yii::import('application.vendors.phpseclib.*');
-
-		// This is needed because the library uses class_exists everywhere and 
-		// Yii will try to auto-load, which will fail with an exception
-		Yii::$enableIncludePath = false;
-		require('Net/SSH2.php');
-
 		parent::init();
 	}
 
@@ -61,7 +53,7 @@ class LocalUser extends CApplicationComponent
 	 */
 	public function connect()
 	{
-		$this->_ssh = new Net_SSH2($this->hostname, $this->port);
+		$this->_ssh = new \phpseclib\Net\SSH2($this->hostname, $this->port);
 	}
 
 	/**

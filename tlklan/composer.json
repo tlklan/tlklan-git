@@ -27,6 +27,7 @@
         }
     ],
     "require": {
+        "phpseclib/phpseclib": "~2.0",
         "tlklan/yii-bootstrap": "dev-stable#afe9edbf5370810a0d708364bfe711fb8cbf2ccb",
         "tlklan/yii-cms": "dev-master#65023b76aada0e9283aaf28e25f94b788ba927d1",
         "tlklan/yii-img": "dev-master#0526c75e37985646a63401875f0f111b11149452",
