@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -yy \
         && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql\
         && pecl install mcrypt \
         && docker-php-ext-enable mcrypt
-RUN curl https://getcomposer.org/download/1.7.3/composer.phar -o /usr/local/bin/composer && chmod 755 /usr/local/bin/composer
+RUN curl https://getcomposer.org/download/1.9.3/composer.phar -o /usr/local/bin/composer && chmod 755 /usr/local/bin/composer
 RUN composer install
 RUN chown -R www-data:www-data .
 
