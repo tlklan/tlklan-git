@@ -47,7 +47,7 @@ class resetAndSendPasswordsCommand extends CConsoleCommand
 				'user'=>$user->name,
 				'username'=>$user->username,
 				'password'=>$password,
-				'loginUrl'=>'http://lan.tlk.fi/site/login'), true);
+				'loginUrl'=>'https://lan.tlk.fi/site/login'), true);
 
 			$mail->setBodyText($body);
 
