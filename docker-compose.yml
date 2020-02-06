@@ -2,7 +2,7 @@ version: "3"
 
 services:
   tlklan:
-    image: tlk/tlklan:latest
+    image: tlklan/tlklan:latest
     build: .
     restart: unless-stopped
     ports:
