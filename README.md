@@ -1,3 +1,7 @@
+## This repository has been archived
+
+---
+
 # tlklan
 
 This is the source code for https://lan.tlk.fi/
