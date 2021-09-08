@@ -9,9 +9,9 @@ set -e
 	debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
 	debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
 
-	apt-get -y install php7.2-cli mysql-server php7.2-mysql apache2 libapache2-mod-php7.2 unzip php7.2-gd
+	apt-get -y install php7.2-cli mysql-server php7.2-mysql apache2 libapache2-mod-php7.2 unzip php7.2-gd php7.2-curl
 	
-	wget https://getcomposer.org/download/1.7.3/composer.phar -O /usr/local/bin/composer
+	wget https://getcomposer.org/download/2.1.6/composer.phar -O /usr/local/bin/composer
 	chmod +x /usr/local/bin/composer
 }
 
